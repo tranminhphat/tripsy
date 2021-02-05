@@ -10,6 +10,7 @@ export const LoginPage: React.FC<Props> = ({ history }) => {
   const handleSubmit = async (values: ILoginForm) => {
     try {
       const res = await login(values);
+      console.log(res.data);
       if (res.data.user) {
         history.push("/");
       }
