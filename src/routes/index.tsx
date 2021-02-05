@@ -20,7 +20,7 @@ const AppRouter: React.FC = () => {
   return (
     <Switch>
       {routes.map((route) => {
-        return <Route exact={route.exact} {...route} />;
+        return <Route key={route.path} exact={route.exact} {...route} />;
       })}
     </Switch>
   );
