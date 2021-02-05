@@ -16,7 +16,9 @@ export const Header: React.FC = () => {
   return (
     <header className="h-20 bg-white shadow-md">
       <div className="h-full flex justify-between items-center px-16">
-        <div>Logo</div>
+        <div>
+          <Link to="/">Logo</Link>
+        </div>
         <div>Search bar</div>
         <div>
           <Button

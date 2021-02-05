@@ -1,15 +1,15 @@
 import { TextField, Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import * as React from "react";
-import ILoginForm from "../@types/forms/LoginForm";
+import IRegisterForm from "../@types/forms/RegisterForm";
 interface Props {
-  onSubmit: (values: ILoginForm) => void;
+  onSubmit: (values: IRegisterForm) => void;
 }
 
-export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
+export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: "", username: "", password: "" }}
       onSubmit={(values) => {
         onSubmit(values);
       }}
@@ -25,7 +25,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
               onBlur={handleBlur}
             />
           </div>
-          {/* <div>
+          <div>
             <TextField
               name="username"
               label="Username"
@@ -33,7 +33,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-          </div> */}
+          </div>
           <div>
             <TextField
               name="password"
