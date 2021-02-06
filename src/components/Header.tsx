@@ -5,6 +5,7 @@ import { isLoggedIn, logout } from "../api/Auth";
 import BrandLogo from "../assets/images/tripsy_logo.png";
 import UserAvatar from "../assets/images/user.svg";
 import { SearchBar } from "./SearchBar";
+import MenuIcon from "@material-ui/icons/Menu";
 
 export const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -39,14 +40,16 @@ export const Header: React.FC = () => {
         <div className="flex flex-col justify-center h-16 w-4/6">
           <SearchBar />
         </div>
-        <div className="flex justify-center w-12 h-12">
+        <div className="flex justify-center w-24 h-12">
           <Button
-            className="focus:outline-none focus:border-green-600 w-12 h-12 min-w-0  rounded-full"
+            className="border border-solid border-gray-300 focus:outline-none w-24 h-12 min-w-0 rounded-2xl"
             aria-controls="simple-menu"
             aria-haspopup="true"
             onClick={handleClick}
           >
+            <MenuIcon className="mx-1" />
             <img
+              className="mx-1"
               src={UserAvatar}
               width={32}
               height={32}
@@ -83,6 +86,9 @@ export const Header: React.FC = () => {
               </Link>
               <Link to="/register" onClick={handleClose}>
                 <MenuItem>Register</MenuItem>
+              </Link>
+              <Link to="/hosttour" onClick={handleClose}>
+                <MenuItem>Host a tour</MenuItem>
               </Link>
             </Menu>
           )}

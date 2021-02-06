@@ -1,26 +1,53 @@
 import * as React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { HomePage } from "../pages/client/HomePage";
 import { LoginPage } from "../pages/client/LoginPage";
 import { RegisterPage } from "../pages/client/RegisterPage";
+import { isLoggedIn } from "../api/Auth";
 
 interface Entry {
   exact?: boolean;
   path: string;
   component?: React.FC<any>;
+  authRoute?: boolean;
 }
 
 const routes: Entry[] = [
   { exact: true, path: "/", component: HomePage },
   { path: "/login", component: LoginPage },
   { path: "/register", component: RegisterPage },
+  { path: "/hosttour", component: RegisterPage, authRoute: true },
 ];
+
+const AuthRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isLoggedIn() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/login" }} />
+      )
+    }
+  />
+);
 
 const AppRouter: React.FC = () => {
   return (
     <Switch>
       {routes.map((route) => {
-        return <Route key={route.path} exact={route.exact} {...route} />;
+        if (!route.authRoute) {
+          return <Route key={route.path} exact={route.exact} {...route} />;
+        } else {
+          return (
+            <AuthRoute
+              component={HomePage}
+              key={route.path}
+              exact={route.exact}
+              {...route}
+            />
+          );
+        }
       })}
     </Switch>
   );
