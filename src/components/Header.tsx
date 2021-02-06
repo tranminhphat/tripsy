@@ -1,7 +1,9 @@
-import * as React from "react";
 import { Button, Menu, MenuItem } from "@material-ui/core";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import { isLoggedIn, logout } from "../api/Auth";
+import UserAvatar from "../assets/images/user.svg";
+import BrandLogo from "../assets/images/tripsy_logo.png";
 
 export const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,17 +26,29 @@ export const Header: React.FC = () => {
     <header className="h-20 bg-white shadow-md">
       <div className="h-full flex justify-between items-center px-16">
         <div>
-          <Link to="/">Logo</Link>
+          <Link to="/">
+            <img
+              src={BrandLogo}
+              height={100}
+              width={100}
+              alt="Tripsy brand logo"
+            />
+          </Link>
         </div>
         <div>Search bar</div>
-        <div>
+        <div className="flex justify-center w-12 h-12">
           <Button
-            className="focus:outline-none"
+            className="focus:outline-none focus:border-green-600 w-12 h-12 min-w-0  rounded-full"
             aria-controls="simple-menu"
             aria-haspopup="true"
             onClick={handleClick}
           >
-            Open Menu
+            <img
+              src={UserAvatar}
+              width={32}
+              height={32}
+              alt="User not logged in"
+            />
           </Button>
           {isLoggedIn() ? (
             <Menu
