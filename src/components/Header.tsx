@@ -2,8 +2,9 @@ import { Button, Menu, MenuItem } from "@material-ui/core";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { isLoggedIn, logout } from "../api/Auth";
-import UserAvatar from "../assets/images/user.svg";
 import BrandLogo from "../assets/images/tripsy_logo.png";
+import UserAvatar from "../assets/images/user.svg";
+import { SearchBar } from "./SearchBar";
 
 export const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,7 +36,9 @@ export const Header: React.FC = () => {
             />
           </Link>
         </div>
-        <div>Search bar</div>
+        <div className="flex flex-col justify-center h-16 w-4/6">
+          <SearchBar />
+        </div>
         <div className="flex justify-center w-12 h-12">
           <Button
             className="focus:outline-none focus:border-green-600 w-12 h-12 min-w-0  rounded-full"
