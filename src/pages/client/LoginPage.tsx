@@ -19,7 +19,7 @@ export const LoginPage: React.FC<Props> = ({ history }) => {
     }
   };
   return (
-    <div>
+    <div className="flex justify-center">
       <LoginForm onSubmit={(values: ILoginForm) => handleSubmit(values)} />
     </div>
   );

@@ -14,7 +14,7 @@ export const SearchBar: React.FC<Props> = () => {
           placeholder="Bạn muốn đi đâu?"
         />
       </div>
-      <div className="w-0.5 h-8 border border-solid border-gray-300"></div>
+      <div className="w-0.5 h-8 border border-solid border-gray-300" />
       <div className="flex flex-col justify-center w-5/12 h-full px-8">
         <label className="font-sans text-xs font-bold">Thời gian</label>
         <input
