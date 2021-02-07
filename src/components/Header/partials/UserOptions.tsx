@@ -4,6 +4,7 @@ import UserAvatar from "../../../assets/images/user.svg";
 import { isLoggedIn, logout } from "../../../api/Auth";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
 interface Props {}
 
 export const UserOptions: React.FC<Props> = () => {
@@ -25,8 +26,13 @@ export const UserOptions: React.FC<Props> = () => {
 
   return (
     <>
+      <div className="flex items-center justify-center ">
+        <Button className=" focus:outline-none p-0 border border-solid border-gray-300 h-12 w-12 lg:hidden mr-3 rounded-full">
+          <SearchIcon className="text-3xl" />
+        </Button>
+      </div>
       <Button
-        className="border border-solid border-gray-300 p-0 focus:outline-none w-auto h-12 rounded-3xl"
+        className="border border-solid border-gray-300 p-0 focus:outline-none h-12 rounded-3xl"
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}
