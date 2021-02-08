@@ -4,8 +4,9 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case "EDIT_USERFULLNAME": {
+    case "SET_USERFULLNAME": {
       const { fullName } = action.payload;
+      console.log(fullName);
       return {
         ...state,
         fullName,
