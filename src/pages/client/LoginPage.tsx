@@ -12,7 +12,7 @@ export const LoginPage: React.FC<Props> = ({ history }) => {
       const res = await login(values);
       console.log(res.data);
       if (res.data.user) {
-        history.push("/");
+        history.push("/", { userId: res.data.user });
       }
     } catch (err) {
       console.log(err);
