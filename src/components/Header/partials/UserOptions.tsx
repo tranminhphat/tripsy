@@ -5,6 +5,7 @@ import { isLoggedIn, logout } from "../../../api/Auth";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
+
 interface Props {}
 
 export const UserOptions: React.FC<Props> = () => {

@@ -19,11 +19,9 @@ export const RegisterPage: React.FC<Props> = ({ history }) => {
   };
 
   return (
-    <div>
+    <div className="flex justify-center">
       <RegisterForm
-        onSubmit={(values: IRegisterForm) => {
-          handleSubmit(values);
-        }}
+        onSubmit={(values: IRegisterForm) => handleSubmit(values)}
       />
     </div>
   );

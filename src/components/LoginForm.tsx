@@ -39,6 +39,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
             <div className="mt-4 w-7/12">
               <TextField
                 className="w-full"
+                type="password"
                 name="password"
                 label="Password"
                 value={values.password}
@@ -57,7 +58,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button
-                className="w-full h-full focus:outline-none bg-green-600 text-white"
+                className="w-full h-full focus:outline-none bg-green-500 hover:bg-green-700 text-white"
                 type="submit"
               >
                 Đăng nhập
