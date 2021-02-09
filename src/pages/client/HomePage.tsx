@@ -1,22 +1,28 @@
 import { connect } from "react-redux";
 import * as React from "react";
+import { useEffect } from "react";
+import User from "../../@types/users/User";
+import { setUser } from "../../actions/user";
+import { getCurrentUser } from "../../api/Auth";
 
 interface Props {
-  state: {
-    users: {
-      fullName: string;
-    };
-  };
+  setUser: (user: User) => void;
 }
 
-const HomePage: React.FC<Props> = ({ state }) => {
-  const { fullName } = state.users;
-  console.log(state.users);
-  return <div>Hello world {fullName}</div>;
+const HomePage: React.FC<Props> = ({ setUser }) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await getCurrentUser();
+      setUser(data.user);
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return <div>Hello world </div>;
 };
 
-const mapStateToProps = (state) => ({
-  state,
+const mapDispatchToProps = (dispatch) => ({
+  setUser: (user: User) => dispatch(setUser(user)),
 });
 
-export default connect(mapStateToProps, null)(HomePage);
+export default connect(null, mapDispatchToProps)(HomePage);

@@ -5,10 +5,16 @@ import { isLoggedIn, logout } from "../../../api/Auth";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
+import { eraseUser } from "../../../actions/user";
+import { connect } from "react-redux";
+import User from "../../../@types/users/User";
 
-interface Props {}
+interface Props {
+  userData: { user: User };
+  eraseUser: () => void;
+}
 
-export const UserOptions: React.FC<Props> = () => {
+const UserOptions: React.FC<Props> = ({ userData, eraseUser }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -23,6 +29,7 @@ export const UserOptions: React.FC<Props> = () => {
     setAnchorEl(null);
     const res = await logout();
     console.log(res.data);
+    eraseUser();
   };
 
   return (
@@ -57,7 +64,7 @@ export const UserOptions: React.FC<Props> = () => {
           onClose={handleClose}
         >
           <Link to="/" onClick={handleClose}>
-            <MenuItem>Xin chào</MenuItem>
+            <MenuItem>Xin chào, {userData.user.fullName}</MenuItem>
           </Link>
           <Link to="/" onClick={loggingOut}>
             <MenuItem>Đăng xuất</MenuItem>
@@ -86,3 +93,13 @@ export const UserOptions: React.FC<Props> = () => {
     </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  userData: state.users,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  eraseUser: () => dispatch(eraseUser()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserOptions);

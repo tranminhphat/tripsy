@@ -3,6 +3,10 @@ import Cookies from "js-cookie";
 import LoginForm from "../@types/forms/LoginForm";
 import RegisterForm from "../@types/forms/RegisterForm";
 
+export const getCurrentUser = () => {
+  return axios.get("/me");
+};
+
 export const isLoggedIn = (): boolean => {
   return Cookies.get("jwt") !== undefined;
 };

@@ -1,15 +1,20 @@
 const initialState = {
-  fullName: "",
+  user: {},
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case "SET_USERFULLNAME": {
-      const { fullName } = action.payload;
-      console.log(fullName);
+    case "SET_USER": {
+      const { user } = action.payload;
       return {
         ...state,
-        fullName,
+        user: { ...user },
+      };
+    }
+    case "ERASE_USER": {
+      return {
+        ...state,
+        user: {},
       };
     }
     default:

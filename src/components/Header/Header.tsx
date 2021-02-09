@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BrandLogo } from "./partials/BrandLogo";
 import { SearchBar } from "./partials/SearchBar";
-import { UserOptions } from "./partials/UserOptions";
+import UserOptions from "./partials/UserOptions";
 
 export const Header: React.FC = () => {
   return (

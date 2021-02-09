@@ -1,6 +1,12 @@
-export const setUserFullName = (fullName) => ({
-  type: "SET_USERFULLNAME",
+import User from "../@types/users/User";
+
+export const setUser = (user: User) => ({
+  type: "SET_USER",
   payload: {
-    fullName,
+    user,
   },
+});
+
+export const eraseUser = () => ({
+  type: "ERASE_USER",
 });
