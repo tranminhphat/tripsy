@@ -8,6 +8,7 @@ module.exports = {
   variants: {
     extend: {
       borderRadius: ["hover", "focus"],
+      transitionDuration: ["hover", "focus"],
     },
   },
   plugins: [],

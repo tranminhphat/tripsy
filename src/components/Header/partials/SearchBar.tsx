@@ -24,9 +24,11 @@ export const SearchBar: React.FC<Props> = () => {
         />
       </div>
       <div className="flex flex-col justify-center w-2/12 h-full">
-        <button className="focus:outline-none w-full h-full rounded-2xl bg-gradient-to-r from-green-400 to-green-700">
+        <button className="focus:outline-none hover:bg-gradient-to-r hover:from-green-500 hover:to-green-800  w-full h-full rounded-2xl bg-gradient-to-r from-green-400 to-green-700">
           <SearchIcon className="text-white" />
-          <span className="text-white">Tìm kiếm</span>
+          <span style={{ fontFamily: "Lora" }} className="text-white">
+            Tìm kiếm
+          </span>
         </button>
       </div>
     </div>

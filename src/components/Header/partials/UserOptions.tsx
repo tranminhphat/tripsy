@@ -35,12 +35,12 @@ const UserOptions: React.FC<Props> = ({ userData, eraseUser }) => {
   return (
     <>
       <div className="flex items-center justify-center ">
-        <Button className=" focus:outline-none p-0 border border-solid border-gray-300 h-12 w-12 lg:hidden mr-3 rounded-full">
+        <Button className="focus:outline-none hover:bg-transparent hover:shadow-lg p-0 border border-solid border-gray-300 h-12 w-12 lg:hidden mr-3 rounded-full">
           <SearchIcon className="text-3xl" />
         </Button>
       </div>
       <Button
-        className="border border-solid border-gray-300 p-0 focus:outline-none h-12 rounded-3xl"
+        className="border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 p-0 focus:outline-none h-12 rounded-3xl"
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}

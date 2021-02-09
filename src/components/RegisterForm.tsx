@@ -77,13 +77,16 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
               </Button>
             </div>
             <div className="mt-4 mb-6">
-              <a
-                style={{ fontFamily: "Lora" }}
-                className="text-lg underline hover:no-underline hover:text-green-600"
-                href="/login"
-              >
-                Bạn đã có tài khoản? Đăng nhập ngay!
-              </a>
+              <span className="text-lg">
+                Bạn đã có tài khoản?{" "}
+                <a
+                  className="underline hover:no-underline hover:text-green-600"
+                  href="/login"
+                  style={{ fontFamily: "Lora" }}
+                >
+                  Đăng nhập ngay!
+                </a>
+              </span>
             </div>
           </Form>
         )}
