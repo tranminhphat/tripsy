@@ -5,12 +5,12 @@ import { isLoggedIn, logout } from "../../../api/Auth";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
-import { eraseUser } from "../../../actions/user";
+import { eraseUser } from "../../../actions/user/userAction";
 import { connect } from "react-redux";
 import User from "../../../@types/users/User";
 
 interface Props {
-  userData: { user: User };
+  userData: User;
   eraseUser: () => void;
 }
 
@@ -64,7 +64,9 @@ const UserOptions: React.FC<Props> = ({ userData, eraseUser }) => {
           onClose={handleClose}
         >
           <Link to="/" onClick={handleClose}>
-            <MenuItem>Xin chào, {userData.user.fullName}</MenuItem>
+            <MenuItem>
+              Xin chào {userData !== undefined ? userData.fullName : ""}
+            </MenuItem>
           </Link>
           <Link to="/" onClick={loggingOut}>
             <MenuItem>Đăng xuất</MenuItem>
@@ -95,7 +97,7 @@ const UserOptions: React.FC<Props> = ({ userData, eraseUser }) => {
 };
 
 const mapStateToProps = (state) => ({
-  userData: state.users,
+  userData: state.users.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({

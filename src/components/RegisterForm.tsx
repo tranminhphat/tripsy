@@ -8,7 +8,7 @@ interface Props {
 
 export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   return (
-    <div className="mt-10 flex flex-col items-center justify-center w-1/3 max-w-2xl bg-white shadow-lg rounded-2xl">
+    <div className="my-10 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
         <h1 className="text-4xl font-normal leading-normal mt-0 mb-2 text-green-600">
           Đăng ký
@@ -80,7 +80,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
               <a
                 style={{ fontFamily: "Lora" }}
                 className="text-lg underline hover:no-underline hover:text-green-600"
-                href="/"
+                href="/login"
               >
                 Bạn đã có tài khoản? Đăng nhập ngay!
               </a>

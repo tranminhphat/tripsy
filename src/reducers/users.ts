@@ -1,17 +1,17 @@
-const initialState = {
-  user: {},
-};
+import { SET_USER, ERASE_USER } from "../actions/user/userActionType";
+
+const initialState = {};
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case "SET_USER": {
+    case SET_USER: {
       const { user } = action.payload;
       return {
         ...state,
-        user: { ...user },
+        user,
       };
     }
-    case "ERASE_USER": {
+    case ERASE_USER: {
       return {
         ...state,
         user: {},
