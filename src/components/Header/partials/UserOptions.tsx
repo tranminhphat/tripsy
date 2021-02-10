@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { eraseUser } from "../../../actions/user/userAction";
 import { connect } from "react-redux";
-import User from "../../../@types/users/User";
+import User from "../../../interfaces/users/User";
 
 interface Props {
   userData: User;

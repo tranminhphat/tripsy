@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import * as React from "react";
 import { useEffect } from "react";
-import User from "../../@types/users/User";
+import User from "../../interfaces/users/User";
 import { setUser } from "../../actions/user/userAction";
 import { getCurrentUser } from "../../api/Auth";
 

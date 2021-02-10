@@ -2,7 +2,7 @@ import * as React from "react";
 import { LoginForm } from "../../components/LoginForm";
 import { login } from "../../api/Auth";
 import { RouteComponentProps } from "react-router-dom";
-import ILoginForm from "../../@types/forms/LoginForm";
+import ILoginForm from "../../interfaces/forms/LoginForm";
 
 interface Props extends RouteComponentProps {}
 

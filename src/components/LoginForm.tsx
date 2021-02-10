@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import * as React from "react";
-import ILoginForm from "../@types/forms/LoginForm";
+import ILoginForm from "../interfaces/forms/LoginForm";
 import MyTextField from "./Shared/MyTextField";
 import * as yup from "yup";
 interface Props {

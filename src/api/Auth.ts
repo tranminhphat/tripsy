@@ -1,7 +1,7 @@
 import axios from "./ConfigAxios";
 import Cookies from "js-cookie";
-import LoginForm from "../@types/forms/LoginForm";
-import RegisterForm from "../@types/forms/RegisterForm";
+import LoginForm from "../interfaces/forms/LoginForm";
+import RegisterForm from "../interfaces/forms/RegisterForm";
 
 export const getCurrentUser = () => {
   return axios.get("/me");
