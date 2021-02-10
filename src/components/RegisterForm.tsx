@@ -1,11 +1,15 @@
 import { Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
+import { connect } from "react-redux";
 import * as React from "react";
 import IRegisterForm from "../interfaces/forms/RegisterForm";
 import MyTextField from "./Shared/MyTextField";
 import * as yup from "yup";
+import { AlertType } from "../@types/alertType";
+import { showAlert } from "../actions/alert/alertAction";
 interface Props {
   onSubmit: (values: IRegisterForm) => void;
+  showAlert: (alertType: AlertType, alertMessage: string) => void;
 }
 
 const validationSchema = yup.object({
@@ -29,7 +33,7 @@ const validationSchema = yup.object({
     .min(6, "Password phải có tối thiểu 6 ký tự"),
 });
 
-export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
+const RegisterForm: React.FC<Props> = ({ onSubmit, showAlert }) => {
   return (
     <div className="my-10 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
@@ -45,6 +49,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
         initialValues={{ fullName: "", email: "", username: "", password: "" }}
         onSubmit={(values) => {
           onSubmit(values);
+          showAlert("success", "Đăng ký thành công");
         }}
         validationSchema={validationSchema}
       >
@@ -103,3 +108,10 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
     </div>
   );
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  showAlert: (alertType: AlertType, alertMessage: string) =>
+    dispatch(showAlert(alertType, alertMessage)),
+});
+
+export default connect(null, mapDispatchToProps)(RegisterForm);

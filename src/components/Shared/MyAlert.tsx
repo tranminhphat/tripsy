@@ -1,6 +1,6 @@
 import { Snackbar } from "@material-ui/core";
-import * as React from "react";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import * as React from "react";
 import { connect } from "react-redux";
 import { AlertType } from "../../@types/alertType";
 import { closeAlert } from "../../actions/alert/alertAction";
@@ -34,7 +34,7 @@ const MyAlert: React.FC<Props> = ({
     <Snackbar
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       open={isAlert}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={handleClose}
     >
       <Alert severity={alertType}>{alertMessage}</Alert>

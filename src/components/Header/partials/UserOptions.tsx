@@ -8,13 +8,16 @@ import SearchIcon from "@material-ui/icons/Search";
 import { eraseUser } from "../../../actions/user/userAction";
 import { connect } from "react-redux";
 import User from "../../../interfaces/users/User";
+import { showAlert } from "../../../actions/alert/alertAction";
+import { AlertType } from "../../../@types/alertType";
 
 interface Props {
   userData: User;
   eraseUser: () => void;
+  showAlert: (alertType: AlertType, alertMessage: string) => void;
 }
 
-const UserOptions: React.FC<Props> = ({ userData, eraseUser }) => {
+const UserOptions: React.FC<Props> = ({ userData, eraseUser, showAlert }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -30,6 +33,7 @@ const UserOptions: React.FC<Props> = ({ userData, eraseUser }) => {
     const res = await logout();
     console.log(res.data);
     eraseUser();
+    showAlert("success", "Đăng xuất thành công");
   };
 
   return (
@@ -102,6 +106,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   eraseUser: () => dispatch(eraseUser()),
+  showAlert: (alertType: AlertType, alertMessage: string) =>
+    dispatch(showAlert(alertType, alertMessage)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserOptions);
