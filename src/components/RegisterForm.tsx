@@ -2,6 +2,7 @@ import { TextField, Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import * as React from "react";
 import IRegisterForm from "../@types/forms/RegisterForm";
+import MyTextField from "./Shared/MyTextField";
 interface Props {
   onSubmit: (values: IRegisterForm) => void;
 }
@@ -27,44 +28,27 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
         {({ values, handleChange, handleBlur }) => (
           <Form className="mt-6 w-full flex flex-col items-center justify-center">
             <div className="mt-4 w-7/12">
-              <TextField
-                className="w-full"
-                name="fullName"
+              <MyTextField
                 label="Họ và Tên"
-                value={values.fullName}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                name="fullName"
+                className="w-full"
               />
             </div>
             <div className="mt-4 w-7/12">
-              <TextField
-                className="w-full"
-                name="email"
-                label="Email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <MyTextField label="Email" name="email" className="w-full" />
             </div>
             <div className="mt-4 w-7/12">
-              <TextField
-                className="w-full"
-                name="username"
+              <MyTextField
                 label="Username"
-                value={values.username}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                name="username"
+                className="w-full"
               />
             </div>
             <div className="mt-4 w-7/12">
-              <TextField
-                className="w-full"
-                type="password"
-                name="password"
+              <MyTextField
                 label="Password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                name="password"
+                className="w-full"
               />
             </div>
             <div className="mt-4 w-7/12" />
@@ -88,6 +72,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
                 </a>
               </span>
             </div>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>

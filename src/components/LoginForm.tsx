@@ -2,6 +2,7 @@ import { TextField, Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import * as React from "react";
 import ILoginForm from "../@types/forms/LoginForm";
+import MyTextField from "./Shared/MyTextField";
 interface Props {
   onSubmit: (values: ILoginForm) => void;
 }
@@ -27,24 +28,13 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
         {({ values, handleChange, handleBlur }) => (
           <Form className="mt-6 w-full flex flex-col items-center justify-center">
             <div className="mt-4 w-7/12">
-              <TextField
-                className="w-full"
-                name="email"
-                label="Email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <MyTextField className="w-full" name="email" label="Email" />
             </div>
             <div className="mt-4 w-7/12">
-              <TextField
+              <MyTextField
                 className="w-full"
-                type="password"
                 name="password"
                 label="Password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
               />
             </div>
             <div className="mt-4 w-7/12 flex justify-end">
@@ -73,6 +63,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
                 Hoặc tạo một tài khoản mới
               </a>
             </div>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>
