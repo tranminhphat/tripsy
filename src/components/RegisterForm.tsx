@@ -1,11 +1,33 @@
-import { TextField, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import * as React from "react";
 import IRegisterForm from "../@types/forms/RegisterForm";
 import MyTextField from "./Shared/MyTextField";
+import * as yup from "yup";
 interface Props {
   onSubmit: (values: IRegisterForm) => void;
 }
+
+const validationSchema = yup.object({
+  fullName: yup.string().required("Họ và Tên là thông tin bắt buộc"),
+
+  email: yup
+    .string()
+    .required("Email là thông tin bắt buộc")
+    .email("Email không hợp lệ"),
+
+  username: yup
+    .string()
+    .required("Username là thông tin bắt buộc")
+    .min(6, "Username phải có tối thiểu 6 ký tự")
+    .strict()
+    .lowercase("Username không được có ký tự viết hoa"),
+
+  password: yup
+    .string()
+    .required("Password là thông tin bắt buộc")
+    .min(6, "Password phải có tối thiểu 6 ký tự"),
+});
 
 export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   return (
@@ -24,8 +46,9 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
         onSubmit={(values) => {
           onSubmit(values);
         }}
+        validationSchema={validationSchema}
       >
-        {({ values, handleChange, handleBlur }) => (
+        {({ values }) => (
           <Form className="mt-6 w-full flex flex-col items-center justify-center">
             <div className="mt-4 w-7/12">
               <MyTextField

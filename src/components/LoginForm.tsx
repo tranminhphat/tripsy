@@ -1,11 +1,24 @@
-import { TextField, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import * as React from "react";
 import ILoginForm from "../@types/forms/LoginForm";
 import MyTextField from "./Shared/MyTextField";
+import * as yup from "yup";
 interface Props {
   onSubmit: (values: ILoginForm) => void;
 }
+
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .required("Email là thông tin bắt buộc")
+    .email("Email không hợp lệ"),
+
+  password: yup
+    .string()
+    .required("Password là thông tin bắt buộc")
+    .min(6, "Password phải có tối thiểu 6 ký tự"),
+});
 
 export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
   return (
@@ -24,8 +37,9 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
         onSubmit={(values) => {
           onSubmit(values);
         }}
+        validationSchema={validationSchema}
       >
-        {({ values, handleChange, handleBlur }) => (
+        {({ values }) => (
           <Form className="mt-6 w-full flex flex-col items-center justify-center">
             <div className="mt-4 w-7/12">
               <MyTextField className="w-full" name="email" label="Email" />

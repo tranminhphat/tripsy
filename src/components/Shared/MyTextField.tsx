@@ -13,7 +13,17 @@ const MyTextField: React.FC<MyTextFieldProps> = ({
   ...props
 }) => {
   const [field, meta] = useField<{}>(props);
-  return <TextField className={className} label={label} {...field} />;
+  const errorText = meta.error && meta.touched ? meta.error : "";
+  return (
+    <TextField
+      className={className}
+      InputLabelProps={{ className: "text-gray-400" }}
+      label={label}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
 };
 
 export default MyTextField;
