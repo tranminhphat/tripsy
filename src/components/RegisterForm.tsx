@@ -71,6 +71,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
               <MyTextField
                 label="Password"
                 name="password"
+                type="password"
                 className="w-full"
               />
             </div>

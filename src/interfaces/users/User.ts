@@ -1,8 +1,6 @@
-export default interface User {
+export default interface UserResponse {
   _id: string;
   fullName: string;
   email: string;
   username: string;
-  password: string;
-  __v: number;
 }

@@ -5,11 +5,13 @@ import * as React from "react";
 type MyTextFieldProps = {
   className: string;
   label: string;
+  type?: string;
 } & FieldAttributes<{}>;
 
 const MyTextField: React.FC<MyTextFieldProps> = ({
   className,
   label,
+  type,
   ...props
 }) => {
   const [field, meta] = useField<{}>(props);
@@ -17,11 +19,12 @@ const MyTextField: React.FC<MyTextFieldProps> = ({
   return (
     <TextField
       className={className}
-      InputLabelProps={{ className: "text-gray-400" }}
       label={label}
-      {...field}
+      type={type}
       helperText={errorText}
       error={!!errorText}
+      {...field}
+      InputLabelProps={{ className: "text-gray-400" }}
     />
   );
 };

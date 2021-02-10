@@ -1,5 +1,5 @@
 import Action from "../interfaces/action";
-import { SET_USER, ERASE_USER } from "../actions/user/userActionType";
+import { SET_USER, ERASE_USER } from "../actions/user/userActionTypes";
 
 const initialState = {};
 
