@@ -1,21 +1,21 @@
-import Action from "../interfaces/action";
+import IAction from "interfaces/action/index.interface";
 import { SET_USER, ERASE_USER } from "../actions/user/userActionTypes";
 
 const initialState = {};
 
-export default function userReducer(state = initialState, action: Action) {
+export default function userReducer(state = initialState, action: IAction) {
   switch (action.type) {
     case SET_USER: {
       const { user } = action.payload;
       return {
         ...state,
-        user,
+        userData: user,
       };
     }
     case ERASE_USER: {
       return {
         ...state,
-        user: {},
+        userData: {},
       };
     }
     default:

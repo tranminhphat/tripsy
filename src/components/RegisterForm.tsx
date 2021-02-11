@@ -2,11 +2,11 @@ import { Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import { connect } from "react-redux";
 import * as React from "react";
-import IRegisterForm from "../interfaces/forms/RegisterForm";
+import IRegisterForm from "interfaces/forms/RegisterForm.interface";
 import MyTextField from "./Shared/MyTextField";
 import * as yup from "yup";
-import { AlertType } from "../@types/alertType";
-import { showAlert } from "../actions/alert/alertAction";
+import { AlertType } from "types/alertType";
+import { showAlert } from "redux/actions/alert/alertAction";
 interface Props {
   onSubmit: (values: IRegisterForm) => void;
   showAlert: (alertType: AlertType, alertMessage: string) => void;

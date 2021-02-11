@@ -2,8 +2,8 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import * as React from "react";
 import { connect } from "react-redux";
-import { AlertType } from "../../@types/alertType";
-import { closeAlert } from "../../actions/alert/alertAction";
+import { AlertType } from "types/alertType";
+import { closeAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   isAlert: boolean;

@@ -1,5 +1,7 @@
 {
   "name": "tripsy",
+  "author": "Tran Minh Phat",
+  "description": "Front-end project for Graduation Thesis",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

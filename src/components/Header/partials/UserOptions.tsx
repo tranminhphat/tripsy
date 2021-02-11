@@ -1,15 +1,15 @@
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import * as React from "react";
-import UserAvatar from "../../../assets/images/user.svg";
-import { isLoggedIn, logout } from "../../../api/Auth";
+import UserAvatar from "assets/images/user.svg";
+import { isLoggedIn, logout } from "api/Auth";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
-import { eraseUser } from "../../../actions/user/userAction";
+import { eraseUser } from "redux/actions/user/userAction";
 import { connect } from "react-redux";
-import User from "../../../interfaces/users/User";
-import { showAlert } from "../../../actions/alert/alertAction";
-import { AlertType } from "../../../@types/alertType";
+import User from "interfaces/users/User.interface";
+import { showAlert } from "redux/actions/alert/alertAction";
+import { AlertType } from "types/alertType";
 
 interface Props {
   userData: User;
@@ -101,7 +101,7 @@ const UserOptions: React.FC<Props> = ({ userData, eraseUser, showAlert }) => {
 };
 
 const mapStateToProps = (state) => ({
-  userData: state.users.user,
+  userData: state.user.userData,
 });
 
 const mapDispatchToProps = (dispatch) => ({

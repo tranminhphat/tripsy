@@ -1,4 +1,4 @@
-import LoginForm from "./LoginForm";
+import LoginForm from "./LoginForm.interface";
 
 interface IRegisterForm extends LoginForm {
   fullName: string;

@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import * as React from "react";
 import { useEffect } from "react";
-import UserResponse from "../../interfaces/users/User";
-import { setUser } from "../../actions/user/userAction";
-import { getCurrentUser } from "../../api/Auth";
+import IUserResponse from "interfaces/users/User.interface";
+import { setUser } from "redux/actions/user/userAction";
+import { getCurrentUser } from "api/Auth";
 
 interface Props {
-  setUser: (user: UserResponse) => void;
+  setUser: (user: IUserResponse) => void;
 }
 
 const HomePage: React.FC<Props> = ({ setUser }) => {
@@ -22,7 +22,7 @@ const HomePage: React.FC<Props> = ({ setUser }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setUser: (user: UserResponse) => dispatch(setUser(user)),
+  setUser: (user: IUserResponse) => dispatch(setUser(user)),
 });
 
 export default connect(null, mapDispatchToProps)(HomePage);

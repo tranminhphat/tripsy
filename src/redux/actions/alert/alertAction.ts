@@ -1,4 +1,4 @@
-import { AlertType } from "../../@types/alertType";
+import { AlertType } from "types/alertType";
 import { SHOW_ALERT, CLOSE_ALERT } from "./alertActionTypes";
 
 export const showAlert = (alertType: AlertType, alertMessage: string) => ({

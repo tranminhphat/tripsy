@@ -1,12 +1,12 @@
 import { Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import * as React from "react";
-import ILoginForm from "../interfaces/forms/LoginForm";
+import ILoginForm from "interfaces/forms/LoginForm.interface";
 import MyTextField from "./Shared/MyTextField";
 import * as yup from "yup";
 import { connect } from "react-redux";
-import { AlertType } from "../@types/alertType";
-import { showAlert } from "../actions/alert/alertAction";
+import { AlertType } from "types/alertType";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   onSubmit: (values: ILoginForm) => void;

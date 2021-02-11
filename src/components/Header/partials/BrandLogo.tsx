@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import BrandLogoImage from "../../../assets/images/tripsy_logo_128.png";
+import BrandLogoImage from "assets/images/tripsy_logo_128.png";
 
 interface Props {}
 

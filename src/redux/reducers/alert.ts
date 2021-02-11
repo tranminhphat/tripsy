@@ -1,9 +1,9 @@
 import { CLOSE_ALERT, SHOW_ALERT } from "../actions/alert/alertActionTypes";
-import Action from "../interfaces/action";
+import IAction from "interfaces/action/index.interface";
 
 const initialState = { isAlert: false, alertType: undefined, alertMessage: "" };
 
-export default function alertReducer(state = initialState, action: Action) {
+export default function alertReducer(state = initialState, action: IAction) {
   switch (action.type) {
     case SHOW_ALERT: {
       return {

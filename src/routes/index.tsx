@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import HomePage from "../pages/client/HomePage";
-import LoginPage from "../pages/client/LoginPage";
-import { RegisterPage } from "../pages/client/RegisterPage";
-import { isLoggedIn } from "../api/Auth";
+import HomePage from "pages/client/HomePage";
+import LoginPage from "pages/client/LoginPage";
+import { RegisterPage } from "pages/client/RegisterPage";
+import { isLoggedIn } from "api/Auth";
 
 interface Entry {
   exact?: boolean;

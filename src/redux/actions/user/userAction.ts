@@ -1,4 +1,4 @@
-import User from "../../interfaces/users/User";
+import User from "interfaces/users/User.interface";
 import { SET_USER, ERASE_USER } from "./userActionTypes";
 
 export const setUser = (user: User) => ({
