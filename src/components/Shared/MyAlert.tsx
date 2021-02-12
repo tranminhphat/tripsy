@@ -37,7 +37,9 @@ const MyAlert: React.FC<Props> = ({
       autoHideDuration={3000}
       onClose={handleClose}
     >
-      <Alert severity={alertType}>{alertMessage}</Alert>
+      <Alert onClose={handleClose} severity={alertType}>
+        {alertMessage}
+      </Alert>
     </Snackbar>
   );
 };

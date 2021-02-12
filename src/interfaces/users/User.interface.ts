@@ -3,6 +3,7 @@ interface IUserResponse {
   fullName: string;
   email: string;
   username: string;
+  isVerified: boolean;
 }
 
 export default IUserResponse;
