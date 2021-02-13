@@ -5,26 +5,23 @@ import { RouteComponentProps } from "react-router-dom";
 import ILoginForm from "interfaces/forms/LoginForm.interface";
 import { getUserById } from "api/User";
 import { showAlert } from "redux/actions/alert/alertAction";
-import { AlertType } from "types/alertType";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
-interface Props extends RouteComponentProps {
-  showAlert: (alertType: AlertType, alertMessage: string) => void;
-}
+interface Props extends RouteComponentProps {}
 
-const LoginPage: React.FC<Props> = ({ history, showAlert }) => {
+const LoginPage: React.FC<Props> = ({ history }) => {
+  const dispatch = useDispatch();
   const handleSubmit = async (values: ILoginForm) => {
     try {
       const { data } = await login(values);
-      console.log(data.userId);
       if (data.userId) {
         try {
           const userData = await getUserById(data.userId);
           if (!userData.data.isVerified) {
-            showAlert("error", "Email của bạn chưa được xác nhận");
+            dispatch(showAlert("error", "Email của bạn chưa được xác nhận"));
           } else {
             history.push("/");
-            showAlert("success", "Đăng nhập thành công");
+            dispatch(showAlert("success", "Đăng nhập thành công"));
           }
         } catch (err) {
           console.error(err);
@@ -41,9 +38,4 @@ const LoginPage: React.FC<Props> = ({ history, showAlert }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  showAlert: (alertType: AlertType, alertMessage: string) =>
-    dispatch(showAlert(alertType, alertMessage)),
-});
-
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default LoginPage;

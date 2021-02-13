@@ -1,33 +1,25 @@
 import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import * as React from "react";
-import { connect } from "react-redux";
-import { AlertType } from "types/alertType";
+import { useSelector, useDispatch } from "react-redux";
 import { closeAlert } from "redux/actions/alert/alertAction";
-
-interface Props {
-  isAlert: boolean;
-  alertType: AlertType;
-  alertMessage: string;
-  closeAlert: () => void;
-}
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const MyAlert: React.FC<Props> = ({
-  isAlert,
-  alertType,
-  alertMessage,
-  closeAlert,
-}) => {
+const MyAlert: React.FC = () => {
+  const { isAlert, alertType, alertMessage } = useSelector(
+    (state) => state.alert
+  );
+
+  const dispatch = useDispatch();
+
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
-    closeAlert();
-    console.log(isAlert);
+    dispatch(closeAlert());
   };
 
   return (
@@ -44,12 +36,4 @@ const MyAlert: React.FC<Props> = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  closeAlert: () => dispatch(closeAlert()),
-});
-
-const mapStateToProps = (state) => ({
-  ...state.alert,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyAlert);
+export default MyAlert;

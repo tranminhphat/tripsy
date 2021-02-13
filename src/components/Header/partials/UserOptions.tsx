@@ -6,19 +6,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { eraseUser } from "redux/actions/user/userAction";
-import { connect } from "react-redux";
-import User from "interfaces/users/User.interface";
+import { useSelector, useDispatch } from "react-redux";
 import { showAlert } from "redux/actions/alert/alertAction";
-import { AlertType } from "types/alertType";
 
-interface Props {
-  userData: User;
-  eraseUser: () => void;
-  showAlert: (alertType: AlertType, alertMessage: string) => void;
-}
-
-const UserOptions: React.FC<Props> = ({ userData, eraseUser, showAlert }) => {
+const UserOptions: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { userData } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -32,8 +26,8 @@ const UserOptions: React.FC<Props> = ({ userData, eraseUser, showAlert }) => {
     setAnchorEl(null);
     const res = await logout();
     console.log(res.data);
-    eraseUser();
-    showAlert("success", "Đăng xuất thành công");
+    dispatch(eraseUser());
+    dispatch(showAlert("success", "Đăng xuất thành công"));
   };
 
   return (
@@ -100,14 +94,4 @@ const UserOptions: React.FC<Props> = ({ userData, eraseUser, showAlert }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  userData: state.user.userData,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  eraseUser: () => dispatch(eraseUser()),
-  showAlert: (alertType: AlertType, alertMessage: string) =>
-    dispatch(showAlert(alertType, alertMessage)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserOptions);
+export default UserOptions;
