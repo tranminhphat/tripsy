@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const fetchData = async () => {
-    if (!userData) {
+    if (userData === undefined) {
       const { data } = await getCurrentUser();
       if (data.user) {
         dispatch(setUser(data.user));

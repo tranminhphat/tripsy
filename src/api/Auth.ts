@@ -22,3 +22,7 @@ export const register = (registerFormValues: IRegisterForm) => {
 export const logout = () => {
   return axios.get(`/auth/logout`);
 };
+
+export const resendEmailVerification = (userId, userEmail) => {
+  return axios.post(`/auth/resendEmailVerification`, { userId, userEmail });
+};

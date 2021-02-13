@@ -4,11 +4,13 @@ import IRegisterForm from "interfaces/forms/RegisterForm.interface";
 import { register } from "api/Auth";
 import RegisterForm from "components/RegisterForm";
 import EmailVerificationModal from "components/EmailVerificationModal";
+import IUserResponse from "interfaces/users/User.interface";
 
 interface Props extends RouteComponentProps {}
 
 export const RegisterPage: React.FC<Props> = ({ history }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [userData, setUserData] = React.useState<IUserResponse>();
   const handleModalOpen = () => {
     setIsOpen(true);
   };
@@ -20,6 +22,7 @@ export const RegisterPage: React.FC<Props> = ({ history }) => {
     try {
       const res = await register(values);
       if (res.data) {
+        setUserData(res.data);
         handleModalOpen();
       }
     } catch (err) {
@@ -35,8 +38,9 @@ export const RegisterPage: React.FC<Props> = ({ history }) => {
       <EmailVerificationModal
         open={isOpen}
         onModalClose={handleModalClose}
-        userEmail="phattm204@gmail.com"
-        userFullName="Trần Minh Phát"
+        userId={userData ? userData._id : ""}
+        userEmail={userData ? userData.email : ""}
+        userFullName={userData ? userData.fullName : ""}
       />
     </div>
   );

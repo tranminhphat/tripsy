@@ -63,7 +63,7 @@ const UserOptions: React.FC = () => {
         >
           <Link to="/" onClick={handleClose}>
             <MenuItem>
-              Xin chào {userData !== undefined ? userData.fullName : ""}
+              Xin chào, {userData !== undefined ? userData.fullName : ""}
             </MenuItem>
           </Link>
           <Link to="/" onClick={loggingOut}>

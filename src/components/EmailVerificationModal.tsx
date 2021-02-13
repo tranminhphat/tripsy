@@ -2,9 +2,11 @@ import * as React from "react";
 import Modal from "@material-ui/core/Modal";
 import EmailVerificationImage from "assets/images/email-verification.png";
 import Button from "@material-ui/core/Button";
+import { resendEmailVerification } from "api/Auth";
 
 interface VerificationProps {
   open: boolean;
+  userId: string;
   userEmail: string;
   userFullName: string;
   onModalClose: () => void;
@@ -12,28 +14,35 @@ interface VerificationProps {
 
 const EmailVerificationModal: React.FC<VerificationProps> = ({
   open,
-  onModalClose,
+  userId,
   userEmail,
   userFullName,
+  onModalClose,
 }) => {
   return (
     <Modal open={open}>
-      <div className="absolute w-max h-80 inset-0 m-auto bg-white outline-none pb-4">
+      <div className="absolute w-max h-96 inset-0 m-auto bg-white outline-none pb-4">
         <div className="flex justify-center bg-green-300 pt-10 rounded-b-full">
           <img src={EmailVerificationImage} alt="Email verification" />
         </div>
         <div className="flex flex-col justity-center items-center">
-          <h2 className="text-2xl my-4">Xác nhận email của bạn</h2>
+          <h2 style={{ fontFamily: "Lora" }} className="text-2xl my-4">
+            Xác nhận email của bạn
+          </h2>
           <div className="text-gray-400 mx-4">
             <p>
               Cảm ơn{" "}
-              <span className="italic text-green-300">{userFullName}</span> !
-              Chúng tôi đã gửi một thư xác nhận email
+              <span style={{ fontFamily: "Lora" }} className="text-green-300">
+                {userFullName}
+              </span>{" "}
+              ! Chúng tôi đã gửi một thư xác nhận email
             </p>
             <p>
               vào địa chỉ:{" "}
-              <span className="italic text-green-300">{userEmail}</span>, hãy
-              xác nhận email của bạn
+              <span style={{ fontFamily: "Lora" }} className="text-green-300">
+                {userEmail}
+              </span>
+              , hãy xác nhận email của bạn
             </p>
           </div>
           <Button
@@ -42,6 +51,19 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
           >
             Đồng ý
           </Button>
+          <div className="mt-8 mb-4">
+            <p>
+              Bạn chưa nhận được email?{" "}
+              <a
+                style={{ fontFamily: "Lora" }}
+                className="underline cursor-pointer hover:no-underline hover:text-green-600"
+                onClick={() => resendEmailVerification(userId, userEmail)}
+                href="#resend-email-verification"
+              >
+                Click để gửi lại.
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </Modal>

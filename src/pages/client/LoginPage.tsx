@@ -6,6 +6,7 @@ import ILoginForm from "interfaces/forms/LoginForm.interface";
 import { getUserById } from "api/User";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { useDispatch } from "react-redux";
+import { setUser } from "redux/actions/user/userAction";
 
 interface Props extends RouteComponentProps {}
 
@@ -21,6 +22,7 @@ const LoginPage: React.FC<Props> = ({ history }) => {
             dispatch(showAlert("error", "Email của bạn chưa được xác nhận"));
           } else {
             history.push("/");
+            dispatch(setUser(userData.data));
             dispatch(showAlert("success", "Đăng nhập thành công"));
           }
         } catch (err) {
