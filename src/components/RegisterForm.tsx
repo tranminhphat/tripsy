@@ -53,7 +53,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, showAlert }) => {
         }}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
+        {({ values, isValid }) => (
           <Form className="mt-6 w-full flex flex-col items-center justify-center">
             <div className="mt-4 w-7/12">
               <MyTextField
