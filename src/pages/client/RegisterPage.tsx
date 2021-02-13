@@ -14,13 +14,13 @@ export const RegisterPage: React.FC<Props> = ({ history }) => {
   };
   const handleModalClose = () => {
     setIsOpen(false);
+    history.push("/login");
   };
   const handleSubmit = async (values: IRegisterForm) => {
     try {
       const res = await register(values);
       if (res.data) {
         handleModalOpen();
-        // history.push("/");
       }
     } catch (err) {
       console.error(err);

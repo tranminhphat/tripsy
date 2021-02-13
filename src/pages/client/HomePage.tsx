@@ -13,7 +13,9 @@ const HomePage: React.FC<Props> = ({ setUser }) => {
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await getCurrentUser();
-      setUser(data.user);
+      if (data.user) {
+        setUser(data.user);
+      }
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
