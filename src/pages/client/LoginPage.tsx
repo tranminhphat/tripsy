@@ -7,6 +7,7 @@ import { getUserById } from "api/User";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { useDispatch } from "react-redux";
 import { setUser } from "redux/actions/user/userAction";
+import LoginBackground from "assets/images/login-bg.jpg";
 
 interface Props extends RouteComponentProps {}
 
@@ -34,7 +35,13 @@ const LoginPage: React.FC<Props> = ({ history }) => {
     }
   };
   return (
-    <div className="flex justify-center">
+    <div
+      style={{
+        backgroundImage: `url(${LoginBackground})`,
+        boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
+      }}
+      className="flex justify-center bg-cover bg-no-repeat bg-center"
+    >
       <LoginForm onSubmit={(values: ILoginForm) => handleSubmit(values)} />
     </div>
   );

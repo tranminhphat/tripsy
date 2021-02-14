@@ -35,7 +35,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="my-10 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
+    <div className="my-12 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
         <h1 className="text-4xl font-normal leading-normal mt-0 mb-2 text-green-600">
           Đăng ký
@@ -101,7 +101,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
                 </a>
               </span>
             </div>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>

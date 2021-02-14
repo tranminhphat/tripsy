@@ -5,6 +5,7 @@ import { register } from "api/Auth";
 import RegisterForm from "components/RegisterForm";
 import EmailVerificationModal from "components/EmailVerificationModal";
 import IUserResponse from "interfaces/users/User.interface";
+import RegisterBackground from "assets/images/register-bg.jpg";
 
 interface Props extends RouteComponentProps {}
 
@@ -31,7 +32,13 @@ export const RegisterPage: React.FC<Props> = ({ history }) => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div
+      style={{
+        backgroundImage: `url(${RegisterBackground})`,
+        boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
+      }}
+      className="flex justify-center bg-cover bg-no-repeat bg-center"
+    >
       <RegisterForm
         onSubmit={(values: IRegisterForm) => handleSubmit(values)}
       />
