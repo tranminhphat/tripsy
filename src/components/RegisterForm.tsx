@@ -7,6 +7,7 @@ import MyTextField from "./Shared/MyTextField";
 import * as yup from "yup";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { MyFileInput } from "./Shared/MyFileInput";
+import { FileReaderResultType } from "types";
 interface Props {
   onSubmit: (values: IRegisterForm) => void;
 }
@@ -34,9 +35,17 @@ const validationSchema = yup.object({
 
 const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   const dispatch = useDispatch();
+  const [
+    base64EncodedImage,
+    setBase64EncodedImage,
+  ] = React.useState<FileReaderResultType>(null);
+
+  const handleSetImage = (image: FileReaderResultType) => {
+    setBase64EncodedImage(image);
+  };
 
   return (
-    <div className="my-12 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
+    <div className="my-12 flex flex-col items-center justify-center w-96 md:w-1/2 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
         <h1 className="text-4xl font-normal leading-normal mt-0 mb-2 text-green-600">
           Đăng ký
@@ -49,14 +58,14 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
       <Formik
         initialValues={{ fullName: "", email: "", username: "", password: "" }}
         onSubmit={(values) => {
-          onSubmit(values);
+          onSubmit({ ...values, avatarBase64: base64EncodedImage });
           dispatch(showAlert("success", "Đăng ký thành công"));
         }}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
-          <Form className="mt-6 w-full flex flex-col items-center justify-center">
-            <div className="mt-4 w-7/12">
+        {() => (
+          <Form className="mt-6 w-full grid grid-cols-1 justify-items-center md:grid-cols-2 md:grid-gap-2">
+            <div className="mt-4 w-7/12 ">
               <MyTextField
                 label="Họ và Tên"
                 name="fullName"
@@ -81,17 +90,17 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
                 className="w-full"
               />
             </div>
-            <div className="mt-4 w-7/12">
+            <div className="mt-4 w-7/12 md:col-span-2">
               <label
                 style={{ fontFamily: "Lora" }}
                 className="text-xs font-bold mb-2 uppercase text-grey-darkest"
               >
                 Chọn ảnh đại diện:
               </label>
-              <MyFileInput />
+              <MyFileInput handleSetImage={handleSetImage} />
             </div>
             <div className="mt-4 w-7/12" />
-            <div className="mt-12 w-4/12 h-12">
+            <div className="mt-8 w-4/12 md:col-span-2 h-12">
               <Button
                 className="w-full h-full focus:outline-none bg-green-500 hover:bg-green-700 text-white"
                 type="submit"
@@ -99,7 +108,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
                 Đăng ký
               </Button>
             </div>
-            <div className="mt-4 mb-6">
+            <div className="mt-4 md:col-span-2 mb-6">
               <span className="text-lg">
                 Bạn đã có tài khoản?{" "}
                 <a

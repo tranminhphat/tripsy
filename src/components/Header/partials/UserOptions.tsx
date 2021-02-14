@@ -45,8 +45,12 @@ const UserOptions: React.FC = () => {
       >
         <MenuIcon className="mr-1 ml-2" />
         <img
-          className="ml-1 mr-2"
-          src={UserAvatar}
+          className="ml-1 mr-2 rounded-full"
+          src={
+            userData === undefined || Object.keys(userData).length === 0
+              ? UserAvatar
+              : userData.avatarUrl
+          }
           width={32}
           height={32}
           alt="User not logged in"

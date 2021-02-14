@@ -11,7 +11,9 @@ interface Props extends RouteComponentProps {}
 
 export const RegisterPage: React.FC<Props> = ({ history }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+
   const [userData, setUserData] = React.useState<IUserResponse>();
+
   const handleModalOpen = () => {
     setIsOpen(true);
   };
