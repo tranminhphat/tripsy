@@ -4,7 +4,7 @@ import * as React from "react";
 
 type MyTextFieldProps = {
   className: string;
-  label: string;
+  label?: string;
   type?: string;
 } & FieldAttributes<{}>;
 
@@ -17,15 +17,23 @@ const MyTextField: React.FC<MyTextFieldProps> = ({
   const [field, meta] = useField<{}>(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
-    <TextField
-      className={className}
-      label={label}
-      type={type}
-      helperText={errorText}
-      error={!!errorText}
-      {...field}
-      InputLabelProps={{ className: "text-gray-400" }}
-    />
+    <>
+      <label
+        htmlFor={props.name}
+        style={{ fontFamily: "Lora" }}
+        className="text-xs font-bold mb-2 uppercase text-grey-darkest"
+      >
+        {label}
+      </label>
+      <TextField
+        className={className}
+        type={type}
+        helperText={errorText}
+        error={!!errorText}
+        {...field}
+        InputLabelProps={{ className: "text-gray-400" }}
+      />
+    </>
   );
 };
 

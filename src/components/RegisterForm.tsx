@@ -6,6 +6,7 @@ import IRegisterForm from "interfaces/forms/RegisterForm.interface";
 import MyTextField from "./Shared/MyTextField";
 import * as yup from "yup";
 import { showAlert } from "redux/actions/alert/alertAction";
+import { MyFileInput } from "./Shared/MyFileInput";
 interface Props {
   onSubmit: (values: IRegisterForm) => void;
 }
@@ -79,6 +80,15 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
                 type="password"
                 className="w-full"
               />
+            </div>
+            <div className="mt-4 w-7/12">
+              <label
+                style={{ fontFamily: "Lora" }}
+                className="text-xs font-bold mb-2 uppercase text-grey-darkest"
+              >
+                Chọn ảnh đại diện:
+              </label>
+              <MyFileInput />
             </div>
             <div className="mt-4 w-7/12" />
             <div className="mt-12 w-4/12 h-12">
