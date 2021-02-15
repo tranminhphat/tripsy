@@ -3,7 +3,7 @@ interface IUserResponse {
   fullName: string;
   email: string;
   username: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   isVerified: boolean;
 }
 

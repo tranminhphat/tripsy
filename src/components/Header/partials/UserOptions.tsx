@@ -16,7 +16,9 @@ const UserOptions: React.FC = () => {
   const dispatch = useDispatch();
 
   const userAvatar =
-    userData === undefined || Object.keys(userData).length === 0
+    userData === undefined ||
+    Object.keys(userData).length === 0 ||
+    !userData.avatarUrl
       ? SkeletonUserAvatar
       : userData.avatarUrl;
 
