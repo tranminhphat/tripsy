@@ -1,8 +1,9 @@
 import * as React from "react";
 import Modal from "@material-ui/core/Modal";
-import EmailVerificationImage from "assets/images/email-verification.png";
 import Button from "@material-ui/core/Button";
-import { resendEmailVerification } from "api/Auth";
+
+import EmailVerificationImage from "assets/images/icons/email-verification.png";
+import { resendEmailVerification } from "api/auth";
 
 interface VerificationProps {
   open: boolean;

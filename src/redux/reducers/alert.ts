@@ -1,5 +1,5 @@
 import { CLOSE_ALERT, SHOW_ALERT } from "../actions/alert/alertActionTypes";
-import IAction from "interfaces/action/index.interface";
+import IAction from "interfaces/action/action.interface";
 
 const initialState = { isAlert: false, alertType: undefined, alertMessage: "" };
 

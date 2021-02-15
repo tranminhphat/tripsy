@@ -1,13 +1,14 @@
 import * as React from "react";
-import LoginForm from "components/LoginForm";
-import { login } from "api/Auth";
-import { RouteComponentProps } from "react-router-dom";
-import ILoginForm from "interfaces/forms/LoginForm.interface";
-import { getUserById } from "api/User";
-import { showAlert } from "redux/actions/alert/alertAction";
 import { useDispatch } from "react-redux";
-import { setUser } from "redux/actions/user/userAction";
-import LoginBackground from "assets/images/login-bg.jpg";
+import { RouteComponentProps } from "react-router-dom";
+
+import { login } from "api/auth";
+import { getUserById } from "api/user";
+import LoginForm from "components/LoginForm";
+import { setUserData } from "redux/actions/user/userAction";
+import { showAlert } from "redux/actions/alert/alertAction";
+import ILoginForm from "interfaces/forms/login-form.interface";
+import LoginBackground from "assets/images/backgrounds/login-bg.jpg";
 
 interface Props extends RouteComponentProps {}
 
@@ -23,7 +24,7 @@ const LoginPage: React.FC<Props> = ({ history }) => {
             dispatch(showAlert("error", "Email của bạn chưa được xác nhận"));
           } else {
             history.push("/");
-            dispatch(setUser(userData.data));
+            dispatch(setUserData(userData.data));
             dispatch(showAlert("success", "Đăng nhập thành công"));
           }
         } catch (err) {

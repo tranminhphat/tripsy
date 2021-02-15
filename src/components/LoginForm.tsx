@@ -1,9 +1,10 @@
-import { Button } from "@material-ui/core";
-import { Formik, Form } from "formik";
 import * as React from "react";
-import ILoginForm from "interfaces/forms/LoginForm.interface";
-import MyTextField from "./Shared/MyTextField";
+import { Formik, Form } from "formik";
+import { Button } from "@material-ui/core";
 import * as yup from "yup";
+
+import ILoginForm from "interfaces/forms/login-form.interface";
+import MyTextField from "./Shared/MyTextField";
 
 interface Props {
   onSubmit: (values: ILoginForm) => void;

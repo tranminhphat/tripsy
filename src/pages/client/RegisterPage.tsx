@@ -1,11 +1,12 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import IRegisterForm from "interfaces/forms/RegisterForm.interface";
-import { register } from "api/Auth";
+
+import { register } from "api/auth";
 import RegisterForm from "components/RegisterForm";
 import EmailVerificationModal from "components/EmailVerificationModal";
-import IUserResponse from "interfaces/users/User.interface";
-import RegisterBackground from "assets/images/register-bg.jpg";
+import RegisterBackground from "assets/images/backgrounds/register-bg.jpg";
+import IRegisterForm from "interfaces/forms/register-form.interface";
+import IUserResponse from "interfaces/users/user.interface";
 
 interface Props extends RouteComponentProps {}
 

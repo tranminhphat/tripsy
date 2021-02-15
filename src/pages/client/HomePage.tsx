@@ -1,8 +1,9 @@
 import * as React from "react";
 import { useEffect } from "react";
-import { setUser } from "redux/actions/user/userAction";
-import { getCurrentUser } from "api/Auth";
 import { useDispatch, useSelector } from "react-redux";
+
+import { setUserData } from "redux/actions/user/userAction";
+import { getCurrentUser } from "api/auth";
 
 const HomePage: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const HomePage: React.FC = () => {
     if (userData === undefined) {
       const { data } = await getCurrentUser();
       if (data.user) {
-        dispatch(setUser(data.user));
+        dispatch(setUserData(data.user));
       }
     }
   };

@@ -1,10 +1,11 @@
-import { Button } from "@material-ui/core";
-import { Formik, Form } from "formik";
-import { useDispatch } from "react-redux";
 import * as React from "react";
-import IRegisterForm from "interfaces/forms/RegisterForm.interface";
-import MyTextField from "./Shared/MyTextField";
+import { useDispatch } from "react-redux";
+import { Formik, Form } from "formik";
+import { Button } from "@material-ui/core";
 import * as yup from "yup";
+
+import IRegisterForm from "interfaces/forms/register-form.interface";
+import MyTextField from "./Shared/MyTextField";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { MyFileInput } from "./Shared/MyFileInput";
 import { FileReaderResultType } from "types";

@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import BrandLogoImage from "assets/images/tripsy_logo_128.png";
+
+import BrandLogoImage from "assets/images/logos/tripsy_logo_128.png";
 
 interface Props {}
 
-export const BrandLogo: React.FC<Props> = () => {
+const BrandLogo: React.FC<Props> = () => {
   return (
     <>
       <Link to="/">
@@ -20,3 +21,5 @@ export const BrandLogo: React.FC<Props> = () => {
     </>
   );
 };
+
+export default BrandLogo;

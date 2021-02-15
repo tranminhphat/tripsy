@@ -1,5 +1,5 @@
 import { FileReaderResultType } from "types";
-import LoginForm from "./LoginForm.interface";
+import LoginForm from "./login-form.interface";
 
 interface IRegisterForm extends LoginForm {
   fullName: string;

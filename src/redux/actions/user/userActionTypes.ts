@@ -1,2 +1,2 @@
-export const SET_USER = "SET_USER";
-export const ERASE_USER = "ERASE_USER";
+export const SET_USER_DATA = "SET_USER_DATA";
+export const CLEAR_USER_DATA = "ERASE_USER_DATA";

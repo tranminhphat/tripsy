@@ -1,13 +1,13 @@
-import User from "interfaces/users/User.interface";
-import { SET_USER, ERASE_USER } from "./userActionTypes";
+import User from "interfaces/users/user.interface";
+import { SET_USER_DATA, CLEAR_USER_DATA } from "./userActionTypes";
 
-export const setUser = (user: User) => ({
-  type: SET_USER,
+export const setUserData = (user: User) => ({
+  type: SET_USER_DATA,
   payload: {
     user,
   },
 });
 
-export const eraseUser = () => ({
-  type: ERASE_USER,
+export const clearUserData = () => ({
+  type: CLEAR_USER_DATA,
 });

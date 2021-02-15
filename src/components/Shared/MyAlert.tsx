@@ -1,12 +1,13 @@
-import { Snackbar } from "@material-ui/core";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import * as React from "react";
+import { Snackbar } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+
 import { closeAlert } from "redux/actions/alert/alertAction";
 
-function Alert(props: AlertProps) {
+const Alert = (props: AlertProps) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+};
 
 const MyAlert: React.FC = () => {
   const { isAlert, alertType, alertMessage } = useSelector(

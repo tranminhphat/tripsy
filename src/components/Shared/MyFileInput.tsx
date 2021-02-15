@@ -6,8 +6,7 @@ interface Props {
 }
 
 export const MyFileInput: React.FC<Props> = ({ handleSetImage }) => {
-  const [fileInputState, setFileInputState] = React.useState("");
-  const [selectedFile, setSelectedFile] = React.useState("");
+  const [fileInputState] = React.useState("");
   const [
     previewSource,
     setPreviewSource,

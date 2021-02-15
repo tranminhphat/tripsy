@@ -3,7 +3,7 @@ import SearchIcon from "@material-ui/icons/Search";
 
 interface Props {}
 
-export const SearchBar: React.FC<Props> = () => {
+const SearchBar: React.FC<Props> = () => {
   return (
     <div className="flex items-center justify-center h-3/4 border border-solid border-gray-300 rounded-2xl">
       <div className="flex flex-col justify-center w-5/12 h-full px-8">
@@ -34,3 +34,5 @@ export const SearchBar: React.FC<Props> = () => {
     </div>
   );
 };
+
+export default SearchBar;

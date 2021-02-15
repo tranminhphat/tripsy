@@ -1,33 +1,42 @@
-import { Button, Menu, MenuItem } from "@material-ui/core";
 import * as React from "react";
-import UserAvatar from "assets/images/user.svg";
-import { isLoggedIn, logout } from "api/Auth";
-import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
-import { eraseUser } from "redux/actions/user/userAction";
 import { useSelector, useDispatch } from "react-redux";
+import { Button, Menu, MenuItem } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import MenuIcon from "@material-ui/icons/Menu";
+
+import { isLoggedIn, logout } from "api/auth";
+import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import { clearUserData } from "redux/actions/user/userAction";
 import { showAlert } from "redux/actions/alert/alertAction";
 
 const UserOptions: React.FC = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [menuEl, setMenuEl] = React.useState(null);
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const userAvatar =
+    userData === undefined || Object.keys(userData).length === 0
+      ? SkeletonUserAvatar
+      : userData.avatarUrl;
+
+  const userFullName = userData !== undefined ? userData.fullName : "";
+
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setMenuEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setMenuEl(null);
   };
 
   const loggingOut = async () => {
-    setAnchorEl(null);
+    setMenuEl(null);
     const res = await logout();
-    console.log(res.data);
-    dispatch(eraseUser());
-    dispatch(showAlert("success", "Đăng xuất thành công"));
+    if (res.data) {
+      dispatch(clearUserData());
+      dispatch(showAlert("success", "Đăng xuất thành công"));
+    }
   };
 
   return (
@@ -46,11 +55,7 @@ const UserOptions: React.FC = () => {
         <MenuIcon className="mr-1 ml-2" />
         <img
           className="ml-1 mr-2 rounded-full"
-          src={
-            userData === undefined || Object.keys(userData).length === 0
-              ? UserAvatar
-              : userData.avatarUrl
-          }
+          src={userAvatar}
           width={32}
           height={32}
           alt="User not logged in"
@@ -60,15 +65,13 @@ const UserOptions: React.FC = () => {
         <Menu
           className="mt-14"
           id="simple-menu"
-          anchorEl={anchorEl}
+          anchorEl={menuEl}
           keepMounted
-          open={Boolean(anchorEl)}
+          open={Boolean(menuEl)}
           onClose={handleClose}
         >
           <Link to="/" onClick={handleClose}>
-            <MenuItem>
-              Xin chào, {userData !== undefined ? userData.fullName : ""}
-            </MenuItem>
+            <MenuItem>Xin chào, {userFullName}</MenuItem>
           </Link>
           <Link to="/" onClick={loggingOut}>
             <MenuItem>Đăng xuất</MenuItem>
@@ -78,9 +81,9 @@ const UserOptions: React.FC = () => {
         <Menu
           className="mt-14"
           id="simple-menu"
-          anchorEl={anchorEl}
+          anchorEl={menuEl}
           keepMounted
-          open={Boolean(anchorEl)}
+          open={Boolean(menuEl)}
           onClose={handleClose}
         >
           <Link to="/login" onClick={handleClose}>
