@@ -30,3 +30,13 @@ export const resendEmailVerification = (userId: string, userEmail: string) => {
 export const forgotPassword = (userEmail: string) => {
   return axios.post(`/auth/forgot-password`, { email: userEmail });
 };
+
+export const resetPassword = (
+  resetPasswordToken: string,
+  newPassword: string
+) => {
+  return axios.put(`/auth/reset-password`, {
+    resetPasswordToken,
+    newPassword,
+  });
+};
