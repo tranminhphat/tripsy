@@ -4,8 +4,10 @@ import * as yup from "yup";
 
 import MyTextField from "components/Shared/MyTextField";
 import Button from "@material-ui/core/Button";
+import MyErrorMessage from "components/Shared/MyErrorMessage";
 
 interface Props {
+  error: string;
   onSubmit: (values: { email: string }) => void;
 }
 
@@ -16,7 +18,7 @@ const validationSchema = yup.object({
     .email("Email không hợp lệ"),
 });
 
-const ForgotPasswordForm: React.FC<Props> = ({ onSubmit }) => {
+const ForgotPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
     <div className="my-32 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
@@ -25,6 +27,9 @@ const ForgotPasswordForm: React.FC<Props> = ({ onSubmit }) => {
         </h3>
       </div>
       <div className="mt-4 w-80 h-px border border-solid border-green-600" />
+      <div className="mt-4">
+        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
+      </div>
       <Formik
         initialValues={{ email: "" }}
         onSubmit={(values) => onSubmit(values)}

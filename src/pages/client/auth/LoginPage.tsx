@@ -19,9 +19,7 @@ const LoginPage: React.FC<Props> = ({ history }) => {
 
   const handleSubmit = async (values: ILoginForm) => {
     try {
-      const res = await login(values);
-      console.log(res);
-      const { data } = res;
+      const { data } = await login(values);
       if (data.userId) {
         try {
           const userData = await getUserById(data.userId);

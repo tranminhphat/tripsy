@@ -4,19 +4,21 @@ import * as yup from "yup";
 
 import MyTextField from "components/Shared/MyTextField";
 import Button from "@material-ui/core/Button";
+import MyErrorMessage from "components/Shared/MyErrorMessage";
 
 interface Props {
+  error: string;
   onSubmit: (newPassword: string) => void;
 }
 
 const validationSchema = yup.object({
-  // email: yup
-  //   .string()
-  //   .required("Email là thông tin bắt buộc")
-  //   .email("Email không hợp lệ"),
+  password: yup.string().required("Mật khẩu là thông tin bắt buộc "),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Mật khẩu xác nhận không trùng khớp "),
 });
 
-const ResetPasswordForm: React.FC<Props> = ({ onSubmit }) => {
+const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
     <div className="my-32 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
@@ -25,6 +27,9 @@ const ResetPasswordForm: React.FC<Props> = ({ onSubmit }) => {
         </h3>
       </div>
       <div className="mt-4 w-80 h-px border border-solid border-green-600" />
+      <div className="mt-4">
+        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
+      </div>
       <Formik
         initialValues={{ password: "", confirmPassword: "" }}
         onSubmit={(values) => {

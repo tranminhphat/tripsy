@@ -4,12 +4,14 @@ import { forgotPassword } from "api/auth";
 import LoginBackground from "assets/images/backgrounds/login-bg.jpg";
 import ForgotPasswordForm from "components/Authentication/Forms/ForgotPasswordForm";
 import ForgotPasswordModal from "components/Authentication/Modals/ForgotPasswordModal";
+import useErrorHandler from "hooks/useErrorHandler";
 
 interface Props {}
 
 const ForgotPasswordPage: React.FC<Props> = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
+  const [errorMessage, setErrorMessage] = useErrorHandler();
 
   const handleModalOpen = (email: string) => {
     setEmail(email);
@@ -22,10 +24,13 @@ const ForgotPasswordPage: React.FC<Props> = () => {
     try {
       const res = await forgotPassword(values.email);
       if (res) {
+        setErrorMessage("");
         handleModalOpen(values.email);
       }
     } catch (err) {
-      console.error(err);
+      if (err.response) {
+        setErrorMessage(err.response.data);
+      }
     }
   };
 
@@ -38,6 +43,7 @@ const ForgotPasswordPage: React.FC<Props> = () => {
       className="flex justify-center h-screen bg-cover bg-no-repeat bg-center"
     >
       <ForgotPasswordForm
+        error={errorMessage}
         onSubmit={(values: { email: string }) => handleSubmit(values)}
       />
       <ForgotPasswordModal

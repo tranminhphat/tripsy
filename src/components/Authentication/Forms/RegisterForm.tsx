@@ -9,7 +9,9 @@ import MyTextField from "../../Shared/MyTextField";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { MyFileInput } from "../../Shared/MyFileInput";
 import { FileReaderResultType } from "types";
+import MyErrorMessage from "components/Shared/MyErrorMessage";
 interface Props {
+  error: string;
   onSubmit: (values: IRegisterForm) => void;
 }
 
@@ -34,8 +36,8 @@ const validationSchema = yup.object({
     .min(6, "Password phải có tối thiểu 6 ký tự"),
 });
 
-const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
-  const dispatch = useDispatch();
+const RegisterForm: React.FC<Props> = ({ error, onSubmit }) => {
+  console.log(error);
   const [
     base64EncodedImage,
     setBase64EncodedImage,
@@ -56,11 +58,13 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
         </p>
       </div>
       <div className=" mt-4 w-80 h-px border border-solid border-green-600" />
+      <div className="mt-4">
+        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
+      </div>
       <Formik
         initialValues={{ fullName: "", email: "", username: "", password: "" }}
         onSubmit={(values) => {
           onSubmit({ ...values, avatarBase64: base64EncodedImage });
-          dispatch(showAlert("success", "Đăng ký thành công"));
         }}
         validationSchema={validationSchema}
       >
