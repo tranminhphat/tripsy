@@ -9,14 +9,19 @@ import { setUserData } from "redux/actions/user/userAction";
 import { showAlert } from "redux/actions/alert/alertAction";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import LoginBackground from "assets/images/backgrounds/login-bg.jpg";
+import useErrorHandler from "hooks/useErrorHandler";
 
 interface Props extends RouteComponentProps {}
 
 const LoginPage: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useErrorHandler();
+
   const handleSubmit = async (values: ILoginForm) => {
     try {
-      const { data } = await login(values);
+      const res = await login(values);
+      console.log(res);
+      const { data } = res;
       if (data.userId) {
         try {
           const userData = await getUserById(data.userId);
@@ -28,11 +33,17 @@ const LoginPage: React.FC<Props> = ({ history }) => {
             dispatch(showAlert("success", "Đăng nhập thành công"));
           }
         } catch (err) {
-          console.error(err);
+          if (err.response) {
+            setErrorMessage(err.response.data);
+          }
+          dispatch(showAlert("error", "Đăng nhập thất bại"));
         }
       }
     } catch (err) {
-      console.error(err);
+      if (err.response) {
+        setErrorMessage(err.response.data);
+      }
+      dispatch(showAlert("error", "Đăng nhập thất bại"));
     }
   };
   return (
@@ -43,7 +54,10 @@ const LoginPage: React.FC<Props> = ({ history }) => {
       }}
       className="flex justify-center h-screen bg-cover bg-no-repeat bg-center"
     >
-      <LoginForm onSubmit={(values: ILoginForm) => handleSubmit(values)} />
+      <LoginForm
+        error={errorMessage}
+        onSubmit={(values: ILoginForm) => handleSubmit(values)}
+      />
     </div>
   );
 };

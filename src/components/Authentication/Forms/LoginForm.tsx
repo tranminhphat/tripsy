@@ -6,8 +6,10 @@ import * as yup from "yup";
 
 import ILoginForm from "interfaces/forms/login-form.interface";
 import MyTextField from "../../Shared/MyTextField";
+import MyErrorMessage from "components/Shared/MyErrorMessage";
 
 interface Props {
+  error: string;
   onSubmit: (values: ILoginForm) => void;
 }
 
@@ -23,7 +25,7 @@ const validationSchema = yup.object({
     .min(6, "Password phải có tối thiểu 6 ký tự"),
 });
 
-const LoginForm: React.FC<Props> = ({ onSubmit }) => {
+const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
     <div className="my-12 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
@@ -34,7 +36,10 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
           và bắt đầu những <em className="font-bold">trải nghiệm</em>
         </p>
       </div>
-      <div className=" mt-4 w-80 h-px border border-solid border-green-600" />
+      <div className="mt-4 w-80 h-px border border-solid border-green-600" />
+      <div className="mt-4">
+        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
+      </div>
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => {
