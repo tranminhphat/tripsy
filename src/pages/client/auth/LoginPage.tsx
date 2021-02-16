@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { login } from "api/auth";
 import { getUserById } from "api/user";
-import LoginForm from "components/LoginForm";
+import LoginForm from "components/Authentication/Forms/LoginForm";
 import { setUserData } from "redux/actions/user/userAction";
 import { showAlert } from "redux/actions/alert/alertAction";
 import ILoginForm from "interfaces/forms/login-form.interface";
@@ -41,7 +41,7 @@ const LoginPage: React.FC<Props> = ({ history }) => {
         backgroundImage: `url(${LoginBackground})`,
         boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
       }}
-      className="flex justify-center bg-cover bg-no-repeat bg-center"
+      className="flex justify-center h-screen bg-cover bg-no-repeat bg-center"
     >
       <LoginForm onSubmit={(values: ILoginForm) => handleSubmit(values)} />
     </div>

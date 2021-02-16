@@ -2,8 +2,8 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import { register } from "api/auth";
-import RegisterForm from "components/RegisterForm";
-import EmailVerificationModal from "components/EmailVerificationModal";
+import RegisterForm from "components/Authentication/Forms/RegisterForm";
+import EmailVerificationModal from "components/Authentication/Modals/EmailVerificationModal";
 import RegisterBackground from "assets/images/backgrounds/register-bg.jpg";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import IUserResponse from "interfaces/users/user.interface";
@@ -11,7 +11,7 @@ import { CircularProgress } from "@material-ui/core";
 
 interface Props extends RouteComponentProps {}
 
-export const RegisterPage: React.FC<Props> = ({ history }) => {
+const RegisterPage: React.FC<Props> = ({ history }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -71,3 +71,5 @@ export const RegisterPage: React.FC<Props> = ({ history }) => {
     </div>
   );
 };
+
+export default RegisterPage;

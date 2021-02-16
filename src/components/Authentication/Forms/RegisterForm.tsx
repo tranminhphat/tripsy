@@ -5,9 +5,9 @@ import { Button } from "@material-ui/core";
 import * as yup from "yup";
 
 import IRegisterForm from "interfaces/forms/register-form.interface";
-import MyTextField from "./Shared/MyTextField";
+import MyTextField from "../../Shared/MyTextField";
 import { showAlert } from "redux/actions/alert/alertAction";
-import { MyFileInput } from "./Shared/MyFileInput";
+import { MyFileInput } from "../../Shared/MyFileInput";
 import { FileReaderResultType } from "types";
 interface Props {
   onSubmit: (values: IRegisterForm) => void;

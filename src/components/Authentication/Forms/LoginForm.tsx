@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Formik, Form } from "formik";
 import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 
 import ILoginForm from "interfaces/forms/login-form.interface";
-import MyTextField from "./Shared/MyTextField";
+import MyTextField from "../../Shared/MyTextField";
 
 interface Props {
   onSubmit: (values: ILoginForm) => void;
@@ -41,7 +42,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
         }}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
+        {() => (
           <Form className="mt-6 w-full flex flex-col items-center justify-center">
             <div className="mt-4 w-7/12">
               <MyTextField className="w-full" name="email" label="Email" />
@@ -55,13 +56,13 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
               />
             </div>
             <div className="mt-4 w-7/12 flex justify-end">
-              <a
+              <Link
                 style={{ fontFamily: "Lora" }}
                 className="hover:underline"
-                href="/"
+                to="/forgot-password"
               >
                 Quên mật khẩu?
-              </a>
+              </Link>
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button

@@ -23,6 +23,10 @@ export const logout = () => {
   return axios.get(`/auth/logout`);
 };
 
-export const resendEmailVerification = (userId, userEmail) => {
-  return axios.post(`/auth/resendEmailVerification`, { userId, userEmail });
+export const resendEmailVerification = (userId: string, userEmail: string) => {
+  return axios.post(`/auth/resend-email-verification`, { userId, userEmail });
+};
+
+export const forgotPassword = (userEmail: string) => {
+  return axios.post(`/auth/forgot-password`, { email: userEmail });
 };

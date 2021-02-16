@@ -3,8 +3,9 @@ import { Redirect, Route, Switch } from "react-router-dom";
 
 import { isLoggedIn } from "api/auth";
 import HomePage from "pages/client/HomePage";
-import LoginPage from "pages/client/LoginPage";
-import { RegisterPage } from "pages/client/RegisterPage";
+import LoginPage from "pages/client/auth/LoginPage";
+import RegisterPage from "pages/client/auth/RegisterPage";
+import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 
 interface Entry {
   exact?: boolean;
@@ -15,9 +16,10 @@ interface Entry {
 
 const routes: Entry[] = [
   { exact: true, path: "/", component: HomePage },
-  { path: "/login", component: LoginPage },
-  { path: "/register", component: RegisterPage },
-  { path: "/hosttour", component: RegisterPage, authRoute: true },
+  { exact: true, path: "/login", component: LoginPage },
+  { exact: true, path: "/register", component: RegisterPage },
+  { exact: true, path: "/forgot-password", component: ForgotPasswordPage },
+  { exact: true, path: "/hosttour", component: RegisterPage, authRoute: true },
 ];
 
 const AuthRoute = ({ component: Component, ...rest }) => (
