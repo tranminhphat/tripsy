@@ -1,17 +1,17 @@
 import * as React from "react";
-import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import { Button } from "@material-ui/core";
 import * as yup from "yup";
 
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import MyTextField from "../../Shared/MyTextField";
-import { showAlert } from "redux/actions/alert/alertAction";
 import { MyFileInput } from "../../Shared/MyFileInput";
 import { FileReaderResultType } from "types";
 import MyErrorMessage from "components/Shared/MyErrorMessage";
+import CircularProgress from "@material-ui/core/CircularProgress";
 interface Props {
   error: string;
+  isLoading: boolean;
   onSubmit: (values: IRegisterForm) => void;
 }
 
@@ -36,7 +36,7 @@ const validationSchema = yup.object({
     .min(6, "Password phải có tối thiểu 6 ký tự"),
 });
 
-const RegisterForm: React.FC<Props> = ({ error, onSubmit }) => {
+const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
   console.log(error);
   const [
     base64EncodedImage,
@@ -51,7 +51,7 @@ const RegisterForm: React.FC<Props> = ({ error, onSubmit }) => {
     <div className="my-12 flex flex-col items-center justify-center w-96 md:w-1/2 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
         <h1
-          style={{ fontFamily: "GT Walsheim Bold" }}
+          style={{ fontFamily: "Lora" }}
           className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue"
         >
           Đăng ký
@@ -110,10 +110,15 @@ const RegisterForm: React.FC<Props> = ({ error, onSubmit }) => {
             <div className="mt-4 w-7/12" />
             <div className="mt-8 w-4/12 md:col-span-2 h-12">
               <Button
-                className="w-full h-full bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
+                className="outline:none w-full h-full bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
                 type="submit"
+                disabled={isLoading}
               >
-                Đăng ký
+                {isLoading ? (
+                  <CircularProgress className="text-white" />
+                ) : (
+                  <p>Đăng ký</p>
+                )}
               </Button>
             </div>
             <div className="mt-4 md:col-span-2 mb-6">

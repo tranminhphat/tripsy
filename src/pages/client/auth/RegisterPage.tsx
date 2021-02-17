@@ -8,7 +8,6 @@ import EmailVerificationModal from "components/Authentication/Modals/EmailVerifi
 import RegisterBackground from "assets/images/backgrounds/register-bg.jpg";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import IUserResponse from "interfaces/users/user.interface";
-import { CircularProgress } from "@material-ui/core";
 import useErrorHandler from "hooks/useErrorHandler";
 import { showAlert } from "redux/actions/alert/alertAction";
 
@@ -55,29 +54,18 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
       }}
       className="flex justify-center bg-cover bg-no-repeat bg-center"
     >
-      {!isLoading ? (
-        <>
-          <RegisterForm
-            error={errorMessage}
-            onSubmit={(values: IRegisterForm) => handleSubmit(values)}
-          />
-          <EmailVerificationModal
-            open={isOpen}
-            onModalClose={handleModalClose}
-            userId={userData ? userData._id : ""}
-            userEmail={userData ? userData.email : ""}
-            userFullName={userData ? userData.fullName : ""}
-          />
-        </>
-      ) : (
-        <div className="h-screen flex justify-center items-center">
-          <CircularProgress
-            className="text-green-600"
-            size={80}
-            thickness={8.0}
-          />
-        </div>
-      )}
+      <RegisterForm
+        error={errorMessage}
+        isLoading={isLoading}
+        onSubmit={(values: IRegisterForm) => handleSubmit(values)}
+      />
+      <EmailVerificationModal
+        open={isOpen}
+        onModalClose={handleModalClose}
+        userId={userData ? userData._id : ""}
+        userEmail={userData ? userData.email : ""}
+        userFullName={userData ? userData.fullName : ""}
+      />
     </div>
   );
 };

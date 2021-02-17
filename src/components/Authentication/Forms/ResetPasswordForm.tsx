@@ -23,7 +23,7 @@ const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
     <div className="my-32 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
         <h3
-          style={{ fontFamily: "GT Walsheim Bold" }}
+          style={{ fontFamily: "Lora" }}
           className="text-2xl font-semibold leading-normal mt-0 mb-2 text-main-blue"
         >
           Nhập một mật khẩu mới
@@ -60,7 +60,7 @@ const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button
-                className="w-full h-full bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
+                className="outline:none w-full h-full bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
                 type="submit"
               >
                 Đổi mật khẩu

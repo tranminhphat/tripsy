@@ -30,7 +30,7 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
     <div className="my-12 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
         <h1
-          style={{ fontFamily: "GT Walsheim Bold" }}
+          style={{ fontFamily: "Lora" }}
           className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue"
         >
           Đăng nhập
@@ -74,7 +74,7 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button
-                className="w-full h-full focus:outline-none bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
+                className="outline:none w-full h-full focus:outline-none bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
                 type="submit"
               >
                 Đăng nhập

@@ -10,6 +10,7 @@ interface Props {}
 
 const ForgotPasswordPage: React.FC<Props> = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [errorMessage, setErrorMessage] = useErrorHandler();
 
@@ -22,12 +23,15 @@ const ForgotPasswordPage: React.FC<Props> = () => {
   };
   const handleSubmit = async (values: { email: string }) => {
     try {
+      setIsLoading(true);
       const res = await forgotPassword(values.email);
       if (res) {
+        setIsLoading(false);
         setErrorMessage("");
         handleModalOpen(values.email);
       }
     } catch (err) {
+      setIsLoading(false);
       if (err.response) {
         setErrorMessage(err.response.data);
       }
@@ -43,6 +47,7 @@ const ForgotPasswordPage: React.FC<Props> = () => {
       className="flex justify-center h-screen bg-cover bg-no-repeat bg-center"
     >
       <ForgotPasswordForm
+        isLoading={isLoading}
         error={errorMessage}
         onSubmit={(values: { email: string }) => handleSubmit(values)}
       />
