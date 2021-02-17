@@ -29,7 +29,7 @@ export const MyFileInput: React.FC<Props> = ({ handleSetImage }) => {
   return (
     <>
       <div className="flex items-center justify-center bg-grey-lighter mt-4">
-        <label className="w-64 flex flex-col items-center px-4 py-6 bg-white text-green-300 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-green-300 hover:text-white">
+        <label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer bg-main-blue text-white opacity-60 hover:opacity-100 transition ease-in-out duration-500">
           <svg
             className="w-8 h-8"
             fill="currentColor"

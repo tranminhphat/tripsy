@@ -3,12 +3,18 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   important: true,
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "main-blue": "#233044",
+        "main-pink": "#ffa7c4",
+      },
+    },
   },
   variants: {
     extend: {
       borderRadius: ["hover", "focus"],
       transitionDuration: ["hover", "focus"],
+      transform: ["hover", "focus"],
     },
   },
   plugins: [],

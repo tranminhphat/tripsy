@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import BrandLogoImage from "assets/images/logos/tripsy_logo_128.png";
+import BrandLogoImage from "assets/images/logos/logo_128.png";
 
 interface Props {}
 
@@ -15,7 +15,7 @@ const BrandLogo: React.FC<Props> = () => {
             width: 128,
             height: 128,
           }}
-          className="bg-contain bg-no-repeat bg-center"
+          className="opacity-60 hover:opacity-100 hover:transform hover:scale-105 transition ease-in-out duration-500 bg-contain bg-no-repeat bg-center"
         />
       </Link>
     </>

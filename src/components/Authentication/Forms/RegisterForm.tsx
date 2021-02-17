@@ -50,14 +50,17 @@ const RegisterForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
     <div className="my-12 flex flex-col items-center justify-center w-96 md:w-1/2 bg-white shadow-lg rounded-2xl">
       <div className="text-center mt-4">
-        <h1 className="text-4xl font-normal leading-normal mt-0 mb-2 text-green-600">
+        <h1
+          style={{ fontFamily: "GT Walsheim Bold" }}
+          className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue"
+        >
           Đăng ký
         </h1>
         <p style={{ fontFamily: "Lora" }}>
           và bắt đầu những <em className="font-bold">trải nghiệm</em>
         </p>
       </div>
-      <div className=" mt-4 w-80 h-px border border-solid border-green-600" />
+      <div className=" mt-4 w-80 h-px border border-solid border-main-blue" />
       <div className="mt-4">
         {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
       </div>
@@ -107,7 +110,7 @@ const RegisterForm: React.FC<Props> = ({ error, onSubmit }) => {
             <div className="mt-4 w-7/12" />
             <div className="mt-8 w-4/12 md:col-span-2 h-12">
               <Button
-                className="w-full h-full focus:outline-none bg-green-500 hover:bg-green-700 text-white"
+                className="w-full h-full bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
                 type="submit"
               >
                 Đăng ký
@@ -117,7 +120,7 @@ const RegisterForm: React.FC<Props> = ({ error, onSubmit }) => {
               <span className="text-lg">
                 Bạn đã có tài khoản?{" "}
                 <a
-                  className="underline hover:no-underline hover:text-green-600"
+                  className="underline hover:no-underline hover:text-main-pink"
                   href="/login"
                   style={{ fontFamily: "Lora" }}
                 >
