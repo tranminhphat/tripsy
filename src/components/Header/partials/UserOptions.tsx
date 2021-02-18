@@ -22,7 +22,7 @@ const UserOptions: React.FC = () => {
       ? SkeletonUserAvatar
       : userData.avatarUrl;
 
-  const userFullName = userData !== undefined ? userData.fullName : "";
+  const userFirstName = userData !== undefined ? userData.firstName : "";
 
   const handleClick = (event) => {
     setMenuEl(event.currentTarget);
@@ -72,7 +72,10 @@ const UserOptions: React.FC = () => {
           onClose={handleClose}
         >
           <Link to="/" onClick={handleClose}>
-            <MenuItem>Xin chào, {userFullName}</MenuItem>
+            <MenuItem>Xin chào, {userFirstName}</MenuItem>
+          </Link>
+          <Link to="/profile">
+            <MenuItem>Thông tin cá nhân</MenuItem>
           </Link>
           <Link to="/" onClick={loggingOut}>
             <MenuItem>Đăng xuất</MenuItem>
@@ -92,9 +95,6 @@ const UserOptions: React.FC = () => {
           </Link>
           <Link to="/register" onClick={handleClose}>
             <MenuItem>Đăng ký</MenuItem>
-          </Link>
-          <Link to="/hosttour" onClick={handleClose}>
-            <MenuItem>Tổ chức trải nghiệm</MenuItem>
           </Link>
         </Menu>
       )}

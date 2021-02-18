@@ -20,8 +20,7 @@ const MyTextField: React.FC<MyTextFieldProps> = ({
     <>
       <label
         htmlFor={props.name}
-        style={{ fontFamily: "Lora" }}
-        className="text-xs font-bold mb-4 uppercase text-grey-darkest"
+        className="text-xs mb-4 uppercase text-gray-400"
       >
         {label}
       </label>

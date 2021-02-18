@@ -50,10 +50,7 @@ export const MyFileInput: React.FC<Props> = ({ handleSetImage }) => {
       <div className="mt-4 grid">
         {previewSource && typeof previewSource === "string" && (
           <>
-            <label
-              style={{ fontFamily: "Lora" }}
-              className="text-xs font-bold mb-2 uppercase text-grey-darkest"
-            >
+            <label className="text-xs mb-2 uppercase text-gray-300">
               Xem trước:
             </label>
             <img

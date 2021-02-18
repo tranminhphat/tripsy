@@ -7,6 +7,7 @@ import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
 import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
+import ProfilePage from "pages/client/profile/ProfilePage";
 
 interface Entry {
   exact?: boolean;
@@ -21,7 +22,7 @@ const routes: Entry[] = [
   { exact: true, path: "/register", component: RegisterPage },
   { exact: true, path: "/forgot-password", component: ForgotPasswordPage },
   { exact: true, path: "/reset-password/:token", component: ResetPasswordPage },
-  { exact: true, path: "/hosttour", component: RegisterPage, authRoute: true },
+  { exact: true, path: "/profile", component: ProfilePage, authRoute: true },
 ];
 
 const AuthRoute = ({ component: Component, ...rest }) => (

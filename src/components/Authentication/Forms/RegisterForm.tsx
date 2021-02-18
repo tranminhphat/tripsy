@@ -9,6 +9,7 @@ import { MyFileInput } from "../../Shared/MyFileInput";
 import { FileReaderResultType } from "types";
 import MyErrorMessage from "components/Shared/MyErrorMessage";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MyRadioButton from "components/Shared/MyRadioButton";
 interface Props {
   error: string;
   isLoading: boolean;
@@ -16,8 +17,8 @@ interface Props {
 }
 
 const validationSchema = yup.object({
-  fullName: yup.string().required("Họ và Tên là thông tin bắt buộc"),
-
+  firstName: yup.string().required("Tên là thông tin bắt buộc"),
+  lastName: yup.string().required("Họ là thông tin bắt buộc"),
   email: yup
     .string()
     .required("Email là thông tin bắt buộc")
@@ -34,10 +35,20 @@ const validationSchema = yup.object({
     .string()
     .required("Password là thông tin bắt buộc")
     .min(6, "Password phải có tối thiểu 6 ký tự"),
+
+  gender: yup.string().required("Giới tính là thông tin bắt buộc"),
+
+  dateOfBirth: yup.date().required("Ngày sinh là thông tin bắt buộc"),
+
+  phoneNumber: yup
+    .string()
+    .min(10, "Số điện thoại bao gồm 10 ký tự")
+    .max(10, "Số điện thoại bao gồm 10 ký tự"),
+
+  address: yup.string(),
 });
 
 const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
-  console.log(error);
   const [
     base64EncodedImage,
     setBase64EncodedImage,
@@ -65,20 +76,29 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
         {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
       </div>
       <Formik
-        initialValues={{ fullName: "", email: "", username: "", password: "" }}
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          email: "",
+          username: "",
+          password: "",
+          gender: "",
+          dateOfBirth: "",
+          phoneNumber: "",
+          address: "",
+        }}
         onSubmit={(values) => {
           onSubmit({ ...values, avatarBase64: base64EncodedImage });
         }}
         validationSchema={validationSchema}
       >
-        {() => (
+        {({ values }) => (
           <Form className="mt-6 w-full grid grid-cols-1 justify-items-center md:grid-cols-2 md:grid-gap-2">
             <div className="mt-4 w-7/12 ">
-              <MyTextField
-                label="Họ và Tên"
-                name="fullName"
-                className="w-full"
-              />
+              <MyTextField label="Tên" name="firstName" className="w-full" />
+            </div>
+            <div className="mt-4 w-7/12 ">
+              <MyTextField label="Họ" name="lastName" className="w-full" />
             </div>
             <div className="mt-4 w-7/12">
               <MyTextField label="Email" name="email" className="w-full" />
@@ -98,11 +118,46 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
                 className="w-full"
               />
             </div>
+            <div className="mt-4 w-7/12">
+              <label className="text-xs mb-4 uppercase text-gray-400">
+                Giới tính
+              </label>
+              <div>
+                <MyRadioButton
+                  name="gender"
+                  type="radio"
+                  value="male"
+                  label="Nam"
+                />
+                <MyRadioButton
+                  name="gender"
+                  type="radio"
+                  value="female"
+                  label="Nữ"
+                />
+              </div>
+            </div>
+            <div className="mt-4 w-7/12">
+              <MyTextField
+                label="Ngày sinh"
+                type="date"
+                name="dateOfBirth"
+                className="w-full"
+              />
+            </div>
+            <div className="mt-4 w-7/12">
+              <MyTextField
+                label="Số điện thoại"
+                type="tel"
+                name="phoneNumber"
+                className="w-full"
+              />
+            </div>
+            <div className="mt-4 w-7/12">
+              <MyTextField label="Địa chỉ" name="address" className="w-full" />
+            </div>
             <div className="mt-4 w-7/12 md:col-span-2">
-              <label
-                style={{ fontFamily: "Lora" }}
-                className="text-xs font-bold mb-2 uppercase text-grey-darkest"
-              >
+              <label className="text-xs mb-4 uppercase text-gray-400">
                 Chọn ảnh đại diện:
               </label>
               <MyFileInput handleSetImage={handleSetImage} />
@@ -133,6 +188,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
                 </a>
               </span>
             </div>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>
