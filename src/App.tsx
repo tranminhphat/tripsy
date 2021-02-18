@@ -6,10 +6,12 @@ import AppRouter from "./routes/index";
 
 export const App: React.FC = () => {
   return (
-    <div className="bg-gray-100 h-full w-full">
+    <div className="h-full w-full">
       <Header />
-      <AppRouter />
-      <MyAlert />
+      <div style={{ paddingTop: "96px" }}>
+        <AppRouter />
+        <MyAlert />
+      </div>
     </div>
   );
 };

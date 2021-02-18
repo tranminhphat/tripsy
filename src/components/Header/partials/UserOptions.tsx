@@ -58,8 +58,7 @@ const UserOptions: React.FC = () => {
         <img
           className="ml-1 mr-2 rounded-full"
           src={userAvatar}
-          width={32}
-          height={32}
+          style={{ width: "32px", height: "32px" }}
           alt="User not logged in"
         />
       </Button>
