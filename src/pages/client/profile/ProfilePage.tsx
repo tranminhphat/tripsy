@@ -3,19 +3,35 @@ import { useParams } from "react-router-dom";
 
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import { getUserById } from "api/user";
+import { getUserById, updateUserById } from "api/user";
 import IUserResponse from "interfaces/users/user.interface";
+import { FileReaderResultType } from "types";
 
 interface Props {}
 
 const ProfilePage: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
   const [userData, setUserData] = React.useState<IUserResponse>();
+  const [fileInputState] = React.useState("");
+  const [fileReader, setFileReader] = React.useState<FileReaderResultType>();
 
   React.useEffect(() => {
     fetchData(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setFileReader(reader.result);
+    };
+  };
+
+  const changeUserAvatar = async (fileReader) => {
+    await updateUserById(id, { avatarUrl: fileReader });
+  };
 
   const fetchData = async (id: string) => {
     const { data } = await getUserById(id);
@@ -34,6 +50,7 @@ const ProfilePage: React.FC<Props> = () => {
           <div className="relative">
             <img
               style={{ width: "96px", height: "96px" }}
+              className="rounded-full"
               src={userAvatar}
               alt="avatar"
             />
@@ -43,9 +60,23 @@ const ProfilePage: React.FC<Props> = () => {
             >
               <label className="cursor-pointer">
                 <EditRoundedIcon className="text-md" />
-                <input type="file" className="hidden" />
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileInputChange}
+                  value={fileInputState}
+                />
               </label>
             </div>
+          </div>
+          <div>
+            {fileReader ? (
+              <button onClick={() => changeUserAvatar(fileReader)}>
+                Change
+              </button>
+            ) : (
+              ""
+            )}
           </div>
           <p className="font-bold text-xl text-gray-600 mt-2">{`${firstName} ${lastName}`}</p>
         </div>
