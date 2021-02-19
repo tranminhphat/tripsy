@@ -10,17 +10,21 @@ interface Props {
 
 const MyBreadcrumbs: React.FC<Props> = ({ linkArray }) => {
   return (
-    <Breadcrumbs aria-label="breadcrumb">
+    <Breadcrumbs separator=">" aria-label="breadcrumb">
       {linkArray.map((link, index) => {
         if (index !== linkArray.length - 1) {
           return (
             <Link to={"/" + link}>
-              <BreadcrumbsLink className="uppercase">{link}</BreadcrumbsLink>
+              <BreadcrumbsLink className="capitalize text-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500">
+                {link}
+              </BreadcrumbsLink>
             </Link>
           );
         } else {
           return (
-            <Typography className="uppercase text-main-blue">{link}</Typography>
+            <Typography className="capitalize text-main-blue cursor-default">
+              {link}
+            </Typography>
           );
         }
       })}

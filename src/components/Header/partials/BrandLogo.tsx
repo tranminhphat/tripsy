@@ -15,7 +15,7 @@ const BrandLogo: React.FC<Props> = () => {
             width: 128,
             height: 128,
           }}
-          className="opacity-60 hover:opacity-100 hover:transform hover:scale-105 transition ease-in-out duration-500 bg-contain bg-no-repeat bg-center"
+          className="hover:transform hover:scale-105 transition ease-in-out duration-500 bg-contain bg-no-repeat bg-center"
         />
       </Link>
     </>

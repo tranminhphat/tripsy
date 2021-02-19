@@ -9,7 +9,7 @@ interface VerificationProps {
   open: boolean;
   userId: string;
   userEmail: string;
-  userFullName: string;
+  userFirstName: string;
   onModalClose: () => void;
 }
 
@@ -17,7 +17,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
   open,
   userId,
   userEmail,
-  userFullName,
+  userFirstName,
   onModalClose,
 }) => {
   return (
@@ -35,7 +35,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
           </h2>
           <div className="text-gray-400 mx-4">
             <p>
-              Cảm ơn <span className="text-main-blue">{userFullName}</span> !
+              Cảm ơn <span className="text-main-blue">{userFirstName}</span> !
               Chúng tôi đã gửi một thư xác nhận email
             </p>
             <p>
@@ -45,7 +45,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
           </div>
           <Button
             onClick={() => onModalClose()}
-            className="outline:none w-32 h-12 mt-8 outline:none bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
+            className="outline:none w-32 h-12 mt-8 outline:none bg-main-blue text-white"
           >
             Đồng ý
           </Button>

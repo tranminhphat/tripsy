@@ -37,7 +37,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
           </div>
           <Button
             onClick={() => onModalClose()}
-            className="outline-none w-32 h-12 mt-8 outline:none bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
+            className="outline-none w-32 h-12 mt-8 outline:none bg-main-blue text-white"
           >
             Đồng ý
           </Button>

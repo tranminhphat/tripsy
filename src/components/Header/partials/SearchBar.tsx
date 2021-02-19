@@ -24,7 +24,7 @@ const SearchBar: React.FC<Props> = () => {
         />
       </div>
       <div className="flex flex-col justify-center w-2/12 h-full">
-        <button className="focus:outline-none bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 w-full h-full rounded-2xl">
+        <button className="focus:outline-none bg-main-blue w-full h-full rounded-2xl">
           <SearchIcon className="text-white" />
           <span style={{ fontFamily: "Lora" }} className="text-white">
             Tìm kiếm

@@ -59,7 +59,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
   };
 
   return (
-    <div className="my-12 flex flex-col items-center justify-center w-96 md:w-1/2 bg-white shadow-lg rounded-2xl">
+    <div className="my-12 flex flex-col items-center justify-center w-96 md:w-1/2 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-4">
         <h1
           style={{ fontFamily: "Lora" }}
@@ -165,7 +165,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
             <div className="mt-4 w-7/12" />
             <div className="mt-8 w-4/12 md:col-span-2 h-12">
               <Button
-                className="outline:none w-full h-full bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
+                className="outline:none w-full h-full bg-main-blue text-white"
                 type="submit"
                 disabled={isLoading}
               >
@@ -188,7 +188,6 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
                 </a>
               </span>
             </div>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>

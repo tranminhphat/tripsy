@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { forgotPassword } from "api/auth";
-import LoginBackground from "assets/images/backgrounds/login-bg.jpg";
 import ForgotPasswordForm from "components/Authentication/Forms/ForgotPasswordForm";
 import ForgotPasswordModal from "components/Authentication/Modals/ForgotPasswordModal";
 import useErrorHandler from "hooks/useErrorHandler";
@@ -39,13 +38,7 @@ const ForgotPasswordPage: React.FC<Props> = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${LoginBackground})`,
-        boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
-      }}
-      className="flex justify-center h-screen bg-cover bg-no-repeat bg-center"
-    >
+    <div className="flex justify-center h-screen">
       <ForgotPasswordForm
         isLoading={isLoading}
         error={errorMessage}

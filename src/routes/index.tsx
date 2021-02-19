@@ -22,7 +22,12 @@ const routes: Entry[] = [
   { exact: true, path: "/register", component: RegisterPage },
   { exact: true, path: "/forgot-password", component: ForgotPasswordPage },
   { exact: true, path: "/reset-password/:token", component: ResetPasswordPage },
-  { exact: true, path: "/profile", component: ProfilePage, authRoute: true },
+  {
+    exact: true,
+    path: "/user/profile/:id",
+    component: ProfilePage,
+    authRoute: true,
+  },
 ];
 
 const AuthRoute = ({ component: Component, ...rest }) => (

@@ -1,19 +1,38 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { isLoggedIn, logout } from "api/auth";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
-import { clearUserData } from "redux/actions/user/userAction";
 import { showAlert } from "redux/actions/alert/alertAction";
+import { getUserById } from "api/user";
+import IUserResponse from "interfaces/users/user.interface";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = React.useState(null);
-  const { userData } = useSelector((state) => state.user);
+  const [userData, setUserData] = React.useState<IUserResponse>();
+  const userId = localStorage.getItem("userId");
+
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    fetchData(userId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchData = async (id) => {
+    const { data } = await getUserById(id);
+    try {
+      if (data) {
+        setUserData(data);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const userAvatar =
     userData === undefined ||
@@ -22,7 +41,7 @@ const UserOptions: React.FC = () => {
       ? SkeletonUserAvatar
       : userData.avatarUrl;
 
-  const userFirstName = userData !== undefined ? userData.firstName : "";
+  const userFirstName = userData ? userData.firstName : "";
 
   const handleClick = (event) => {
     setMenuEl(event.currentTarget);
@@ -36,7 +55,6 @@ const UserOptions: React.FC = () => {
     setMenuEl(null);
     const res = await logout();
     if (res.data) {
-      dispatch(clearUserData());
       dispatch(showAlert("success", "Đăng xuất thành công"));
     }
   };
@@ -74,10 +92,10 @@ const UserOptions: React.FC = () => {
           <Link to="/" onClick={handleClose}>
             <MenuItem>Xin chào, {userFirstName}</MenuItem>
           </Link>
-          <Link to="/profile">
-            <MenuItem>Thông tin cá nhân</MenuItem>
+          <Link to={`/user/profile/${userId}`}>
+            <MenuItem>Tài khoản</MenuItem>
           </Link>
-          <Link to="/" onClick={loggingOut}>
+          <Link to="/login" onClick={loggingOut}>
             <MenuItem>Đăng xuất</MenuItem>
           </Link>
         </Menu>

@@ -27,7 +27,7 @@ const validationSchema = yup.object({
 
 const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
-    <div className="my-12 flex flex-col items-center justify-center w-96 bg-white shadow-lg rounded-2xl">
+    <div className="my-12 flex flex-col items-center justify-center w-96 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-4">
         <h1
           style={{ fontFamily: "Lora" }}
@@ -74,7 +74,7 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button
-                className="outline:none w-full h-full focus:outline-none bg-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500 text-white"
+                className="outline:none w-full h-full focus:outline-none bg-main-blue text-white"
                 type="submit"
               >
                 Đăng nhập

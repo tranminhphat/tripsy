@@ -8,8 +8,10 @@ export const App: React.FC = () => {
   return (
     <div className="h-full w-full">
       <Header />
-      <div style={{ paddingTop: "96px" }}>
-        <AppRouter />
+      <div className="container mx-auto" style={{ paddingTop: "96px" }}>
+        <div className="pt-4 mx-10">
+          <AppRouter />
+        </div>
         <MyAlert />
       </div>
     </div>

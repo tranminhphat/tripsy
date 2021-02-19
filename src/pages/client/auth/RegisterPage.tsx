@@ -5,7 +5,6 @@ import { RouteComponentProps } from "react-router-dom";
 import { register } from "api/auth";
 import RegisterForm from "components/Authentication/Forms/RegisterForm";
 import EmailVerificationModal from "components/Authentication/Modals/EmailVerificationModal";
-import RegisterBackground from "assets/images/backgrounds/register-bg.jpg";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import IUserResponse from "interfaces/users/user.interface";
 import useErrorHandler from "hooks/useErrorHandler";
@@ -47,13 +46,7 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${RegisterBackground})`,
-        boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
-      }}
-      className="flex justify-center bg-cover bg-no-repeat bg-center"
-    >
+    <div className="flex justify-center">
       <RegisterForm
         error={errorMessage}
         isLoading={isLoading}
@@ -64,7 +57,7 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
         onModalClose={handleModalClose}
         userId={userData ? userData._id : ""}
         userEmail={userData ? userData.email : ""}
-        userFullName={userData ? userData.fullName : ""}
+        userFirstName={userData ? userData.firstName : ""}
       />
     </div>
   );
