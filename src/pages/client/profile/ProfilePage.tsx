@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import { getUserById, updateUserById } from "api/user";
+import { getUserById, updateUserById } from "api/users";
 import IUserResponse from "interfaces/users/user.interface";
 import { FileReaderResultType } from "types";
 

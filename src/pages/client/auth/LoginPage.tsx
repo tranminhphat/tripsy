@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
 import { login } from "api/auth";
-import { getUserById } from "api/user";
+import { getUserById } from "api/users";
 import LoginForm from "components/Authentication/Forms/LoginForm";
 import { showAlert } from "redux/actions/alert/alertAction";
 import ILoginForm from "interfaces/forms/login-form.interface";

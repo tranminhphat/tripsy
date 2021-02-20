@@ -1,9 +1,9 @@
 import axios from "./configureAxios";
 
 export const getUserById = (id: string) => {
-  return axios.get(`user/${id}`);
+  return axios.get(`users/${id}`);
 };
 
 export const updateUserById = (id: string, data) => {
-  return axios.put(`user/${id}`, data);
+  return axios.put(`users/${id}`, data);
 };

@@ -8,7 +8,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { isLoggedIn, logout } from "api/auth";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import { showAlert } from "redux/actions/alert/alertAction";
-import { getUserById } from "api/user";
+import { getUserById } from "api/users";
 import IUserResponse from "interfaces/users/user.interface";
 
 const UserOptions: React.FC = () => {
@@ -35,11 +35,7 @@ const UserOptions: React.FC = () => {
   };
 
   const userAvatar =
-    userData === undefined ||
-    Object.keys(userData).length === 0 ||
-    !userData.avatarUrl
-      ? SkeletonUserAvatar
-      : userData.avatarUrl;
+    userData && userData.avatarUrl ? userData.avatarUrl : SkeletonUserAvatar;
 
   const userFirstName = userData ? userData.firstName : "";
 
