@@ -24,7 +24,7 @@ const ResetPasswordPage: React.FC<Props> = ({ history }) => {
       }
     } catch (err) {
       if (err.response) {
-        setErrorMessage(err.response.data);
+        setErrorMessage(err.response.data.error);
         dispatch(showAlert("error", "Đổi mật khẩu thất bại"));
       }
     }

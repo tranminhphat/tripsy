@@ -29,15 +29,15 @@ const LoginPage: React.FC<Props> = ({ history }) => {
             dispatch(showAlert("success", "Đăng nhập thành công"));
           }
         } catch (err) {
-          if (err.response) {
-            setErrorMessage(err.response.data);
+          if (err.response.data) {
+            setErrorMessage(err.response.data.error);
           }
           dispatch(showAlert("error", "Đăng nhập thất bại"));
         }
       }
     } catch (err) {
-      if (err.response) {
-        setErrorMessage(err.response.data);
+      if (err.response.data) {
+        setErrorMessage(err.response.data.error);
       }
       dispatch(showAlert("error", "Đăng nhập thất bại"));
     }

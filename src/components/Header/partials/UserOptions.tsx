@@ -14,25 +14,30 @@ import IUserResponse from "interfaces/users/user.interface";
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = React.useState(null);
   const [userData, setUserData] = React.useState<IUserResponse>();
-  const userId = localStorage.getItem("userId");
+  let userId = isLoggedIn() ? localStorage.getItem("userId") : null;
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    console.log("call", userId);
     fetchData(userId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId]);
 
-  const fetchData = async (id) => {
-    const { data } = await getUserById(id);
-    try {
-      if (data) {
-        setUserData(data);
+  const fetchData = async (id: string | null) => {
+    if (id !== null) {
+      const { data } = await getUserById(id);
+      try {
+        if (data) {
+          setUserData(data);
+        }
+      } catch (e) {
+        console.error(e);
+        showAlert("error", "Đã xảy ra lỗi");
       }
-    } catch (e) {
-      console.error(e);
     }
   };
+
+  console.log(userData);
 
   const userAvatar =
     userData && userData.avatarUrl ? userData.avatarUrl : SkeletonUserAvatar;
@@ -50,8 +55,9 @@ const UserOptions: React.FC = () => {
   const loggingOut = async () => {
     setMenuEl(null);
     const res = await logout();
-    if (res.data) {
+    if (res) {
       dispatch(showAlert("success", "Đăng xuất thành công"));
+      localStorage.removeItem("userId");
     }
   };
 
@@ -88,7 +94,7 @@ const UserOptions: React.FC = () => {
           <Link to="/" onClick={handleClose}>
             <MenuItem>Xin chào, {userFirstName}</MenuItem>
           </Link>
-          <Link to={`/user/profile/${userId}`}>
+          <Link to={`/user/profile/${userData?._id}`}>
             <MenuItem>Tài khoản</MenuItem>
           </Link>
           <Link to="/login" onClick={loggingOut}>

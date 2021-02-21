@@ -72,9 +72,6 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
         </p>
       </div>
       <div className=" mt-4 w-80 h-px border border-solid border-main-blue" />
-      <div className="mt-4">
-        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
-      </div>
       <Formik
         initialValues={{
           firstName: "",
@@ -175,6 +172,9 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
                   <p>Đăng ký</p>
                 )}
               </Button>
+            </div>
+            <div className="mt-4 md:col-span-2">
+              {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
             </div>
             <div className="mt-4 md:col-span-2 mb-6">
               <span className="text-lg">

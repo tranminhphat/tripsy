@@ -40,9 +40,6 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
         </p>
       </div>
       <div className="mt-4 w-80 h-px border border-solid border-main-blue" />
-      <div className="mt-4">
-        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
-      </div>
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => {
@@ -79,6 +76,9 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
               >
                 Đăng nhập
               </Button>
+            </div>
+            <div className="mt-4">
+              {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
             </div>
             <div className="mt-4 mb-6">
               <a

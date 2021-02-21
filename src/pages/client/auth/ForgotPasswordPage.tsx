@@ -32,7 +32,7 @@ const ForgotPasswordPage: React.FC<Props> = () => {
     } catch (err) {
       setIsLoading(false);
       if (err.response) {
-        setErrorMessage(err.response.data);
+        setErrorMessage(err.response.data.error);
       }
     }
   };

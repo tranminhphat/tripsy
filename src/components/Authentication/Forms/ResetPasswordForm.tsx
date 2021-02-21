@@ -30,9 +30,6 @@ const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
         </h3>
       </div>
       <div className="mt-4 w-80 h-px border border-solid border-main-blue" />
-      <div className="mt-4">
-        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
-      </div>
       <Formik
         initialValues={{ password: "", confirmPassword: "" }}
         onSubmit={(values) => {
@@ -65,6 +62,9 @@ const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
               >
                 Đổi mật khẩu
               </Button>
+            </div>
+            <div className="mt-4 mb-6">
+              {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
             </div>
           </Form>
         )}

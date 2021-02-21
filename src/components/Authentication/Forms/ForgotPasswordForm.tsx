@@ -36,9 +36,6 @@ const ForgotPasswordForm: React.FC<Props> = ({
         </h3>
       </div>
       <div className="mt-4 w-80 h-px border border-solid border-main-blue" />
-      <div className="mt-4">
-        {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
-      </div>
       <Formik
         initialValues={{ email: "" }}
         onSubmit={(values) => onSubmit(values)}
@@ -61,6 +58,9 @@ const ForgotPasswordForm: React.FC<Props> = ({
                   <p>Tiếp tục</p>
                 )}
               </Button>
+            </div>
+            <div className="mt-4 mb-6">
+              {error !== "" ? <MyErrorMessage>{error}</MyErrorMessage> : ""}
             </div>
           </Form>
         )}

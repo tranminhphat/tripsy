@@ -39,7 +39,7 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
     } catch (err) {
       setIsLoading(false);
       if (err.response) {
-        setErrorMessage(err.response.data);
+        setErrorMessage(err.response.data.error);
         dispatch(showAlert("error", "Đăng ký thất bại"));
       }
     }
