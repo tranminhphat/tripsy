@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -9,40 +9,36 @@ import { isLoggedIn, logout } from "api/auth";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { getUserById } from "api/users";
-import IUserResponse from "interfaces/users/user.interface";
+import { setUserId } from "redux/actions/user/userAction";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = React.useState(null);
-  const [userData, setUserData] = React.useState<IUserResponse>();
-  let userId = isLoggedIn() ? localStorage.getItem("userId") : null;
-
+  const [userFirstName, setUserFirstName] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState(SkeletonUserAvatar);
+  const { userId } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    console.log("call", userId);
     fetchData(userId);
   }, [userId]);
 
   const fetchData = async (id: string | null) => {
-    if (id !== null) {
+    if (id) {
       const { data } = await getUserById(id);
       try {
         if (data) {
-          setUserData(data);
+          setUserFirstName(data.firstName);
+          setUserAvatar(data.avatarUrl);
         }
       } catch (e) {
         console.error(e);
         showAlert("error", "Đã xảy ra lỗi");
       }
+    } else {
+      setUserFirstName("");
+      setUserAvatar(SkeletonUserAvatar);
     }
   };
-
-  console.log(userData);
-
-  const userAvatar =
-    userData && userData.avatarUrl ? userData.avatarUrl : SkeletonUserAvatar;
-
-  const userFirstName = userData ? userData.firstName : "";
 
   const handleClick = (event) => {
     setMenuEl(event.currentTarget);
@@ -57,7 +53,7 @@ const UserOptions: React.FC = () => {
     const res = await logout();
     if (res) {
       dispatch(showAlert("success", "Đăng xuất thành công"));
-      localStorage.removeItem("userId");
+      dispatch(setUserId(null));
     }
   };
 
@@ -94,7 +90,7 @@ const UserOptions: React.FC = () => {
           <Link to="/" onClick={handleClose}>
             <MenuItem>Xin chào, {userFirstName}</MenuItem>
           </Link>
-          <Link to={`/user/profile/${userData?._id}`}>
+          <Link to={`/user/profile/${userId}`}>
             <MenuItem>Tài khoản</MenuItem>
           </Link>
           <Link to="/login" onClick={loggingOut}>

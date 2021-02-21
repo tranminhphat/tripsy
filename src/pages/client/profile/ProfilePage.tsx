@@ -17,8 +17,7 @@ const ProfilePage: React.FC<Props> = () => {
 
   React.useEffect(() => {
     fetchData(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
