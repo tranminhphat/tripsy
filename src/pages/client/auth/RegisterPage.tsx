@@ -16,7 +16,7 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = useErrorHandler();
-  const [userData, setUserData] = React.useState<IUserResponse>();
+  const [userResponse, setUserResponse] = React.useState<IUserResponse>();
   const dispatch = useDispatch();
 
   const handleModalOpen = () => {
@@ -30,10 +30,10 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
   const handleSubmit = async (values: IRegisterForm) => {
     try {
       setIsLoading(true);
-      const res = await register(values);
-      if (res.data) {
+      const { data } = await register(values);
+      if (data) {
         setIsLoading(false);
-        setUserData(res.data);
+        setUserResponse(data);
         handleModalOpen();
       }
     } catch (err) {
@@ -55,9 +55,9 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
       <EmailVerificationModal
         open={isOpen}
         onModalClose={handleModalClose}
-        userId={userData ? userData._id : ""}
-        userEmail={userData ? userData.email : ""}
-        userFirstName={userData ? userData.firstName : ""}
+        userId={userResponse ? userResponse._id : ""}
+        userEmail={userResponse ? userResponse.email! : ""}
+        userFirstName={userResponse ? userResponse.firstName! : ""}
       />
     </div>
   );
