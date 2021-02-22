@@ -5,6 +5,8 @@ import { FileReaderResultType } from "types";
 import { updateUserById } from "api/users";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import IUserResponse from "interfaces/users/user.interface";
+import Check from "@material-ui/icons/Check";
+import { Button, Typography } from "@material-ui/core";
 
 interface Props {
   userData: IUserResponse;
@@ -24,7 +26,12 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
   };
 
   const changeUserAvatar = async (fileReader) => {
-    await updateUserById(userData._id, { avatarUrl: fileReader });
+    const { data } = await updateUserById(userData._id, {
+      avatarUrl: fileReader,
+    });
+    if (data) {
+      window.location.reload();
+    }
   };
 
   const firstName = userData ? userData.firstName : "";
@@ -67,20 +74,34 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
       </div>
       <div>
         {fileReader ? (
-          <button onClick={() => changeUserAvatar(fileReader)}>Change</button>
+          <Button
+            className="bg-main-blue text-white mt-4"
+            onClick={() => changeUserAvatar(fileReader)}
+          >
+            Change
+          </Button>
         ) : (
           ""
         )}
       </div>
       <div className="my-4 w-full h-px border border-solid border-main-blue" />
       <div className="self-start">
-        <p className="text-lg font-bold text-main-blue">
+        <Typography className="text-lg font-bold text-main-blue">
           {firstName} đã xác thực:
-        </p>
+        </Typography>
         <ul>
-          {confirmedInformations.map((item) => {
+          {confirmedInformations.map((item, idx) => {
             if (item.isConfirmed) {
-              return <li>{item.name}</li>;
+              return (
+                <li key={idx}>
+                  <Typography>
+                    <span>
+                      <Check />
+                    </span>{" "}
+                    {item.name}
+                  </Typography>
+                </li>
+              );
             } else {
               return null;
             }

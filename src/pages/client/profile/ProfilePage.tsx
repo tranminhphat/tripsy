@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getUserById } from "api/users";
 import IUserResponse from "interfaces/users/user.interface";
 import UserOverview from "./partials/UserOverview";
-import UserProfile from "./partials/UserProfile";
+import UserInformation from "./partials/UserInformation/UserInformation";
 
 interface Props {}
 
@@ -27,7 +27,7 @@ const ProfilePage: React.FC<Props> = () => {
         <UserOverview userData={userData!} />
       </div>
       <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl md:col-span-2">
-        <UserProfile userData={userData!} />
+        <UserInformation userData={userData!} />
       </div>
     </div>
   );
