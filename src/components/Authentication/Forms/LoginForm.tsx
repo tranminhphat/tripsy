@@ -14,10 +14,10 @@ interface Props {
 }
 
 const validationSchema = yup.object({
-  email: yup
+  username: yup
     .string()
-    .required("Email là thông tin bắt buộc")
-    .email("Email không hợp lệ"),
+    .required("Username là thông tin bắt buộc")
+    .min(6, "Username phải có tối thiểu 6 ký tự"),
 
   password: yup
     .string()
@@ -41,7 +41,7 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
       </div>
       <div className="mt-4 w-80 h-px border border-solid border-main-blue" />
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ username: "", password: "" }}
         onSubmit={(values) => {
           onSubmit(values);
         }}
@@ -50,7 +50,11 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
         {() => (
           <Form className="mt-6 w-full flex flex-col items-center justify-center">
             <div className="mt-4 w-7/12">
-              <MyTextField className="w-full" name="email" label="Email" />
+              <MyTextField
+                className="w-full"
+                name="username"
+                label="Username"
+              />
             </div>
             <div className="mt-4 w-7/12">
               <MyTextField

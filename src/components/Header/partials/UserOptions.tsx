@@ -5,41 +5,34 @@ import { Button, Menu, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import { isLoggedIn, logout } from "api/auth";
+import Cookies from "js-cookie";
+import { logout } from "api/auth";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import { showAlert } from "redux/actions/alert/alertAction";
-import { getUserById } from "api/users";
+import { getCurrentUser } from "api/users";
+import IUserResponse from "interfaces/users/user.interface";
 import { setUserId } from "redux/actions/user/userAction";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = React.useState(null);
-  const [userFirstName, setUserFirstName] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState(SkeletonUserAvatar);
+  const [userData, setUserData] = React.useState<IUserResponse>();
   const { userId } = useSelector((state) => state.user);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    fetchData(userId);
-  }, [userId]);
-
-  const fetchData = async (id: string | null) => {
-    if (id) {
-      const { data } = await getUserById(id);
-      try {
-        if (data) {
-          setUserFirstName(data.firstName);
-          setUserAvatar(data.avatarUrl);
-        }
-      } catch (e) {
-        console.error(e);
-        showAlert("error", "Đã xảy ra lỗi");
-      }
+    if (Cookies.get("jwt") || userId) {
+      fetchData();
+      setIsLoggedIn(true);
     } else {
-      setUserFirstName("");
-      setUserAvatar(SkeletonUserAvatar);
+      setUserData(undefined);
     }
-  };
+  }, [isLoggedIn, userId]);
 
+  const fetchData = async () => {
+    const { data } = await getCurrentUser();
+    setUserData(data.user);
+  };
   const handleClick = (event) => {
     setMenuEl(event.currentTarget);
   };
@@ -54,6 +47,7 @@ const UserOptions: React.FC = () => {
     if (res) {
       dispatch(showAlert("success", "Đăng xuất thành công"));
       dispatch(setUserId(null));
+      setIsLoggedIn(false);
     }
   };
 
@@ -73,12 +67,16 @@ const UserOptions: React.FC = () => {
         <MenuIcon className="mr-1 ml-2" />
         <img
           className="ml-1 mr-2 rounded-full"
-          src={userAvatar}
+          src={
+            userData && userData.avatarUrl
+              ? userData.avatarUrl
+              : SkeletonUserAvatar
+          }
           style={{ width: "32px", height: "32px" }}
           alt="User not logged in"
         />
       </Button>
-      {isLoggedIn() ? (
+      {isLoggedIn ? (
         <Menu
           className="mt-14"
           id="simple-menu"
@@ -88,9 +86,9 @@ const UserOptions: React.FC = () => {
           onClose={handleClose}
         >
           <Link to="/" onClick={handleClose}>
-            <MenuItem>Xin chào, {userFirstName}</MenuItem>
+            <MenuItem>Xin chào, {userData ? userData.firstName : ""}</MenuItem>
           </Link>
-          <Link to={`/user/profile/${userId}`}>
+          <Link to={`/user/profile/${userData ? userData._id : ""}`}>
             <MenuItem>Tài khoản</MenuItem>
           </Link>
           <Link to="/login" onClick={loggingOut}>

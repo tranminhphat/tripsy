@@ -3,10 +3,6 @@ import axios from "./configureAxios";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 
-export const getCurrentUser = () => {
-  return axios.get("/me");
-};
-
 export const isLoggedIn = (): boolean => {
   return Cookies.get("jwt") !== undefined;
 };
