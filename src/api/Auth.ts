@@ -1,11 +1,6 @@
-import Cookies from "js-cookie";
 import axios from "./configureAxios";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import IRegisterForm from "interfaces/forms/register-form.interface";
-
-export const isLoggedIn = (): boolean => {
-  return Cookies.get("jwt") !== undefined;
-};
 
 export const login = (loginFormValues: ILoginForm) => {
   return axios.post(`/auth/login`, loginFormValues);

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import Cookies from "js-cookie";
 
-import { isLoggedIn } from "api/auth";
 import HomePage from "pages/client/HomePage";
 import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
@@ -29,6 +29,10 @@ const routes: Entry[] = [
     authRoute: true,
   },
 ];
+
+const isLoggedIn = () => {
+  return Cookies.get("jwt") !== undefined;
+};
 
 const AuthRoute = ({ component: Component, ...rest }) => (
   <Route

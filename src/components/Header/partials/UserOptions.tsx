@@ -5,29 +5,25 @@ import { Button, Menu, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import Cookies from "js-cookie";
 import { logout } from "api/auth";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { getCurrentUser } from "api/users";
 import IUserResponse from "interfaces/users/user.interface";
-import { setUserId } from "redux/actions/user/userAction";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = React.useState(null);
   const [userData, setUserData] = React.useState<IUserResponse>();
-  const { userId } = useSelector((state) => state.user);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const { isLoggedIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (Cookies.get("jwt") || userId) {
+    if (isLoggedIn) {
       fetchData();
-      setIsLoggedIn(true);
     } else {
       setUserData(undefined);
     }
-  }, [isLoggedIn, userId]);
+  }, [isLoggedIn]);
 
   const fetchData = async () => {
     const { data } = await getCurrentUser();
@@ -46,8 +42,6 @@ const UserOptions: React.FC = () => {
     const res = await logout();
     if (res) {
       dispatch(showAlert("success", "Đăng xuất thành công"));
-      dispatch(setUserId(null));
-      setIsLoggedIn(false);
     }
   };
 

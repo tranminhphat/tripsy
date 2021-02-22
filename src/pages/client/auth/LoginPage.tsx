@@ -8,7 +8,6 @@ import LoginForm from "components/Authentication/Forms/LoginForm";
 import { showAlert } from "redux/actions/alert/alertAction";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import useErrorHandler from "hooks/useErrorHandler";
-import { setUserId } from "redux/actions/user/userAction";
 
 interface Props extends RouteComponentProps {}
 
@@ -26,7 +25,6 @@ const LoginPage: React.FC<Props> = ({ history }) => {
             dispatch(showAlert("error", "Email của bạn chưa được xác nhận"));
           } else {
             history.push("/");
-            dispatch(setUserId(data.userId));
             dispatch(showAlert("success", "Đăng nhập thành công"));
           }
         } catch (err) {
