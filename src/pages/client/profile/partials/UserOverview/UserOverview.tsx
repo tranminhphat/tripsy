@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Button, Tooltip, Typography } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import SettingIcon from "@material-ui/icons/Settings";
 import CreateIcon from "@material-ui/icons/Create";
@@ -19,21 +20,41 @@ import DisplayedInformation from "./DisplayedInformation";
 import ConfirmedInformation from "./ConfirmedInformation";
 import DisplayedInformationForm from "./DisplayedInformationForm";
 import UpdateInformationForm from "./UpdateInformationForm";
+import ChangePasswordForm from "./ChangePasswordForm";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   userData: IUserResponse;
 }
 
 const UserOverview: React.FC<Props> = ({ userData }) => {
+  const dispatch = useDispatch();
+
+  /* Store user updated avatar file */
   const [fileInputState] = React.useState("");
+
+  /* Store base64 string of the avatar file  */
+  const [fileReader, setFileReader] = React.useState<FileReaderResultType>();
+
+  /* Check if user is configuring the displayed informations */
   const [
     isConfiguaringUserDisplayedData,
     setIsConfiguaringUserDisplayedData,
   ] = React.useState(false);
+
+  /* Check if user is updating informations */
   const [isUpdatingUserData, setIsUpdatingUserData] = React.useState(false);
+
+  /* Check if user is updating password */
+
+  const [isUpdatingUserPassword, setIsUpdatingUserPassword] = React.useState(
+    false
+  );
+
+  /* Store the fields will be displayed on UserOview component */
   const [
-    displayedInformationField,
-    setDisplayedInformationField,
+    displayedField,
+    setDisplayedField,
   ] = React.useState<IDisplayedUserData>({
     email: true,
     gender: true,
@@ -42,6 +63,17 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
     address: true,
   });
 
+  /* Store the displayed data of user */
+
+  const [displayedData, setDisplayedData] = React.useState<IUserResponse>({
+    email: userData.email,
+    gender: userData.gender,
+    phoneNumber: userData.phoneNumber,
+    dateOfBirth: userData.dateOfBirth,
+    address: userData.address,
+  });
+
+  /* Store the updated information field */
   const [
     updateUserInformationField,
     setUpdateUserInformationField,
@@ -50,22 +82,6 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
     phoneNumber: userData.phoneNumber,
     address: userData.address,
   });
-
-  const [fileReader, setFileReader] = React.useState<FileReaderResultType>();
-
-  const handleSetDisplayedInformation = (values: IDisplayedUserData) => {
-    setDisplayedInformationField(values);
-    setIsConfiguaringUserDisplayedData(false);
-  };
-
-  const handleUpdateUserInformation = async (values: IUpdateUserData) => {
-    const { data } = await updateUserById(userData._id, values);
-    if (data) {
-      setIsUpdatingUserData(false);
-      setUpdateUserInformationField(values);
-      window.location.reload();
-    }
-  };
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -77,11 +93,62 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
   };
 
   const changeUserAvatar = async (fileReader) => {
-    const { data } = await updateUserById(userData._id, {
+    const { data } = await updateUserById(userData._id!, {
       avatarUrl: fileReader,
     });
     if (data) {
       window.location.reload();
+    }
+  };
+
+  const toggleOptionTab = (tabName?: string) => {
+    switch (tabName) {
+      case "password": {
+        setIsUpdatingUserData(false);
+        setIsConfiguaringUserDisplayedData(false);
+        setIsUpdatingUserPassword(!isUpdatingUserPassword);
+        break;
+      }
+      case "userData": {
+        setIsUpdatingUserPassword(false);
+        setIsConfiguaringUserDisplayedData(false);
+        setIsUpdatingUserData(!isUpdatingUserData);
+        break;
+      }
+      case "displayedData": {
+        setIsUpdatingUserData(false);
+        setIsUpdatingUserPassword(false);
+        setIsConfiguaringUserDisplayedData(!isConfiguaringUserDisplayedData);
+        break;
+      }
+      default:
+        setIsUpdatingUserData(false);
+        setIsUpdatingUserPassword(false);
+        setIsConfiguaringUserDisplayedData(false);
+        break;
+    }
+  };
+
+  const handleSetDisplayedInformation = (values: IDisplayedUserData) => {
+    setDisplayedField(values);
+    dispatch(showAlert("success", "Cập nhật thành công"));
+  };
+
+  const handleUpdateUserInformation = async (values: IUpdateUserData) => {
+    const { data } = await updateUserById(userData._id!, values);
+    if (data) {
+      setUpdateUserInformationField(values);
+      setDisplayedData({ ...displayedData, ...values });
+      dispatch(showAlert("success", "Cập nhật thành công"));
+    }
+  };
+
+  const handleChangePassword = async (values) => {
+    const { data } = await updateUserById(userData._id!, {
+      password: values.newPassword,
+    });
+    if (data) {
+      dispatch(showAlert("success", "Cập nhật thành công"));
     }
   };
 
@@ -139,57 +206,42 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
           <div className="flex">
             <div className="cursor-pointer">
               <Tooltip title="Đổi mật khẩu">
-                <KeyIcon />
+                <KeyIcon onClick={() => toggleOptionTab("password")} />
               </Tooltip>
             </div>
             <div className="cursor-pointer ml-1">
               <Tooltip title="Cập nhật thông tin của bạn">
-                <CreateIcon
-                  onClick={() => {
-                    if (isConfiguaringUserDisplayedData) {
-                      setIsConfiguaringUserDisplayedData(false);
-                      setIsUpdatingUserData(!isUpdatingUserData);
-                    } else {
-                      setIsUpdatingUserData(!isUpdatingUserData);
-                    }
-                  }}
-                />
+                <CreateIcon onClick={() => toggleOptionTab("userData")} />
               </Tooltip>
             </div>
             <div className="cursor-pointer ml-1">
               <Tooltip title="Thay đổi thông tin được hiển thị">
-                <SettingIcon
-                  onClick={() => {
-                    if (isUpdatingUserData) {
-                      setIsUpdatingUserData(false);
-                      setIsConfiguaringUserDisplayedData(
-                        !isConfiguaringUserDisplayedData
-                      );
-                    } else {
-                      setIsConfiguaringUserDisplayedData(
-                        !isConfiguaringUserDisplayedData
-                      );
-                    }
-                  }}
-                />
+                <SettingIcon onClick={() => toggleOptionTab("displayedData")} />
               </Tooltip>
             </div>
           </div>
         </div>
         {isConfiguaringUserDisplayedData ? (
           <DisplayedInformationForm
-            initialValues={displayedInformationField}
+            initialValues={displayedField}
             onSubmit={(values) => handleSetDisplayedInformation(values)}
+            onDone={() => toggleOptionTab()}
+          />
+        ) : isUpdatingUserPassword ? (
+          <ChangePasswordForm
+            onSubmit={(values) => handleChangePassword(values)}
+            onDone={() => toggleOptionTab()}
           />
         ) : isUpdatingUserData ? (
           <UpdateInformationForm
             initialValues={updateUserInformationField}
             onSubmit={(values) => handleUpdateUserInformation(values)}
+            onDone={() => toggleOptionTab()}
           />
         ) : (
           <DisplayedInformation
-            displayedUserData={displayedInformationField}
-            userData={userData}
+            displayedField={displayedField}
+            displayedData={displayedData}
           />
         )}
       </div>

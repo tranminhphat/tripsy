@@ -13,49 +13,49 @@ import {
 } from "interfaces/users/user.interface";
 
 interface Props {
-  displayedUserData: IDisplayedUserData;
-  userData: IUserResponse;
+  displayedField: IDisplayedUserData;
+  displayedData: IUserResponse;
 }
 
 const DisplayedInformation: React.FC<Props> = ({
-  userData,
-  displayedUserData,
+  displayedData,
+  displayedField,
 }) => {
   const displayedFields = [
     {
       name: "email",
       title: "Email",
       icon: <EmailIcon />,
-      isDisplayed: displayedUserData.email && userData.email,
-      value: userData.email,
+      isDisplayed: displayedField.email && displayedData.email,
+      value: displayedData.email,
     },
     {
       name: "phoneNumber",
       title: "Số điện thoại",
       icon: <PhoneIcon />,
-      isDisplayed: displayedUserData.phoneNumber && userData.phoneNumber,
-      value: userData.phoneNumber,
+      isDisplayed: displayedField.phoneNumber && displayedData.phoneNumber,
+      value: displayedData.phoneNumber,
     },
     {
       name: "gender",
       title: "Giới tính",
       icon: <GenderIcon />,
-      isDisplayed: displayedUserData.gender && userData.gender,
-      value: userData.gender === "male" ? "Nam" : "Nữ",
+      isDisplayed: displayedField.gender && displayedData.gender,
+      value: displayedData.gender === "male" ? "Nam" : "Nữ",
     },
     {
       name: "dateOfBirth",
       title: "Ngày sinh",
       icon: <CakeIcon />,
-      isDisplayed: displayedUserData.dateOfBirth && userData.dateOfBirth,
-      value: userData.dateOfBirth?.slice(0, 10),
+      isDisplayed: displayedField.dateOfBirth && displayedData.dateOfBirth,
+      value: displayedData.dateOfBirth?.slice(0, 10),
     },
     {
       name: "address",
       title: "Địa chỉ",
       icon: <LocationIcon />,
-      isDisplayed: displayedUserData.address && userData.address,
-      value: userData.address,
+      isDisplayed: displayedField.address && displayedData.address,
+      value: displayedData.address,
     },
   ];
   return (

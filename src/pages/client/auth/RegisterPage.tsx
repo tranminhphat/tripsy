@@ -55,7 +55,7 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
       <EmailVerificationModal
         open={isOpen}
         onModalClose={handleModalClose}
-        userId={userResponse ? userResponse._id : ""}
+        userId={userResponse ? userResponse._id! : ""}
         userEmail={userResponse ? userResponse.email! : ""}
         userFirstName={userResponse ? userResponse.firstName! : ""}
       />

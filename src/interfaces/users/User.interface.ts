@@ -1,5 +1,5 @@
 export interface IUserResponse {
-  _id: string;
+  _id?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -25,5 +25,4 @@ export interface IUpdateUserData {
   gender?: string;
   phoneNumber?: string;
   address?: string;
-  password?: string;
 }

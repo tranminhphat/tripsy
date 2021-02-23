@@ -7,11 +7,13 @@ import { IDisplayedUserData } from "interfaces/users/user.interface";
 interface Props {
   initialValues: IDisplayedUserData;
   onSubmit: (values: IDisplayedUserData) => void;
+  onDone: () => void;
 }
 
 const DisplayedInformationForm: React.FC<Props> = ({
   initialValues,
   onSubmit,
+  onDone,
 }) => {
   return (
     <div>
@@ -48,7 +50,15 @@ const DisplayedInformationForm: React.FC<Props> = ({
             </div>
             <div className="self-center">
               <Button type="submit" className="bg-main-blue text-white">
-                Xác nhận
+                Cập nhật
+              </Button>
+              <Button
+                onClick={() => onDone()}
+                className="ml-3"
+                color="secondary"
+                variant="contained"
+              >
+                Xong
               </Button>
             </div>
           </Form>

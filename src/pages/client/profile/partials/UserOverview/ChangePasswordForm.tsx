@@ -1,61 +1,54 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import { Formik, Form } from "formik";
-import { IUpdateUserData } from "interfaces/users/user.interface";
-import MyRadioButton from "components/Shared/MyRadioButton";
+import * as yup from "yup";
 import MyTextField from "components/Shared/MyTextField";
 
 interface Props {
-  initialValues: IUpdateUserData;
-  onSubmit: (values: IUpdateUserData) => void;
+  onSubmit: (values) => void;
   onDone: () => void;
 }
 
-const UpdateInformationForm: React.FC<Props> = ({
-  initialValues,
-  onSubmit,
-  onDone,
-}) => {
+const validationSchema = yup.object({
+  newPassword: yup.string().required("Mật khẩu là thông tin bắt buộc "),
+  confirmPassword: yup
+    .string()
+    .oneOf(
+      [yup.ref("newPassword"), null],
+      "Mật khẩu xác nhận không trùng khớp "
+    ),
+});
+
+const ChangePasswordForm: React.FC<Props> = ({ onSubmit, onDone }) => {
   return (
     <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        }}
         onSubmit={(values) => {
           onSubmit(values);
         }}
+        validationSchema={validationSchema}
       >
         {() => (
           <Form className="flex flex-col">
             <div>
-              <label className="text-xs mb-4 uppercase text-gray-400">
-                Giới tính
-              </label>
-              <div>
-                <MyRadioButton
-                  name="gender"
-                  type="radio"
-                  value="male"
-                  label="Nam"
-                />
-                <MyRadioButton
-                  name="gender"
-                  type="radio"
-                  value="female"
-                  label="Nữ"
-                />
-              </div>
               <div>
                 <MyTextField
-                  label="Số điện thoại"
-                  type="tel"
-                  name="phoneNumber"
+                  label="Mật khẩu mới"
+                  type="password"
+                  name="newPassword"
                   className="w-full"
                 />
               </div>
               <div>
                 <MyTextField
-                  label="Địa chỉ"
-                  name="address"
+                  label="Xác nhận mật khẩu"
+                  type="password"
+                  name="confirmPassword"
                   className="w-full"
                 />
               </div>
@@ -80,4 +73,4 @@ const UpdateInformationForm: React.FC<Props> = ({
   );
 };
 
-export default UpdateInformationForm;
+export default ChangePasswordForm;
