@@ -10,8 +10,8 @@ interface Props {
 const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
   return (
     <ul>
-      {userData && userData.isVerified ? (
-        <li key="email">
+      {userData.isVerified ? (
+        <li className="mt-3" key="email">
           <Typography>
             <span>
               <Check />
@@ -20,8 +20,8 @@ const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
           </Typography>
         </li>
       ) : null}
-      {userData && userData.phoneNumber ? (
-        <li key="phoneNumber">
+      {userData.phoneNumber ? (
+        <li className="mt-3" key="phoneNumber">
           <Typography>
             <span>
               <Check />

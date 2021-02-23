@@ -20,3 +20,10 @@ export interface IDisplayedUserData {
   dateOfBirth: boolean;
   address: boolean;
 }
+
+export interface IUpdateUserData {
+  gender?: string;
+  phoneNumber?: string;
+  address?: string;
+  password?: string;
+}
