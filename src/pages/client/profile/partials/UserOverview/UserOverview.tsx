@@ -38,8 +38,8 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
 
   /* Check if user is configuring the displayed informations */
   const [
-    isConfiguaringUserDisplayedData,
-    setIsConfiguaringUserDisplayedData,
+    isUpdatingDisplayedField,
+    setIsUpdatingDisplayedField,
   ] = React.useState(false);
 
   /* Check if user is updating informations */
@@ -73,10 +73,10 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
     address: userData.address,
   });
 
-  /* Store the updated information field */
+  /* Store the updated information of user */
   const [
-    updateUserInformationField,
-    setUpdateUserInformationField,
+    updatedInformation,
+    setUpdatedInformation,
   ] = React.useState<IUpdateUserData>({
     gender: userData.gender,
     phoneNumber: userData.phoneNumber,
@@ -105,39 +105,39 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
     switch (tabName) {
       case "password": {
         setIsUpdatingUserData(false);
-        setIsConfiguaringUserDisplayedData(false);
+        setIsUpdatingDisplayedField(false);
         setIsUpdatingUserPassword(!isUpdatingUserPassword);
         break;
       }
       case "userData": {
         setIsUpdatingUserPassword(false);
-        setIsConfiguaringUserDisplayedData(false);
+        setIsUpdatingDisplayedField(false);
         setIsUpdatingUserData(!isUpdatingUserData);
         break;
       }
       case "displayedData": {
         setIsUpdatingUserData(false);
         setIsUpdatingUserPassword(false);
-        setIsConfiguaringUserDisplayedData(!isConfiguaringUserDisplayedData);
+        setIsUpdatingDisplayedField(!isUpdatingDisplayedField);
         break;
       }
       default:
         setIsUpdatingUserData(false);
         setIsUpdatingUserPassword(false);
-        setIsConfiguaringUserDisplayedData(false);
+        setIsUpdatingDisplayedField(false);
         break;
     }
   };
 
-  const handleSetDisplayedInformation = (values: IDisplayedUserData) => {
+  const handleUpdateDisplayedField = (values: IDisplayedUserData) => {
     setDisplayedField(values);
     dispatch(showAlert("success", "Cập nhật thành công"));
   };
 
-  const handleUpdateUserInformation = async (values: IUpdateUserData) => {
+  const handleUpdatedInformation = async (values: IUpdateUserData) => {
     const { data } = await updateUserById(userData._id!, values);
     if (data) {
-      setUpdateUserInformationField(values);
+      setUpdatedInformation(values);
       setDisplayedData({ ...displayedData, ...values });
       dispatch(showAlert("success", "Cập nhật thành công"));
     }
@@ -221,10 +221,10 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
             </div>
           </div>
         </div>
-        {isConfiguaringUserDisplayedData ? (
+        {isUpdatingDisplayedField ? (
           <DisplayedInformationForm
             initialValues={displayedField}
-            onSubmit={(values) => handleSetDisplayedInformation(values)}
+            onSubmit={(values) => handleUpdateDisplayedField(values)}
             onDone={() => toggleOptionTab()}
           />
         ) : isUpdatingUserPassword ? (
@@ -234,8 +234,8 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
           />
         ) : isUpdatingUserData ? (
           <UpdateInformationForm
-            initialValues={updateUserInformationField}
-            onSubmit={(values) => handleUpdateUserInformation(values)}
+            initialValues={updatedInformation}
+            onSubmit={(values) => handleUpdatedInformation(values)}
             onDone={() => toggleOptionTab()}
           />
         ) : (
