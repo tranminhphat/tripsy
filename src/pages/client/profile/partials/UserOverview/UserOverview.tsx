@@ -1,12 +1,20 @@
 import * as React from "react";
-
+import { Button, Tooltip, Typography } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import SettingIcon from "@material-ui/icons/Settings";
+
 import { FileReaderResultType } from "types";
 import { updateUserById } from "api/users";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
-import IUserResponse from "interfaces/users/user.interface";
-import Check from "@material-ui/icons/Check";
-import { Button, Typography } from "@material-ui/core";
+
+import {
+  IDisplayedUserData,
+  IUserResponse,
+} from "interfaces/users/user.interface";
+
+import DisplayedInformation from "./DisplayedInformation";
+import ConfirmedInformation from "./ConfirmedInformation";
+import DisplayedInformationForm from "./DisplayedInformationForm";
 
 interface Props {
   userData: IUserResponse;
@@ -14,7 +22,25 @@ interface Props {
 
 const UserOverview: React.FC<Props> = ({ userData }) => {
   const [fileInputState] = React.useState("");
+  const [isConfiguaredMetadata, setIsConfiguaredMetadata] = React.useState(
+    false
+  );
+  const [
+    displayedInformationField,
+    setDisplayedInformationField,
+  ] = React.useState<IDisplayedUserData>({
+    email: true,
+    gender: true,
+    phoneNumber: true,
+    dateOfBirth: true,
+    address: true,
+  });
   const [fileReader, setFileReader] = React.useState<FileReaderResultType>();
+
+  const handleSetDisplayedInformation = (values: IDisplayedUserData) => {
+    setDisplayedInformationField(values);
+    setIsConfiguaredMetadata(false);
+  };
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -37,16 +63,6 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
   const firstName = userData ? userData.firstName : "";
   const userAvatar =
     !userData || !userData.avatarUrl ? SkeletonUserAvatar : userData.avatarUrl;
-  const confirmedInformations = [
-    {
-      name: "Địa chỉ email",
-      isConfirmed: userData ? userData.email : false,
-    },
-    {
-      name: "Số điện thoại",
-      isConfirmed: userData ? userData.phoneNumber : false,
-    },
-  ];
 
   return (
     <div className="flex flex-col items-center justify-center p-8">
@@ -85,28 +101,37 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
         )}
       </div>
       <div className="my-4 w-full h-px border border-solid border-main-blue" />
-      <div className="self-start">
+      <div className="self-start w-full">
         <Typography className="text-lg font-bold text-main-blue">
           {firstName} đã xác thực:
         </Typography>
-        <ul>
-          {confirmedInformations.map((item, idx) => {
-            if (item.isConfirmed) {
-              return (
-                <li key={idx}>
-                  <Typography>
-                    <span>
-                      <Check />
-                    </span>{" "}
-                    {item.name}
-                  </Typography>
-                </li>
-              );
-            } else {
-              return null;
-            }
-          })}
-        </ul>
+        <ConfirmedInformation userData={userData!} />
+      </div>
+      <div className="my-4 w-full h-px border border-solid border-main-blue" />
+      <div className="self-start w-full">
+        <div className="flex justify-between">
+          <Typography className="text-lg font-bold text-main-blue">
+            Thông tin về {firstName}:
+          </Typography>
+          <div className="cursor-pointer">
+            <Tooltip title="Thay đổi thông tin được hiển thị">
+              <SettingIcon
+                onClick={() => setIsConfiguaredMetadata(!isConfiguaredMetadata)}
+              />
+            </Tooltip>
+          </div>
+        </div>
+        {!isConfiguaredMetadata ? (
+          <DisplayedInformation
+            displayedUserData={displayedInformationField!}
+            userData={userData!}
+          />
+        ) : (
+          <DisplayedInformationForm
+            initialValues={displayedInformationField}
+            onSubmit={(values) => handleSetDisplayedInformation(values)}
+          />
+        )}
       </div>
     </div>
   );

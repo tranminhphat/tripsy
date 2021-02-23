@@ -2,8 +2,8 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 
 import { getUserById } from "api/users";
-import IUserResponse from "interfaces/users/user.interface";
-import UserOverview from "./partials/UserOverview";
+import { IUserResponse } from "interfaces/users/user.interface";
+import UserOverview from "./partials/UserOverview/UserOverview";
 import UserInformation from "./partials/UserInformation/UserInformation";
 
 interface Props {}

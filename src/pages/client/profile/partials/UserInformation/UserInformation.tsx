@@ -1,4 +1,4 @@
-import IUserResponse from "interfaces/users/user.interface";
+import { IUserResponse } from "interfaces/users/user.interface";
 import * as React from "react";
 
 import Paper from "@material-ui/core/Paper";

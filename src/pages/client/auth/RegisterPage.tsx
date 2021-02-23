@@ -6,7 +6,7 @@ import { register } from "api/auth";
 import RegisterForm from "components/Authentication/Forms/RegisterForm";
 import EmailVerificationModal from "components/Authentication/Modals/EmailVerificationModal";
 import IRegisterForm from "interfaces/forms/register-form.interface";
-import IUserResponse from "interfaces/users/user.interface";
+import { IUserResponse } from "interfaces/users/user.interface";
 import useErrorHandler from "hooks/useErrorHandler";
 import { showAlert } from "redux/actions/alert/alertAction";
 

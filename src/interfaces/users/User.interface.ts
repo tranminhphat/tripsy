@@ -1,4 +1,4 @@
-interface IUserResponse {
+export interface IUserResponse {
   _id: string;
   firstName?: string;
   lastName?: string;
@@ -13,4 +13,10 @@ interface IUserResponse {
   isVerified?: boolean;
 }
 
-export default IUserResponse;
+export interface IDisplayedUserData {
+  email: boolean;
+  gender: boolean;
+  phoneNumber: boolean;
+  dateOfBirth: boolean;
+  address: boolean;
+}

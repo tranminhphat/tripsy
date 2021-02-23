@@ -9,14 +9,14 @@ import { logout } from "api/auth";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import { showAlert } from "redux/actions/alert/alertAction";
 import { getCurrentUser } from "api/users";
-import IUserResponse from "interfaces/users/user.interface";
+import { IUserResponse } from "interfaces/users/user.interface";
+import { setAuth } from "redux/actions/auth/authAction";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = React.useState(null);
   const [userData, setUserData] = React.useState<IUserResponse>();
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
   React.useEffect(() => {
     if (isLoggedIn) {
       fetchData();
@@ -42,6 +42,7 @@ const UserOptions: React.FC = () => {
     const res = await logout();
     if (res) {
       dispatch(showAlert("success", "Đăng xuất thành công"));
+      dispatch(setAuth());
     }
   };
 

@@ -8,6 +8,7 @@ import LoginForm from "components/Authentication/Forms/LoginForm";
 import { showAlert } from "redux/actions/alert/alertAction";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import useErrorHandler from "hooks/useErrorHandler";
+import { setAuth } from "redux/actions/auth/authAction";
 
 interface Props extends RouteComponentProps {}
 
@@ -24,8 +25,9 @@ const LoginPage: React.FC<Props> = ({ history }) => {
           if (!userData.data.isVerified) {
             dispatch(showAlert("error", "Email của bạn chưa được xác nhận"));
           } else {
-            history.push("/");
+            dispatch(setAuth());
             dispatch(showAlert("success", "Đăng nhập thành công"));
+            history.push("/");
           }
         } catch (err) {
           if (err.response.data) {

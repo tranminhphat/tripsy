@@ -1,5 +1,5 @@
 import Typography from "@material-ui/core/Typography";
-import IUserResponse from "interfaces/users/user.interface";
+import { IUserResponse } from "interfaces/users/user.interface";
 import * as React from "react";
 
 interface Props {
