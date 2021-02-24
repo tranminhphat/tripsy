@@ -1,11 +1,22 @@
-import { Button, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Typography } from "@material-ui/core";
 import { createExperience, getExperiences } from "api/experiences";
 import { getCurrentUser } from "api/users";
 import * as React from "react";
 
 interface Props {}
 
+interface Experience {
+  _id: string;
+  hostId: string;
+  title: string;
+  createAt: string;
+  updateAt: string;
+  _v: string;
+}
+
 const ExperiencePage: React.FC<Props> = () => {
+  const [experiences, setExperiences] = React.useState<Experience[]>();
+
   React.useEffect(() => {
     fetchData();
   }, []);
@@ -18,7 +29,7 @@ const ExperiencePage: React.FC<Props> = () => {
       hostId: user._id,
     });
 
-    console.log(data);
+    setExperiences(data);
   };
 
   const handleCreateExperience = async () => {
@@ -44,6 +55,17 @@ const ExperiencePage: React.FC<Props> = () => {
           Tạo hoạt động mới
         </Button>
       </div>
+      {!experiences ? (
+        <CircularProgress />
+      ) : (
+        <div>
+          {experiences.length !== 0 ? (
+            experiences.map((item, idx) => <div key={idx}>{item.title}</div>)
+          ) : (
+            <div>Bạn chưa tổ chức trải nghiệm nào </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
