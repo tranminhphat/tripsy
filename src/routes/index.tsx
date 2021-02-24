@@ -2,12 +2,13 @@ import * as React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import HomePage from "pages/client/HomePage";
+import HomePage from "pages/client/home/HomePage";
 import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
 import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
 import ProfilePage from "pages/client/profile/ProfilePage";
+import ExperiencePage from "pages/client/experience/ExperiencePage";
 
 interface Entry {
   exact?: boolean;
@@ -26,6 +27,12 @@ const routes: Entry[] = [
     exact: true,
     path: "/user/profile/:id",
     component: ProfilePage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/user/experience-hosting",
+    component: ExperiencePage,
     authRoute: true,
   },
 ];

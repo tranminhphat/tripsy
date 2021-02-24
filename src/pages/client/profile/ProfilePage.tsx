@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 
 import { getUserById } from "api/users";
 import { IUserResponse } from "interfaces/users/user.interface";
-import UserOverview from "./partials/UserOverview/UserOverview";
-import UserInformation from "./partials/UserInformation/UserInformation";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
+/* Partials */
+import UserOverview from "./UserOverview/UserOverview";
+import UserInformation from "./UserInformation/UserInformation";
 
 interface Props {}
 

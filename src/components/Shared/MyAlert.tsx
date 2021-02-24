@@ -2,7 +2,6 @@ import * as React from "react";
 import { Snackbar } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-
 import { closeAlert } from "redux/actions/alert/alertAction";
 
 const Alert = (props: AlertProps) => {

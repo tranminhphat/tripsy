@@ -1,7 +1,11 @@
 import axios from "./configureAxios";
 
-export const getCurrentUser = () => {
-  return axios.get("/users/me");
+export const getCurrentUser = (fields?: string) => {
+  if (fields) {
+    return axios.get(`/users/me?fields=${fields}`);
+  } else {
+    return axios.get(`/users/me`);
+  }
 };
 
 export const getUserById = (id: string) => {
