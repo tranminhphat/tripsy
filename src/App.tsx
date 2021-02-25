@@ -9,7 +9,7 @@ export const App: React.FC = () => {
     <div className="h-full w-full">
       <Header />
       <div className="container mx-auto" style={{ paddingTop: "96px" }}>
-        <div className="my-16 mx-10">
+        <div className="my-16">
           <AppRouter />
         </div>
         <MyAlert />

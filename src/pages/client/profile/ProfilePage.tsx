@@ -28,22 +28,22 @@ const ProfilePage: React.FC<Props> = () => {
 
   if (userData) {
     return (
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl">
           <UserOverview userData={userData} />
         </div>
-        <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl md:col-span-2">
+        <div className="bg-white border border-gray-200  rounded-2xl md:col-span-3">
           <UserInformation userData={userData!} />
         </div>
       </div>
     );
   } else {
     return (
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="p-8 flex items-center justify-center bg-white border border-gray-200 shadow-2xl rounded-2xl">
           <CircularProgress />
         </div>
-        <div className="p-8 flex items-center justify-center bg-white border border-gray-200 shadow-2xl rounded-2xl">
+        <div className="p-8 flex items-center justify-center bg-white border border-gray-200 rounded-2xl">
           <CircularProgress />
         </div>
       </div>

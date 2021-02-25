@@ -1,16 +1,95 @@
-import Typography from "@material-ui/core/Typography";
-import { IUserResponse } from "interfaces/users/user.interface";
 import * as React from "react";
+import { useDispatch } from "react-redux";
+import { Button } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import { updateUserById } from "api/users";
+import { Formik, Form, Field } from "formik";
+import { IUserResponse } from "interfaces/users/user.interface";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   userData: IUserResponse;
 }
 
 const AboutMeTab: React.FC<Props> = ({ userData }) => {
-  const userFirstName = userData ? userData.firstName : "";
+  const [introduction, setIntroduction] = React.useState(userData.introduction);
+  const [isCreatingIntroduction, setIsCreatingIntroduction] = React.useState(
+    false
+  );
+  const dispatch = useDispatch();
+
+  const handleIntroductionUpdate = async (values) => {
+    const { data } = await updateUserById(userData._id!, values);
+    if (data) {
+      setIntroduction(values.introduction);
+      dispatch(showAlert("success", "Cập nhật thành công"));
+    } else {
+      dispatch(showAlert("success", "Cập nhật thất bại"));
+    }
+  };
+
   return (
     <div>
-      <Typography>Xin chào, tôi là {userFirstName}</Typography>
+      <div>
+        <Typography className="text-4xl">
+          Xin chào, tôi là {userData.firstName}
+        </Typography>
+      </div>
+      {!isCreatingIntroduction ? (
+        <div className="mt-2">
+          {introduction ? (
+            <div className="whitespace-pre-line">{introduction}</div>
+          ) : (
+            <div>Bạn chưa có lời giới thiệu</div>
+          )}
+          <div className="mt-2">
+            <p
+              className="underline hover:no-underline cursor-pointer"
+              onClick={() => setIsCreatingIntroduction(true)}
+            >
+              Cập nhật lời giới thiệu
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-2">
+          <Formik
+            initialValues={{ introduction: introduction }}
+            onSubmit={(values) => {
+              handleIntroductionUpdate(values);
+            }}
+          >
+            {() => (
+              <Form>
+                <div>
+                  <Field
+                    as="textarea"
+                    name="introduction"
+                    className="w-full h-36 pl-4 border border-gray-300"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <Button
+                    className="bg-main-blue text-white"
+                    variant="contained"
+                    type="submit"
+                  >
+                    Cập nhật
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => setIsCreatingIntroduction(false)}
+                  >
+                    Xong
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      )}
     </div>
   );
 };

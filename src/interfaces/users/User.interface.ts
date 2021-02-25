@@ -10,6 +10,7 @@ export interface IUserResponse {
   address?: string;
   roldId?: string;
   avatarUrl?: string;
+  introduction?: string;
   isVerified?: boolean;
 }
 
