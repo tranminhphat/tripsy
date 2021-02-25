@@ -22,7 +22,7 @@ const ExperiencePage: React.FC<Props> = () => {
   }, []);
 
   const fetchData = async () => {
-    const userResponse = await getCurrentUser("_id,username");
+    const userResponse = await getCurrentUser(["_id", "firstName"]);
     const { user } = userResponse.data;
 
     const { data } = await getExperiences({

@@ -1,9 +1,9 @@
 export interface IExperience {
-  title: string;
+  title?: string;
 }
 
 export interface IExperienceResponse {
-  _id: string;
-  title: string;
-  hostId: string;
+  _id?: string;
+  title?: string;
+  hostId?: string;
 }

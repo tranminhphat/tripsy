@@ -1,8 +1,11 @@
+import createLookUpString from "helpers/createLookUpString";
+import { UserFieldType } from "types";
 import axios from "./configureAxios";
 
-export const getCurrentUser = (fields?: string) => {
+export const getCurrentUser = (fields?: UserFieldType[]) => {
   if (fields) {
-    return axios.get(`/users/me?fields=${fields}`);
+    const fieldString = createLookUpString(fields);
+    return axios.get(`/users/me?fields=${fieldString}`);
   } else {
     return axios.get(`/users/me`);
   }

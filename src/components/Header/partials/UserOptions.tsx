@@ -26,7 +26,7 @@ const UserOptions: React.FC = () => {
   }, [isLoggedIn]);
 
   const fetchData = async () => {
-    const { data } = await getCurrentUser();
+    const { data } = await getCurrentUser(["_id", "firstName", "avatarUrl"]);
     setUserData(data.user);
   };
   const handleClick = (event) => {
