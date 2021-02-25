@@ -12,6 +12,7 @@ import { Box } from "@material-ui/core";
 
 interface Props {
   userData: IUserResponse;
+  isCurrentUser: boolean;
 }
 
 interface TabPanelProps {
@@ -36,7 +37,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const UserInformation: React.FC<Props> = ({ userData }) => {
+const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -72,7 +73,7 @@ const UserInformation: React.FC<Props> = ({ userData }) => {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <AboutMeTab userData={userData} />
+        <AboutMeTab userData={userData} isCurrentUser={isCurrentUser} />
       </TabPanel>
     </div>
   );

@@ -52,7 +52,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
   const [
     base64EncodedImage,
     setBase64EncodedImage,
-  ] = React.useState<FileReaderResultType>(null);
+  ] = React.useState<FileReaderResultType>("");
 
   const handleSetImage = (image: FileReaderResultType) => {
     setBase64EncodedImage(image);
@@ -85,7 +85,11 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
           address: "",
         }}
         onSubmit={(values) => {
-          onSubmit({ ...values, avatarBase64: base64EncodedImage });
+          onSubmit({
+            ...values,
+            avatarBase64: base64EncodedImage,
+            introduction: "",
+          });
         }}
         validationSchema={validationSchema}
       >

@@ -25,9 +25,10 @@ import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   userData: IUserResponse;
+  isCurrentUser: boolean;
 }
 
-const UserOverview: React.FC<Props> = ({ userData }) => {
+const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
   const dispatch = useDispatch();
 
   /* Store user updated avatar file */
@@ -161,22 +162,24 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
           src={!userData.avatarUrl ? SkeletonUserAvatar : userData.avatarUrl}
           alt="avatar"
         />
-        <div
-          style={{ width: "30px", height: "30px" }}
-          className="absolute bottom-1 right-0 border border-gray-300 rounded-full bg-white flex items-center justify-center"
-        >
-          <Tooltip title="Thay đổi avatar">
-            <label className="cursor-pointer">
-              <EditRoundedIcon className="text-md" />
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleFileInputChange}
-                value={fileInputState}
-              />
-            </label>
-          </Tooltip>
-        </div>
+        {isCurrentUser ? (
+          <div
+            style={{ width: "30px", height: "30px" }}
+            className="absolute bottom-1 right-0 border border-gray-300 rounded-full bg-white flex items-center justify-center"
+          >
+            <Tooltip title="Thay đổi avatar">
+              <label className="cursor-pointer">
+                <EditRoundedIcon className="text-md" />
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileInputChange}
+                  value={fileInputState}
+                />
+              </label>
+            </Tooltip>
+          </div>
+        ) : null}
       </div>
       <div>
         {fileReader ? (
@@ -203,23 +206,27 @@ const UserOverview: React.FC<Props> = ({ userData }) => {
           <Typography className="text-lg font-bold text-main-blue">
             Thông tin về {userData.firstName}:
           </Typography>
-          <div className="flex">
-            <div className="cursor-pointer">
-              <Tooltip title="Đổi mật khẩu">
-                <KeyIcon onClick={() => toggleOptionTab("password")} />
-              </Tooltip>
+          {isCurrentUser ? (
+            <div className="flex">
+              <div className="cursor-pointer">
+                <Tooltip title="Đổi mật khẩu">
+                  <KeyIcon onClick={() => toggleOptionTab("password")} />
+                </Tooltip>
+              </div>
+              <div className="cursor-pointer ml-1">
+                <Tooltip title="Cập nhật thông tin của bạn">
+                  <CreateIcon onClick={() => toggleOptionTab("userData")} />
+                </Tooltip>
+              </div>
+              <div className="cursor-pointer ml-1">
+                <Tooltip title="Thay đổi thông tin được hiển thị">
+                  <SettingIcon
+                    onClick={() => toggleOptionTab("displayedData")}
+                  />
+                </Tooltip>
+              </div>
             </div>
-            <div className="cursor-pointer ml-1">
-              <Tooltip title="Cập nhật thông tin của bạn">
-                <CreateIcon onClick={() => toggleOptionTab("userData")} />
-              </Tooltip>
-            </div>
-            <div className="cursor-pointer ml-1">
-              <Tooltip title="Thay đổi thông tin được hiển thị">
-                <SettingIcon onClick={() => toggleOptionTab("displayedData")} />
-              </Tooltip>
-            </div>
-          </div>
+          ) : null}
         </div>
         {isUpdatingDisplayedField ? (
           <DisplayedInformationForm

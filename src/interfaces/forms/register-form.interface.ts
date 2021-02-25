@@ -10,6 +10,7 @@ interface IRegisterForm extends LoginForm {
   phoneNumber: string;
   address: string;
   avatarBase64: FileReaderResultType;
+  introduction: string;
 }
 
 export default IRegisterForm;

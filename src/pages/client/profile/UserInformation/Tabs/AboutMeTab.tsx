@@ -9,9 +9,10 @@ import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   userData: IUserResponse;
+  isCurrentUser: boolean;
 }
 
-const AboutMeTab: React.FC<Props> = ({ userData }) => {
+const AboutMeTab: React.FC<Props> = ({ userData, isCurrentUser }) => {
   const [introduction, setIntroduction] = React.useState(userData.introduction);
   const [isCreatingIntroduction, setIsCreatingIntroduction] = React.useState(
     false
@@ -42,14 +43,16 @@ const AboutMeTab: React.FC<Props> = ({ userData }) => {
           ) : (
             <div>Bạn chưa có lời giới thiệu</div>
           )}
-          <div className="mt-2">
-            <p
-              className="underline hover:no-underline cursor-pointer"
-              onClick={() => setIsCreatingIntroduction(true)}
-            >
-              Cập nhật lời giới thiệu
-            </p>
-          </div>
+          {isCurrentUser ? (
+            <div className="mt-2">
+              <p
+                className="underline hover:no-underline cursor-pointer"
+                onClick={() => setIsCreatingIntroduction(true)}
+              >
+                Cập nhật lời giới thiệu
+              </p>
+            </div>
+          ) : null}
         </div>
       ) : (
         <div className="mt-2">
