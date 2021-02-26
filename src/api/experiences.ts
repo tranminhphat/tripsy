@@ -1,8 +1,5 @@
 import axios from "./configureAxios";
-import {
-  IExperience,
-  IExperienceResponse,
-} from "interfaces/experiences/experience.interface";
+import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import createFilterString from "helpers/createFilterString";
 
 export const getExperiences = (filterObject: IExperienceResponse) => {
@@ -10,6 +7,6 @@ export const getExperiences = (filterObject: IExperienceResponse) => {
   return axios.get(`experiences?filter=${filterString}`);
 };
 
-export const createExperience = (experience: IExperience) => {
-  return axios.post(`experiences`, experience);
+export const createExperience = () => {
+  return axios.post(`experiences`);
 };

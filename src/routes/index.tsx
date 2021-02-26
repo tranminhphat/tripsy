@@ -9,6 +9,7 @@ import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import ExperiencePage from "pages/client/experience/ExperiencePage";
+import ExperienceCreationPage from "pages/client/experience/ExperienceCreationPage";
 
 interface Entry {
   exact?: boolean;
@@ -33,6 +34,12 @@ const routes: Entry[] = [
     exact: true,
     path: "/user/experience-hosting",
     component: ExperiencePage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/user/experience-hosting/:id",
+    component: ExperienceCreationPage,
     authRoute: true,
   },
 ];

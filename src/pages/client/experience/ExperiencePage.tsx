@@ -1,7 +1,9 @@
+import * as React from "react";
+import { useHistory } from "react-router-dom";
+
 import { Button, CircularProgress, Typography } from "@material-ui/core";
 import { createExperience, getExperiences } from "api/experiences";
 import { getCurrentUser } from "api/users";
-import * as React from "react";
 
 interface Props {}
 
@@ -16,6 +18,7 @@ interface Experience {
 
 const ExperiencePage: React.FC<Props> = () => {
   const [experiences, setExperiences] = React.useState<Experience[]>();
+  const history = useHistory();
 
   React.useEffect(() => {
     fetchData();
@@ -33,11 +36,9 @@ const ExperiencePage: React.FC<Props> = () => {
   };
 
   const handleCreateExperience = async () => {
-    let title = prompt("Ten hoat dong");
-
-    if (title) {
-      const { data } = await createExperience({ title });
-      console.log(data);
+    const { data } = await createExperience();
+    if (data) {
+      history.push(`/user/experience-hosting/${data}`);
     }
   };
 
