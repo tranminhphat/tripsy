@@ -61,7 +61,7 @@ const ExperiencePage: React.FC<Props> = () => {
       ) : (
         <div>
           {experiences.length !== 0 ? (
-            experiences.map((item, idx) => <div key={idx}>{item.title}</div>)
+            experiences.map((item, idx) => <div key={idx}>{item._id}</div>)
           ) : (
             <div>Bạn chưa tổ chức trải nghiệm nào </div>
           )}
