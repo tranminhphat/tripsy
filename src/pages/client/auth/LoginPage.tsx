@@ -9,6 +9,7 @@ import { showAlert } from "redux/actions/alert/alertAction";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import useErrorHandler from "hooks/useErrorHandler";
 import { setAuth } from "redux/actions/auth/authAction";
+import MainLayout from "layouts/MainLayout";
 
 interface Props extends RouteComponentProps {}
 
@@ -44,12 +45,14 @@ const LoginPage: React.FC<Props> = ({ history }) => {
     }
   };
   return (
-    <div className="flex justify-center h-screen">
-      <LoginForm
-        error={errorMessage}
-        onSubmit={(values: ILoginForm) => handleSubmit(values)}
-      />
-    </div>
+    <MainLayout>
+      <div className="flex justify-center h-screen">
+        <LoginForm
+          error={errorMessage}
+          onSubmit={(values: ILoginForm) => handleSubmit(values)}
+        />
+      </div>
+    </MainLayout>
   );
 };
 

@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Button, CircularProgress, Typography } from "@material-ui/core";
 import { createExperience, getExperiences } from "api/experiences";
 import { getCurrentUser } from "api/users";
+import MainLayout from "layouts/MainLayout";
 
 interface Props {}
 
@@ -43,7 +44,7 @@ const ExperiencePage: React.FC<Props> = () => {
   };
 
   return (
-    <div>
+    <MainLayout>
       <div className="flex justify-between">
         <Typography className="text-3xl text-main-blue font-bold">
           Hoạt động trải nghiệm của bạn
@@ -67,7 +68,7 @@ const ExperiencePage: React.FC<Props> = () => {
           )}
         </div>
       )}
-    </div>
+    </MainLayout>
   );
 };
 

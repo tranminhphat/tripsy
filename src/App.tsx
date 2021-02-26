@@ -3,9 +3,5 @@ import React from "react";
 import AppRouter from "./routes/index";
 
 export const App: React.FC = () => {
-  return (
-    <MainLayout>
-      <AppRouter />
-    </MainLayout>
-  );
+  return <AppRouter />;
 };

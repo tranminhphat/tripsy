@@ -4,6 +4,7 @@ import { forgotPassword } from "api/auth";
 import ForgotPasswordForm from "components/Authentication/Forms/ForgotPasswordForm";
 import ForgotPasswordModal from "components/Authentication/Modals/ForgotPasswordModal";
 import useErrorHandler from "hooks/useErrorHandler";
+import MainLayout from "layouts/MainLayout";
 
 interface Props {}
 
@@ -38,18 +39,20 @@ const ForgotPasswordPage: React.FC<Props> = () => {
   };
 
   return (
-    <div className="flex justify-center h-screen">
-      <ForgotPasswordForm
-        isLoading={isLoading}
-        error={errorMessage}
-        onSubmit={(values: { email: string }) => handleSubmit(values)}
-      />
-      <ForgotPasswordModal
-        open={isOpen}
-        userEmail={email}
-        onModalClose={handleModalClose}
-      />
-    </div>
+    <MainLayout>
+      <div className="flex justify-center h-screen">
+        <ForgotPasswordForm
+          isLoading={isLoading}
+          error={errorMessage}
+          onSubmit={(values: { email: string }) => handleSubmit(values)}
+        />
+        <ForgotPasswordModal
+          open={isOpen}
+          userEmail={email}
+          onModalClose={handleModalClose}
+        />
+      </div>
+    </MainLayout>
   );
 };
 

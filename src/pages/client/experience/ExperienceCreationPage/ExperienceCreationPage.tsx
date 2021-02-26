@@ -10,10 +10,6 @@ import MailIcon from "@material-ui/icons/Mail";
 import Typography from "@material-ui/core/Typography";
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
 }
 

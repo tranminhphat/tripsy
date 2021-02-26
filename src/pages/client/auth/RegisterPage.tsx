@@ -9,6 +9,7 @@ import IRegisterForm from "interfaces/forms/register-form.interface";
 import { IUserResponse } from "interfaces/users/user.interface";
 import useErrorHandler from "hooks/useErrorHandler";
 import { showAlert } from "redux/actions/alert/alertAction";
+import MainLayout from "layouts/MainLayout";
 
 interface Props extends RouteComponentProps {}
 
@@ -46,20 +47,22 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
   };
 
   return (
-    <div className="flex justify-center">
-      <RegisterForm
-        error={errorMessage}
-        isLoading={isLoading}
-        onSubmit={(values: IRegisterForm) => handleSubmit(values)}
-      />
-      <EmailVerificationModal
-        open={isOpen}
-        onModalClose={handleModalClose}
-        userId={userResponse ? userResponse._id! : ""}
-        userEmail={userResponse ? userResponse.email! : ""}
-        userFirstName={userResponse ? userResponse.firstName! : ""}
-      />
-    </div>
+    <MainLayout>
+      <div className="flex justify-center">
+        <RegisterForm
+          error={errorMessage}
+          isLoading={isLoading}
+          onSubmit={(values: IRegisterForm) => handleSubmit(values)}
+        />
+        <EmailVerificationModal
+          open={isOpen}
+          onModalClose={handleModalClose}
+          userId={userResponse ? userResponse._id! : ""}
+          userEmail={userResponse ? userResponse.email! : ""}
+          userFirstName={userResponse ? userResponse.firstName! : ""}
+        />
+      </div>
+    </MainLayout>
   );
 };
 

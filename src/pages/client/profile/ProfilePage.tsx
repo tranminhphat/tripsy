@@ -8,6 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 /* Partials */
 import UserOverview from "./UserOverview/UserOverview";
 import UserInformation from "./UserInformation/UserInformation";
+import MainLayout from "layouts/MainLayout";
 
 interface Props {}
 
@@ -33,25 +34,32 @@ const ProfilePage: React.FC<Props> = () => {
 
   if (userData) {
     return (
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl">
-          <UserOverview userData={userData} isCurrentUser={isCurrentUser} />
+      <MainLayout>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl">
+            <UserOverview userData={userData} isCurrentUser={isCurrentUser} />
+          </div>
+          <div className="bg-white border border-gray-200  rounded-2xl md:col-span-3">
+            <UserInformation
+              userData={userData}
+              isCurrentUser={isCurrentUser}
+            />
+          </div>
         </div>
-        <div className="bg-white border border-gray-200  rounded-2xl md:col-span-3">
-          <UserInformation userData={userData} isCurrentUser={isCurrentUser} />
-        </div>
-      </div>
+      </MainLayout>
     );
   } else {
     return (
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="p-8 flex items-center justify-center bg-white border border-gray-200 shadow-2xl rounded-2xl">
-          <CircularProgress />
+      <MainLayout>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <div className="p-8 flex items-center justify-center bg-white border border-gray-200 shadow-2xl rounded-2xl">
+            <CircularProgress />
+          </div>
+          <div className="p-8 flex items-center justify-center bg-white border border-gray-200 rounded-2xl">
+            <CircularProgress />
+          </div>
         </div>
-        <div className="p-8 flex items-center justify-center bg-white border border-gray-200 rounded-2xl">
-          <CircularProgress />
-        </div>
-      </div>
+      </MainLayout>
     );
   }
 };

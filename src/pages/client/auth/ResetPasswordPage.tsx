@@ -7,6 +7,7 @@ import { resetPassword } from "api/auth";
 import ResetPasswordForm from "components/Authentication/Forms/ResetPasswordForm";
 import { showAlert } from "redux/actions/alert/alertAction";
 import useErrorHandler from "hooks/useErrorHandler";
+import MainLayout from "layouts/MainLayout";
 
 interface Props extends RouteComponentProps {}
 
@@ -31,12 +32,14 @@ const ResetPasswordPage: React.FC<Props> = ({ history }) => {
   };
 
   return (
-    <div className="flex justify-center h-screen">
-      <ResetPasswordForm
-        error={errorMessage}
-        onSubmit={(newPassword) => handleSubmit(newPassword)}
-      />
-    </div>
+    <MainLayout>
+      <div className="flex justify-center h-screen">
+        <ResetPasswordForm
+          error={errorMessage}
+          onSubmit={(newPassword) => handleSubmit(newPassword)}
+        />
+      </div>
+    </MainLayout>
   );
 };
 
