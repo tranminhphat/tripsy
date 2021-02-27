@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 
 import { Button, CircularProgress, Typography } from "@material-ui/core";
 import { createExperience, getExperiences } from "api/experiences";
@@ -20,6 +20,7 @@ interface Experience {
 const ExperiencePage: React.FC<Props> = () => {
   const [experiences, setExperiences] = React.useState<Experience[]>();
   const history = useHistory();
+  const { url } = useRouteMatch();
 
   React.useEffect(() => {
     fetchData();
@@ -62,7 +63,11 @@ const ExperiencePage: React.FC<Props> = () => {
       ) : (
         <div>
           {experiences.length !== 0 ? (
-            experiences.map((item, idx) => <div key={idx}>{item._id}</div>)
+            experiences.map((item, idx) => (
+              <Link key={idx} to={`${url}/${item._id}/idea1`}>
+                {item._id}
+              </Link>
+            ))
           ) : (
             <div>Bạn chưa tổ chức trải nghiệm nào </div>
           )}
