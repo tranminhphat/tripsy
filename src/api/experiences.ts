@@ -7,6 +7,14 @@ export const getExperiences = (filterObject: IExperienceResponse) => {
   return axios.get(`experiences?filter=${filterString}`);
 };
 
+export const getExperienceById = (id: string) => {
+  return axios.get(`experiences/${id}`);
+};
+
 export const createExperience = () => {
   return axios.post(`experiences`);
+};
+
+export const updateExperienceById = (id: string, data) => {
+  return axios.put(`experiences/${id}`, data);
 };

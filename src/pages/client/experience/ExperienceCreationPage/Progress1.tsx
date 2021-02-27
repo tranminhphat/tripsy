@@ -10,12 +10,12 @@ import {
   Link,
   useHistory,
   useRouteMatch,
+  useParams,
   Switch,
   Route,
 } from "react-router-dom";
-import Idea1 from "./ExperienceIdea/Idea1";
-import Idea2 from "./ExperienceIdea/Idea2";
-import Idea3 from "./ExperienceIdea/Idea3";
+import { getExperienceById, updateExperienceById } from "api/experiences";
+import Step from "./Progress1/Step";
 
 interface Props {
   window?: () => Window;
@@ -23,23 +23,50 @@ interface Props {
 
 export default function ResponsiveDrawer(props: Props) {
   const defaultItemList = [
-    { text: "Idea1", isDone: false },
-    { text: "Idea2", isDone: false },
-    { text: "Idea3", isDone: false },
+    { text: "Step 1", isDone: false },
+    { text: "Step 2", isDone: false },
+    { text: "Step 3", isDone: false },
   ];
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [currentProgressIndex, setCurrentProgressIndex] = React.useState(0);
   const { url, path } = useRouteMatch();
+  const { id } = useParams<{ id: string }>();
   const history = useHistory();
   const [itemList, setItemList] = React.useState(defaultItemList);
+
+  React.useEffect(() => {
+    fetchExperienceData();
+  }, []);
+
+  const fetchExperienceData = async () => {
+    const { data } = await getExperienceById(id);
+    if (data) {
+      setCurrentProgressIndex(data.experience.progress);
+      setItemList(
+        defaultItemList.map((item, index) => {
+          if (index + 1 <= data.experience.progress) {
+            return { ...item, isDone: true };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleSaveProgress = () => {
+  const handleSaveProgress = async () => {
     history.push("/user/experience-hosting");
+    const newProgress = itemList.filter((item) => item.isDone);
+    console.log(newProgress);
+    await updateExperienceById(id, {
+      newProgress: newProgress.length !== 0 ? newProgress.length : 1,
+    });
   };
   const handleDone = (index: number) => {
     const newItemList = itemList.map((item, idx) => {
@@ -51,7 +78,7 @@ export default function ResponsiveDrawer(props: Props) {
     });
     if (index + 1 < itemList.length) {
       setItemList(newItemList);
-      history.push(`${url}/idea${index + 2}`);
+      history.push(`${url}/step/${index + 2}`);
     } else {
       setItemList(newItemList);
       alert("Done progress");
@@ -63,8 +90,8 @@ export default function ResponsiveDrawer(props: Props) {
       <div onClick={handleSaveProgress}>Save & exit</div>
       <List>
         {itemList.map((item, index) => (
-          <Link to={`${url}/idea${index + 1}`}>
-            <ListItem button key={item.text}>
+          <Link key={index} to={`${url}/step/${index + 1}`}>
+            <ListItem button>
               <ListItemText primary={item.text} />
               {item.isDone ? (
                 <span>
@@ -108,8 +135,13 @@ export default function ResponsiveDrawer(props: Props) {
         <Switch>
           <Route
             exact
-            path={`${path}/:idea`}
-            render={(props) => <Idea1 handleDone={handleDone} />}
+            path={`${path}/step/:stepId`}
+            render={() => (
+              <Step
+                handleDone={handleDone}
+                currentProgressIndex={currentProgressIndex}
+              />
+            )}
           />
         </Switch>
       </main>

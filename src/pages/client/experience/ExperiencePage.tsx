@@ -12,9 +12,9 @@ interface Experience {
   _id: string;
   hostId: string;
   title: string;
+  progress: number;
   createAt: string;
   updateAt: string;
-  _v: string;
 }
 
 const ExperiencePage: React.FC<Props> = () => {
@@ -64,9 +64,12 @@ const ExperiencePage: React.FC<Props> = () => {
         <div>
           {experiences.length !== 0 ? (
             experiences.map((item, idx) => (
-              <Link key={idx} to={`${url}/${item._id}/idea1`}>
-                {item._id}
-              </Link>
+              <div key={idx}>
+                <Link to={`${url}/${item._id}/step/${item.progress + 1}`}>
+                  {item._id}
+                </Link>
+                <p>Progress step: {item.progress + 1}</p>
+              </div>
             ))
           ) : (
             <div>Bạn chưa tổ chức trải nghiệm nào </div>
