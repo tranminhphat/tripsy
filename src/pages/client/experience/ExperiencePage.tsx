@@ -63,14 +63,27 @@ const ExperiencePage: React.FC<Props> = () => {
       ) : (
         <div>
           {experiences.length !== 0 ? (
-            experiences.map((item, idx) => (
-              <div key={idx}>
-                <Link to={`${url}/${item._id}/step/${item.progress + 1}`}>
-                  {item._id}
-                </Link>
-                <p>Progress step: {item.progress + 1}</p>
-              </div>
-            ))
+            experiences.map((item, idx) => {
+              if (item.progress > 3) {
+                return (
+                  <div key={idx}>
+                    <Link to={`${url}/${item._id}/step/${item.progress}`}>
+                      {item._id}
+                    </Link>
+                    <p>Done</p>
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={idx}>
+                    <Link to={`${url}/${item._id}/step/${item.progress}`}>
+                      {item._id}
+                    </Link>
+                    <p>Progress step: {item.progress}</p>
+                  </div>
+                );
+              }
+            })
           ) : (
             <div>Bạn chưa tổ chức trải nghiệm nào </div>
           )}

@@ -9,7 +9,7 @@ import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import ExperiencePage from "pages/client/experience/ExperiencePage";
-import ExperienceCreationPage from "pages/client/experience/ExperienceCreationPage/Progress1";
+import ExperienceCreationPage from "pages/client/experience/ExperienceCreationPage/ExperienceCreationPage";
 import NotFoundPage from "pages/404/404Page";
 
 interface Entry {
