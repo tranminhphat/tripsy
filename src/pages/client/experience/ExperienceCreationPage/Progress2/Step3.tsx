@@ -5,7 +5,7 @@ interface Props {}
 const Step3: React.FC<Props> = () => {
   return (
     <div>
-      <div>This is progress 1 step 3 page</div>
+      <div>This is progress 2 step 3 page</div>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import { Button } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
 import * as React from "react";
-import { useHistory } from "react-router-dom";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
@@ -28,10 +27,9 @@ function getStepContent(step: number) {
   }
 }
 
-const Progress1: React.FC<Props> = ({ handleDone, currentProgressIndex }) => {
+const Progress2: React.FC<Props> = ({ handleDone, currentProgressIndex }) => {
   const steps = getSteps();
   const [activeStep, setActiveStep] = React.useState(0);
-  const history = useHistory();
 
   const renderSwitch = (stepId: number) => {
     switch (stepId) {
@@ -49,7 +47,7 @@ const Progress1: React.FC<Props> = ({ handleDone, currentProgressIndex }) => {
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if (activeStep > steps.length - 1) {
-      handleDone(0);
+      handleDone(1);
     }
   };
 
@@ -88,4 +86,4 @@ const Progress1: React.FC<Props> = ({ handleDone, currentProgressIndex }) => {
   );
 };
 
-export default Progress1;
+export default Progress2;

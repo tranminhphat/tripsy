@@ -14,8 +14,9 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { getExperienceById, updateExperienceById } from "api/experiences";
+import { getExperienceById } from "api/experiences";
 import Progress1 from "./Progress1/Progress1";
+import Progress2 from "./Progress2/Progress2";
 
 interface Props {
   window?: () => Window;
@@ -28,9 +29,14 @@ export default function ExperienceCreationPage(props: Props) {
   const { url, path } = useRouteMatch();
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
+  const [isProgressDone, setIsProgessDone] = React.useState([
+    { name: "progress1", isDone: false },
+    { name: "progress2", isDone: false },
+  ]);
 
   React.useEffect(() => {
     fetchExperienceData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchExperienceData = async () => {
@@ -48,7 +54,22 @@ export default function ExperienceCreationPage(props: Props) {
     history.push("/user/experience-hosting");
   };
 
-  const handleDone = (index: number) => {};
+  const handleDone = (index: number) => {
+    let newProgress = isProgressDone.map((progress, idx) => {
+      if (idx === index) {
+        return { ...progress, isDone: true };
+      } else {
+        return progress;
+      }
+    });
+
+    setIsProgessDone(newProgress);
+    if (index === isProgressDone.length - 1) {
+      alert("Finish");
+    } else {
+      history.push(`${url}/progress${index + 2}`);
+    }
+  };
 
   const drawer = (
     <div className="w-56">
@@ -57,11 +78,21 @@ export default function ExperienceCreationPage(props: Props) {
         <Link to={`${url}/progress1`}>
           <ListItem button>
             <ListItemText primary="Progress 1" />
+            {isProgressDone[0].isDone ? (
+              <span>
+                <CheckIcon />
+              </span>
+            ) : null}
           </ListItem>
         </Link>
         <Link to={`${url}/progress2`}>
           <ListItem button>
             <ListItemText primary="Progress 2" />
+            {isProgressDone[1].isDone ? (
+              <span>
+                <CheckIcon />
+              </span>
+            ) : null}
           </ListItem>
         </Link>
       </List>
@@ -101,6 +132,16 @@ export default function ExperienceCreationPage(props: Props) {
             path={`${path}/progress1`}
             render={() => (
               <Progress1
+                handleDone={handleDone}
+                currentProgressIndex={currentProgressIndex}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${path}/progress2`}
+            render={() => (
+              <Progress2
                 handleDone={handleDone}
                 currentProgressIndex={currentProgressIndex}
               />
