@@ -1,14 +1,12 @@
-import { Button } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
 import * as React from "react";
-import { useHistory } from "react-router-dom";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 
 interface Props {
   handleDone: (index: number) => void;
-  currentProgressIndex: number;
+  setUpdatedProperties: (values: any) => void;
 }
 
 function getSteps() {
@@ -28,25 +26,30 @@ function getStepContent(step: number) {
   }
 }
 
-const Progress1: React.FC<Props> = ({ handleDone, currentProgressIndex }) => {
+const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
   const steps = getSteps();
   const [activeStep, setActiveStep] = React.useState(0);
-  const history = useHistory();
 
-  const renderSwitch = (stepId: number) => {
-    switch (stepId) {
+  const handleNext = (fieldValue: any) => {
+    switch (activeStep) {
       case 0:
-        return <Step1 />;
+        setUpdatedProperties({
+          theme: fieldValue,
+        });
+        break;
       case 1:
-        return <Step2 />;
+        setUpdatedProperties({
+          title: fieldValue,
+        });
+        break;
       case 2:
-        return <Step3 />;
+        setUpdatedProperties({
+          language: fieldValue,
+        });
+        break;
       default:
-        return null;
+        break;
     }
-  };
-
-  const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if (activeStep > steps.length - 1) {
       handleDone(0);
@@ -55,6 +58,26 @@ const Progress1: React.FC<Props> = ({ handleDone, currentProgressIndex }) => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const stepProps = {
+    steps,
+    activeStep,
+    handleNext,
+    handleBack,
+  };
+
+  const renderSwitch = (stepId: number) => {
+    switch (stepId) {
+      case 0:
+        return <Step1 stepProps={stepProps} />;
+      case 1:
+        return <Step2 stepProps={stepProps} />;
+      case 2:
+        return <Step3 stepProps={stepProps} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -67,23 +90,6 @@ const Progress1: React.FC<Props> = ({ handleDone, currentProgressIndex }) => {
         />
       </div>
       {renderSwitch(activeStep)}
-      <div>
-        <Button
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          className="mr-2"
-        >
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleNext}
-          className="mr-2"
-        >
-          {activeStep === steps.length - 1 ? "Finish" : "Next"}
-        </Button>
-      </div>
     </div>
   );
 };

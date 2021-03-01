@@ -14,48 +14,44 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { getExperienceById } from "api/experiences";
+import { useDispatch } from "react-redux";
 import Progress1 from "./Progress1/Progress1";
-import Progress2 from "./Progress2/Progress2";
+import { updateExperienceById } from "api/experiences";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   window?: () => Window;
 }
 
 export default function ExperienceCreationPage(props: Props) {
+  const [updatedProperties, setUpdatedProperties] = React.useState<any>({});
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [currentProgressIndex, setCurrentProgressIndex] = React.useState(0);
   const { url, path } = useRouteMatch();
-  const { id } = useParams<{ id: string }>();
   const history = useHistory();
-  const [isProgressDone, setIsProgessDone] = React.useState([
+  const [progresses, setProgesses] = React.useState([
     { name: "progress1", isDone: false },
-    { name: "progress2", isDone: false },
   ]);
-
-  React.useEffect(() => {
-    fetchExperienceData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const fetchExperienceData = async () => {
-    const { data } = await getExperienceById(id);
-    if (data) {
-      setCurrentProgressIndex(data.experience.progress);
-    }
-  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleSaveProgress = async () => {
-    history.push("/user/experience-hosting");
+    const { data } = await updateExperienceById(id, updatedProperties);
+    console.log(data);
+    if (data) {
+      history.push("/user/experience-hosting");
+      dispatch(showAlert("success", "success"));
+    } else {
+      dispatch(showAlert("error", "error"));
+    }
   };
 
   const handleDone = (index: number) => {
-    let newProgress = isProgressDone.map((progress, idx) => {
+    let newProgress = progresses.map((progress, idx) => {
       if (idx === index) {
         return { ...progress, isDone: true };
       } else {
@@ -63,8 +59,8 @@ export default function ExperienceCreationPage(props: Props) {
       }
     });
 
-    setIsProgessDone(newProgress);
-    if (index === isProgressDone.length - 1) {
+    setProgesses(newProgress);
+    if (index === progresses.length - 1) {
       alert("Finish");
     } else {
       history.push(`${url}/progress${index + 2}`);
@@ -73,19 +69,19 @@ export default function ExperienceCreationPage(props: Props) {
 
   const drawer = (
     <div className="w-56">
-      <div onClick={handleSaveProgress}>Save & exit</div>
+      <button onClick={() => handleSaveProgress()}>Save & exit</button>
       <List>
         <Link to={`${url}/progress1`}>
           <ListItem button>
             <ListItemText primary="Progress 1" />
-            {isProgressDone[0].isDone ? (
+            {progresses[0].isDone ? (
               <span>
                 <CheckIcon />
               </span>
             ) : null}
           </ListItem>
         </Link>
-        <Link to={`${url}/progress2`}>
+        {/* <Link to={`${url}/progress2`}>
           <ListItem button>
             <ListItemText primary="Progress 2" />
             {isProgressDone[1].isDone ? (
@@ -94,7 +90,7 @@ export default function ExperienceCreationPage(props: Props) {
               </span>
             ) : null}
           </ListItem>
-        </Link>
+        </Link> */}
       </List>
     </div>
   );
@@ -133,20 +129,20 @@ export default function ExperienceCreationPage(props: Props) {
             render={() => (
               <Progress1
                 handleDone={handleDone}
-                currentProgressIndex={currentProgressIndex}
+                setUpdatedProperties={(values: any) =>
+                  setUpdatedProperties((prevState) => ({
+                    ...prevState,
+                    ...values,
+                  }))
+                }
               />
             )}
           />
-          <Route
+          {/* <Route
             exact
             path={`${path}/progress2`}
-            render={() => (
-              <Progress2
-                handleDone={handleDone}
-                currentProgressIndex={currentProgressIndex}
-              />
-            )}
-          />
+            render={() => <Progress2 handleDone={handleDone} />}
+          /> */}
         </Switch>
       </main>
     </div>
