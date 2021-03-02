@@ -53,7 +53,7 @@ const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
         break;
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    if (activeStep > steps.length - 1) {
+    if (activeStep === steps.length - 1) {
       handleDone(0);
     }
   };

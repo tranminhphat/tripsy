@@ -41,7 +41,6 @@ export default function ExperienceCreationPage(props: Props) {
 
   const handleSaveProgress = async () => {
     const { data } = await updateExperienceById(id, updatedProperties);
-    console.log(data);
     if (data) {
       history.push("/user/experience-hosting");
       dispatch(showAlert("success", "success"));
@@ -71,7 +70,7 @@ export default function ExperienceCreationPage(props: Props) {
     <div className="w-56">
       <button onClick={() => handleSaveProgress()}>Save & exit</button>
       <List>
-        <Link to={`${url}/progress1`}>
+        <Link to={`${url}/progress1/1`}>
           <ListItem button>
             <ListItemText primary="Progress 1" />
             {progresses[0].isDone ? (

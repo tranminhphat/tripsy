@@ -15,3 +15,5 @@ export type UserFieldType =
   | "roleId"
   | "avatarUrl"
   | "isVerified";
+
+export type ExperienceFieldType = "_id" | "theme" | "title" | "language";
