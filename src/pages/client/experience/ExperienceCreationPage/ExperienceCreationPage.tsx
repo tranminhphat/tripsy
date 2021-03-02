@@ -125,7 +125,7 @@ export default function ExperienceCreationPage(props: Props) {
         <Switch>
           <Route
             exact
-            path={`${path}/progress1`}
+            path={`${path}/progress1/:progressStep`}
             render={() => (
               <Progress1
                 handleDone={handleDone}

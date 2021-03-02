@@ -1,5 +1,6 @@
 import MyStepper from "components/Shared/MyStepper";
 import * as React from "react";
+import { useParams } from "react-router-dom";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
@@ -28,7 +29,8 @@ function getStepContent(step: number) {
 
 const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
   const steps = getSteps();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const { progressStep } = useParams<{ progressStep: string }>();
+  const [activeStep, setActiveStep] = React.useState(Number(progressStep) - 1);
 
   const handleNext = (fieldValue: any) => {
     switch (activeStep) {

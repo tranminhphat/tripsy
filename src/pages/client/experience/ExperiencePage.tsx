@@ -5,20 +5,13 @@ import { Button, CircularProgress, Typography } from "@material-ui/core";
 import { createExperience, getExperiences } from "api/experiences";
 import { getCurrentUser } from "api/users";
 import MainLayout from "layouts/MainLayout";
+import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import calculateProgressStep from "helpers/calculateProgressStep";
 
 interface Props {}
 
-interface Experience {
-  _id: string;
-  hostId: string;
-  title: string;
-  progress: number;
-  createAt: string;
-  updateAt: string;
-}
-
 const ExperiencePage: React.FC<Props> = () => {
-  const [experiences, setExperiences] = React.useState<Experience[]>();
+  const [experiences, setExperiences] = React.useState<IExperienceResponse[]>();
   const history = useHistory();
   const { url } = useRouteMatch();
 
@@ -40,7 +33,7 @@ const ExperiencePage: React.FC<Props> = () => {
   const handleCreateExperience = async () => {
     const { data } = await createExperience();
     if (data) {
-      history.push(`/user/experience-hosting/${data}`);
+      history.push(`/user/experience-hosting/${data}/progress1/1`);
     }
   };
 
@@ -64,10 +57,11 @@ const ExperiencePage: React.FC<Props> = () => {
         <div>
           {experiences.length !== 0 ? (
             experiences.map((item, idx) => {
-              if (item.progress > 3) {
+              const [progress, progressStep] = calculateProgressStep(item);
+              if (progressStep === 0) {
                 return (
                   <div key={idx}>
-                    <Link to={`${url}/${item._id}/step/${item.progress}`}>
+                    <Link to={`${url}/${item._id}/progress${progress}/1`}>
                       {item._id}
                     </Link>
                     <p>Done</p>
@@ -76,10 +70,12 @@ const ExperiencePage: React.FC<Props> = () => {
               } else {
                 return (
                   <div key={idx}>
-                    <Link to={`${url}/${item._id}/step/${item.progress}`}>
+                    <Link
+                      to={`${url}/${item._id}/progress${progress}/${progressStep}`}
+                    >
                       {item._id}
                     </Link>
-                    <p>Progress step: {item.progress}</p>
+                    <p>Progress step: {progressStep}</p>
                   </div>
                 );
               }
