@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Menu, MenuItem } from "@material-ui/core";
+import { Avatar, Button, Menu, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -60,8 +60,8 @@ const UserOptions: React.FC = () => {
         onClick={handleClick}
       >
         <MenuIcon className="mr-1 ml-2" />
-        <img
-          className="ml-1 mr-2 rounded-full"
+        <Avatar
+          className="ml-1 mr-2"
           src={
             userData && userData.avatarUrl
               ? userData.avatarUrl

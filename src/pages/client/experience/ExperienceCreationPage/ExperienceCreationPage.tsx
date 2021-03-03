@@ -35,6 +35,12 @@ export default function ExperienceCreationPage(props: Props) {
     { name: "progress1", isDone: false },
   ]);
 
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const handleListItemClick = (index: number) => {
+    setSelectedIndex(index);
+  };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -67,11 +73,15 @@ export default function ExperienceCreationPage(props: Props) {
   };
 
   const drawer = (
-    <div className="w-56">
-      <button onClick={() => handleSaveProgress()}>Save & exit</button>
+    <div className="w-56 mt-6">
+      <button onClick={() => handleSaveProgress()}>Lưu và thoát ra</button>
       <List>
         <Link to={`${url}/progress1/1`}>
-          <ListItem button>
+          <ListItem
+            selected={selectedIndex === 0}
+            onClick={() => handleListItemClick(0)}
+            button
+          >
             <ListItemText primary="Progress 1" />
             {progresses[0].isDone ? (
               <span>

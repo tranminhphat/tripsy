@@ -1,86 +1,108 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import MyRadioButton from "components/Shared/MyRadioButton";
-import { Formik, Form } from "formik";
+import { Button, Slide, Typography } from "@material-ui/core";
 import { getExperienceById } from "api/experiences";
+import ArrowRightIcon from "@material-ui/icons/ArrowForwardIos";
+import CloseIcon from "@material-ui/icons/Close";
 
+const themes = [
+  { id: 1, name: "Động vật" },
+  { id: 2, name: "Hội họa và Điêu khắc" },
+  { id: 3, name: "Văn hóa và Xã hội" },
+  { id: 4, name: "Đồ uống" },
+  { id: 5, name: "Giải trí" },
+  { id: 6, name: "Lịch sử và văn học" },
+  { id: 7, name: "Thiên nhiên và Ngoài trời" },
+  { id: 8, name: "Mua sắm" },
+  { id: 9, name: "Thể thao" },
+  { id: 10, name: "Sức khỏe" },
+];
 interface Props {
   stepProps: any;
 }
 
 const Step1: React.FC<Props> = ({ stepProps }) => {
   const { steps, activeStep, handleNext, handleBack } = stepProps;
-  const [theme, setTheme] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [theme, setTheme] = React.useState("Chủ đề");
   const { id } = useParams<{ id: string }>();
-
-  React.useEffect(() => {
-    fetchData(id);
-  }, [id]);
-
-  const fetchData = async (id: string) => {
-    const { data } = await getExperienceById(id, ["theme"]);
-    if (data) {
-      const { theme } = data.experience;
-      setTheme(theme);
-      setIsLoading(false);
-    }
-  };
+  const [checked, setChecked] = React.useState(false);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Chọn chủ đề của trải nghiệm</h1>
-      {!isLoading ? (
-        <Formik
-          initialValues={{ experienceTheme: theme ? theme : "" }}
-          onSubmit={(values) => handleNext(values.experienceTheme)}
+    <>
+      <Slide direction="left" in={checked}>
+        <div
+          style={{ width: "1093px" }}
+          className=" bg-white absolute top-0 z-50 rounded-2xl mt-4 p-4 shadow-2xl"
         >
-          {({ values }) => (
-            <Form className="flex flex-col">
-              <div>
-                <div>
-                  <MyRadioButton
-                    name="experienceTheme"
-                    type="radio"
-                    value="Food"
-                    label="Ăn uống"
-                    checked={values.experienceTheme === "Food"}
-                  />
-                  <MyRadioButton
-                    name="experienceTheme"
-                    type="radio"
-                    value="Culture"
-                    label="Văn hóa và lịch sử"
-                    checked={values.experienceTheme === "Culture"}
-                  />
-                </div>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className="mr-2"
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    className="mr-2"
-                    disabled={!values.experienceTheme}
-                  >
-                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                  </Button>
-                </div>
+          <div className="flex justify-between">
+            <Typography className="text-xl font-bold">
+              Chọn một chủ đề chính
+            </Typography>
+            <div onClick={() => setChecked(false)}>
+              <CloseIcon />
+            </div>
+          </div>
+
+          <div className="mt-16 px-8">
+            <Typography className="text-4xl font-bold">Các chủ đề</Typography>
+            <div className="mt-4 px-8">
+              <div className="flex items-stretch justify-start flex-wrap">
+                {themes.map((theme) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        setTheme(theme.name);
+                        setChecked(false);
+                      }}
+                      className="w-1/3 relative"
+                    >
+                      <div className="p-5 mb-4 mr-4 border border-gray-300 rounded-lg cursor-pointer">
+                        <Typography className="text-lg font-bold">
+                          {theme.name}
+                        </Typography>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            </Form>
-          )}
-        </Formik>
-      ) : (
-        <div>...loading</div>
-      )}
-    </div>
+            </div>
+          </div>
+        </div>
+      </Slide>
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-4xl font-bold">
+          Hãy lựa chọn chủ đề dành cho hoạt động của bạn
+        </h1>
+        <p className="mt-2 text-gray-500">
+          Lựa chọn chủ đề mô tả tốt nhất những gì người tham gia sẽ làm trong
+          hoạt động của bạn. Việc này sẽ hỗ trợ người tham gia tìm thấy và tham
+          gia hoạt động của bạn.
+        </p>
+        <div
+          onClick={() => setChecked(true)}
+          className="w-full border border-gray-300 rounded-lg mt-2 cursor-pointer"
+        >
+          <div className="p-5">
+            <div className="flex justify-between">
+              <Typography className="text-lg font-bold">{theme}</Typography>
+              <ArrowRightIcon />
+            </div>
+          </div>
+        </div>
+        <div>
+          <Button
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            className="mr-2"
+          >
+            Back
+          </Button>
+          <Button variant="contained" color="primary" className="mr-2">
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
 

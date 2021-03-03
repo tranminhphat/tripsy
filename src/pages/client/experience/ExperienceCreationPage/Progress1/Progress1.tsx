@@ -11,17 +11,17 @@ interface Props {
 }
 
 function getSteps() {
-  return ["Select campaign settings", "Create an ad group", "Create an ad"];
+  return ["Chủ đề của hoạt động", "Địa điểm tổ chức", "Ngôn ngữ sử dụng"];
 }
 
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return "Select campaign settings...";
+      return "Chủ đề";
     case 1:
-      return "What is an ad group anyways?";
+      return "Địa điểm";
     case 2:
-      return "This is the bit I really care about!";
+      return "Ngôn ngữ";
     default:
       return "Unknown step";
   }
@@ -91,7 +91,7 @@ const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
           getStepContent={getStepContent}
         />
       </div>
-      {renderSwitch(activeStep)}
+      <div>{renderSwitch(activeStep)}</div>
     </div>
   );
 };

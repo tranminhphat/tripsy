@@ -22,6 +22,7 @@ import DisplayedInformationForm from "./DisplayedInformationForm";
 import UpdateInformationForm from "./UpdateInformationForm";
 import ChangePasswordForm from "./ChangePasswordForm";
 import { showAlert } from "redux/actions/alert/alertAction";
+import { Avatar } from "@material-ui/core";
 
 interface Props {
   userData: IUserResponse;
@@ -156,9 +157,8 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
   return (
     <div className="flex flex-col items-center justify-center p-8">
       <div className="relative">
-        <img
+        <Avatar
           style={{ width: "96px", height: "96px" }}
-          className="rounded-full"
           src={!userData.avatarUrl ? SkeletonUserAvatar : userData.avatarUrl}
           alt="avatar"
         />
