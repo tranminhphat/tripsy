@@ -22,18 +22,15 @@ interface Props {
 }
 
 const Step1: React.FC<Props> = ({ stepProps }) => {
-  const { steps, activeStep, handleNext, handleBack } = stepProps;
+  const { steps, activeStep, setStepValue } = stepProps;
   const [theme, setTheme] = React.useState("Chủ đề");
   const { id } = useParams<{ id: string }>();
   const [checked, setChecked] = React.useState(false);
 
   return (
-    <>
-      <Slide direction="left" in={checked}>
-        <div
-          style={{ width: "1093px" }}
-          className=" bg-white absolute top-0 z-50 rounded-2xl mt-4 p-4 shadow-2xl"
-        >
+    <div className="container">
+      <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
+        <div className="bg-white absolute top-0 z-50 rounded-2xl mt-4 p-4 shadow-2xl">
           <div className="flex justify-between">
             <Typography className="text-xl font-bold">
               Chọn một chủ đề chính
@@ -50,8 +47,10 @@ const Step1: React.FC<Props> = ({ stepProps }) => {
                 {themes.map((theme) => {
                   return (
                     <div
+                      key={theme.id}
                       onClick={() => {
                         setTheme(theme.name);
+                        setStepValue(theme.name);
                         setChecked(false);
                       }}
                       className="w-1/3 relative"
@@ -80,7 +79,7 @@ const Step1: React.FC<Props> = ({ stepProps }) => {
         </p>
         <div
           onClick={() => setChecked(true)}
-          className="w-full border border-gray-300 rounded-lg mt-2 cursor-pointer"
+          className="border border-gray-300 rounded-lg mt-2 cursor-pointer"
         >
           <div className="p-5">
             <div className="flex justify-between">
@@ -89,20 +88,8 @@ const Step1: React.FC<Props> = ({ stepProps }) => {
             </div>
           </div>
         </div>
-        <div>
-          <Button
-            disabled={activeStep === 0}
-            onClick={handleBack}
-            className="mr-2"
-          >
-            Back
-          </Button>
-          <Button variant="contained" color="primary" className="mr-2">
-            {activeStep === steps.length - 1 ? "Finish" : "Next"}
-          </Button>
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 

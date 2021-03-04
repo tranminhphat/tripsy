@@ -1,9 +1,5 @@
 import React from "react";
-import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import CheckIcon from "@material-ui/icons/Check";
 
 import {
@@ -27,8 +23,6 @@ export default function ExperienceCreationPage(props: Props) {
   const [updatedProperties, setUpdatedProperties] = React.useState<any>({});
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const { url, path } = useRouteMatch();
   const history = useHistory();
   const [progresses, setProgesses] = React.useState([
@@ -39,10 +33,6 @@ export default function ExperienceCreationPage(props: Props) {
 
   const handleListItemClick = (index: number) => {
     setSelectedIndex(index);
-  };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
   };
 
   const handleSaveProgress = async () => {
@@ -72,65 +62,50 @@ export default function ExperienceCreationPage(props: Props) {
     }
   };
 
-  const drawer = (
-    <div className="w-56 mt-6">
-      <button onClick={() => handleSaveProgress()}>Lưu và thoát ra</button>
-      <List>
-        <Link to={`${url}/progress1/1`}>
-          <ListItem
-            selected={selectedIndex === 0}
-            onClick={() => handleListItemClick(0)}
-            button
-          >
-            <ListItemText primary="Progress 1" />
-            {progresses[0].isDone ? (
-              <span>
-                <CheckIcon />
-              </span>
-            ) : null}
-          </ListItem>
-        </Link>
-        {/* <Link to={`${url}/progress2`}>
-          <ListItem button>
-            <ListItemText primary="Progress 2" />
-            {isProgressDone[1].isDone ? (
-              <span>
-                <CheckIcon />
-              </span>
-            ) : null}
-          </ListItem>
-        </Link> */}
-      </List>
-    </div>
-  );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
     <div className="flex">
-      <nav className="flex-shrink" aria-label="mailbox folders">
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            className="w-48"
-            ModalProps={{
-              keepMounted: true,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer variant="permanent" open>
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className="flex-grow sm:ml-64">
+      <Hidden smDown implementation="css">
+        <div className="w-56 h-screen p-6 border-r">
+          <button onClick={() => handleSaveProgress()}>Lưu và thoát ra</button>
+          <ul className="mt-5">
+            <Link to={`${url}/progress1/1`}>
+              <li className="mt-2" onClick={() => handleListItemClick(0)}>
+                <div
+                  className={`
+                    p-2 rounded-lg ${
+                      selectedIndex === 0 ? "border border-black" : ""
+                    }`}
+                >
+                  <p>Progress 1</p>
+                  {progresses[0].isDone ? (
+                    <span>
+                      <CheckIcon />
+                    </span>
+                  ) : null}
+                </div>
+              </li>
+            </Link>
+            <Link to={`${url}/progress1/1`}>
+              <li className="mt-2" onClick={() => handleListItemClick(1)}>
+                <div
+                  className={`
+                    p-2 rounded-lg ${
+                      selectedIndex === 1 ? "border border-black" : ""
+                    }`}
+                >
+                  <p>Progress 2</p>
+                  {progresses[0].isDone ? (
+                    <span>
+                      <CheckIcon />
+                    </span>
+                  ) : null}
+                </div>
+              </li>
+            </Link>
+          </ul>
+        </div>
+      </Hidden>
+      <main className="flex-grow">
         <Switch>
           <Route
             exact
