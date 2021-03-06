@@ -3,9 +3,9 @@ import Button from "@material-ui/core/Button";
 import MyStepper from "components/Shared/MyStepper";
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
+import Theme from "./Theme";
+import Location from "./Location";
+import Language from "./Language";
 
 interface Props {
   handleDone: (index: number) => void;
@@ -29,36 +29,20 @@ function getStepContent(step: number) {
   }
 }
 
-const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
+const Idea: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
   const steps = getSteps();
   const { progressStep } = useParams<{ progressStep: string }>();
   const [activeStep, setActiveStep] = React.useState(Number(progressStep) - 1);
-  const [stepValue, setStepValue] = React.useState("");
+  const [stepValue, setStepValue] = React.useState<{}>();
+  const [isValid, setIsValid] = React.useState<boolean>(false);
 
   const handleNext = () => {
-    switch (activeStep) {
-      case 0:
-        setUpdatedProperties({
-          theme: stepValue,
-        });
-        break;
-      case 1:
-        setUpdatedProperties({
-          title: stepValue,
-        });
-        break;
-      case 2:
-        setUpdatedProperties({
-          language: stepValue,
-        });
-        break;
-      default:
-        break;
-    }
+    setUpdatedProperties(stepValue);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if (activeStep === steps.length - 1) {
       handleDone(0);
     }
+    setIsValid(false);
   };
 
   const handleBack = () => {
@@ -69,16 +53,17 @@ const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
     steps,
     activeStep,
     setStepValue,
+    setIsValid,
   };
 
   const renderSwitch = (stepId: number) => {
     switch (stepId) {
       case 0:
-        return <Step1 stepProps={stepProps} />;
+        return <Theme stepProps={stepProps} />;
       case 1:
-        return <Step2 stepProps={stepProps} />;
+        return <Location stepProps={stepProps} />;
       case 2:
-        return <Step3 stepProps={stepProps} />;
+        return <Language stepProps={stepProps} />;
       default:
         return null;
     }
@@ -107,11 +92,17 @@ const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
           </div>
           <div>
             <Typography>
-              {Number(progressStep)}/{steps.length}
+              {activeStep + 1}/{steps.length}
             </Typography>
           </div>
           <div>
-            <Button variant="contained" color="primary" className="mr-2">
+            <Button
+              disabled={!isValid}
+              variant="contained"
+              color="primary"
+              className="mr-2"
+              onClick={handleNext}
+            >
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>
           </div>
@@ -121,4 +112,4 @@ const Progress1: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
   );
 };
 
-export default Progress1;
+export default Idea;

@@ -6,12 +6,13 @@ import {
   Link,
   useHistory,
   useRouteMatch,
+  useLocation,
   useParams,
   Switch,
   Route,
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Progress1 from "./Progress1/Progress1";
+import Progress1 from "./Idea/Idea";
 import { updateExperienceById } from "api/experiences";
 import { showAlert } from "redux/actions/alert/alertAction";
 
@@ -24,10 +25,9 @@ export default function ExperienceCreationPage(props: Props) {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
+  const location = useLocation();
+  const { isDone } = location.state as { isDone: string };
   const history = useHistory();
-  const [progresses, setProgesses] = React.useState([
-    { name: "progress1", isDone: false },
-  ]);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -46,20 +46,7 @@ export default function ExperienceCreationPage(props: Props) {
   };
 
   const handleDone = (index: number) => {
-    let newProgress = progresses.map((progress, idx) => {
-      if (idx === index) {
-        return { ...progress, isDone: true };
-      } else {
-        return progress;
-      }
-    });
-
-    setProgesses(newProgress);
-    if (index === progresses.length - 1) {
-      alert("Finish");
-    } else {
-      history.push(`${url}/progress${index + 2}`);
-    }
+    history.push(`${url}/progress${index + 2}`);
   };
 
   return (
@@ -76,8 +63,8 @@ export default function ExperienceCreationPage(props: Props) {
                       selectedIndex === 0 ? "border border-black" : ""
                     }`}
                 >
-                  <p>Progress 1</p>
-                  {progresses[0].isDone ? (
+                  <p>Ý tưởng</p>
+                  {isDone ? (
                     <span>
                       <CheckIcon />
                     </span>
@@ -94,7 +81,7 @@ export default function ExperienceCreationPage(props: Props) {
                     }`}
                 >
                   <p>Progress 2</p>
-                  {progresses[0].isDone ? (
+                  {isDone ? (
                     <span>
                       <CheckIcon />
                     </span>

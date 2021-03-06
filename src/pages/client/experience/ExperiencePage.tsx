@@ -61,7 +61,12 @@ const ExperiencePage: React.FC<Props> = () => {
               if (progressStep === 0) {
                 return (
                   <div key={idx}>
-                    <Link to={`${url}/${item._id}/progress${progress}/1`}>
+                    <Link
+                      to={{
+                        pathname: `${url}/${item._id}/progress${progress}/1`,
+                        state: { isDone: true },
+                      }}
+                    >
                       {item._id}
                     </Link>
                     <p>Done</p>
@@ -71,7 +76,10 @@ const ExperiencePage: React.FC<Props> = () => {
                 return (
                   <div key={idx}>
                     <Link
-                      to={`${url}/${item._id}/progress${progress}/${progressStep}`}
+                      to={{
+                        pathname: `${url}/${item._id}/progress${progress}/${progressStep}`,
+                        state: { isDone: false },
+                      }}
                     >
                       {item._id}
                     </Link>

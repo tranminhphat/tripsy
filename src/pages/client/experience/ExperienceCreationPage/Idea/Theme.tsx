@@ -1,31 +1,37 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import { Button, Slide, Typography } from "@material-ui/core";
+import { Slide, Typography } from "@material-ui/core";
 import { getExperienceById } from "api/experiences";
 import ArrowRightIcon from "@material-ui/icons/ArrowForwardIos";
 import CloseIcon from "@material-ui/icons/Close";
+import { themes } from "constants/index";
 
-const themes = [
-  { id: 1, name: "Động vật" },
-  { id: 2, name: "Hội họa và Điêu khắc" },
-  { id: 3, name: "Văn hóa và Xã hội" },
-  { id: 4, name: "Đồ uống" },
-  { id: 5, name: "Giải trí" },
-  { id: 6, name: "Lịch sử và văn học" },
-  { id: 7, name: "Thiên nhiên và Ngoài trời" },
-  { id: 8, name: "Mua sắm" },
-  { id: 9, name: "Thể thao" },
-  { id: 10, name: "Sức khỏe" },
-];
 interface Props {
   stepProps: any;
 }
 
-const Step1: React.FC<Props> = ({ stepProps }) => {
-  const { steps, activeStep, setStepValue } = stepProps;
-  const [theme, setTheme] = React.useState("Chủ đề");
+const Theme: React.FC<Props> = ({ stepProps }) => {
+  const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
+  const [theme, setTheme] = React.useState("Chủ đề");
   const [checked, setChecked] = React.useState(false);
+
+  React.useEffect(() => {
+    fetchData(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const fetchData = async (id: string) => {
+    const {
+      data: {
+        experience: { theme },
+      },
+    } = await getExperienceById(id);
+    if (theme) {
+      setTheme(theme);
+      setIsValid(true);
+    }
+  };
 
   return (
     <div className="container">
@@ -50,8 +56,9 @@ const Step1: React.FC<Props> = ({ stepProps }) => {
                       key={theme.id}
                       onClick={() => {
                         setTheme(theme.name);
-                        setStepValue(theme.name);
+                        setStepValue({ theme: theme.name });
                         setChecked(false);
+                        setIsValid(true);
                       }}
                       className="w-1/3 relative"
                     >
@@ -72,14 +79,14 @@ const Step1: React.FC<Props> = ({ stepProps }) => {
         <h1 className="text-4xl font-bold">
           Hãy lựa chọn chủ đề dành cho hoạt động của bạn
         </h1>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-4 text-gray-500">
           Lựa chọn chủ đề mô tả tốt nhất những gì người tham gia sẽ làm trong
           hoạt động của bạn. Việc này sẽ hỗ trợ người tham gia tìm thấy và tham
           gia hoạt động của bạn.
         </p>
         <div
           onClick={() => setChecked(true)}
-          className="border border-gray-300 rounded-lg mt-2 cursor-pointer"
+          className="border border-gray-300 rounded-lg mt-16 cursor-pointer"
         >
           <div className="p-5">
             <div className="flex justify-between">
@@ -93,4 +100,4 @@ const Step1: React.FC<Props> = ({ stepProps }) => {
   );
 };
 
-export default Step1;
+export default Theme;
