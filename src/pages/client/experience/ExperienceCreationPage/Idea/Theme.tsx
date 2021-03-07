@@ -30,6 +30,8 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
     if (theme) {
       setTheme(theme);
       setIsValid(true);
+    } else {
+      setIsValid(false);
     }
   };
 

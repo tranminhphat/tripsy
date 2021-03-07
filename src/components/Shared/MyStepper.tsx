@@ -13,31 +13,25 @@ interface Props {
 const MyStepper: React.FC<Props> = ({ activeStep, steps, getStepContent }) => {
   return (
     <div className="w-full">
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps: { completed?: boolean } = {};
+      <Stepper activeStep={activeStep - 1}>
+        {steps.map((step: { label: string; isCompleted: boolean }) => {
+          const stepProps: { completed?: boolean } = {
+            completed: step.isCompleted,
+          };
           const labelProps: { optional?: React.ReactNode } = {};
           return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
+            <Step key={step.label} {...stepProps}>
+              <StepLabel {...labelProps}>{step.label}</StepLabel>
             </Step>
           );
         })}
       </Stepper>
       <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className="my-2">
-              All steps completed - you&apos;re finished
-            </Typography>
-          </div>
-        ) : (
-          <div>
-            <Typography className="my-2 font-bold">
-              {getStepContent(activeStep)}
-            </Typography>
-          </div>
-        )}
+        <div>
+          <Typography className="my-2 font-bold">
+            {getStepContent(activeStep)}
+          </Typography>
+        </div>
       </div>
     </div>
   );

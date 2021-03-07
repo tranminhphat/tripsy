@@ -4,4 +4,5 @@ export interface IExperienceResponse {
   theme?: string;
   location?: string;
   language?: string;
+  a?: string;
 }

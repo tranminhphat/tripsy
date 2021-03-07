@@ -13,7 +13,7 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   const { id } = useParams<{ id: string }>();
 
   const options = ["Tiếng Việt", "English"];
-  const [language, setLanguage] = React.useState<string | null>("");
+  const [language, setLanguage] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState("");
 
   React.useEffect(() => {
@@ -22,11 +22,16 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   }, [id]);
 
   const fetchData = async (id: string) => {
-    const { data } = await getExperienceById(id, ["language"]);
-    if (data) {
-      const { language } = data.experience;
+    const {
+      data: {
+        experience: { language },
+      },
+    } = await getExperienceById(id, ["language"]);
+    if (language) {
       setLanguage(language);
       setIsValid(true);
+    } else {
+      setIsValid(false);
     }
   };
 
@@ -51,7 +56,11 @@ const Language: React.FC<Props> = ({ stepProps }) => {
         inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
-          setIsValid(false);
+          if (options.includes(newInputValue)) {
+            setIsValid(true);
+          } else {
+            setIsValid(false);
+          }
         }}
         options={options}
         style={{ width: 300 }}

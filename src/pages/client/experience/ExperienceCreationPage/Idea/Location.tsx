@@ -27,10 +27,11 @@ const Location: React.FC<Props> = ({ stepProps }) => {
         experience: { location },
       },
     } = await getExperienceById(id);
-    console.log(location);
     if (location) {
       setLocation(location);
       setIsValid(true);
+    } else {
+      setIsValid(false);
     }
   };
 

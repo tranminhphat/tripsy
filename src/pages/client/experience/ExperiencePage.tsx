@@ -6,7 +6,7 @@ import { createExperience, getExperiences } from "api/experiences";
 import { getCurrentUser } from "api/users";
 import MainLayout from "layouts/MainLayout";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
-import calculateProgressStep from "helpers/calculateProgressStep";
+import { calculateProgressStep } from "helpers/calculateProgressStep";
 
 interface Props {}
 
@@ -33,7 +33,7 @@ const ExperiencePage: React.FC<Props> = () => {
   const handleCreateExperience = async () => {
     const { data } = await createExperience();
     if (data) {
-      history.push(`/user/experience-hosting/${data}/progress1/1`);
+      history.push(`/user/experience-hosting/${data}/progress1`);
     }
   };
 
@@ -63,8 +63,8 @@ const ExperiencePage: React.FC<Props> = () => {
                   <div key={idx}>
                     <Link
                       to={{
-                        pathname: `${url}/${item._id}/progress${progress}/1`,
-                        state: { isDone: true },
+                        pathname: `${url}/${item._id}/progress${progress}`,
+                        state: { progressStep: 1 },
                       }}
                     >
                       {item._id}
@@ -77,8 +77,8 @@ const ExperiencePage: React.FC<Props> = () => {
                   <div key={idx}>
                     <Link
                       to={{
-                        pathname: `${url}/${item._id}/progress${progress}/${progressStep}`,
-                        state: { isDone: false },
+                        pathname: `${url}/${item._id}/progress${progress}`,
+                        state: { progressStep: progressStep },
                       }}
                     >
                       {item._id}
