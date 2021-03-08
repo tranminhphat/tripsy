@@ -1,9 +1,9 @@
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 
-export const calculateProgressStep = (
+export const calculateCurrentProgress = (
   experienceDocument: IExperienceResponse
 ) => {
-  const { theme, location, language, a } = experienceDocument;
+  const { theme, location, language, address } = experienceDocument;
   if (!theme) {
     return [1, 1];
   }
@@ -13,9 +13,9 @@ export const calculateProgressStep = (
   if (!language) {
     return [1, 3];
   }
-  if (!a) {
+  if (!address) {
     return [2, 1];
   }
 
-  return [1, 0];
+  return [-1, -1];
 };

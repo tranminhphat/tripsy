@@ -11,7 +11,7 @@ import {
 import { getCurrentUser } from "api/users";
 import MainLayout from "layouts/MainLayout";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
-import { calculateProgressStep } from "helpers/calculateProgressStep";
+import { calculateCurrentProgress } from "helpers/calculateProgress";
 import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
@@ -42,7 +42,7 @@ const ExperiencePage: React.FC<Props> = () => {
     if (data) {
       history.push({
         pathname: `/user/experience-hosting/${data}/progress1`,
-        state: { progressStep: 1 },
+        state: { currentProgress: 1, currentStep: 1 },
       });
     }
   };
@@ -78,15 +78,18 @@ const ExperiencePage: React.FC<Props> = () => {
         <div>
           {experiences.length !== 0 ? (
             experiences.map((item, idx) => {
-              const [progress, progressStep] = calculateProgressStep(item);
+              console.log(item);
+              const [currentProgress, currentStep] = calculateCurrentProgress(
+                item
+              );
               return (
                 <div key={idx}>
-                  {progressStep === 0 ? (
+                  {currentProgress === -1 ? (
                     <>
                       <Link
                         to={{
-                          pathname: `${url}/${item._id}/progress${progress}`,
-                          state: { progressStep: 1 },
+                          pathname: `${url}/${item._id}/progress1`,
+                          state: { currentProgress: 1, currentStep: 1 },
                         }}
                       >
                         {item._id}
@@ -97,13 +100,14 @@ const ExperiencePage: React.FC<Props> = () => {
                     <>
                       <Link
                         to={{
-                          pathname: `${url}/${item._id}/progress${progress}`,
-                          state: { progressStep: progressStep },
+                          pathname: `${url}/${item._id}/progress${currentProgress}`,
+                          state: { currentProgress, currentStep },
                         }}
                       >
                         {item._id}
                       </Link>
-                      <p>Progress step: {progressStep}</p>
+                      <p>Current progress: {currentProgress}</p>
+                      <p>Current step: {currentStep}</p>
                     </>
                   )}
 

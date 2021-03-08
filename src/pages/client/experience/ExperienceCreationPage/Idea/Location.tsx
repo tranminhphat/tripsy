@@ -32,7 +32,7 @@ const Location: React.FC<Props> = ({ stepProps }) => {
         experience: { location },
       },
     } = await getExperienceById(id);
-    if (location.lat) {
+    if (location) {
       setLocation(location);
       setIsValid(true);
     }

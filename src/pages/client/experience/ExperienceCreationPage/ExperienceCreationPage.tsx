@@ -6,16 +6,16 @@ import {
   Link,
   useHistory,
   useRouteMatch,
+  useLocation,
   useParams,
   Switch,
   Route,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Idea from "./Idea/Idea";
-import { getExperienceById, updateExperienceById } from "api/experiences";
+import { updateExperienceById } from "api/experiences";
 import { showAlert } from "redux/actions/alert/alertAction";
 import Introduction from "./Introduction/Introduction";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import { resetExperiece } from "redux/actions/experience/experienceAction";
 
 interface Props {
@@ -24,7 +24,11 @@ interface Props {
 
 export default function ExperienceCreationPage(props: Props) {
   const updatedProperties = useSelector((state) => state.experience);
-  const [currentProgressIndex, setCurrentProgressIndex] = React.useState(1);
+  const location = useLocation<{ currentProgress: number }>();
+  const { currentProgress } = location.state;
+  const [currentProgressIndex, setCurrentProgressIndex] = React.useState(
+    currentProgress
+  );
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
@@ -37,13 +41,15 @@ export default function ExperienceCreationPage(props: Props) {
   };
 
   const handleSaveProgress = async () => {
-    const { data } = await updateExperienceById(id, updatedProperties);
-    if (data) {
-      history.push("/user/experience-hosting");
-      dispatch(resetExperiece());
-      dispatch(showAlert("success", "success"));
-    } else {
-      dispatch(showAlert("error", "error"));
+    if (updatedProperties) {
+      const { data } = await updateExperienceById(id, updatedProperties);
+      if (data) {
+        history.push("/user/experience-hosting");
+        dispatch(resetExperiece());
+        dispatch(showAlert("success", "success"));
+      } else {
+        dispatch(showAlert("error", "error"));
+      }
     }
   };
 
@@ -62,7 +68,10 @@ export default function ExperienceCreationPage(props: Props) {
           <button onClick={() => handleSaveProgress()}>Lưu và thoát ra</button>
           <ul className="mt-5">
             <Link
-              to={{ pathname: `${url}/progress1`, state: { progressStep: 1 } }}
+              to={{
+                pathname: `${url}/progress1`,
+                state: { currentProgress: 1, currentStep: 1 },
+              }}
             >
               <li className="mt-2" onClick={() => handleListItemClick(0)}>
                 <div
@@ -83,7 +92,7 @@ export default function ExperienceCreationPage(props: Props) {
             <Link
               to={{
                 pathname: `${url}/progress2`,
-                state: { progressStep: 1 },
+                state: { currentProgress: 2, currentStep: 1 },
               }}
             >
               <li className="mt-2" onClick={() => handleListItemClick(1)}>

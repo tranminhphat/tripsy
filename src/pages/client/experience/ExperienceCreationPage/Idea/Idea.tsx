@@ -13,10 +13,10 @@ interface Props {
   handleDone: (index: number) => void;
 }
 
-const getSteps = () => [
-  { label: "Chủ đề của hoạt động", isCompleted: false },
-  { label: "Địa điểm tổ chức", isCompleted: false },
-  { label: "Ngôn ngữ sử dụng", isCompleted: false },
+const getSteps = (currentStep: number) => [
+  { label: "Chủ đề của hoạt động", isCompleted: currentStep > 1 },
+  { label: "Địa điểm tổ chức", isCompleted: currentStep > 2 },
+  { label: "Ngôn ngữ sử dụng", isCompleted: currentStep > 3 },
 ];
 
 function getStepContent(step: number) {
@@ -33,10 +33,10 @@ function getStepContent(step: number) {
 }
 
 const Idea: React.FC<Props> = ({ handleDone }) => {
-  const location = useLocation<{ progressStep: string }>();
-  const [steps, setSteps] = React.useState(getSteps());
-  const { progressStep } = location.state;
-  const [activeStep, setActiveStep] = React.useState(Number(progressStep));
+  const location = useLocation<{ currentStep: number }>();
+  const { currentStep } = location.state;
+  const [steps, setSteps] = React.useState(getSteps(currentStep));
+  const [activeStep, setActiveStep] = React.useState(currentStep);
   const [stepValue, setStepValue] = React.useState<{}>();
   const [isValid, setIsValid] = React.useState<boolean>(false);
   const dispatch = useDispatch();

@@ -37,9 +37,9 @@ interface Props {
 
 const Introduction: React.FC<Props> = ({ handleDone }) => {
   const steps = getSteps();
-  const location = useLocation<{ progressStep: string }>();
-  const { progressStep } = location.state;
-  const [activeStep, setActiveStep] = React.useState(Number(progressStep));
+  const location = useLocation<{ currentStep: number }>();
+  const { currentStep } = location.state;
+  const [activeStep, setActiveStep] = React.useState(currentStep);
   const [stepValue, setStepValue] = React.useState<{}>();
   const [isValid, setIsValid] = React.useState<boolean>(false);
 
