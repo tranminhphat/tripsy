@@ -2,6 +2,10 @@ import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
+import GuestRequirement from "./GuestRequirement";
+import Description from "./Description";
+import DetailLocation from "./DetailLocation";
+import HostProvision from "./HostProvision";
 
 function getSteps() {
   return [
@@ -44,12 +48,7 @@ const Introduction: React.FC<Props> = ({
   const [isValid, setIsValid] = React.useState<boolean>(false);
 
   const handleNext = () => {
-    setUpdatedProperties(stepValue);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    if (activeStep === steps.length) {
-      handleDone(1);
-    }
-    setIsValid(false);
   };
 
   const handleBack = () => {
@@ -57,24 +56,24 @@ const Introduction: React.FC<Props> = ({
   };
 
   const stepProps = {
-    steps,
-    activeStep,
     setStepValue,
     setIsValid,
   };
 
-  // const renderSwitch = (stepId: number) => {
-  //   switch (stepId) {
-  //     case 1:
-  //       return <Theme stepProps={stepProps} />;
-  //     case 2:
-  //       return <Location stepProps={stepProps} />;
-  //     case 3:
-  //       return <Language stepProps={stepProps} />;
-  //     default:
-  //       return null;
-  //   }
-  // };
+  const renderSwitch = (stepId: number) => {
+    switch (stepId) {
+      case 1:
+        return <Description stepProps={stepProps} />;
+      case 2:
+        return <DetailLocation stepProps={stepProps} />;
+      case 3:
+        return <HostProvision />;
+      case 4:
+        return <GuestRequirement />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="h-screen flex flex-col">
@@ -85,7 +84,7 @@ const Introduction: React.FC<Props> = ({
           getStepContent={getStepContent}
         />
       </div>
-      {/* <div className="flex-grow mx-4">{renderSwitch(activeStep)}</div> */}
+      <div className="flex-grow mx-4">{renderSwitch(activeStep)}</div>
       <div>
         <div className="flex justify-between items-center p-4 bg-gray-100 rounded-md">
           <div>
