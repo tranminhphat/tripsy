@@ -6,10 +6,11 @@ import { useLocation } from "react-router-dom";
 import Theme from "./Theme";
 import Location from "./Location";
 import Language from "./Language";
+import { useDispatch } from "react-redux";
+import { updateExperience } from "redux/actions/experience/experienceAction";
 
 interface Props {
   handleDone: (index: number) => void;
-  setUpdatedProperties: (values: any) => void;
 }
 
 const getSteps = () => [
@@ -31,16 +32,17 @@ function getStepContent(step: number) {
   }
 }
 
-const Idea: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
+const Idea: React.FC<Props> = ({ handleDone }) => {
   const location = useLocation<{ progressStep: string }>();
   const [steps, setSteps] = React.useState(getSteps());
   const { progressStep } = location.state;
   const [activeStep, setActiveStep] = React.useState(Number(progressStep));
   const [stepValue, setStepValue] = React.useState<{}>();
   const [isValid, setIsValid] = React.useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleNext = () => {
-    setUpdatedProperties(stepValue);
+    dispatch(updateExperience(stepValue));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     const newSteps = steps.map((step, index) => {
       if (index === activeStep - 1) {
@@ -51,7 +53,7 @@ const Idea: React.FC<Props> = ({ handleDone, setUpdatedProperties }) => {
     });
     setSteps(newSteps);
     if (activeStep === steps.length) {
-      handleDone(0);
+      handleDone(1);
     }
   };
 

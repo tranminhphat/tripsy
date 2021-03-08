@@ -3,6 +3,7 @@ import { Autocomplete } from "@material-ui/lab";
 import { getExperienceById } from "api/experiences";
 import * as React from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 interface Props {
   stepProps: any;
@@ -13,11 +14,18 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   const { id } = useParams<{ id: string }>();
 
   const options = ["Tiếng Việt", "English"];
-  const [language, setLanguage] = React.useState<string | null>(null);
+
+  const experience = useSelector((state) => state.experience);
+  const [language, setLanguage] = React.useState<string | null>(
+    experience.language ? experience.language : null
+  );
   const [inputValue, setInputValue] = React.useState("");
 
   React.useEffect(() => {
     fetchData(id);
+    if (experience.language) {
+      setIsValid(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -30,8 +38,6 @@ const Language: React.FC<Props> = ({ stepProps }) => {
     if (language) {
       setLanguage(language);
       setIsValid(true);
-    } else {
-      setIsValid(false);
     }
   };
 

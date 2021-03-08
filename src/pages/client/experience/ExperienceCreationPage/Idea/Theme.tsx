@@ -5,6 +5,7 @@ import { getExperienceById } from "api/experiences";
 import ArrowRightIcon from "@material-ui/icons/ArrowForwardIos";
 import CloseIcon from "@material-ui/icons/Close";
 import { themes } from "constants/index";
+import { useSelector } from "react-redux";
 
 interface Props {
   stepProps: any;
@@ -13,11 +14,17 @@ interface Props {
 const Theme: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const [theme, setTheme] = React.useState("Chủ đề");
+  const experience = useSelector((state) => state.experience);
+  const [theme, setTheme] = React.useState(
+    experience.theme ? experience.theme : "Chủ đề"
+  );
   const [checked, setChecked] = React.useState(false);
 
   React.useEffect(() => {
     fetchData(id);
+    if (experience.theme) {
+      setIsValid(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -30,8 +37,6 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
     if (theme) {
       setTheme(theme);
       setIsValid(true);
-    } else {
-      setIsValid(false);
     }
   };
 

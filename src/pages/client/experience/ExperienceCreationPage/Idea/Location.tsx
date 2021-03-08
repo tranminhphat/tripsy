@@ -3,6 +3,7 @@ import { getExperienceById } from "api/experiences";
 import * as React from "react";
 import MapboxAutocomplete from "react-mapbox-autocomplete";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 interface Props {
   stepProps: any;
 }
@@ -10,14 +11,18 @@ interface Props {
 const Location: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
+  const experience = useSelector((state) => state.experience);
   const [location, setLocation] = React.useState<{
     city: string;
     lat: string;
     lng: string;
-  }>();
+  }>(experience.location ? experience.location : {});
 
   React.useEffect(() => {
     fetchData(id);
+    if (experience.location) {
+      setIsValid(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -27,11 +32,9 @@ const Location: React.FC<Props> = ({ stepProps }) => {
         experience: { location },
       },
     } = await getExperienceById(id);
-    if (location) {
+    if (location.lat) {
       setLocation(location);
       setIsValid(true);
-    } else {
-      setIsValid(false);
     }
   };
 
@@ -56,7 +59,8 @@ const Location: React.FC<Props> = ({ stepProps }) => {
         dưới, hãy chọn địa điểm gần nhất, bạn sẽ được cập nhật địa chỉ chi tiết
         ở mục sau
       </p>
-      {location ? (
+
+      {location && location.city ? (
         <div>
           <div className="p-5 mb-4 mr-4 border border-gray-500 bg-gray-200 opacity-50 rounded-lg">
             <Typography className="text-lg">{location.city}</Typography>

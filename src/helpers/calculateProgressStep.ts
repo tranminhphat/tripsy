@@ -19,28 +19,3 @@ export const calculateProgressStep = (
 
   return [1, 0];
 };
-
-export const isProgressDone = (
-  experienceDocument: IExperienceResponse,
-  progressNumber: number
-) => {
-  const { theme, location, language, a } = experienceDocument;
-
-  switch (progressNumber) {
-    case 1:
-      if (theme && location && language) {
-        return true;
-      } else {
-        return false;
-      }
-
-    case 2:
-      if (a) {
-        return true;
-      } else {
-        return false;
-      }
-    default:
-      return false;
-  }
-};

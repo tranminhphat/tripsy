@@ -27,3 +27,7 @@ export const createExperience = () => {
 export const updateExperienceById = (id: string, data) => {
   return axios.put(`experiences/${id}`, data);
 };
+
+export const deleteExperienceById = (id: string) => {
+  return axios.delete(`experiences/${id}`);
+};

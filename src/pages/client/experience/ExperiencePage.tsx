@@ -1,12 +1,18 @@
 import * as React from "react";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Button, CircularProgress, Typography } from "@material-ui/core";
-import { createExperience, getExperiences } from "api/experiences";
+import {
+  createExperience,
+  deleteExperienceById,
+  getExperiences,
+} from "api/experiences";
 import { getCurrentUser } from "api/users";
 import MainLayout from "layouts/MainLayout";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import { calculateProgressStep } from "helpers/calculateProgressStep";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
 
@@ -14,6 +20,7 @@ const ExperiencePage: React.FC<Props> = () => {
   const [experiences, setExperiences] = React.useState<IExperienceResponse[]>();
   const history = useHistory();
   const { url } = useRouteMatch();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     fetchData();
@@ -33,7 +40,21 @@ const ExperiencePage: React.FC<Props> = () => {
   const handleCreateExperience = async () => {
     const { data } = await createExperience();
     if (data) {
-      history.push(`/user/experience-hosting/${data}/progress1`);
+      history.push({
+        pathname: `/user/experience-hosting/${data}/progress1`,
+        state: { progressStep: 1 },
+      });
+    }
+  };
+
+  const handleDeleteExperience = async (id: string) => {
+    const {
+      data: { message },
+    } = await deleteExperienceById(id);
+    if (message) {
+      dispatch(showAlert("success", message));
+    } else {
+      dispatch(showAlert("error", "Xảy ra lỗi"));
     }
   };
 
@@ -58,35 +79,39 @@ const ExperiencePage: React.FC<Props> = () => {
           {experiences.length !== 0 ? (
             experiences.map((item, idx) => {
               const [progress, progressStep] = calculateProgressStep(item);
-              if (progressStep === 0) {
-                return (
-                  <div key={idx}>
-                    <Link
-                      to={{
-                        pathname: `${url}/${item._id}/progress${progress}`,
-                        state: { progressStep: 1 },
-                      }}
-                    >
-                      {item._id}
-                    </Link>
-                    <p>Done</p>
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={idx}>
-                    <Link
-                      to={{
-                        pathname: `${url}/${item._id}/progress${progress}`,
-                        state: { progressStep: progressStep },
-                      }}
-                    >
-                      {item._id}
-                    </Link>
-                    <p>Progress step: {progressStep}</p>
-                  </div>
-                );
-              }
+              return (
+                <div key={idx}>
+                  {progressStep === 0 ? (
+                    <>
+                      <Link
+                        to={{
+                          pathname: `${url}/${item._id}/progress${progress}`,
+                          state: { progressStep: 1 },
+                        }}
+                      >
+                        {item._id}
+                      </Link>
+                      <p>Done</p>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to={{
+                          pathname: `${url}/${item._id}/progress${progress}`,
+                          state: { progressStep: progressStep },
+                        }}
+                      >
+                        {item._id}
+                      </Link>
+                      <p>Progress step: {progressStep}</p>
+                    </>
+                  )}
+
+                  <button onClick={() => handleDeleteExperience(item._id!)}>
+                    x
+                  </button>
+                </div>
+              );
             })
           ) : (
             <div>Bạn chưa tổ chức trải nghiệm nào </div>

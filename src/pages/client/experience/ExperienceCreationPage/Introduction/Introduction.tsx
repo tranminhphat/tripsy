@@ -33,13 +33,9 @@ function getStepContent(step: number) {
 
 interface Props {
   handleDone: (index: number) => void;
-  setUpdatedProperties: (values: any) => void;
 }
 
-const Introduction: React.FC<Props> = ({
-  handleDone,
-  setUpdatedProperties,
-}) => {
+const Introduction: React.FC<Props> = ({ handleDone }) => {
   const steps = getSteps();
   const location = useLocation<{ progressStep: string }>();
   const { progressStep } = location.state;

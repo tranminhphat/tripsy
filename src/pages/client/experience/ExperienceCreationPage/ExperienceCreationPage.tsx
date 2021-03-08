@@ -10,40 +10,27 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Idea from "./Idea/Idea";
 import { getExperienceById, updateExperienceById } from "api/experiences";
 import { showAlert } from "redux/actions/alert/alertAction";
 import Introduction from "./Introduction/Introduction";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
-import { isProgressDone } from "helpers/calculateProgressStep";
+import { resetExperiece } from "redux/actions/experience/experienceAction";
 
 interface Props {
   window?: () => Window;
 }
 
 export default function ExperienceCreationPage(props: Props) {
-  const [updatedProperties, setUpdatedProperties] = React.useState<any>({});
-  const [experience, setExperience] = React.useState<IExperienceResponse>();
+  const updatedProperties = useSelector((state) => state.experience);
+  const [currentProgressIndex, setCurrentProgressIndex] = React.useState(1);
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
   const history = useHistory();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-  React.useEffect(() => {
-    fetchExperienceById(id);
-  }, [id]);
-
-  const fetchExperienceById = async (id: string) => {
-    const {
-      data: { experience },
-    } = await getExperienceById(id);
-    if (experience) {
-      setExperience(experience);
-    }
-  };
 
   const handleListItemClick = (index: number) => {
     setSelectedIndex(index);
@@ -53,15 +40,17 @@ export default function ExperienceCreationPage(props: Props) {
     const { data } = await updateExperienceById(id, updatedProperties);
     if (data) {
       history.push("/user/experience-hosting");
+      dispatch(resetExperiece());
       dispatch(showAlert("success", "success"));
     } else {
       dispatch(showAlert("error", "error"));
     }
   };
 
-  const handleDone = (index: number) => {
+  const handleDone = async (index: number) => {
+    setCurrentProgressIndex((prevIndex) => prevIndex + 1);
     history.push({
-      pathname: `${url}/progress${index + 2}`,
+      pathname: `${url}/progress${index + 1}`,
       state: { progressStep: 1 },
     });
   };
@@ -83,7 +72,7 @@ export default function ExperienceCreationPage(props: Props) {
                     }`}
                 >
                   <span>Ý tưởng</span>
-                  {experience && isProgressDone(experience, 1) ? (
+                  {currentProgressIndex > 1 ? (
                     <span>
                       <CheckIcon />
                     </span>
@@ -105,7 +94,7 @@ export default function ExperienceCreationPage(props: Props) {
                     }`}
                 >
                   <span>Giới thiệu</span>
-                  {experience && isProgressDone(experience, 2) ? (
+                  {currentProgressIndex > 2 ? (
                     <span>
                       <CheckIcon />
                     </span>
@@ -121,32 +110,12 @@ export default function ExperienceCreationPage(props: Props) {
           <Route
             exact
             path={`${path}/progress1/`}
-            render={() => (
-              <Idea
-                handleDone={handleDone}
-                setUpdatedProperties={(values: any) =>
-                  setUpdatedProperties((prevState) => ({
-                    ...prevState,
-                    ...values,
-                  }))
-                }
-              />
-            )}
+            render={() => <Idea handleDone={handleDone} />}
           />
           <Route
             exact
             path={`${path}/progress2/`}
-            render={() => (
-              <Introduction
-                handleDone={handleDone}
-                setUpdatedProperties={(values: any) =>
-                  setUpdatedProperties((prevState) => ({
-                    ...prevState,
-                    ...values,
-                  }))
-                }
-              />
-            )}
+            render={() => <Introduction handleDone={handleDone} />}
           />
         </Switch>
       </main>
