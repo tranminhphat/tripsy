@@ -55,6 +55,7 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
     if (activeStep === steps.length) {
       handleDone(1);
     }
+    setIsValid(false);
   };
 
   const handleBack = () => {

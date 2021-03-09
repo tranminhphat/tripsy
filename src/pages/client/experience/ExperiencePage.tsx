@@ -78,7 +78,6 @@ const ExperiencePage: React.FC<Props> = () => {
         <div>
           {experiences.length !== 0 ? (
             experiences.map((item, idx) => {
-              console.log(item);
               const [currentProgress, currentStep] = calculateCurrentProgress(
                 item
               );

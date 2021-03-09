@@ -1,11 +1,13 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Typography } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import MyStepper from "components/Shared/MyStepper";
 import GuestRequirement from "./GuestRequirement";
 import Description from "./Description";
-import DetailLocation from "./DetailLocation";
+import Address from "./Address";
 import HostProvision from "./HostProvision";
+import { updateExperience } from "redux/actions/experience/experienceAction";
 
 function getSteps() {
   return [
@@ -36,6 +38,7 @@ interface Props {
 }
 
 const Introduction: React.FC<Props> = ({ handleDone }) => {
+  const dispatch = useDispatch();
   const steps = getSteps();
   const location = useLocation<{ currentStep: number }>();
   const { currentStep } = location.state;
@@ -44,7 +47,9 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
   const [isValid, setIsValid] = React.useState<boolean>(false);
 
   const handleNext = () => {
+    dispatch(updateExperience(stepValue));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setIsValid(false);
   };
 
   const handleBack = () => {
@@ -61,7 +66,7 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
       case 1:
         return <Description stepProps={stepProps} />;
       case 2:
-        return <DetailLocation stepProps={stepProps} />;
+        return <Address stepProps={stepProps} />;
       case 3:
         return <HostProvision />;
       case 4:

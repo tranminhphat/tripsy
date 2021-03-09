@@ -5,12 +5,15 @@ interface Props {
 }
 
 const Description: React.FC<Props> = ({ stepProps }) => {
-  const { setIsValid } = stepProps;
+  const { setIsValid, setStepValue } = stepProps;
   const [value, setValue] = React.useState("");
 
   const handleOnChange = (e) => {
     setValue(e.target.value);
-    setIsValid(value.length >= 10);
+    if (e.target.value.length >= 10) {
+      setIsValid(true);
+      setStepValue({ description: e.target.value });
+    }
   };
   return (
     <div className="max-w-xl text-justify mx-auto">

@@ -12,15 +12,14 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [coordinates, setCoordinates] = React.useState<{
+  const [location, setLocation] = React.useState<{
     city: string;
-    lat: string;
-    lng: string;
-  }>(experience.coordinates ? experience.coordinates : {});
+    coordinates: [number, number];
+  }>(experience.location ? experience.location : {});
 
   React.useEffect(() => {
     fetchData(id);
-    if (experience.coordinates) {
+    if (experience.location) {
       setIsValid(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,21 +28,20 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const fetchData = async (id: string) => {
     const {
       data: {
-        experience: { coordinates },
+        experience: { location },
       },
     } = await getExperienceById(id);
-    if (coordinates) {
-      setCoordinates(coordinates);
+    if (location) {
+      setLocation(location);
       setIsValid(true);
     }
   };
 
   const handleSelect = (result, lat, lng) => {
     setStepValue({
-      coordinates: {
+      location: {
         city: result,
-        lat,
-        lng,
+        coordinates: [lng, lat],
       },
     });
     setIsValid(true);
@@ -60,10 +58,10 @@ const Location: React.FC<Props> = ({ stepProps }) => {
         ở mục sau
       </p>
 
-      {coordinates && coordinates.city ? (
+      {location && location.city ? (
         <div>
           <div className="p-5 mb-4 border border-gray-500 bg-gray-200 opacity-50 rounded-lg">
-            <Typography className="text-lg">{coordinates.city}</Typography>
+            <Typography className="text-lg">{location.city}</Typography>
           </div>
         </div>
       ) : (

@@ -5,14 +5,19 @@ import {
   getWardsByDistrictsName,
 } from "api/seeds";
 import MyAutocomplete from "components/Shared/MyAutocomplete";
-import TextField from "@material-ui/core/TextField";
+
+import { useSelector } from "react-redux";
+import MyMapbox from "components/Shared/MyMapbox";
 
 interface Props {
   stepProps: any;
 }
 
-const DetailLocation: React.FC<Props> = ({ stepProps }) => {
-  const { setIsValid } = stepProps;
+const Address: React.FC<Props> = ({ stepProps }) => {
+  const { setIsValid, setStepValue } = stepProps;
+
+  const { location } = useSelector((state) => state.experience);
+
   const [describe, setDescribe] = React.useState("");
 
   const [cities, setCities] = React.useState<string[]>();
@@ -28,6 +33,12 @@ const DetailLocation: React.FC<Props> = ({ stepProps }) => {
   const [wardInput, setWardInput] = React.useState("");
 
   const [address, setAddress] = React.useState("");
+
+  React.useEffect(() => {
+    if (city && district && ward && describe.length >= 10) {
+      setIsValid(true);
+    }
+  }, [city, describe.length, district, setIsValid, ward]);
 
   React.useEffect(() => {
     fetchCities();
@@ -68,8 +79,15 @@ const DetailLocation: React.FC<Props> = ({ stepProps }) => {
 
   const handleOnChange = (e) => {
     setDescribe(e.target.value);
-    setIsValid(city!.length >= 10);
   };
+
+  const handleOnDragEnd = (lng: number, lat: number) => {
+    setStepValue((prevValue) => ({
+      ...prevValue,
+      location: { ...location, coordinates: [lng, lat] },
+    }));
+  };
+
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-4xl font-bold">Chi tiết về vị trí tổ chức</h1>
@@ -112,52 +130,54 @@ const DetailLocation: React.FC<Props> = ({ stepProps }) => {
         ) : null}
       </div>
       <div className="mt-4">
-        {districts ? (
-          <>
-            <label className="text-xl font-bold">Quận</label>
-            <MyAutocomplete
-              options={districts}
-              value={district}
-              setValue={setDistrict}
-              inputValue={districtInput}
-              setInputValue={setDistrictInput}
-              setIsValid={setIsValid}
-              placeholder="Chọn quận / huyện"
-            />
-          </>
-        ) : null}
+        <>
+          <label className="text-xl font-bold">Quận</label>
+          <MyAutocomplete
+            options={districts ? districts : []}
+            value={district}
+            setValue={setDistrict}
+            inputValue={districtInput}
+            setInputValue={setDistrictInput}
+            setIsValid={setIsValid}
+            placeholder="Chọn quận / huyện"
+          />
+        </>
       </div>
       <div className="mt-4">
-        {wards ? (
-          <>
-            <label className="text-xl font-bold">Phường</label>
-            <MyAutocomplete
-              options={wards}
-              value={ward}
-              setValue={setWard}
-              inputValue={wardInput}
-              setInputValue={setWardInput}
-              setIsValid={setIsValid}
-              placeholder="Chọn phường / xã"
-            />
-          </>
-        ) : null}
+        <>
+          <label className="text-xl font-bold">Phường</label>
+          <MyAutocomplete
+            options={wards ? wards : []}
+            value={ward}
+            setValue={setWard}
+            inputValue={wardInput}
+            setInputValue={setWardInput}
+            setIsValid={setIsValid}
+            placeholder="Chọn phường / xã"
+          />
+        </>
       </div>
       <div className="mt-4">
-        {city && district && ward ? (
-          <>
-            <label className="text-xl font-bold">Địa chỉ</label>
-            <input
-              type="text"
-              className="w-full border border-gray-300 hover:border-black p-4 rounded-md"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </>
-        ) : null}
+        <>
+          <label className="text-xl font-bold">Địa chỉ</label>
+          <input
+            type="text"
+            className="w-full border border-gray-300 hover:border-black p-4 rounded-md"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </>
+      </div>
+      <div className="mt-4 flex justify-center">
+        <MyMapbox
+          width="400px"
+          height="400px"
+          coordinates={location.coordinates}
+          onDragEnd={(lng, lat) => handleOnDragEnd(lng, lat)}
+        />
       </div>
     </div>
   );
 };
 
-export default DetailLocation;
+export default Address;
