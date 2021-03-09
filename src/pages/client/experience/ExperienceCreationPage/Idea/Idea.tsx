@@ -80,7 +80,7 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
   };
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <div className="mx-4">
         <MyStepper
           activeStep={activeStep}
@@ -90,7 +90,7 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
       </div>
       <div className="flex-grow mx-4">{renderSwitch(activeStep)}</div>
       <div>
-        <div className="flex justify-between items-center p-4 bg-gray-100 rounded-md">
+        <div className="flex justify-between items-center p-4 bg-gray-100 border-t border-black rounded-md">
           <div>
             <Button
               disabled={activeStep === 1}

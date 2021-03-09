@@ -3,11 +3,11 @@ import { IExperienceResponse } from "interfaces/experiences/experience.interface
 export const calculateCurrentProgress = (
   experienceDocument: IExperienceResponse
 ) => {
-  const { theme, location, language, address } = experienceDocument;
+  const { theme, coordinates, language, address } = experienceDocument;
   if (!theme) {
     return [1, 1];
   }
-  if (!location) {
+  if (!coordinates) {
     return [1, 2];
   }
   if (!language) {

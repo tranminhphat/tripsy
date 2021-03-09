@@ -42,11 +42,11 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl text-justify mx-auto">
       <h1 className="text-4xl font-bold">
         Ngôn ngữ chính sẽ được sử dụng trong buổi trải nghiệm
       </h1>
-      <p className="mt-4 mb-4 text-gray-500">
+      <p className="mt-4 mb-4 text-lg text-gray-500">
         Bạn nên có thể lưu loát trong việc nói, đọc, viết với ngôn ngữ này.
       </p>
       <Autocomplete

@@ -12,15 +12,15 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [location, setLocation] = React.useState<{
+  const [coordinates, setCoordinates] = React.useState<{
     city: string;
     lat: string;
     lng: string;
-  }>(experience.location ? experience.location : {});
+  }>(experience.coordinates ? experience.coordinates : {});
 
   React.useEffect(() => {
     fetchData(id);
-    if (experience.location) {
+    if (experience.coordinates) {
       setIsValid(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,18 +29,18 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const fetchData = async (id: string) => {
     const {
       data: {
-        experience: { location },
+        experience: { coordinates },
       },
     } = await getExperienceById(id);
-    if (location) {
-      setLocation(location);
+    if (coordinates) {
+      setCoordinates(coordinates);
       setIsValid(true);
     }
   };
 
   const handleSelect = (result, lat, lng) => {
     setStepValue({
-      location: {
+      coordinates: {
         city: result,
         lat,
         lng,
@@ -50,20 +50,20 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl text-justify mx-auto">
       <h1 className="text-4xl font-bold">
         Hãy chọn thành phố nơi bạn tổ chức buổi trải nghiệm
       </h1>
-      <p className="mt-4 mb-4 text-gray-500">
+      <p className="mt-4 mb-4 text-lg text-gray-500">
         Đừng lo lắng nếu thành phố của bạn không xuất hiện trong ô tìm kiếm bên
         dưới, hãy chọn địa điểm gần nhất, bạn sẽ được cập nhật địa chỉ chi tiết
         ở mục sau
       </p>
 
-      {location && location.city ? (
+      {coordinates && coordinates.city ? (
         <div>
-          <div className="p-5 mb-4 mr-4 border border-gray-500 bg-gray-200 opacity-50 rounded-lg">
-            <Typography className="text-lg">{location.city}</Typography>
+          <div className="p-5 mb-4 border border-gray-500 bg-gray-200 opacity-50 rounded-lg">
+            <Typography className="text-lg">{coordinates.city}</Typography>
           </div>
         </div>
       ) : (

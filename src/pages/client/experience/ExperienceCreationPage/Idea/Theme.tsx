@@ -82,11 +82,11 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
           </div>
         </div>
       </Slide>
-      <div className="max-w-xl mx-auto">
+      <div className="max-w-xl text-justify mx-auto">
         <h1 className="text-4xl font-bold">
           Hãy lựa chọn chủ đề dành cho hoạt động của bạn
         </h1>
-        <p className="mt-4 text-gray-500">
+        <p className="mt-4 text-lg text-gray-500">
           Lựa chọn chủ đề mô tả tốt nhất những gì người tham gia sẽ làm trong
           hoạt động của bạn. Việc này sẽ hỗ trợ người tham gia tìm thấy và tham
           gia hoạt động của bạn.

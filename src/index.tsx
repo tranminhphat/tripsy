@@ -9,7 +9,9 @@ import store from "./redux/store";
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <div style={{ fontFamily: "Circular" }}>
+        <App />
+      </div>
     </Router>
   </Provider>,
   document.getElementById("root")
