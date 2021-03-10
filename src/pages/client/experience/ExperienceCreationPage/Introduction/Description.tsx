@@ -1,4 +1,7 @@
+import { getExperienceById } from "api/experiences";
 import * as React from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 interface Props {
   stepProps: any;
@@ -6,10 +9,34 @@ interface Props {
 
 const Description: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-  const [value, setValue] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const experience = useSelector((state) => state.experience);
+  const { id } = useParams<{ id: string }>();
 
-  const handleOnChange = (e) => {
-    setValue(e.target.value);
+  React.useEffect(() => {
+    fetchDescription(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchDescription = async (id: string) => {
+    if (experience.description) {
+      setDescription(experience.description);
+      setIsValid(true);
+    } else {
+      const {
+        data: {
+          experience: { description },
+        },
+      } = await getExperienceById(id);
+      if (description) {
+        setDescription(description);
+        setIsValid(true);
+      }
+    }
+  };
+
+  const handleOnChange = (e: any) => {
+    setDescription(e.target.value);
     if (e.target.value.length >= 10) {
       setIsValid(true);
       setStepValue({ description: e.target.value });
@@ -49,11 +76,11 @@ const Description: React.FC<Props> = ({ stepProps }) => {
       </p>
       <div className="mt-4">
         <textarea
-          value={value}
+          value={description}
           onChange={handleOnChange}
           className="w-full h-36 pl-2 pt-2 border border-gray-300"
         ></textarea>
-        <span>{value.length}/1400</span>
+        <span>{description.length}/1400</span>
       </div>
     </div>
   );

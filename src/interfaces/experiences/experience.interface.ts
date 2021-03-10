@@ -2,7 +2,8 @@ export interface IExperienceResponse {
   _id?: string;
   hostId?: string;
   theme?: string;
-  coordinates?: string;
+  location?: { city: string; coordinates: [number, number] };
   language?: string;
-  address?: string;
+  description?: string;
+  address?: { city: string; district: string; ward: string; street };
 }

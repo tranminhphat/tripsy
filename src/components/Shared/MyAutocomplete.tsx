@@ -5,41 +5,31 @@ import * as React from "react";
 interface Props {
   options: any[];
   value: any;
-  setValue: (newValue: any) => void;
-  setIsValid: (isValid: boolean) => void;
   inputValue: any;
-  setInputValue: (newInputValue: any) => void;
   placeholder: string;
+  handleOnChange: (newValue: any) => void;
+  handleOnInputChange: (newInpuValue: any) => void;
 }
 
 const MyAutocomplete: React.FC<Props> = ({
   options,
-  setIsValid,
   value,
-  setValue,
   inputValue,
-  setInputValue,
   placeholder,
+  handleOnChange,
+  handleOnInputChange,
 }) => {
   return (
     <Autocomplete
       className="w-full focus:border-none hover:border-none"
       value={value}
-      onChange={(event: any, newValue: string | null) => {
-        setValue(newValue);
-        if (newValue) {
-          setIsValid(true);
-        }
-      }}
+      onChange={(event: any, newValue: string | null) =>
+        handleOnChange(newValue)
+      }
       inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-        if (options.includes(newInputValue)) {
-          setIsValid(true);
-        } else {
-          setIsValid(false);
-        }
-      }}
+      onInputChange={(event: any, newInputValue: string | null) =>
+        handleOnInputChange(newInputValue)
+      }
       options={options}
       style={{ width: 300 }}
       renderInput={(params) => (

@@ -8,6 +8,7 @@ import Location from "./Location";
 import Language from "./Language";
 import { useDispatch } from "react-redux";
 import { updateExperience } from "redux/actions/experience/experienceAction";
+import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 
 interface Props {
   handleDone: (index: number) => void;
@@ -33,7 +34,9 @@ function getStepContent(step: number) {
 }
 
 const Idea: React.FC<Props> = ({ handleDone }) => {
-  const location = useLocation<{ currentStep: number }>();
+  const location = useLocation<{
+    currentStep: number;
+  }>();
   const { currentStep } = location.state;
   const [steps, setSteps] = React.useState(getSteps(currentStep));
   const [activeStep, setActiveStep] = React.useState(currentStep);

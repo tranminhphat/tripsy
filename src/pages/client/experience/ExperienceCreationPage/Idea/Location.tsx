@@ -15,17 +15,18 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const [location, setLocation] = React.useState<{
     city: string;
     coordinates: [number, number];
-  }>(experience.location ? experience.location : {});
+  }>();
 
   React.useEffect(() => {
     fetchData(id);
-    if (experience.location) {
-      setIsValid(true);
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchData = async (id: string) => {
+    if (experience.location) {
+      setLocation(experience.location);
+      setIsValid(true);
+    }
     const {
       data: {
         experience: { location },

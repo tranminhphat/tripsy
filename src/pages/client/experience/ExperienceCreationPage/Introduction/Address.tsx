@@ -8,53 +8,123 @@ import MyAutocomplete from "components/Shared/MyAutocomplete";
 
 import { useSelector } from "react-redux";
 import MyMapbox from "components/Shared/MyMapbox";
+import { getExperienceById } from "api/experiences";
+import { useParams } from "react-router-dom";
 
 interface Props {
   stepProps: any;
 }
 
+interface AddressObject {
+  city: string | null;
+  district: string | null;
+  ward: string | null;
+  street: string;
+  detail: string;
+}
+
+interface AddressInput {
+  city: string;
+  district: string;
+  ward: string;
+}
+
 const Address: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
 
-  const { location } = useSelector((state) => state.experience);
+  const { id } = useParams<{ id: string }>();
 
-  const [describe, setDescribe] = React.useState("");
+  const experience = useSelector((state) => state.experience);
+
+  const [coordinates, setCoordinates] = React.useState<[number, number]>([
+    0,
+    0,
+  ]);
 
   const [cities, setCities] = React.useState<string[]>();
-  const [city, setCity] = React.useState<string | null>(null);
-  const [cityInput, setCityInput] = React.useState("");
 
   const [districts, setDistricts] = React.useState<string[]>();
-  const [district, setDistrict] = React.useState<string | null>(null);
-  const [districtInput, setDistrictInput] = React.useState("");
 
   const [wards, setWards] = React.useState<string[]>();
-  const [ward, setWard] = React.useState<string | null>(null);
-  const [wardInput, setWardInput] = React.useState("");
 
-  const [address, setAddress] = React.useState("");
+  const [address, setAddress] = React.useState<AddressObject>({
+    city: null,
+    district: null,
+    ward: null,
+    street: "",
+    detail: "",
+  });
+
+  const [addressInput, setAddressInput] = React.useState<AddressInput>({
+    city: "",
+    district: "",
+    ward: "",
+  });
 
   React.useEffect(() => {
-    if (city && district && ward && describe.length >= 10) {
+    fetchAddress(id);
+    fetchCoordinates(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  React.useEffect(() => {
+    if (
+      address.city &&
+      address.district &&
+      address.ward &&
+      address.street &&
+      address.detail.length >= 10
+    ) {
       setIsValid(true);
+      setStepValue({ address });
     }
-  }, [city, describe.length, district, setIsValid, ward]);
+  }, [address, setIsValid, setStepValue]);
 
   React.useEffect(() => {
     fetchCities();
   }, []);
 
   React.useEffect(() => {
-    if (city) {
-      fetchDistricts(city);
+    if (address.city) {
+      fetchDistricts(address.city);
     }
-  }, [city]);
+  }, [address.city]);
 
   React.useEffect(() => {
-    if (city && district) {
-      fetchWards(district, city);
+    if (address.city && address.district) {
+      fetchWards(address.district, address.city);
     }
-  }, [district, city]);
+  }, [address.district, address.city]);
+
+  const fetchAddress = async (id: string) => {
+    if (experience.address) {
+      setAddress(experience.address);
+    } else {
+      const {
+        data: {
+          experience: { address },
+        },
+      } = await getExperienceById(id);
+      if (address) {
+        setAddress(address);
+      }
+    }
+  };
+
+  const fetchCoordinates = async (id: string) => {
+    if (experience.location) {
+      setCoordinates(experience.location.coordinates);
+    } else {
+      const {
+        data: {
+          experience: { location },
+        },
+      } = await getExperienceById(id);
+      if (location) {
+        setCoordinates(location.coordinates);
+      }
+    }
+  };
 
   const fetchCities = async () => {
     const {
@@ -77,14 +147,24 @@ const Address: React.FC<Props> = ({ stepProps }) => {
     setWards(wards);
   };
 
-  const handleOnChange = (e) => {
-    setDescribe(e.target.value);
+  const handleOnAddressChange = (name: string, newValue: string) => {
+    setAddress((prevAddress: AddressObject) => ({
+      ...prevAddress,
+      [name]: newValue,
+    }));
+  };
+
+  const handleOnAddressInputChange = (name: string, newValue?: string) => {
+    setAddressInput((prevAddressInput: AddressInput) => ({
+      ...prevAddressInput,
+      [name]: newValue,
+    }));
   };
 
   const handleOnDragEnd = (lng: number, lat: number) => {
     setStepValue((prevValue) => ({
       ...prevValue,
-      location: { ...location, coordinates: [lng, lat] },
+      location: { ...experience.location, coordinates: [lng, lat] },
     }));
   };
 
@@ -97,11 +177,12 @@ const Address: React.FC<Props> = ({ stepProps }) => {
       </p>
       <div className="mt-4">
         <textarea
-          value={describe}
-          onChange={handleOnChange}
+          name="detail"
+          value={address.detail}
+          onChange={(e) => handleOnAddressChange("detail", e.target.value)}
           className="w-full h-36 pl-2 pt-2 border border-gray-300"
         ></textarea>
-        <span>{describe.length}/450</span>
+        <span>{address.detail.length}/450</span>
       </div>
       <div className="mt-4">
         <hr />
@@ -119,11 +200,14 @@ const Address: React.FC<Props> = ({ stepProps }) => {
             <label className="text-xl font-bold">Thành phố</label>
             <MyAutocomplete
               options={cities}
-              value={city}
-              setValue={setCity}
-              inputValue={cityInput}
-              setInputValue={setCityInput}
-              setIsValid={setIsValid}
+              value={address.city}
+              handleOnChange={(newValue) =>
+                handleOnAddressChange("city", newValue)
+              }
+              handleOnInputChange={(newValue) =>
+                handleOnAddressInputChange("city", newValue)
+              }
+              inputValue={addressInput.city}
               placeholder="Chọn thành phố / tỉnh"
             />
           </>
@@ -134,11 +218,14 @@ const Address: React.FC<Props> = ({ stepProps }) => {
           <label className="text-xl font-bold">Quận</label>
           <MyAutocomplete
             options={districts ? districts : []}
-            value={district}
-            setValue={setDistrict}
-            inputValue={districtInput}
-            setInputValue={setDistrictInput}
-            setIsValid={setIsValid}
+            value={address.district}
+            handleOnChange={(newValue) =>
+              handleOnAddressChange("district", newValue)
+            }
+            handleOnInputChange={(newValue) =>
+              handleOnAddressInputChange("district", newValue)
+            }
+            inputValue={addressInput.district}
             placeholder="Chọn quận / huyện"
           />
         </>
@@ -148,11 +235,14 @@ const Address: React.FC<Props> = ({ stepProps }) => {
           <label className="text-xl font-bold">Phường</label>
           <MyAutocomplete
             options={wards ? wards : []}
-            value={ward}
-            setValue={setWard}
-            inputValue={wardInput}
-            setInputValue={setWardInput}
-            setIsValid={setIsValid}
+            value={address.ward}
+            handleOnChange={(newValue) =>
+              handleOnAddressChange("ward", newValue)
+            }
+            handleOnInputChange={(newValue) =>
+              handleOnAddressInputChange("ward", newValue)
+            }
+            inputValue={addressInput.ward}
             placeholder="Chọn phường / xã"
           />
         </>
@@ -162,9 +252,12 @@ const Address: React.FC<Props> = ({ stepProps }) => {
           <label className="text-xl font-bold">Địa chỉ</label>
           <input
             type="text"
+            name="street"
             className="w-full border border-gray-300 hover:border-black p-4 rounded-md"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={address.street}
+            onChange={(e) =>
+              handleOnAddressChange(e.target.name, e.target.value)
+            }
           />
         </>
       </div>
@@ -172,7 +265,7 @@ const Address: React.FC<Props> = ({ stepProps }) => {
         <MyMapbox
           width="400px"
           height="400px"
-          coordinates={location.coordinates}
+          coordinates={coordinates}
           onDragEnd={(lng, lat) => handleOnDragEnd(lng, lat)}
         />
       </div>

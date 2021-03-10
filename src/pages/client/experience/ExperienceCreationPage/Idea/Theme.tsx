@@ -15,20 +15,19 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [theme, setTheme] = React.useState(
-    experience.theme ? experience.theme : "Chủ đề"
-  );
+  const [theme, setTheme] = React.useState<string>("Chủ đề");
   const [checked, setChecked] = React.useState(false);
 
   React.useEffect(() => {
     fetchData(id);
-    if (experience.theme) {
-      setIsValid(true);
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchData = async (id: string) => {
+    if (experience.theme) {
+      setTheme(experience.theme);
+      setIsValid(true);
+    }
     const {
       data: {
         experience: { theme },

@@ -88,7 +88,10 @@ const ExperiencePage: React.FC<Props> = () => {
                       <Link
                         to={{
                           pathname: `${url}/${item._id}/progress1`,
-                          state: { currentProgress: 1, currentStep: 1 },
+                          state: {
+                            currentProgress: 1,
+                            currentStep: 1,
+                          },
                         }}
                       >
                         {item._id}
@@ -100,7 +103,10 @@ const ExperiencePage: React.FC<Props> = () => {
                       <Link
                         to={{
                           pathname: `${url}/${item._id}/progress${currentProgress}`,
-                          state: { currentProgress, currentStep },
+                          state: {
+                            currentProgress,
+                            currentStep,
+                          },
                         }}
                       >
                         {item._id}
