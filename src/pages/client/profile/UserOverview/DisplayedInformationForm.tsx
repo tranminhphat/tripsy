@@ -1,8 +1,8 @@
 import { Button } from "@material-ui/core";
 import MyCheckbox from "components/Shared/MyCheckbox";
-import React from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { IDisplayedUserData } from "interfaces/users/user.interface";
+import React from "react";
 
 interface Props {
   initialValues: IDisplayedUserData;

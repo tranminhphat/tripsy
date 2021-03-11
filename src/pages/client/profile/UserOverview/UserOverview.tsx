@@ -1,28 +1,25 @@
-import * as React from "react";
-import { Button, Tooltip, Typography } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import SettingIcon from "@material-ui/icons/Settings";
-import CreateIcon from "@material-ui/icons/Create";
 import KeyIcon from "@material-ui/icons/VpnKey";
-
-import { FileReaderResultType } from "types";
 import { updateUserById } from "api/users";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
-
 import {
   IDisplayedUserData,
   IUpdateUserData,
   IUserResponse,
 } from "interfaces/users/user.interface";
-
-import DisplayedInformation from "./DisplayedInformation";
+import * as React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { showAlert } from "redux/actions/alert/alertAction";
+import { FileReaderResultType } from "types";
+import ChangePasswordForm from "./ChangePasswordForm";
 import ConfirmedInformation from "./ConfirmedInformation";
+import DisplayedInformation from "./DisplayedInformation";
 import DisplayedInformationForm from "./DisplayedInformationForm";
 import UpdateInformationForm from "./UpdateInformationForm";
-import ChangePasswordForm from "./ChangePasswordForm";
-import { showAlert } from "redux/actions/alert/alertAction";
-import { Avatar } from "@material-ui/core";
 
 interface Props {
   userData: IUserResponse;
@@ -33,31 +30,25 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
   const dispatch = useDispatch();
 
   /* Store user updated avatar file */
-  const [fileInputState] = React.useState("");
+  const [fileInputState] = useState("");
 
   /* Store base64 string of the avatar file  */
-  const [fileReader, setFileReader] = React.useState<FileReaderResultType>();
+  const [fileReader, setFileReader] = useState<FileReaderResultType>();
 
   /* Check if user is configuring the displayed informations */
-  const [
-    isUpdatingDisplayedField,
-    setIsUpdatingDisplayedField,
-  ] = React.useState(false);
-
-  /* Check if user is updating informations */
-  const [isUpdatingUserData, setIsUpdatingUserData] = React.useState(false);
-
-  /* Check if user is updating password */
-
-  const [isUpdatingUserPassword, setIsUpdatingUserPassword] = React.useState(
+  const [isUpdatingDisplayedField, setIsUpdatingDisplayedField] = useState(
     false
   );
 
+  /* Check if user is updating informations */
+  const [isUpdatingUserData, setIsUpdatingUserData] = useState(false);
+
+  /* Check if user is updating password */
+
+  const [isUpdatingUserPassword, setIsUpdatingUserPassword] = useState(false);
+
   /* Store the fields will be displayed on UserOview component */
-  const [
-    displayedField,
-    setDisplayedField,
-  ] = React.useState<IDisplayedUserData>({
+  const [displayedField, setDisplayedField] = useState<IDisplayedUserData>({
     email: true,
     gender: true,
     phoneNumber: true,
@@ -67,7 +58,7 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
 
   /* Store the displayed data of user */
 
-  const [displayedData, setDisplayedData] = React.useState<IUserResponse>({
+  const [displayedData, setDisplayedData] = useState<IUserResponse>({
     email: userData.email,
     gender: userData.gender,
     phoneNumber: userData.phoneNumber,
@@ -76,14 +67,13 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
   });
 
   /* Store the updated information of user */
-  const [
-    updatedInformation,
-    setUpdatedInformation,
-  ] = React.useState<IUpdateUserData>({
-    gender: userData.gender,
-    phoneNumber: userData.phoneNumber,
-    address: userData.address,
-  });
+  const [updatedInformation, setUpdatedInformation] = useState<IUpdateUserData>(
+    {
+      gender: userData.gender,
+      phoneNumber: userData.phoneNumber,
+      address: userData.address,
+    }
+  );
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];

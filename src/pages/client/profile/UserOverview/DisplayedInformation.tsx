@@ -1,16 +1,14 @@
-import React from "react";
 import { Tooltip, Typography } from "@material-ui/core";
-
+import CakeIcon from "@material-ui/icons/Cake";
 import EmailIcon from "@material-ui/icons/Email";
+import LocationIcon from "@material-ui/icons/LocationOn";
 import PhoneIcon from "@material-ui/icons/PhoneIphone";
 import GenderIcon from "@material-ui/icons/Wc";
-import CakeIcon from "@material-ui/icons/Cake";
-import LocationIcon from "@material-ui/icons/LocationOn";
-
 import {
-  IUserResponse,
   IDisplayedUserData,
+  IUserResponse,
 } from "interfaces/users/user.interface";
+import React from "react";
 
 interface Props {
   displayedField: IDisplayedUserData;

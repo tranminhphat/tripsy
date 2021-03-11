@@ -1,13 +1,11 @@
-import * as React from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
-
 import { resetPassword } from "api/auth";
 import ResetPasswordForm from "components/Authentication/Forms/ResetPasswordForm";
-import { showAlert } from "redux/actions/alert/alertAction";
 import useErrorHandler from "hooks/useErrorHandler";
 import MainLayout from "layouts/MainLayout";
+import * as React from "react";
+import { useDispatch } from "react-redux";
+import { RouteComponentProps, useParams } from "react-router-dom";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props extends RouteComponentProps {}
 

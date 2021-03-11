@@ -1,7 +1,6 @@
+import BrandLogoImage from "assets/images/logos/logo_128.png";
 import * as React from "react";
 import { Link } from "react-router-dom";
-
-import BrandLogoImage from "assets/images/logos/logo_128.png";
 
 interface Props {}
 

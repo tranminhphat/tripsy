@@ -1,14 +1,14 @@
-import * as React from "react";
+import { getExperienceById } from "api/experiences";
 import {
   getCities,
   getDistrictsByCityName,
   getWardsByDistrictsName,
 } from "api/seeds";
 import MyAutocomplete from "components/Shared/MyAutocomplete";
-
-import { useSelector } from "react-redux";
 import MyMapbox from "components/Shared/MyMapbox";
-import { getExperienceById } from "api/experiences";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 interface Props {
@@ -36,18 +36,15 @@ const Address: React.FC<Props> = ({ stepProps }) => {
 
   const experience = useSelector((state) => state.experience);
 
-  const [coordinates, setCoordinates] = React.useState<[number, number]>([
-    0,
-    0,
-  ]);
+  const [coordinates, setCoordinates] = useState<[number, number]>([0, 0]);
 
-  const [cities, setCities] = React.useState<string[]>();
+  const [cities, setCities] = useState<string[]>();
 
-  const [districts, setDistricts] = React.useState<string[]>();
+  const [districts, setDistricts] = useState<string[]>();
 
-  const [wards, setWards] = React.useState<string[]>();
+  const [wards, setWards] = useState<string[]>();
 
-  const [address, setAddress] = React.useState<AddressObject>({
+  const [address, setAddress] = useState<AddressObject>({
     city: null,
     district: null,
     ward: null,
@@ -55,19 +52,19 @@ const Address: React.FC<Props> = ({ stepProps }) => {
     detail: "",
   });
 
-  const [addressInput, setAddressInput] = React.useState<AddressInput>({
+  const [addressInput, setAddressInput] = useState<AddressInput>({
     city: "",
     district: "",
     ward: "",
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchAddress(id);
     fetchCoordinates(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       address.city &&
       address.district &&
@@ -80,17 +77,17 @@ const Address: React.FC<Props> = ({ stepProps }) => {
     }
   }, [address, setIsValid, setStepValue]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchCities();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (address.city) {
       fetchDistricts(address.city);
     }
   }, [address.city]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (address.city && address.district) {
       fetchWards(address.district, address.city);
     }

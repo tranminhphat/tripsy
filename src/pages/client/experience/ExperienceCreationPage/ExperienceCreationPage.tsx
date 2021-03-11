@@ -1,52 +1,64 @@
-import React from "react";
+import { Slide } from "@material-ui/core";
 import Hidden from "@material-ui/core/Hidden";
+import IconButton from "@material-ui/core/IconButton";
 import CheckIcon from "@material-ui/icons/Check";
-
+import MenuIcon from "@material-ui/icons/Menu";
+import { updateExperienceById } from "api/experiences";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Link,
+  Route,
+  Switch,
   useHistory,
-  useRouteMatch,
   useLocation,
   useParams,
-  Switch,
-  Route,
+  useRouteMatch,
 } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Idea from "./Idea/Idea";
-import { updateExperienceById } from "api/experiences";
 import { showAlert } from "redux/actions/alert/alertAction";
-import Introduction from "./Introduction/Introduction";
 import { resetExperiece } from "redux/actions/experience/experienceAction";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import { Slide } from "@material-ui/core";
+import Idea from "./Idea/Idea";
+import Introduction from "./Introduction/Introduction";
 
 interface Props {}
 
 const ExperienceCreationPage: React.FC<Props> = () => {
-  const updatedProperties = useSelector((state) => state.experience);
-  const location = useLocation<{ currentProgress: number }>();
-  const { currentProgress } = location.state;
-  const [currentProgressIndex, setCurrentProgressIndex] = React.useState(
-    currentProgress
-  );
-  const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
+  const dispatch = useDispatch();
   const history = useHistory();
 
-  const [selectedIndex, setSelectedIndex] = React.useState(currentProgress);
+  /* Save updated properties of an experience document in database */
+  const updatedProperties = useSelector((state) => state.experience);
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  /* Get the current progress of experience process via router*/
+  const location = useLocation<{ currentProgress: number }>();
+  const { currentProgress } = location.state;
 
+  /* Store the current progress index state */
+  const [currentProgressIndex, setCurrentProgressIndex] = useState(
+    currentProgress
+  );
+
+  /* Store the selected index by current progress index to show the focus style for list item element */
+  const [selectedIndex, setSelectedIndex] = useState(currentProgressIndex);
+
+  /* Get the experience ID from the URL */
+  const { id } = useParams<{ id: string }>();
+
+  /* Store the toggle state of open mobile drawer*/
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  /* Handle toggling drawer when in mobile screen */
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  /* Handle click on the list item in the drawer */
   const handleListItemClick = (index: number) => {
     setSelectedIndex(index);
   };
 
+  /* Handle when user click on "Save & exit" */
   const handleSaveProgress = async () => {
     if (updatedProperties) {
       const { data } = await updateExperienceById(id, updatedProperties);
@@ -60,6 +72,12 @@ const ExperienceCreationPage: React.FC<Props> = () => {
     }
   };
 
+  /**
+   *
+   * Handle done a specific step in the progress
+   * @param index - The index step of the current progress
+   *
+   */
   const handleDone = async (index: number) => {
     setCurrentProgressIndex((prevIndex) => prevIndex + 1);
     setSelectedIndex(index + 1);
@@ -83,11 +101,13 @@ const ExperienceCreationPage: React.FC<Props> = () => {
             <div
               className={`
                     p-2 rounded-lg flex justify-between ${
-                      selectedIndex === 1 ? "border border-black" : ""
+                      selectedIndex === 1 || selectedIndex === -1
+                        ? "border border-black"
+                        : ""
                     }`}
             >
               <span>Ý tưởng</span>
-              {currentProgressIndex > 1 ? (
+              {currentProgressIndex > 1 || currentProgressIndex === -1 ? (
                 <span>
                   <CheckIcon />
                 </span>
@@ -109,7 +129,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
                     }`}
             >
               <span>Giới thiệu</span>
-              {currentProgressIndex > 2 ? (
+              {currentProgressIndex > 2 || currentProgressIndex === -1 ? (
                 <span>
                   <CheckIcon />
                 </span>

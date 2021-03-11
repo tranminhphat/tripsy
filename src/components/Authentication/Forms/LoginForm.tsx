@@ -1,12 +1,11 @@
-import * as React from "react";
-import { Formik, Form } from "formik";
 import { Button } from "@material-ui/core";
+import MyErrorMessage from "components/Shared/MyErrorMessage";
+import { Form, Formik } from "formik";
+import ILoginForm from "interfaces/forms/login-form.interface";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
-
-import ILoginForm from "interfaces/forms/login-form.interface";
 import MyTextField from "../../Shared/MyTextField";
-import MyErrorMessage from "components/Shared/MyErrorMessage";
 
 interface Props {
   error: string;

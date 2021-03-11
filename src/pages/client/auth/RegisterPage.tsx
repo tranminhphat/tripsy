@@ -1,23 +1,23 @@
-import * as React from "react";
-import { useDispatch } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
-
 import { register } from "api/auth";
 import RegisterForm from "components/Authentication/Forms/RegisterForm";
 import EmailVerificationModal from "components/Authentication/Modals/EmailVerificationModal";
+import useErrorHandler from "hooks/useErrorHandler";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import { IUserResponse } from "interfaces/users/user.interface";
-import useErrorHandler from "hooks/useErrorHandler";
-import { showAlert } from "redux/actions/alert/alertAction";
 import MainLayout from "layouts/MainLayout";
+import * as React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props extends RouteComponentProps {}
 
 const RegisterPage: React.FC<Props> = ({ history }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useErrorHandler();
-  const [userResponse, setUserResponse] = React.useState<IUserResponse>();
+  const [userResponse, setUserResponse] = useState<IUserResponse>();
   const dispatch = useDispatch();
 
   const handleModalOpen = () => {

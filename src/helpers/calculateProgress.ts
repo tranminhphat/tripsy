@@ -26,5 +26,5 @@ export const calculateCurrentProgress = (
     return [2, 2];
   }
 
-  return [-1, -1];
+  return [-1, 1];
 };

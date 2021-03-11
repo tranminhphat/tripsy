@@ -1,10 +1,9 @@
-import { TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
 import { getExperienceById } from "api/experiences";
-import * as React from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import MyAutocomplete from "components/Shared/MyAutocomplete";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 interface Props {
   stepProps: any;
@@ -15,10 +14,10 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   const { id } = useParams<{ id: string }>();
   const languages = ["Tiếng Việt", "English"];
   const experience = useSelector((state) => state.experience);
-  const [language, setLanguage] = React.useState<string | null>(null);
-  const [languageInput, setLanguageInput] = React.useState("");
+  const [language, setLanguage] = useState<string | null>(null);
+  const [languageInput, setLanguageInput] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -69,7 +68,7 @@ const Language: React.FC<Props> = ({ stepProps }) => {
         options={languages}
         value={language}
         inputValue={languageInput}
-        placeholder="Nhập vào thành phố"
+        placeholder="Nhập vào ngôn ngữ"
         handleOnChange={(newValue: string) => handleOnLanguageChange(newValue)}
         handleOnInputChange={(newInputValue: string) =>
           handleOnLanguageInputChange(newInputValue)

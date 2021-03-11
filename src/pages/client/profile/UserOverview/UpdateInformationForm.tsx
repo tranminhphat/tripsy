@@ -1,9 +1,9 @@
 import { Button } from "@material-ui/core";
-import React from "react";
-import { Formik, Form } from "formik";
-import { IUpdateUserData } from "interfaces/users/user.interface";
 import MyRadioButton from "components/Shared/MyRadioButton";
 import MyTextField from "components/Shared/MyTextField";
+import { Form, Formik } from "formik";
+import { IUpdateUserData } from "interfaces/users/user.interface";
+import React from "react";
 
 interface Props {
   initialValues: IUpdateUserData;

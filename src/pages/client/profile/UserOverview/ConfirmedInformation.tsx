@@ -1,7 +1,7 @@
-import React from "react";
-import { IUserResponse } from "interfaces/users/user.interface";
 import { Typography } from "@material-ui/core";
 import Check from "@material-ui/icons/Check";
+import { IUserResponse } from "interfaces/users/user.interface";
+import React from "react";
 
 interface Props {
   userData: IUserResponse;

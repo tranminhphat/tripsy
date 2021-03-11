@@ -1,10 +1,11 @@
-import * as React from "react";
-import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { updateUserById } from "api/users";
-import { Formik, Form, Field } from "formik";
+import { Field, Form, Formik } from "formik";
 import { IUserResponse } from "interfaces/users/user.interface";
+import * as React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
@@ -13,10 +14,8 @@ interface Props {
 }
 
 const AboutMeTab: React.FC<Props> = ({ userData, isCurrentUser }) => {
-  const [introduction, setIntroduction] = React.useState(userData.introduction);
-  const [isCreatingIntroduction, setIsCreatingIntroduction] = React.useState(
-    false
-  );
+  const [introduction, setIntroduction] = useState(userData.introduction);
+  const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
   const dispatch = useDispatch();
 
   const handleIntroductionUpdate = async (values) => {

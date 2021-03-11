@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { FileReaderResultType } from "types";
 
 interface Props {
@@ -6,11 +7,10 @@ interface Props {
 }
 
 export const MyFileInput: React.FC<Props> = ({ handleSetImage }) => {
-  const [fileInputState] = React.useState("");
-  const [
-    previewSource,
-    setPreviewSource,
-  ] = React.useState<FileReaderResultType>(null);
+  const [fileInputState] = useState("");
+  const [previewSource, setPreviewSource] = useState<FileReaderResultType>(
+    null
+  );
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];

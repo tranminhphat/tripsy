@@ -1,6 +1,6 @@
-import * as React from "react";
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import * as React from "react";
+import ReactMapboxGl, { Feature, Layer } from "react-mapbox-gl";
 
 interface Props {
   width: string;
@@ -22,6 +22,7 @@ const MyMapbox: React.FC<Props> = ({
 }) => {
   return (
     <Map
+      // eslint-disable-next-line react/style-prop-object
       style="mapbox://styles/mapbox/light-v9"
       containerStyle={{
         height: height,

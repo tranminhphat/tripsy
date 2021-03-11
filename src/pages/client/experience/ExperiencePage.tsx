@@ -1,7 +1,3 @@
-import * as React from "react";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
 import { Button, CircularProgress, Typography } from "@material-ui/core";
 import {
   createExperience,
@@ -9,20 +5,24 @@ import {
   getExperiences,
 } from "api/experiences";
 import { getCurrentUser } from "api/users";
-import MainLayout from "layouts/MainLayout";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
+import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import MainLayout from "layouts/MainLayout";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
 
 const ExperiencePage: React.FC<Props> = () => {
-  const [experiences, setExperiences] = React.useState<IExperienceResponse[]>();
+  const [experiences, setExperiences] = useState<IExperienceResponse[]>();
   const history = useHistory();
   const { url } = useRouteMatch();
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -89,8 +89,8 @@ const ExperiencePage: React.FC<Props> = () => {
                         to={{
                           pathname: `${url}/${item._id}/progress1`,
                           state: {
-                            currentProgress: 1,
-                            currentStep: 1,
+                            currentProgress,
+                            currentStep,
                           },
                         }}
                       >

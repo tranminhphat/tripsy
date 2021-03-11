@@ -1,8 +1,8 @@
-import React from "react";
-import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
+import Stepper from "@material-ui/core/Stepper";
 import Typography from "@material-ui/core/Typography";
+import React from "react";
 
 interface Props {
   activeStep: number;

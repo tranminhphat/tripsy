@@ -1,20 +1,21 @@
-import * as React from "react";
-import { useLocation } from "react-router-dom";
 import { Button, Typography } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 import MyStepper from "components/Shared/MyStepper";
-import GuestRequirement from "./GuestRequirement";
-import Description from "./Description";
-import Address from "./Address";
-import HostProvision from "./HostProvision";
+import * as React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { updateExperience } from "redux/actions/experience/experienceAction";
+import Address from "./Address";
+import Description from "./Description";
+import GuestRequirement from "./GuestRequirement";
+import HostProvision from "./HostProvision";
 
-function getSteps() {
+function getSteps(currentStep: number) {
   return [
-    { label: "Mô tả về hoạt động", isCompleted: false },
-    { label: "Chi tiết địa điểm", isCompleted: false },
-    { label: "Đồ dùng người tổ chức cung cấp", isCompleted: false },
-    { label: "Đồ dùng khách cần mang theo", isCompleted: false },
+    { label: "Mô tả về hoạt động", isCompleted: currentStep > 1 },
+    { label: "Chi tiết địa điểm", isCompleted: currentStep > 2 },
+    { label: "Đồ dùng người tổ chức cung cấp", isCompleted: currentStep > 3 },
+    { label: "Đồ dùng khách cần mang theo", isCompleted: currentStep > 4 },
   ];
 }
 
@@ -25,9 +26,9 @@ function getStepContent(step: number) {
     case 2:
       return "Chi tiết địa điểm";
     case 3:
-      return "Cung cấp";
+      return "Những gì bạn sẽ cung cấp";
     case 4:
-      return "Tự túc";
+      return "Đồ dùng khách cần mang";
     default:
       return "Unknown step";
   }
@@ -39,16 +40,29 @@ interface Props {
 
 const Introduction: React.FC<Props> = ({ handleDone }) => {
   const dispatch = useDispatch();
-  const steps = getSteps();
   const location = useLocation<{ currentStep: number }>();
   const { currentStep } = location.state;
-  const [activeStep, setActiveStep] = React.useState(currentStep);
-  const [stepValue, setStepValue] = React.useState<{}>();
-  const [isValid, setIsValid] = React.useState<boolean>(false);
+  const [steps, setSteps] = useState(getSteps(currentStep));
+  const [activeStep, setActiveStep] = useState(currentStep);
+  const [stepValue, setStepValue] = useState<{}>();
+  const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleNext = () => {
     dispatch(updateExperience(stepValue));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const newSteps = steps.map((step, index) => {
+      if (index === activeStep - 1) {
+        return { ...step, isCompleted: true };
+      } else {
+        return { ...step };
+      }
+    });
+    setSteps(newSteps);
+
+    if (activeStep === steps.length) {
+      handleDone(1);
+    }
+
     setIsValid(false);
   };
 

@@ -1,17 +1,17 @@
-import * as React from "react";
-
 import { forgotPassword } from "api/auth";
 import ForgotPasswordForm from "components/Authentication/Forms/ForgotPasswordForm";
 import ForgotPasswordModal from "components/Authentication/Modals/ForgotPasswordModal";
 import useErrorHandler from "hooks/useErrorHandler";
 import MainLayout from "layouts/MainLayout";
+import * as React from "react";
+import { useState } from "react";
 
 interface Props {}
 
 const ForgotPasswordPage: React.FC<Props> = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [email, setEmail] = React.useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useErrorHandler();
 
   const handleModalOpen = (email: string) => {

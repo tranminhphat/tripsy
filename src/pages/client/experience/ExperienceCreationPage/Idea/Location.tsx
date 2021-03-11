@@ -1,9 +1,10 @@
 import { Typography } from "@material-ui/core";
 import { getExperienceById } from "api/experiences";
 import * as React from "react";
+import { useEffect, useState } from "react";
 import MapboxAutocomplete from "react-mapbox-autocomplete";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 interface Props {
   stepProps: any;
 }
@@ -12,12 +13,12 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [location, setLocation] = React.useState<{
+  const [location, setLocation] = useState<{
     city: string;
     coordinates: [number, number];
   }>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);

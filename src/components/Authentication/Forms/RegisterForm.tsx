@@ -1,15 +1,16 @@
-import * as React from "react";
-import { Formik, Form } from "formik";
 import { Button } from "@material-ui/core";
-import * as yup from "yup";
-
-import IRegisterForm from "interfaces/forms/register-form.interface";
-import MyTextField from "../../Shared/MyTextField";
-import { MyFileInput } from "../../Shared/MyFileInput";
-import { FileReaderResultType } from "types";
-import MyErrorMessage from "components/Shared/MyErrorMessage";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MyErrorMessage from "components/Shared/MyErrorMessage";
 import MyRadioButton from "components/Shared/MyRadioButton";
+import { Form, Formik } from "formik";
+import IRegisterForm from "interfaces/forms/register-form.interface";
+import * as React from "react";
+import { useState } from "react";
+import { FileReaderResultType } from "types";
+import * as yup from "yup";
+import { MyFileInput } from "../../Shared/MyFileInput";
+import MyTextField from "../../Shared/MyTextField";
+
 interface Props {
   error: string;
   isLoading: boolean;
@@ -52,7 +53,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
   const [
     base64EncodedImage,
     setBase64EncodedImage,
-  ] = React.useState<FileReaderResultType>("");
+  ] = useState<FileReaderResultType>("");
 
   const handleSetImage = (image: FileReaderResultType) => {
     setBase64EncodedImage(image);

@@ -1,23 +1,21 @@
-import * as React from "react";
-import { useParams } from "react-router-dom";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { getCurrentUser, getUserById } from "api/users";
 import { IUserResponse } from "interfaces/users/user.interface";
-import CircularProgress from "@material-ui/core/CircularProgress";
-
-/* Partials */
-import UserOverview from "./UserOverview/UserOverview";
-import UserInformation from "./UserInformation/UserInformation";
 import MainLayout from "layouts/MainLayout";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import UserInformation from "./UserInformation/UserInformation";
+import UserOverview from "./UserOverview/UserOverview";
 
 interface Props {}
 
 const ProfilePage: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
-  const [userData, setUserData] = React.useState<IUserResponse>();
-  const [isCurrentUser, setIsCurrentUser] = React.useState(false);
+  const [userData, setUserData] = useState<IUserResponse>();
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData(id);
   }, [id]);
 

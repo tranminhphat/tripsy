@@ -1,11 +1,12 @@
-import * as React from "react";
-import { useParams } from "react-router-dom";
 import { Slide, Typography } from "@material-ui/core";
-import { getExperienceById } from "api/experiences";
 import ArrowRightIcon from "@material-ui/icons/ArrowForwardIos";
 import CloseIcon from "@material-ui/icons/Close";
+import { getExperienceById } from "api/experiences";
 import { themes } from "constants/index";
+import * as React from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 interface Props {
   stepProps: any;
@@ -15,10 +16,10 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [theme, setTheme] = React.useState<string>("Chủ đề");
-  const [checked, setChecked] = React.useState(false);
+  const [theme, setTheme] = useState<string>("Chủ đề");
+  const [checked, setChecked] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);

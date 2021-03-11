@@ -1,23 +1,23 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button, Menu, MenuItem } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
-
+import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
-import SkeletonUserAvatar from "assets/images/icons/user.svg";
-import { showAlert } from "redux/actions/alert/alertAction";
 import { getCurrentUser } from "api/users";
+import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import { IUserResponse } from "interfaces/users/user.interface";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { showAlert } from "redux/actions/alert/alertAction";
 import { setAuth } from "redux/actions/auth/authAction";
 
 const UserOptions: React.FC = () => {
-  const [menuEl, setMenuEl] = React.useState(null);
-  const [userData, setUserData] = React.useState<IUserResponse>();
+  const [menuEl, setMenuEl] = useState(null);
+  const [userData, setUserData] = useState<IUserResponse>();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  React.useEffect(() => {
+  useEffect(() => {
     if (isLoggedIn) {
       fetchData();
     } else {

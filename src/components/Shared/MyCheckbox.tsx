@@ -1,7 +1,7 @@
-import * as React from "react";
-import { FieldAttributes, useField } from "formik";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { FieldAttributes, useField } from "formik";
+import * as React from "react";
 
 type MyCheckboxProps = { label: string } & FieldAttributes<{}>;
 

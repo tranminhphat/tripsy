@@ -1,6 +1,6 @@
-import * as React from "react";
 import { TextField } from "@material-ui/core";
 import { FieldAttributes, useField } from "formik";
+import * as React from "react";
 
 type MyTextFieldProps = {
   className: string;

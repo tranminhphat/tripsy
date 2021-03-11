@@ -5,7 +5,7 @@ import {
   UPDATE_EXPERIENCE,
 } from "redux/actions/experience/experienceActionTypes";
 
-const initialState = { theme: "", location: {}, language: "" };
+const initialState = {};
 
 export default function experienceReducer(
   state = initialState,

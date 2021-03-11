@@ -1,7 +1,8 @@
 import { getExperienceById } from "api/experiences";
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 interface Props {
   stepProps: any;
@@ -9,11 +10,11 @@ interface Props {
 
 const Description: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-  const [description, setDescription] = React.useState("");
+  const [description, setDescription] = useState("");
   const experience = useSelector((state) => state.experience);
   const { id } = useParams<{ id: string }>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchDescription(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
