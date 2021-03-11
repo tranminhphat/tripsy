@@ -50,7 +50,7 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   };
 
   return (
-    <div className="max-w-xl text-justify mx-auto">
+    <div className="max-w-xl my-8 text-justify mx-auto">
       <h1 className="text-4xl font-bold">
         Hãy chọn thành phố nơi bạn tổ chức buổi trải nghiệm
       </h1>
@@ -59,7 +59,6 @@ const Location: React.FC<Props> = ({ stepProps }) => {
         dưới, hãy chọn địa điểm gần nhất, bạn sẽ được cập nhật địa chỉ chi tiết
         ở mục sau
       </p>
-
       {location && location.city ? (
         <div>
           <div className="p-5 mb-4 border border-gray-500 bg-gray-200 opacity-50 rounded-lg">

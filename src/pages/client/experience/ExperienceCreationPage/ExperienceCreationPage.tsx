@@ -79,7 +79,9 @@ const ExperienceCreationPage: React.FC<Props> = () => {
    *
    */
   const handleDone = async (index: number) => {
-    setCurrentProgressIndex((prevIndex) => prevIndex + 1);
+    if (currentProgressIndex !== -1) {
+      setCurrentProgressIndex((prevIndex) => prevIndex + 1);
+    }
     setSelectedIndex(index + 1);
     history.push({
       pathname: `${url}/progress${index + 1}`,

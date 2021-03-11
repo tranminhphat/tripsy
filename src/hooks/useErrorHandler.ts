@@ -1,5 +1,5 @@
 import ErrorObject from "interfaces/common/error-object.interface";
-import * as React from "react";
+import { useState } from "react";
 
 const useErrorHandler = (): [string, (errorObject: any) => void] => {
   const [error, setError] = useState("");

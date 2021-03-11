@@ -161,12 +161,12 @@ const Address: React.FC<Props> = ({ stepProps }) => {
   const handleOnDragEnd = (lng: number, lat: number) => {
     setStepValue((prevValue) => ({
       ...prevValue,
-      location: { ...experience.location, coordinates: [lng, lat] },
+      location: { city: address.city, coordinates: [lng, lat] },
     }));
   };
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl my-8 mx-auto">
       <h1 className="text-4xl font-bold">Chi tiết về vị trí tổ chức</h1>
       <h2 className="text-2xl mt-4 font-bold">Mô tả về vị trí </h2>
       <p className="mt-4 text-gray-500">

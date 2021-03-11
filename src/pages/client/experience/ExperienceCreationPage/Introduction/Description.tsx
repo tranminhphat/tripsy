@@ -44,7 +44,7 @@ const Description: React.FC<Props> = ({ stepProps }) => {
     }
   };
   return (
-    <div className="max-w-xl text-justify mx-auto">
+    <div className="max-w-xl my-8 text-justify mx-auto">
       <h1 className="text-4xl font-bold">Chúng ta sẽ làm gì</h1>
       <p className="mt-4 text-lg text-gray-500">
         Mô tả hoạt động của bạn một cách chi tiết làm tăng cơ hội người tham gia

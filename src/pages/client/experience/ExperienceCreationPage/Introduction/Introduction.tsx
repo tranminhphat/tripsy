@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 import { updateExperience } from "redux/actions/experience/experienceAction";
 import Address from "./Address";
 import Description from "./Description";
-import GuestRequirement from "./GuestRequirement";
+import GuestBring from "./GuestBring";
 import HostProvision from "./HostProvision";
 
 function getSteps(currentStep: number) {
@@ -82,9 +82,9 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
       case 2:
         return <Address stepProps={stepProps} />;
       case 3:
-        return <HostProvision />;
+        return <HostProvision stepProps={stepProps} />;
       case 4:
-        return <GuestRequirement />;
+        return <GuestBring stepProps={stepProps} />;
       default:
         return null;
     }

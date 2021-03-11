@@ -57,7 +57,7 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   };
 
   return (
-    <div className="max-w-xl text-justify mx-auto">
+    <div className="max-w-xl my-8 text-justify mx-auto">
       <h1 className="text-4xl font-bold">
         Ngôn ngữ chính sẽ được sử dụng trong buổi trải nghiệm
       </h1>

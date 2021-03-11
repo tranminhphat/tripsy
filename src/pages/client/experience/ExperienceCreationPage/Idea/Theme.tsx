@@ -82,7 +82,7 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
           </div>
         </div>
       </Slide>
-      <div className="max-w-xl text-justify mx-auto">
+      <div className="max-w-xl my-8 text-justify mx-auto">
         <h1 className="text-4xl font-bold">
           Hãy lựa chọn chủ đề dành cho hoạt động của bạn
         </h1>

@@ -7,64 +7,62 @@ import { useParams } from "react-router-dom";
 interface Props {
   stepProps: any;
 }
-interface ProvisionListItem {
+interface GuestBringListItem {
   id: number;
   itemName: string;
 }
 
-const defaultProvisionList: ProvisionListItem[] = [
+const defaultGuestBringList: GuestBringListItem[] = [
   { id: 1, itemName: "" },
   { id: 2, itemName: "" },
 ];
 
-const HostProvision: React.FC<Props> = ({ stepProps }) => {
+const GuestBring: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [provisionList, setProvisionList] = useState<ProvisionListItem[]>(
-    defaultProvisionList
+  const [bringList, setBringList] = useState<GuestBringListItem[]>(
+    defaultGuestBringList
   );
 
   React.useEffect(() => {
-    fetchProvisionList(id);
+    fetchBringList(id);
     setIsValid(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   React.useEffect(() => {
-    const filterProvisionList = provisionList.filter(
-      (item) => item.itemName !== ""
-    );
-    setStepValue({ hostProvisions: filterProvisionList });
+    const filterBringList = bringList.filter((item) => item.itemName !== "");
+    setStepValue({ guestBrings: filterBringList });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [provisionList]);
+  }, [bringList]);
 
-  const fetchProvisionList = async (id: string) => {
-    if (experience.hostProvisions) {
-      setProvisionList(experience.hostProvisions);
+  const fetchBringList = async (id: string) => {
+    if (experience.guestBrings) {
+      setBringList(experience.guestBrings);
     } else {
       const {
         data: {
-          experience: { hostProvisions },
+          experience: { guestBrings },
         },
       } = await getExperienceById(id);
-      if (hostProvisions.length !== 0) {
-        setProvisionList(hostProvisions);
+      if (guestBrings.length !== 0) {
+        setBringList(guestBrings);
       } else {
-        setProvisionList(defaultProvisionList);
+        setBringList(defaultGuestBringList);
       }
     }
   };
 
-  const handleAddItemToProvisionList = () => {
-    setProvisionList((prevList) => [
+  const handleAddItemToBringList = () => {
+    setBringList((prevList) => [
       ...prevList,
       { id: prevList.length, itemName: "" },
     ]);
   };
 
   const handleOnInputChange = (e: any) => {
-    setProvisionList((prevList) =>
+    setBringList((prevList) =>
       prevList.map((item, index) => {
         if (Number(e.target.id) - 1 === index) {
           return { ...item, itemName: e.target.value };
@@ -77,16 +75,14 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
 
   return (
     <div className="max-w-xl my-8 text-justify mx-auto">
-      <h1 className="text-4xl font-bold">
-        Thêm vào chi tiết những gì mà bạn sẽ cung cấp cho khách
-      </h1>
+      <h1 className="text-4xl font-bold">Khách nên mang theo những gì</h1>
       <p className="mt-4 mb-4 text-lg text-gray-500">
-        Bạn có thể cung cấp đồ ăn và thức uống, thiết bị đặc biệt, vé xem một
-        buổi hòa nhạc hoặc bất cứ thứ gì đặc biệt khác để khách của bạn cảm thấy
-        thoải mái.
+        Nếu khách cần mang theo những gì để có thể tham gia trải nghiệm của bạn
+        một cách tốt đẹp nhất, đây chính là nơi để ghi ra. Hãy liệt kê một cách
+        chi tiết nhất và theo từng vật phẩm một.
       </p>
       <div>
-        {provisionList.map((item) => (
+        {bringList.map((item) => (
           <div key={item.id}>
             <input
               id={JSON.stringify(item.id)}
@@ -94,14 +90,14 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
               onChange={(e: any) => handleOnInputChange(e)}
               type="text"
               className="w-full mt-2 p-4 border border-gray-300 hover:border-black rounded-md"
-              placeholder="Nhập vào đồ cung cấp"
+              placeholder="Nhập vào vật dụng"
             />
           </div>
         ))}
       </div>
       <button
         className="text-lg font-bold underline mt-2 focus:outline-none"
-        onClick={() => handleAddItemToProvisionList()}
+        onClick={() => handleAddItemToBringList()}
       >
         + Thêm đồ cung cấp
       </button>
@@ -109,4 +105,4 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
   );
 };
 
-export default HostProvision;
+export default GuestBring;
