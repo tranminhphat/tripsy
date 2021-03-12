@@ -9,6 +9,7 @@ import Address from "./Address";
 import Description from "./Description";
 import GuestBring from "./GuestBring";
 import HostProvision from "./HostProvision";
+import Title from "./Title";
 
 function getSteps(currentStep: number) {
   return [
@@ -16,6 +17,7 @@ function getSteps(currentStep: number) {
     { label: "Chi tiết địa điểm", isCompleted: currentStep > 2 },
     { label: "Đồ dùng người tổ chức cung cấp", isCompleted: currentStep > 3 },
     { label: "Đồ dùng khách cần mang theo", isCompleted: currentStep > 4 },
+    { label: "Tiêu đề", isCompleted: currentStep > 5 },
   ];
 }
 
@@ -29,6 +31,8 @@ function getStepContent(step: number) {
       return "Những gì bạn sẽ cung cấp";
     case 4:
       return "Đồ dùng khách cần mang";
+    case 5:
+      return "Tiêu đề";
     default:
       return "Unknown step";
   }
@@ -85,6 +89,8 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
         return <HostProvision stepProps={stepProps} />;
       case 4:
         return <GuestBring stepProps={stepProps} />;
+      case 5:
+        return <Title stepProps={stepProps} />;
       default:
         return null;
     }

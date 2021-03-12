@@ -41,6 +41,8 @@ const Description: React.FC<Props> = ({ stepProps }) => {
     if (e.target.value.length >= 10) {
       setIsValid(true);
       setStepValue({ description: e.target.value });
+    } else {
+      setIsValid(false);
     }
   };
   return (

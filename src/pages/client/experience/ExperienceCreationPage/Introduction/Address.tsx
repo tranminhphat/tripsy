@@ -74,6 +74,8 @@ const Address: React.FC<Props> = ({ stepProps }) => {
     ) {
       setIsValid(true);
       setStepValue({ address });
+    } else {
+      setIsValid(false);
     }
   }, [address, setIsValid, setStepValue]);
 

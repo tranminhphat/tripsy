@@ -6,4 +6,8 @@ export interface IExperienceResponse {
   language?: string;
   description?: string;
   address?: { city: string; district: string; ward: string; street };
+  hostProvisions?: { id: number; itemName: string };
+  guestBrings?: { id: number; itemName: string };
+  title?: string;
+  photos?: any;
 }
