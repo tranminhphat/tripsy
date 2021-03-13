@@ -31,8 +31,11 @@ const ExperienceCreationPage: React.FC<Props> = () => {
   const updatedProperties = useSelector((state) => state.experience);
 
   /* Get the current progress of experience process via router*/
-  const location = useLocation<{ currentProgress: number }>();
-  const { currentProgress } = location.state;
+  const location = useLocation<{
+    currentProgress: number;
+    currentStep: number;
+  }>();
+  const { currentProgress, currentStep } = location.state;
 
   /* Store the current progress index state */
   const [currentProgressIndex, setCurrentProgressIndex] = useState(
@@ -85,7 +88,10 @@ const ExperienceCreationPage: React.FC<Props> = () => {
     setSelectedIndex(index + 1);
     history.push({
       pathname: `${url}/progress${index + 1}`,
-      state: { currentProgress: index + 1, currentStep: 1 },
+      state: {
+        currentProgress,
+        currentStep,
+      },
     });
   };
 
@@ -96,7 +102,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
         <Link
           to={{
             pathname: `${url}/progress1`,
-            state: { currentProgress: 1, currentStep: 1 },
+            state: { currentProgress, currentStep },
           }}
         >
           <li className="mt-2" onClick={() => handleListItemClick(1)}>
@@ -120,7 +126,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
         <Link
           to={{
             pathname: `${url}/progress2`,
-            state: { currentProgress: 2, currentStep: 1 },
+            state: { currentProgress, currentStep },
           }}
         >
           <li className="mt-2" onClick={() => handleListItemClick(2)}>

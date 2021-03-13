@@ -18,10 +18,22 @@ interface Props {
  *  Return all the steps in IDEA progress
  *  @param currentStep - to help initialize the isCompleted property for each step.
  */
-const getSteps = (currentStep: number) => [
-  { label: "Chủ đề của hoạt động", isCompleted: currentStep > 1 },
-  { label: "Địa điểm tổ chức", isCompleted: currentStep > 2 },
-  { label: "Ngôn ngữ sử dụng", isCompleted: currentStep > 3 },
+const getSteps = (currentProgress: number, currentStep: number) => [
+  {
+    label: "Chủ đề của hoạt động",
+    isCompleted:
+      currentProgress === -1 || currentProgress > 1 || currentStep > 1,
+  },
+  {
+    label: "Địa điểm tổ chức",
+    isCompleted:
+      currentProgress === -1 || currentProgress > 1 || currentStep > 2,
+  },
+  {
+    label: "Ngôn ngữ sử dụng",
+    isCompleted:
+      currentProgress === -1 || currentProgress > 1 || currentStep > 3,
+  },
 ];
 
 /**
@@ -46,12 +58,13 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
 
   /* Get the current step that user been doing from route */
   const location = useLocation<{
+    currentProgress: number;
     currentStep: number;
   }>();
-  const { currentStep } = location.state;
+  const { currentProgress, currentStep } = location.state;
 
   /* Store the array of steps in state */
-  const [steps, setSteps] = useState(getSteps(currentStep));
+  const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));
 
   /* Store the active step in state */
   const [activeStep, setActiveStep] = useState(currentStep);

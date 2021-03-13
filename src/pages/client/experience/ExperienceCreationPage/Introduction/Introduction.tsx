@@ -12,14 +12,39 @@ import HostProvision from "./HostProvision";
 import Photos from "./Photos";
 import Title from "./Title";
 
-function getSteps(currentStep: number) {
+function getSteps(currentProgress: number, currentStep: number) {
   return [
-    { label: "Mô tả về hoạt động", isCompleted: currentStep > 1 },
-    { label: "Chi tiết địa điểm", isCompleted: currentStep > 2 },
-    { label: "Đồ dùng người tổ chức cung cấp", isCompleted: currentStep > 3 },
-    { label: "Đồ dùng khách cần mang theo", isCompleted: currentStep > 4 },
-    { label: "Tiêu đề", isCompleted: currentStep > 5 },
-    { label: "Hình ảnh", isCompleted: currentStep > 6 },
+    {
+      label: "Mô tả",
+      isCompleted:
+        currentProgress === -1 || currentProgress > 2 || currentStep > 1,
+    },
+    {
+      label: "Chi tiết địa điểm",
+      isCompleted:
+        currentProgress === -1 || currentProgress > 2 || currentStep > 2,
+    },
+    {
+      label: "Đồ dùng cung cấp",
+      isCompleted:
+        currentProgress === -1 || currentProgress > 2 || currentStep > 3,
+    },
+
+    {
+      label: "Đồ dùng tự túc",
+      isCompleted:
+        currentProgress === -1 || currentProgress > 2 || currentStep > 4,
+    },
+    {
+      label: "Tiêu đề",
+      isCompleted:
+        currentProgress === -1 || currentProgress > 2 || currentStep > 5,
+    },
+    {
+      label: "Hình ảnh",
+      isCompleted:
+        currentProgress === -1 || currentProgress > 2 || currentStep > 6,
+    },
   ];
 }
 
@@ -48,9 +73,12 @@ interface Props {
 
 const Introduction: React.FC<Props> = ({ handleDone }) => {
   const dispatch = useDispatch();
-  const location = useLocation<{ currentStep: number }>();
-  const { currentStep } = location.state;
-  const [steps, setSteps] = useState(getSteps(currentStep));
+  const location = useLocation<{
+    currentProgress: number;
+    currentStep: number;
+  }>();
+  const { currentProgress, currentStep } = location.state;
+  const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));
   const [activeStep, setActiveStep] = useState(currentStep);
   const [stepValue, setStepValue] = useState<{}>();
   const [isValid, setIsValid] = useState<boolean>(false);

@@ -1,9 +1,8 @@
 import { Button } from "@material-ui/core";
-import Modal from "@material-ui/core/Modal";
 import AddPhotoIcon from "@material-ui/icons/AddPhotoAlternate";
-import ClearIcon from "@material-ui/icons/Clear";
 import * as React from "react";
 import { useRef, useState } from "react";
+import MyModal from "./MyModal";
 
 interface Props {}
 
@@ -43,31 +42,23 @@ const MyPhotoUpload: React.FC<Props> = () => {
           className="hidden"
         />
       </label>
-      <Modal open={isModalOpen}>
-        <div className="absolute w-max max-w-lg h-72 inset-0 m-auto bg-white rounded-2xl outline-none">
-          <div className="flex flex-col justity-center items-center py-4 px-6">
-            <div className="flex justify-between">
-              <button
+      <MyModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+        {{
+          header: "Tải lên một bức ảnh có chất lượng tốt hơn",
+          content: (
+            <p>
+              Hình ảnh phải có độ phân giải ít nhất là 800px chiều rộng và
+              1200px chiều cao. Vui lòng đăng tải hình ảnh thỏa yêu cầu. Hình
+              bạn vừa tải lên có độ phân giải {width}x{height}
+            </p>
+          ),
+          footer: (
+            <>
+              <Button
                 onClick={() => setIsModalOpen(false)}
-                className="focus:outline-none mr-4"
+                variant="contained"
+                className="mr-2"
               >
-                <span>
-                  <ClearIcon />
-                </span>
-              </button>
-              <h2 className="text-lg font-semibold">
-                Tải lên một bức ảnh có chất lượng tốt hơn
-              </h2>
-            </div>
-            <div className="mt-8">
-              <p>
-                Hình ảnh phải có độ phân giải ít nhất là 800px chiều rộng và
-                1200px chiều cao. Vui lòng đăng tải hình ảnh thỏa yêu cầu. Hình
-                bạn vừa tải lên có độ phân giải {width}x{height}
-              </p>
-            </div>
-            <div className="flex justify-around mt-8">
-              <Button variant="contained" className="mr-2">
                 Hủy
               </Button>
               <Button
@@ -83,10 +74,10 @@ const MyPhotoUpload: React.FC<Props> = () => {
               >
                 Tải ảnh khác
               </Button>
-            </div>
-          </div>
-        </div>
-      </Modal>
+            </>
+          ),
+        }}
+      </MyModal>
     </div>
   );
 };
