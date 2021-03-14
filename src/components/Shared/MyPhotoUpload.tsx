@@ -6,14 +6,15 @@ import { FileReaderResultType } from "types";
 import MyModal from "./MyModal";
 
 interface Props {
+  url?: FileReaderResultType;
   type?: string;
   setBase64String?: (base64String: FileReaderResultType) => void;
 }
 
-const MyPhotoUpload: React.FC<Props> = ({ type, setBase64String }) => {
+const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
   const [photoInput, setPhotoInput] = useState<Blob | null>(null);
   const [previewSource, setPreviewSource] = useState<FileReaderResultType>(
-    null
+    url ? url : null
   );
   const photoInputEl = useRef<HTMLInputElement>(null);
   const [width, setWidth] = useState(0);

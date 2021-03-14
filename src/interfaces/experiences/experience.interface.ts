@@ -9,5 +9,5 @@ export interface IExperienceResponse {
   hostProvisions?: { id: number; itemName: string };
   guestBrings?: { id: number; itemName: string };
   title?: string;
-  photos?: any;
+  photoGallery?: any;
 }

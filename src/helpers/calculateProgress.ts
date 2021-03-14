@@ -12,7 +12,7 @@ export const calculateCurrentProgress = (
     hostProvisions,
     guestBrings,
     title,
-    photos,
+    photoGallery,
   } = experienceDocument;
   if (!theme) {
     return [1, 1];
@@ -37,6 +37,9 @@ export const calculateCurrentProgress = (
   }
   if (!title) {
     return [2, 5];
+  }
+  if (!photoGallery) {
+    return [2, 6];
   }
 
   return [-1, 1];

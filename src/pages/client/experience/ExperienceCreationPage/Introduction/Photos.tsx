@@ -1,6 +1,9 @@
+import { getExperienceById } from "api/experiences";
 import MyPhotoUpload from "components/Shared/MyPhotoUpload";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { FileReaderResultType } from "types";
 
 interface Props {
@@ -10,10 +13,13 @@ interface Props {
 interface ExperiencePhoto {
   type: string;
   base64String: FileReaderResultType;
+  url?: string;
 }
 
 const Photos: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
+  const experience = useSelector((state) => state.experience);
+  const { id } = useParams<{ id: string }>();
   const initialPhoToGallery: ExperiencePhoto[] = [
     { type: "cover", base64String: "" },
     { type: "host", base64String: "" },
@@ -25,12 +31,35 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
   ];
   const [base64PhotoGallery, setBase64PhotoGallery] = useState<
     ExperiencePhoto[]
-  >(initialPhoToGallery);
+  >([]);
+
+  useEffect(() => {
+    fetchPhotos(id);
+    console.log(base64PhotoGallery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   useEffect(() => {
     handleUpdateStepValue();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base64PhotoGallery]);
+
+  const fetchPhotos = async (id: string) => {
+    if (experience.photoGallery) {
+      setBase64PhotoGallery(experience.photoGallery);
+    } else {
+      const {
+        data: {
+          experience: { photoGallery },
+        },
+      } = await getExperienceById(id);
+      if (photoGallery) {
+        setBase64PhotoGallery(photoGallery);
+      } else {
+        setBase64PhotoGallery(initialPhoToGallery);
+      }
+    }
+  };
 
   const handleSetBase64String = (
     type: string,
@@ -110,12 +139,15 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
         </p>
       </div>
       <div className="mt-2">
-        <MyPhotoUpload
-          type="cover"
-          setBase64String={(base64String: FileReaderResultType) =>
-            handleSetBase64String("cover", base64String)
-          }
-        />
+        {base64PhotoGallery.length !== 0 ? (
+          <MyPhotoUpload
+            type="cover"
+            url={base64PhotoGallery[0].url ? base64PhotoGallery[0].url : null}
+            setBase64String={(base64String: FileReaderResultType) =>
+              handleSetBase64String("cover", base64String)
+            }
+          />
+        ) : null}
       </div>
       <div className="mt-4">
         <h3 className="text-xl font-bold">
@@ -131,54 +163,19 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
       </div>
       <div className="mt-4">
         <div className="flex items-stretch justify-start flex-wrap">
-          <div className="w-1/3 mb-2">
-            <MyPhotoUpload
-              type="host"
-              setBase64String={(base64String: FileReaderResultType) =>
-                handleSetBase64String("host", base64String)
-              }
-            />
-          </div>
-          <div className="w-1/3 mb-2">
-            <MyPhotoUpload
-              type="action"
-              setBase64String={(base64String: FileReaderResultType) =>
-                handleSetBase64String("action", base64String)
-              }
-            />
-          </div>
-          <div className="w-1/3 mb-2">
-            <MyPhotoUpload
-              type="details"
-              setBase64String={(base64String: FileReaderResultType) =>
-                handleSetBase64String("details", base64String)
-              }
-            />
-          </div>
-          <div className="w-1/3 mb-2">
-            <MyPhotoUpload
-              type="location"
-              setBase64String={(base64String: FileReaderResultType) =>
-                handleSetBase64String("location", base64String)
-              }
-            />
-          </div>
-          <div className="w-1/3 mb-2">
-            <MyPhotoUpload
-              type="miscellaneous1"
-              setBase64String={(base64String: FileReaderResultType) =>
-                handleSetBase64String("miscellaneous1", base64String)
-              }
-            />
-          </div>
-          <div className="w-1/3 mb-2">
-            <MyPhotoUpload
-              type="miscellaneous2"
-              setBase64String={(base64String: FileReaderResultType) =>
-                handleSetBase64String("miscellaneous2", base64String)
-              }
-            />
-          </div>
+          {base64PhotoGallery.length !== 0
+            ? base64PhotoGallery.slice(1).map((photo) => (
+                <div key={photo.type} className="w-1/3 mb-2">
+                  <MyPhotoUpload
+                    type={photo.type}
+                    url={photo.url ? photo.url : null}
+                    setBase64String={(base64String: FileReaderResultType) =>
+                      handleSetBase64String(photo.type, base64String)
+                    }
+                  />
+                </div>
+              ))
+            : null}
         </div>
       </div>
     </div>
