@@ -3,12 +3,14 @@ import AddPhotoIcon from "@material-ui/icons/AddPhotoAlternate";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { FileReaderResultType } from "types";
-import MyImageCropper from "./MyImageCropper";
 import MyModal from "./MyModal";
 
-interface Props {}
+interface Props {
+  type?: string;
+  setBase64String?: (base64String: FileReaderResultType) => void;
+}
 
-const MyPhotoUpload: React.FC<Props> = () => {
+const MyPhotoUpload: React.FC<Props> = ({ type, setBase64String }) => {
   const [photoInput, setPhotoInput] = useState<Blob | null>(null);
   const [previewSource, setPreviewSource] = useState<FileReaderResultType>(
     null
@@ -17,7 +19,6 @@ const MyPhotoUpload: React.FC<Props> = () => {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isPhotoEditModalOpen, setIsPhotoEditModalOpen] = useState(false);
 
   useEffect(() => {
     if (photoInput) {
@@ -27,8 +28,6 @@ const MyPhotoUpload: React.FC<Props> = () => {
 
   const checkImageValid = (photoInput: Blob) => {
     if (width < 800 || height < 1200) {
-      console.log("width", width);
-      console.log("height", height);
       setIsModalOpen(true);
     } else {
       previewFile(photoInput);
@@ -37,13 +36,15 @@ const MyPhotoUpload: React.FC<Props> = () => {
 
   const handlePhotoInputChange = (e: any) => {
     const file = e.target.files[0];
-    const img = new Image();
-    img.src = window.URL.createObjectURL(file);
-    img.onload = () => {
-      setWidth(img.naturalWidth);
-      setHeight(img.naturalHeight);
-      setPhotoInput(file);
-    };
+    if (file) {
+      const img = new Image();
+      img.src = window.URL.createObjectURL(file);
+      img.onload = () => {
+        setWidth(img.naturalWidth);
+        setHeight(img.naturalHeight);
+        setPhotoInput(file);
+      };
+    }
   };
 
   const previewFile = (file: Blob) => {
@@ -51,55 +52,42 @@ const MyPhotoUpload: React.FC<Props> = () => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setPreviewSource(reader.result);
+      if (setBase64String) {
+        setBase64String(reader.result);
+      }
     };
   };
 
   return (
-    <div>
-      <label htmlFor="photo-input">
-        <div className="h-60 w-40 border border-dashed flex justify-center items-center cursor-pointer">
+    <div className="h-60 w-40">
+      <label htmlFor={type}>
+        <div className="h-60 w-40 border border-gray-400 border-dashed flex justify-center items-center cursor-pointer">
           {previewSource ? (
-            <>
-              <img
-                className="w-full h-full"
-                src={previewSource as string}
-                alt="cover"
-              />
-              <button onClick={() => setIsPhotoEditModalOpen(true)}>
-                Edit
-              </button>
-              <div>
-                <MyModal
-                  open={isPhotoEditModalOpen}
-                  setOpen={setIsPhotoEditModalOpen}
-                >
-                  {{
-                    header: "Chỉnh sửa ảnh",
-                    content: (
-                      <>
-                        <MyImageCropper src={previewSource as string} />
-                      </>
-                    ),
-                  }}
-                </MyModal>
-              </div>
-            </>
+            <img
+              className="w-full h-full"
+              src={previewSource as string}
+              alt="cover"
+            />
           ) : (
             <AddPhotoIcon />
           )}
         </div>
         <input
+          id={type}
           type="file"
           ref={photoInputEl}
           accept=".jpg,.jpeg,.png.gif"
           onChange={handlePhotoInputChange}
-          id="photo-input"
           className="hidden"
         />
       </label>
-      <MyModal open={isModalOpen} setOpen={setIsModalOpen}>
+      <MyModal size="lg" open={isModalOpen} setOpen={setIsModalOpen}>
         {{
-          header: "Tải lên một bức ảnh có chất lượng tốt hơn",
+          header: (
+            <h2 className="text-lg font-bold">
+              Tải lên một bức ảnh có chất lượng tốt hơn
+            </h2>
+          ),
           content: (
             <p>
               Hình ảnh phải có độ phân giải ít nhất là 800px chiều rộng và
