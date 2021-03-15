@@ -147,11 +147,19 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
   return (
     <div className="flex flex-col items-center justify-center p-8">
       <div className="relative">
-        <Avatar
-          style={{ width: "96px", height: "96px" }}
-          src={!userData.avatarUrl ? SkeletonUserAvatar : userData.avatarUrl}
-          alt="avatar"
-        />
+        {!fileReader ? (
+          <Avatar
+            style={{ width: "96px", height: "96px" }}
+            src={userData.avatarUrl ? userData.avatarUrl : SkeletonUserAvatar}
+            alt="avatar"
+          />
+        ) : (
+          <Avatar
+            style={{ width: "96px", height: "96px" }}
+            src={fileReader as string}
+            alt="avatar"
+          />
+        )}
         {isCurrentUser ? (
           <div
             style={{ width: "30px", height: "30px" }}
@@ -173,15 +181,23 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
       </div>
       <div>
         {fileReader ? (
-          <Button
-            className="bg-main-blue text-white mt-4"
-            onClick={() => changeUserAvatar(fileReader)}
-          >
-            Change
-          </Button>
-        ) : (
-          ""
-        )}
+          <>
+            <Button
+              className="mt-4 mr-1"
+              variant="contained"
+              onClick={() => setFileReader(null)}
+            >
+              Hủy
+            </Button>
+            <Button
+              variant="contained"
+              className="bg-main-blue text-white mt-4 ml-1"
+              onClick={() => changeUserAvatar(fileReader)}
+            >
+              Thay đổi
+            </Button>
+          </>
+        ) : null}
       </div>
       <div className="my-4 w-full h-px border border-solid border-main-blue" />
       <div className="self-start w-full">
