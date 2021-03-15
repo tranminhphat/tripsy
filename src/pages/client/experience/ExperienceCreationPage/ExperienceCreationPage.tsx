@@ -19,6 +19,8 @@ import { showAlert } from "redux/actions/alert/alertAction";
 import { resetExperiece } from "redux/actions/experience/experienceAction";
 import Idea from "./Idea/Idea";
 import Introduction from "./Introduction/Introduction";
+import Setting from "./Setting/Setting";
+import Submission from "./Submission/Submission";
 
 interface Props {}
 
@@ -145,6 +147,50 @@ const ExperienceCreationPage: React.FC<Props> = () => {
             </div>
           </li>
         </Link>
+        <Link
+          to={{
+            pathname: `${url}/progress3`,
+            state: { currentProgress, currentStep },
+          }}
+        >
+          <li className="mt-2" onClick={() => handleListItemClick(3)}>
+            <div
+              className={`
+                    p-2 rounded-lg flex justify-between ${
+                      selectedIndex === 3 ? "border border-black" : ""
+                    }`}
+            >
+              <span>Thiết lập</span>
+              {currentProgressIndex > 3 || currentProgressIndex === -1 ? (
+                <span>
+                  <CheckIcon />
+                </span>
+              ) : null}
+            </div>
+          </li>
+        </Link>
+        <Link
+          to={{
+            pathname: `${url}/progress4`,
+            state: { currentProgress, currentStep },
+          }}
+        >
+          <li className="mt-2" onClick={() => handleListItemClick(4)}>
+            <div
+              className={`
+                    p-2 rounded-lg flex justify-between ${
+                      selectedIndex === 4 ? "border border-black" : ""
+                    }`}
+            >
+              <span>Xác thực</span>
+              {currentProgressIndex > 4 || currentProgressIndex === -1 ? (
+                <span>
+                  <CheckIcon />
+                </span>
+              ) : null}
+            </div>
+          </li>
+        </Link>
       </ul>
     </div>
   );
@@ -181,6 +227,16 @@ const ExperienceCreationPage: React.FC<Props> = () => {
             exact
             path={`${path}/progress2/`}
             render={() => <Introduction handleDone={handleDone} />}
+          />
+          <Route
+            exact
+            path={`${path}/progress3/`}
+            render={() => <Setting handleDone={handleDone} />}
+          />
+          <Route
+            exact
+            path={`${path}/progress4/`}
+            render={() => <Submission handleDone={handleDone} />}
           />
         </Switch>
       </main>

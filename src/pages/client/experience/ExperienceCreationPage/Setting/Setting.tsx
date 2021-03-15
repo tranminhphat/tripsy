@@ -4,104 +4,101 @@ import * as React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { updateExperience } from "redux/actions/experience/experienceAction";
-import Address from "./Address";
-import Description from "./Description";
-import GuestBring from "./GuestBring";
-import HostProvision from "./HostProvision";
-import Photos from "./Photos";
-import Title from "./Title";
-
-function getSteps(currentProgress: number, currentStep: number) {
-  return [
-    {
-      label: "Mô tả",
-      isCompleted:
-        currentProgress === -1 || currentProgress > 2 || currentStep > 1,
-    },
-    {
-      label: "Chi tiết địa điểm",
-      isCompleted:
-        currentProgress === -1 || currentProgress > 2 || currentStep > 2,
-    },
-    {
-      label: "Đồ dùng cung cấp",
-      isCompleted:
-        currentProgress === -1 || currentProgress > 2 || currentStep > 3,
-    },
-
-    {
-      label: "Đồ dùng tự túc",
-      isCompleted:
-        currentProgress === -1 || currentProgress > 2 || currentStep > 4,
-    },
-    {
-      label: "Tiêu đề",
-      isCompleted:
-        currentProgress === -1 || currentProgress > 2 || currentStep > 5,
-    },
-    {
-      label: "Hình ảnh",
-      isCompleted:
-        currentProgress === -1 || currentProgress > 2 || currentStep > 6,
-    },
-  ];
-}
-
-function getStepContent(step: number) {
-  switch (step) {
-    case 1:
-      return "Mô tả";
-    case 2:
-      return "Chi tiết địa điểm";
-    case 3:
-      return "Những gì bạn sẽ cung cấp";
-    case 4:
-      return "Đồ dùng khách cần mang";
-    case 5:
-      return "Tiêu đề";
-    case 6:
-      return "Hình ảnh";
-    default:
-      return "Unknown step";
-  }
-}
+import BookingDate from "./BookingDate";
+import Duration from "./Duration";
+import GroupSize from "./GroupSize";
+import Price from "./Price";
 
 interface Props {
   handleDone: (index: number) => void;
 }
 
-const Introduction: React.FC<Props> = ({ handleDone }) => {
+const getSteps = (currentProgress: number, currentStep: number) => [
+  {
+    label: "Số lượng khách",
+    isCompleted:
+      currentProgress === -1 || currentProgress > 3 || currentStep > 1,
+  },
+  {
+    label: "Khoảng thời gian",
+    isCompleted:
+      currentProgress === -1 || currentProgress > 3 || currentStep > 2,
+  },
+  {
+    label: "Chi phí",
+    isCompleted:
+      currentProgress === -1 || currentProgress > 3 || currentStep > 3,
+  },
+  {
+    label: "Thời hạn đặt chổ",
+    isCompleted:
+      currentProgress === -1 || currentProgress > 3 || currentStep > 4,
+  },
+];
+
+const getStepContent = (step: number) => {
+  switch (step) {
+    case 1:
+      return "Số lượng khách";
+    case 2:
+      return "Khoảng thời gian";
+    case 3:
+      return "Chi phí";
+    case 4:
+      return "Thời hạn đặt chổ";
+    default:
+      return "Unknown step";
+  }
+};
+
+const Setting: React.FC<Props> = ({ handleDone }) => {
   const dispatch = useDispatch();
+
+  /* Get the current step that user been doing from route */
   const location = useLocation<{
     currentProgress: number;
     currentStep: number;
   }>();
   const { currentProgress, currentStep } = location.state;
+
+  /* Store the array of steps in state */
   const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));
+
+  /* Store the active step in state */
   const [activeStep, setActiveStep] = useState(currentStep);
+
+  /* Store the updatedValue in state */
   const [stepValue, setStepValue] = useState<{}>();
-  const [isValid, setIsValid] = useState<boolean>(false);
 
+  /* Check if user have done the current step for the "Next" button */
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  /* Handle click on the "Next" button */
   const handleNext = () => {
-    dispatch(updateExperience(stepValue));
+    /* Update the experience state in redux store */
+    // dispatch(updateExperience(stepValue));
+    /* Update the active step */
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    const newSteps = steps.map((step, index) => {
-      if (index === activeStep - 1) {
-        return { ...step, isCompleted: true };
-      } else {
-        return { ...step };
-      }
-    });
-    setSteps(newSteps);
+    /* Update the steps (isCompleted property) */
+    // const newSteps = steps.map((step, index) => {
+    //   if (index === activeStep - 1) {
+    //     return { ...step, isCompleted: true };
+    //   } else {
+    //     return { ...step };
+    //   }
+    // });
+    // setSteps(newSteps);
 
+    /* Check if we've done the progress yet */
     if (activeStep === steps.length) {
-      handleDone(2);
+      handleDone(3);
     }
 
-    setIsValid(false);
+    /* Disabled the "Next" button in the next step */
+    // setIsValid(false);
   };
 
+  /* Handle click on the "Back" button */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -114,17 +111,13 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
   const renderSwitch = (stepId: number) => {
     switch (stepId) {
       case 1:
-        return <Description stepProps={stepProps} />;
+        return <GroupSize stepProps={stepProps} />;
       case 2:
-        return <Address stepProps={stepProps} />;
+        return <Duration stepProps={stepProps} />;
       case 3:
-        return <HostProvision stepProps={stepProps} />;
+        return <Price stepProps={stepProps} />;
       case 4:
-        return <GuestBring stepProps={stepProps} />;
-      case 5:
-        return <Title stepProps={stepProps} />;
-      case 6:
-        return <Photos stepProps={stepProps} />;
+        return <BookingDate stepProps={stepProps} />;
       default:
         return null;
     }
@@ -173,4 +166,4 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
   );
 };
 
-export default Introduction;
+export default Setting;
