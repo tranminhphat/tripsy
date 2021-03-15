@@ -1,3 +1,4 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
 import {
   getCities,
@@ -45,28 +46,23 @@ const initialAddressInput: AddressInput = {
 
 const Address: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-
   const { id } = useParams<{ id: string }>();
-
   const experience = useSelector((state) => state.experience);
-
   const [coordinates, setCoordinates] = useState<[number, number]>(
     experience.location ? experience.location.coordinates : [0, 0]
   );
 
   const [cities, setCities] = useState<string[]>();
-
   const [districts, setDistricts] = useState<string[]>();
-
   const [wards, setWards] = useState<string[]>();
-
   const [address, setAddress] = useState<AddressObject>(
     experience.address ? experience.address : initialAddress
   );
-
   const [addressInput, setAddressInput] = useState<AddressInput>(
     initialAddressInput
   );
+
+  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch data
   useEffect(() => {
@@ -116,6 +112,8 @@ const Address: React.FC<Props> = ({ stepProps }) => {
     if (address) {
       setAddress(address);
     }
+
+    setIsLoading(false);
   };
 
   const fetchCoordinates = async (id: string) => {
@@ -173,105 +171,115 @@ const Address: React.FC<Props> = ({ stepProps }) => {
 
   return (
     <div className="max-w-xl my-8 mx-auto">
-      <h1 className="text-4xl font-bold">Chi tiết về vị trí tổ chức</h1>
-      <h2 className="text-2xl mt-4 font-bold">Mô tả về vị trí </h2>
-      <p className="mt-4 text-gray-500">
-        Không cần đề cập đến địa chỉ ở đây, bạn sẽ làm điều đó ở mục tiếp theo.
-      </p>
-      <div className="mt-4">
-        <textarea
-          name="detail"
-          value={address.detail}
-          onChange={(e) => handleOnAddressChange("detail", e.target.value)}
-          className="w-full h-36 pl-2 pt-2 border border-gray-300"
-        ></textarea>
-        <span>{address.detail.length}/450</span>
-      </div>
-      <div className="mt-4">
-        <hr />
-      </div>
-      <div className="mt-4">
-        <h2 className="text-2xl mt-4 font-bold">Khách sẽ gặp bạn ở đâu?</h2>
-        <p className="mt-4 text-gray-500">
-          Hãy đảm bảo địa điểm gặp mặt có thể dễ dàng tìm kiếm. Địa chỉ chính
-          xác sẽ không được chia sẻ cho đến khi khách được xác nhận sẽ tham gia.
-        </p>
-      </div>
-      <div className="mt-4">
-        {cities ? (
-          <>
-            <label className="text-xl font-bold">Thành phố</label>
-            <MyAutocomplete
-              options={cities}
-              value={address.city}
-              handleOnChange={(newValue) =>
-                handleOnAddressChange("city", newValue)
-              }
-              handleOnInputChange={(newValue) =>
-                handleOnAddressInputChange("city", newValue)
-              }
-              inputValue={addressInput.city}
-              placeholder="Chọn thành phố / tỉnh"
+      {!isLoading ? (
+        <>
+          <h1 className="text-4xl font-bold">Chi tiết về vị trí tổ chức</h1>
+          <h2 className="text-2xl mt-4 font-bold">Mô tả về vị trí </h2>
+          <p className="mt-4 text-gray-500">
+            Không cần đề cập đến địa chỉ ở đây, bạn sẽ làm điều đó ở mục tiếp
+            theo.
+          </p>
+          <div className="mt-4">
+            <textarea
+              name="detail"
+              value={address.detail}
+              onChange={(e) => handleOnAddressChange("detail", e.target.value)}
+              className="w-full h-36 pl-2 pt-2 border border-gray-300"
+            ></textarea>
+            <span>{address.detail.length}/450</span>
+          </div>
+          <div className="mt-4">
+            <hr />
+          </div>
+          <div className="mt-4">
+            <h2 className="text-2xl mt-4 font-bold">Khách sẽ gặp bạn ở đâu?</h2>
+            <p className="mt-4 text-gray-500">
+              Hãy đảm bảo địa điểm gặp mặt có thể dễ dàng tìm kiếm. Địa chỉ
+              chính xác sẽ không được chia sẻ cho đến khi khách được xác nhận sẽ
+              tham gia.
+            </p>
+          </div>
+          <div className="mt-4">
+            {cities ? (
+              <>
+                <label className="text-xl font-bold">Thành phố</label>
+                <MyAutocomplete
+                  options={cities}
+                  value={address.city}
+                  handleOnChange={(newValue) =>
+                    handleOnAddressChange("city", newValue)
+                  }
+                  handleOnInputChange={(newValue) =>
+                    handleOnAddressInputChange("city", newValue)
+                  }
+                  inputValue={addressInput.city}
+                  placeholder="Chọn thành phố / tỉnh"
+                />
+              </>
+            ) : null}
+          </div>
+          <div className="mt-4">
+            <>
+              <label className="text-xl font-bold">Quận</label>
+              <MyAutocomplete
+                options={districts ? districts : []}
+                value={address.district}
+                handleOnChange={(newValue) =>
+                  handleOnAddressChange("district", newValue)
+                }
+                handleOnInputChange={(newValue) =>
+                  handleOnAddressInputChange("district", newValue)
+                }
+                inputValue={addressInput.district}
+                placeholder="Chọn quận / huyện"
+              />
+            </>
+          </div>
+          <div className="mt-4">
+            <>
+              <label className="text-xl font-bold">Phường</label>
+              <MyAutocomplete
+                options={wards ? wards : []}
+                value={address.ward}
+                handleOnChange={(newValue) =>
+                  handleOnAddressChange("ward", newValue)
+                }
+                handleOnInputChange={(newValue) =>
+                  handleOnAddressInputChange("ward", newValue)
+                }
+                inputValue={addressInput.ward}
+                placeholder="Chọn phường / xã"
+              />
+            </>
+          </div>
+          <div className="mt-4">
+            <>
+              <label className="text-xl font-bold">Địa chỉ</label>
+              <input
+                type="text"
+                name="street"
+                className="w-full border border-gray-300 hover:border-black p-4 rounded-md"
+                value={address.street}
+                onChange={(e) =>
+                  handleOnAddressChange(e.target.name, e.target.value)
+                }
+              />
+            </>
+          </div>
+          <div className="mt-4 flex justify-center">
+            <MyMapbox
+              width="400px"
+              height="400px"
+              coordinates={coordinates}
+              onDragEnd={(lng, lat) => handleOnDragEnd(lng, lat)}
             />
-          </>
-        ) : null}
-      </div>
-      <div className="mt-4">
-        <>
-          <label className="text-xl font-bold">Quận</label>
-          <MyAutocomplete
-            options={districts ? districts : []}
-            value={address.district}
-            handleOnChange={(newValue) =>
-              handleOnAddressChange("district", newValue)
-            }
-            handleOnInputChange={(newValue) =>
-              handleOnAddressInputChange("district", newValue)
-            }
-            inputValue={addressInput.district}
-            placeholder="Chọn quận / huyện"
-          />
+          </div>
         </>
-      </div>
-      <div className="mt-4">
-        <>
-          <label className="text-xl font-bold">Phường</label>
-          <MyAutocomplete
-            options={wards ? wards : []}
-            value={address.ward}
-            handleOnChange={(newValue) =>
-              handleOnAddressChange("ward", newValue)
-            }
-            handleOnInputChange={(newValue) =>
-              handleOnAddressInputChange("ward", newValue)
-            }
-            inputValue={addressInput.ward}
-            placeholder="Chọn phường / xã"
-          />
-        </>
-      </div>
-      <div className="mt-4">
-        <>
-          <label className="text-xl font-bold">Địa chỉ</label>
-          <input
-            type="text"
-            name="street"
-            className="w-full border border-gray-300 hover:border-black p-4 rounded-md"
-            value={address.street}
-            onChange={(e) =>
-              handleOnAddressChange(e.target.name, e.target.value)
-            }
-          />
-        </>
-      </div>
-      <div className="mt-4 flex justify-center">
-        <MyMapbox
-          width="400px"
-          height="400px"
-          coordinates={coordinates}
-          onDragEnd={(lng, lat) => handleOnDragEnd(lng, lat)}
-        />
-      </div>
+      ) : (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 };

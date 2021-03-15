@@ -1,3 +1,4 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ const Title: React.FC<Props> = ({ stepProps }) => {
   const experience = useSelector((state) => state.experience);
   const { id } = useParams<{ id: string }>();
   const [title, setTitle] = useState(experience.title ? experience.title : "");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchTitle(id);
@@ -36,6 +38,8 @@ const Title: React.FC<Props> = ({ stepProps }) => {
     if (title) {
       setTitle(title);
     }
+
+    setIsLoading(false);
   };
 
   const handleTitleChange = (e: any) => {
@@ -52,29 +56,37 @@ const Title: React.FC<Props> = ({ stepProps }) => {
   };
   return (
     <div className="max-w-xl my-8 text-justify mx-auto">
-      <h1 className="text-4xl font-bold">Đặt tên cho hoạt động của bạn</h1>
-      <p className="mt-4 mb-4 text-lg text-gray-500">
-        Hãy lựa chọn một cái tên thật ngắn gọn, xúc tính và đầy hứng thú.
-      </p>
-      <div className="mt-8 mb-2 text-left">
-        <label className="font-bold">Tiêu đề của trải nghiệm là gì?</label>
-        <input
-          type="text"
-          className="w-full mt-2 p-4 border border-gray-300 hover:border-black rounded-md"
-          value={title}
-          onChange={handleTitleChange}
-        />
-        <div className="mt-2">
-          {title.length > 40 ? (
-            <p className="text-red-600 font-bold">
-              Độ dài của tiêu đề phải ít hơn 40 ký tự
-            </p>
-          ) : null}
-          <p className={title.length > 40 ? "text-red-600 font-bold" : ""}>
-            {title.length}/{TITLE_MAX_LENGTH}
+      {!isLoading ? (
+        <>
+          <h1 className="text-4xl font-bold">Đặt tên cho hoạt động của bạn</h1>
+          <p className="mt-4 mb-4 text-lg text-gray-500">
+            Hãy lựa chọn một cái tên thật ngắn gọn, xúc tính và đầy hứng thú.
           </p>
+          <div className="mt-8 mb-2 text-left">
+            <label className="font-bold">Tiêu đề của trải nghiệm là gì?</label>
+            <input
+              type="text"
+              className="w-full mt-2 p-4 border border-gray-300 hover:border-black rounded-md"
+              value={title}
+              onChange={handleTitleChange}
+            />
+            <div className="mt-2">
+              {title.length > 40 ? (
+                <p className="text-red-600 font-bold">
+                  Độ dài của tiêu đề phải ít hơn 40 ký tự
+                </p>
+              ) : null}
+              <p className={title.length > 40 ? "text-red-600 font-bold" : ""}>
+                {title.length}/{TITLE_MAX_LENGTH}
+              </p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -184,7 +184,9 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
           </div>
         </>
       ) : (
-        <CircularProgress />
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
       )}
     </div>
   );

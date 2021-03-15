@@ -1,3 +1,4 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
 import MyAutocomplete from "components/Shared/MyAutocomplete";
 import * as React from "react";
@@ -20,6 +21,8 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   );
   const [languageInput, setLanguageInput] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     fetchData(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,6 +42,8 @@ const Language: React.FC<Props> = ({ stepProps }) => {
         setIsValid(true);
       }
     }
+
+    setIsLoading(false);
   };
 
   const handleOnLanguageChange = (newValue: string) => {
@@ -60,22 +65,32 @@ const Language: React.FC<Props> = ({ stepProps }) => {
 
   return (
     <div className="max-w-xl my-8 text-justify mx-auto">
-      <h1 className="text-4xl font-bold">
-        Ngôn ngữ chính sẽ được sử dụng trong buổi trải nghiệm
-      </h1>
-      <p className="mt-4 mb-4 text-lg text-gray-500">
-        Bạn nên có thể lưu loát trong việc nói, đọc, viết với ngôn ngữ này.
-      </p>
-      <MyAutocomplete
-        options={languages}
-        value={language}
-        inputValue={languageInput}
-        placeholder="Nhập vào ngôn ngữ"
-        handleOnChange={(newValue: string) => handleOnLanguageChange(newValue)}
-        handleOnInputChange={(newInputValue: string) =>
-          handleOnLanguageInputChange(newInputValue)
-        }
-      />
+      {!isLoading ? (
+        <>
+          <h1 className="text-4xl font-bold">
+            Ngôn ngữ chính sẽ được sử dụng trong buổi trải nghiệm
+          </h1>
+          <p className="mt-4 mb-4 text-lg text-gray-500">
+            Bạn nên có thể lưu loát trong việc nói, đọc, viết với ngôn ngữ này.
+          </p>
+          <MyAutocomplete
+            options={languages}
+            value={language}
+            inputValue={languageInput}
+            placeholder="Nhập vào ngôn ngữ"
+            handleOnChange={(newValue: string) =>
+              handleOnLanguageChange(newValue)
+            }
+            handleOnInputChange={(newInputValue: string) =>
+              handleOnLanguageInputChange(newInputValue)
+            }
+          />
+        </>
+      ) : (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
 import * as React from "react";
 import { useState } from "react";
@@ -24,6 +25,7 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
   const [provisionList, setProvisionList] = useState<ProvisionListItem[]>(
     experience.hostProvisions ? experience.hostProvisions : defaultProvisionList
   );
+  const [isLoading, setIsLoading] = useState(true);
 
   React.useEffect(() => {
     fetchProvisionList(id);
@@ -50,6 +52,8 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
     } else {
       setProvisionList(defaultProvisionList);
     }
+
+    setIsLoading(false);
   };
 
   const handleAddItemToProvisionList = () => {
@@ -73,34 +77,42 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
 
   return (
     <div className="max-w-xl my-8 text-justify mx-auto">
-      <h1 className="text-4xl font-bold">
-        Thêm vào chi tiết những gì mà bạn sẽ cung cấp cho khách
-      </h1>
-      <p className="mt-4 mb-4 text-lg text-gray-500">
-        Bạn có thể cung cấp đồ ăn và thức uống, thiết bị đặc biệt, vé xem một
-        buổi hòa nhạc hoặc bất cứ thứ gì đặc biệt khác để khách của bạn cảm thấy
-        thoải mái.
-      </p>
-      <div>
-        {provisionList.map((item) => (
-          <div key={item.id}>
-            <input
-              id={JSON.stringify(item.id)}
-              value={item.itemName}
-              onChange={(e: any) => handleOnInputChange(e)}
-              type="text"
-              className="w-full mt-2 p-4 border border-gray-300 hover:border-black rounded-md"
-              placeholder="Nhập vào đồ cung cấp"
-            />
+      {!isLoading ? (
+        <>
+          <h1 className="text-4xl font-bold">
+            Thêm vào chi tiết những gì mà bạn sẽ cung cấp cho khách
+          </h1>
+          <p className="mt-4 mb-4 text-lg text-gray-500">
+            Bạn có thể cung cấp đồ ăn và thức uống, thiết bị đặc biệt, vé xem
+            một buổi hòa nhạc hoặc bất cứ thứ gì đặc biệt khác để khách của bạn
+            cảm thấy thoải mái.
+          </p>
+          <div>
+            {provisionList.map((item) => (
+              <div key={item.id}>
+                <input
+                  id={JSON.stringify(item.id)}
+                  value={item.itemName}
+                  onChange={(e: any) => handleOnInputChange(e)}
+                  type="text"
+                  className="w-full mt-2 p-4 border border-gray-300 hover:border-black rounded-md"
+                  placeholder="Nhập vào đồ cung cấp"
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <button
-        className="text-lg font-bold underline mt-2 focus:outline-none"
-        onClick={() => handleAddItemToProvisionList()}
-      >
-        + Thêm đồ cung cấp
-      </button>
+          <button
+            className="text-lg font-bold underline mt-2 focus:outline-none"
+            onClick={() => handleAddItemToProvisionList()}
+          >
+            + Thêm đồ cung cấp
+          </button>
+        </>
+      ) : (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 };

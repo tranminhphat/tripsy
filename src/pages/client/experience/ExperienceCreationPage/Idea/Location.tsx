@@ -1,4 +1,5 @@
 import { Typography } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const [location, setLocation] = useState<LocationProps>(
     experience.location ? experience.location : initialValue
   );
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchData(id);
@@ -32,16 +34,19 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   const fetchData = async (id: string) => {
     if (experience.location) {
       setIsValid(true);
+    } else {
+      const {
+        data: {
+          experience: { location },
+        },
+      } = await getExperienceById(id);
+      if (location) {
+        setLocation(location);
+        setIsValid(true);
+      }
     }
-    const {
-      data: {
-        experience: { location },
-      },
-    } = await getExperienceById(id);
-    if (location) {
-      setLocation(location);
-      setIsValid(true);
-    }
+
+    setIsLoading(false);
   };
 
   const handleSelect = (result: string, lat: number, lng: number) => {
@@ -56,29 +61,37 @@ const Location: React.FC<Props> = ({ stepProps }) => {
 
   return (
     <div className="max-w-xl my-8 text-justify mx-auto">
-      <h1 className="text-4xl font-bold">
-        Hãy chọn thành phố nơi bạn tổ chức buổi trải nghiệm
-      </h1>
-      <p className="mt-4 mb-4 text-lg text-gray-500">
-        Đừng lo lắng nếu thành phố của bạn không xuất hiện trong ô tìm kiếm bên
-        dưới, hãy chọn địa điểm gần nhất, bạn sẽ được cập nhật địa chỉ chi tiết
-        ở mục sau
-      </p>
-      {location && location.city ? (
-        <div>
-          <div className="p-5 mb-4 border border-gray-500 bg-gray-200 opacity-50 rounded-lg">
-            <Typography className="text-lg">{location.city}</Typography>
-          </div>
-        </div>
+      {!isLoading ? (
+        <>
+          <h1 className="text-4xl font-bold">
+            Hãy chọn thành phố nơi bạn tổ chức buổi trải nghiệm
+          </h1>
+          <p className="mt-4 mb-4 text-lg text-gray-500">
+            Đừng lo lắng nếu thành phố của bạn không xuất hiện trong ô tìm kiếm
+            bên dưới, hãy chọn địa điểm gần nhất, bạn sẽ được cập nhật địa chỉ
+            chi tiết ở mục sau
+          </p>
+          {location && location.city ? (
+            <div>
+              <div className="p-5 mb-4 border border-gray-500 bg-gray-200 opacity-50 rounded-lg">
+                <Typography className="text-lg">{location.city}</Typography>
+              </div>
+            </div>
+          ) : (
+            <MapboxAutocomplete
+              inputClass="w-full p-2 border border-gray-300"
+              placeholder="Nhập vào thành phố"
+              publicKey="pk.eyJ1IjoidHJhbm1pbmhwaGF0IiwiYSI6ImNrbHdkZHhydzJ6Y3Myb24xOTI5ZjlteTEifQ.1XeapTPIPwrlnE9hHMqYxg"
+              onSuggestionSelect={handleSelect}
+              country="vn"
+              resetSearch={false}
+            />
+          )}
+        </>
       ) : (
-        <MapboxAutocomplete
-          inputClass="w-full p-2 border border-gray-300"
-          placeholder="Nhập vào thành phố"
-          publicKey="pk.eyJ1IjoidHJhbm1pbmhwaGF0IiwiYSI6ImNrbHdkZHhydzJ6Y3Myb24xOTI5ZjlteTEifQ.1XeapTPIPwrlnE9hHMqYxg"
-          onSuggestionSelect={handleSelect}
-          country="vn"
-          resetSearch={false}
-        />
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
       )}
     </div>
   );

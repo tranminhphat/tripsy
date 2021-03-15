@@ -1,4 +1,5 @@
 import { Slide, Typography } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ArrowRightIcon from "@material-ui/icons/ArrowForwardIos";
 import CloseIcon from "@material-ui/icons/Close";
 import { getExperienceById } from "api/experiences";
@@ -20,6 +21,7 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
     experience.theme ? experience.theme : "Chủ đề"
   );
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchData(id);
@@ -40,6 +42,8 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
         setIsValid(true);
       }
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -85,25 +89,33 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
         </div>
       </Slide>
       <div className="max-w-xl my-8 text-justify mx-auto">
-        <h1 className="text-4xl font-bold">
-          Hãy lựa chọn chủ đề dành cho hoạt động của bạn
-        </h1>
-        <p className="mt-4 text-lg text-gray-500">
-          Lựa chọn chủ đề mô tả tốt nhất những gì người tham gia sẽ làm trong
-          hoạt động của bạn. Việc này sẽ hỗ trợ người tham gia tìm thấy và tham
-          gia hoạt động của bạn.
-        </p>
-        <div
-          onClick={() => setChecked(true)}
-          className="border border-gray-300 rounded-lg mt-16 cursor-pointer"
-        >
-          <div className="p-5">
-            <div className="flex justify-between">
-              <Typography className="text-lg font-bold">{theme}</Typography>
-              <ArrowRightIcon />
+        {!isLoading ? (
+          <>
+            <h1 className="text-4xl font-bold">
+              Hãy lựa chọn chủ đề dành cho hoạt động của bạn
+            </h1>
+            <p className="mt-4 text-lg text-gray-500">
+              Lựa chọn chủ đề mô tả tốt nhất những gì người tham gia sẽ làm
+              trong hoạt động của bạn. Việc này sẽ hỗ trợ người tham gia tìm
+              thấy và tham gia hoạt động của bạn.
+            </p>
+            <div
+              onClick={() => setChecked(true)}
+              className="border border-gray-300 rounded-lg mt-16 cursor-pointer"
+            >
+              <div className="p-5">
+                <div className="flex justify-between">
+                  <Typography className="text-lg font-bold">{theme}</Typography>
+                  <ArrowRightIcon />
+                </div>
+              </div>
             </div>
+          </>
+        ) : (
+          <div className="flex justify-center items-center">
+            <CircularProgress />
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
