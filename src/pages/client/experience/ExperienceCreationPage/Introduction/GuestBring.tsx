@@ -22,7 +22,7 @@ const GuestBring: React.FC<Props> = ({ stepProps }) => {
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
   const [bringList, setBringList] = useState<GuestBringListItem[]>(
-    defaultGuestBringList
+    experience.guestBrings ? experience.guestBrings : defaultGuestBringList
   );
 
   React.useEffect(() => {
@@ -38,19 +38,15 @@ const GuestBring: React.FC<Props> = ({ stepProps }) => {
   }, [bringList]);
 
   const fetchBringList = async (id: string) => {
-    if (experience.guestBrings) {
-      setBringList(experience.guestBrings);
+    const {
+      data: {
+        experience: { guestBrings },
+      },
+    } = await getExperienceById(id);
+    if (guestBrings.length !== 0) {
+      setBringList(guestBrings);
     } else {
-      const {
-        data: {
-          experience: { guestBrings },
-        },
-      } = await getExperienceById(id);
-      if (guestBrings.length !== 0) {
-        setBringList(guestBrings);
-      } else {
-        setBringList(defaultGuestBringList);
-      }
+      setBringList(defaultGuestBringList);
     }
   };
 

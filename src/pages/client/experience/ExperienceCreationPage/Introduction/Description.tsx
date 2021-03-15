@@ -10,8 +10,10 @@ interface Props {
 
 const Description: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-  const [description, setDescription] = useState("");
   const experience = useSelector((state) => state.experience);
+  const [description, setDescription] = useState(
+    experience.description ? experience.description : ""
+  );
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -21,7 +23,6 @@ const Description: React.FC<Props> = ({ stepProps }) => {
 
   const fetchDescription = async (id: string) => {
     if (experience.description) {
-      setDescription(experience.description);
       setIsValid(true);
     } else {
       const {

@@ -22,7 +22,7 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
   const [provisionList, setProvisionList] = useState<ProvisionListItem[]>(
-    defaultProvisionList
+    experience.hostProvisions ? experience.hostProvisions : defaultProvisionList
   );
 
   React.useEffect(() => {
@@ -40,19 +40,15 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
   }, [provisionList]);
 
   const fetchProvisionList = async (id: string) => {
-    if (experience.hostProvisions) {
-      setProvisionList(experience.hostProvisions);
+    const {
+      data: {
+        experience: { hostProvisions },
+      },
+    } = await getExperienceById(id);
+    if (hostProvisions.length !== 0) {
+      setProvisionList(hostProvisions);
     } else {
-      const {
-        data: {
-          experience: { hostProvisions },
-        },
-      } = await getExperienceById(id);
-      if (hostProvisions.length !== 0) {
-        setProvisionList(hostProvisions);
-      } else {
-        setProvisionList(defaultProvisionList);
-      }
+      setProvisionList(defaultProvisionList);
     }
   };
 

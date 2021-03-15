@@ -29,6 +29,20 @@ interface AddressInput {
   ward: string;
 }
 
+const initialAddress: AddressObject = {
+  city: null,
+  district: null,
+  ward: null,
+  street: "",
+  detail: "",
+};
+
+const initialAddressInput: AddressInput = {
+  city: "",
+  district: "",
+  ward: "",
+};
+
 const Address: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
 
@@ -36,7 +50,9 @@ const Address: React.FC<Props> = ({ stepProps }) => {
 
   const experience = useSelector((state) => state.experience);
 
-  const [coordinates, setCoordinates] = useState<[number, number]>([0, 0]);
+  const [coordinates, setCoordinates] = useState<[number, number]>(
+    experience.location ? experience.location.coordinates : [0, 0]
+  );
 
   const [cities, setCities] = useState<string[]>();
 
@@ -44,26 +60,22 @@ const Address: React.FC<Props> = ({ stepProps }) => {
 
   const [wards, setWards] = useState<string[]>();
 
-  const [address, setAddress] = useState<AddressObject>({
-    city: null,
-    district: null,
-    ward: null,
-    street: "",
-    detail: "",
-  });
+  const [address, setAddress] = useState<AddressObject>(
+    experience.address ? experience.address : initialAddress
+  );
 
-  const [addressInput, setAddressInput] = useState<AddressInput>({
-    city: "",
-    district: "",
-    ward: "",
-  });
+  const [addressInput, setAddressInput] = useState<AddressInput>(
+    initialAddressInput
+  );
 
+  // Fetch data
   useEffect(() => {
     fetchAddress(id);
     fetchCoordinates(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  // Check if the form is valid
   useEffect(() => {
     if (
       address.city &&
@@ -96,32 +108,24 @@ const Address: React.FC<Props> = ({ stepProps }) => {
   }, [address.district, address.city]);
 
   const fetchAddress = async (id: string) => {
-    if (experience.address) {
-      setAddress(experience.address);
-    } else {
-      const {
-        data: {
-          experience: { address },
-        },
-      } = await getExperienceById(id);
-      if (address) {
-        setAddress(address);
-      }
+    const {
+      data: {
+        experience: { address },
+      },
+    } = await getExperienceById(id);
+    if (address) {
+      setAddress(address);
     }
   };
 
   const fetchCoordinates = async (id: string) => {
-    if (experience.location) {
-      setCoordinates(experience.location.coordinates);
-    } else {
-      const {
-        data: {
-          experience: { location },
-        },
-      } = await getExperienceById(id);
-      if (location) {
-        setCoordinates(location.coordinates);
-      }
+    const {
+      data: {
+        experience: { location },
+      },
+    } = await getExperienceById(id);
+    if (location) {
+      setCoordinates(location.coordinates);
     }
   };
 

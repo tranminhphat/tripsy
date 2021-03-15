@@ -16,7 +16,9 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [theme, setTheme] = useState<string>("Chủ đề");
+  const [theme, setTheme] = useState<string>(
+    experience.theme ? experience.theme : "Chủ đề"
+  );
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -26,17 +28,17 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
 
   const fetchData = async (id: string) => {
     if (experience.theme) {
-      setTheme(experience.theme);
       setIsValid(true);
-    }
-    const {
-      data: {
-        experience: { theme },
-      },
-    } = await getExperienceById(id);
-    if (theme) {
-      setTheme(theme);
-      setIsValid(true);
+    } else {
+      const {
+        data: {
+          experience: { theme },
+        },
+      } = await getExperienceById(id);
+      if (theme) {
+        setTheme(theme);
+        setIsValid(true);
+      }
     }
   };
 

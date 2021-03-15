@@ -12,10 +12,10 @@ const TITLE_MAX_LENGTH = 40;
 const TITLE_MIN_LENGTH = 5;
 
 const Title: React.FC<Props> = ({ stepProps }) => {
+  const { setIsValid, setStepValue } = stepProps;
   const experience = useSelector((state) => state.experience);
   const { id } = useParams<{ id: string }>();
-  const { setIsValid, setStepValue } = stepProps;
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(experience.title ? experience.title : "");
 
   useEffect(() => {
     fetchTitle(id);
@@ -28,17 +28,13 @@ const Title: React.FC<Props> = ({ stepProps }) => {
   }, [title]);
 
   const fetchTitle = async (id: string) => {
-    if (experience.title) {
-      setTitle(experience.title);
-    } else {
-      const {
-        data: {
-          experience: { title },
-        },
-      } = await getExperienceById(id);
-      if (title) {
-        setTitle(title);
-      }
+    const {
+      data: {
+        experience: { title },
+      },
+    } = await getExperienceById(id);
+    if (title) {
+      setTitle(title);
     }
   };
 

@@ -9,18 +9,37 @@ interface Props {
   stepProps: any;
 }
 
+const languages: string[] = ["Tiếng Việt", "English"];
+
 const Language: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const languages = ["Tiếng Việt", "English"];
   const experience = useSelector((state) => state.experience);
-  const [language, setLanguage] = useState<string | null>(null);
+  const [language, setLanguage] = useState<string | null>(
+    experience.language ? experience.language : null
+  );
   const [languageInput, setLanguageInput] = useState("");
 
   useEffect(() => {
     fetchData(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const fetchData = async (id: string) => {
+    if (experience.language) {
+      setIsValid(true);
+    } else {
+      const {
+        data: {
+          experience: { language },
+        },
+      } = await getExperienceById(id, ["language"]);
+      if (language) {
+        setLanguage(language);
+        setIsValid(true);
+      }
+    }
+  };
 
   const handleOnLanguageChange = (newValue: string) => {
     setLanguage(newValue);
@@ -36,23 +55,6 @@ const Language: React.FC<Props> = ({ stepProps }) => {
       setIsValid(true);
     } else {
       setIsValid(false);
-    }
-  };
-
-  const fetchData = async (id: string) => {
-    if (experience.language) {
-      setLanguage(experience.language);
-      setIsValid(true);
-    } else {
-      const {
-        data: {
-          experience: { language },
-        },
-      } = await getExperienceById(id, ["language"]);
-      if (language) {
-        setLanguage(language);
-        setIsValid(true);
-      }
     }
   };
 

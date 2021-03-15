@@ -9,14 +9,20 @@ interface Props {
   stepProps: any;
 }
 
+interface LocationProps {
+  city: string;
+  coordinates: [number, number];
+}
+
+const initialValue: LocationProps = { city: "", coordinates: [0, 0] };
+
 const Location: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const experience = useSelector((state) => state.experience);
-  const [location, setLocation] = useState<{
-    city: string;
-    coordinates: [number, number];
-  }>();
+  const [location, setLocation] = useState<LocationProps>(
+    experience.location ? experience.location : initialValue
+  );
 
   useEffect(() => {
     fetchData(id);
@@ -25,7 +31,6 @@ const Location: React.FC<Props> = ({ stepProps }) => {
 
   const fetchData = async (id: string) => {
     if (experience.location) {
-      setLocation(experience.location);
       setIsValid(true);
     }
     const {
@@ -39,7 +44,7 @@ const Location: React.FC<Props> = ({ stepProps }) => {
     }
   };
 
-  const handleSelect = (result, lat, lng) => {
+  const handleSelect = (result: string, lat: number, lng: number) => {
     setStepValue({
       location: {
         city: result,
