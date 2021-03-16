@@ -4,7 +4,7 @@ import { SET_AUTH } from "redux/actions/auth/authActionTypes";
 
 const initialState = { isLoggedIn: Cookies.get("jwt") !== undefined };
 
-export default function authReducer(state = initialState, action: IAction) {
+const authReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
     case SET_AUTH: {
       return { isLoggedIn: Cookies.get("jwt") !== undefined };
@@ -12,4 +12,6 @@ export default function authReducer(state = initialState, action: IAction) {
     default:
       return state;
   }
-}
+};
+
+export default authReducer;

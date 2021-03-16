@@ -1,5 +1,6 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
+import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -80,7 +81,7 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
   const { currentProgress, currentStep } = location.state;
   const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));
   const [activeStep, setActiveStep] = useState(currentStep);
-  const [stepValue, setStepValue] = useState<{}>();
+  const [stepValue, setStepValue] = useState<IExperienceResponse>({});
   const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleNext = () => {
