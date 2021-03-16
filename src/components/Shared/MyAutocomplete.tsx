@@ -6,7 +6,7 @@ interface Props {
   options: any[];
   value: any;
   inputValue: any;
-  placeholder: string;
+  placeholder?: string;
   handleOnChange: (newValue: any) => void;
   handleOnInputChange: (newInpuValue: any) => void;
 }

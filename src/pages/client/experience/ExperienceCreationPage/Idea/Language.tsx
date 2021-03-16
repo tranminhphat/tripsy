@@ -1,16 +1,14 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
 import MyAutocomplete from "components/Shared/MyAutocomplete";
+import { languages } from "constants/index";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
 interface Props {
   stepProps: any;
 }
-
-const languages: string[] = ["Tiếng Việt", "English"];
 
 const Language: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;

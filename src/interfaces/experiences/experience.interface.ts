@@ -16,4 +16,9 @@ export interface IExperienceResponse {
     base64String?: FileReaderResultType;
     url?: string;
   };
+  groupSize?: number;
+  duration?: number;
+  startTime?: string;
+  pricing?: { individualPrice: number; estimatedEarning: number };
+  bookingDate?: number;
 }

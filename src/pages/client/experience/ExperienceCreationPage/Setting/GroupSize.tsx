@@ -1,11 +1,95 @@
+import { MenuItem, Select } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { getExperienceById } from "api/experiences";
+import { groupSizeOptions } from "constants/index";
 import * as React from "react";
-
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 interface Props {
   stepProps: any;
 }
 
-const GroupSize: React.FC<Props> = () => {
-  return <div>This is group size page</div>;
+const GroupSize: React.FC<Props> = ({ stepProps }) => {
+  const { setIsValid, setStepValue } = stepProps;
+  const experience = useSelector((state) => state.experience);
+  const { id } = useParams<{ id: string }>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [groupSize, setGroupSize] = useState(
+    experience.groupSize ? experience.groupSize : 1
+  );
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    fetchGroupSize(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const fetchGroupSize = async (id: string) => {
+    if (experience.groupSize) {
+      setIsValid(true);
+    } else {
+      const {
+        data: {
+          experience: { groupSize },
+        },
+      } = await getExperienceById(id);
+      if (groupSize) {
+        setGroupSize(groupSize);
+        setIsValid(true);
+      }
+
+      setIsLoading(false);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleOnGroupSizeChange = (event: any) => {
+    setGroupSize(event.target.value as number);
+    setIsValid(true);
+    setStepValue({ groupSize: event.target.value as number });
+  };
+
+  return (
+    <div className="max-w-xl my-8 text-justify mx-auto">
+      {!isLoading ? (
+        <>
+          <h1 className="text-4xl font-bold">Số lượng khách tối đa</h1>
+          <p className="mt-4 mb-4 text-lg text-gray-500">
+            Hãy nghĩ về số lượng khách sẽ phù hợp nhất với trải nghiệm của bạn.
+            Chú ý rằng số lượng khách tối thiểu là 1, điều đó đồng nghĩa với
+            việc nếu chỉ có 1 khách tham gia trải nghiệm của bạn, bạn vẫn sẽ
+            phải tổ chức hoạt động của mình.
+          </p>
+          <Select
+            className="w-full"
+            open={open}
+            onClose={handleClose}
+            onOpen={handleOpen}
+            value={groupSize}
+            onChange={handleOnGroupSizeChange}
+          >
+            {groupSizeOptions.map((option: number) => (
+              <MenuItem key={option} value={option}>
+                {option} người
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      ) : (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default GroupSize;

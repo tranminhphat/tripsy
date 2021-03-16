@@ -1,9 +1,11 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
+import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { updateExperience } from "redux/actions/experience/experienceAction";
 import BookingDate from "./BookingDate";
 import Duration from "./Duration";
 import GroupSize from "./GroupSize";
@@ -20,7 +22,7 @@ const getSteps = (currentProgress: number, currentStep: number) => [
       currentProgress === -1 || currentProgress > 3 || currentStep > 1,
   },
   {
-    label: "Khoảng thời gian",
+    label: "Thời lượng",
     isCompleted:
       currentProgress === -1 || currentProgress > 3 || currentStep > 2,
   },
@@ -41,7 +43,7 @@ const getStepContent = (step: number) => {
     case 1:
       return "Số lượng khách";
     case 2:
-      return "Khoảng thời gian";
+      return "Thời lượng";
     case 3:
       return "Chi phí";
     case 4:
@@ -68,26 +70,26 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
   const [activeStep, setActiveStep] = useState(currentStep);
 
   /* Store the updatedValue in state */
-  const [stepValue, setStepValue] = useState<{}>();
+  const [stepValue, setStepValue] = useState<IExperienceResponse>({});
 
   /* Check if user have done the current step for the "Next" button */
-  const [isValid, setIsValid] = useState<boolean>(true);
+  const [isValid, setIsValid] = useState<boolean>(false);
 
   /* Handle click on the "Next" button */
   const handleNext = () => {
     /* Update the experience state in redux store */
-    // dispatch(updateExperience(stepValue));
+    dispatch(updateExperience(stepValue));
     /* Update the active step */
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     /* Update the steps (isCompleted property) */
-    // const newSteps = steps.map((step, index) => {
-    //   if (index === activeStep - 1) {
-    //     return { ...step, isCompleted: true };
-    //   } else {
-    //     return { ...step };
-    //   }
-    // });
-    // setSteps(newSteps);
+    const newSteps = steps.map((step, index) => {
+      if (index === activeStep - 1) {
+        return { ...step, isCompleted: true };
+      } else {
+        return { ...step };
+      }
+    });
+    setSteps(newSteps);
 
     /* Check if we've done the progress yet */
     if (activeStep === steps.length) {
@@ -95,7 +97,7 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
     }
 
     /* Disabled the "Next" button in the next step */
-    // setIsValid(false);
+    setIsValid(false);
   };
 
   /* Handle click on the "Back" button */

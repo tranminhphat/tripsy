@@ -1,12 +1,12 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
+import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import IDCardVerification from "./IDCardVerification";
 import InfoVerification from "./InfoVerification";
-import PhoneVerification from "./PhoneVerification";
 interface Props {
   handleDone: (index: number) => void;
 }
@@ -18,14 +18,9 @@ const getSteps = (currentProgress: number, currentStep: number) => [
       currentProgress === -1 || currentProgress > 4 || currentStep > 1,
   },
   {
-    label: "Xác thực số điện thoại",
-    isCompleted:
-      currentProgress === -1 || currentProgress > 4 || currentStep > 2,
-  },
-  {
     label: "Xác thực thẻ căn cước",
     isCompleted:
-      currentProgress === -1 || currentProgress > 4 || currentStep > 3,
+      currentProgress === -1 || currentProgress > 4 || currentStep > 2,
   },
 ];
 
@@ -34,8 +29,6 @@ const getStepContent = (step: number) => {
     case 1:
       return "Xác thực hồ sơ";
     case 2:
-      return "Xác thực số điện thoại";
-    case 3:
       return "Xác thực thẻ căn cước";
     default:
       return "Unknown step";
@@ -59,7 +52,7 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
   const [activeStep, setActiveStep] = useState(currentStep);
 
   /* Store the updatedValue in state */
-  const [stepValue, setStepValue] = useState<{}>();
+  const [stepValue, setStepValue] = useState<IExperienceResponse>({});
 
   /* Check if user have done the current step for the "Next" button */
   const [isValid, setIsValid] = useState<boolean>(true);
@@ -104,8 +97,6 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
       case 1:
         return <InfoVerification stepProps={stepProps} />;
       case 2:
-        return <PhoneVerification stepProps={stepProps} />;
-      case 3:
         return <IDCardVerification stepProps={stepProps} />;
       default:
         return null;

@@ -95,12 +95,11 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
       }
     });
     setSteps(newSteps);
+    setIsValid(false);
 
     if (activeStep === steps.length) {
       handleDone(2);
     }
-
-    setIsValid(false);
   };
 
   const handleBack = () => {
