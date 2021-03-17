@@ -3,7 +3,7 @@ import { FieldAttributes, useField } from "formik";
 import * as React from "react";
 
 type MyTextFieldProps = {
-  className: string;
+  className?: string;
   label?: string;
   type?: string;
 } & FieldAttributes<{}>;

@@ -1,11 +1,10 @@
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import BreadcrumbsLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
 interface Props {
-  linkArray: string[];
+  linkArray: { path: string; name: string }[];
 }
 
 const MyBreadcrumbs: React.FC<Props> = ({ linkArray }) => {
@@ -14,16 +13,17 @@ const MyBreadcrumbs: React.FC<Props> = ({ linkArray }) => {
       {linkArray.map((link, index) => {
         if (index !== linkArray.length - 1) {
           return (
-            <Link to={"/" + link}>
-              <BreadcrumbsLink className="capitalize text-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500">
-                {link}
-              </BreadcrumbsLink>
+            <Link
+              to={link.path}
+              className="capitalize text-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500"
+            >
+              {link.name}
             </Link>
           );
         } else {
           return (
             <Typography className="capitalize text-main-blue cursor-default">
-              {link}
+              {link.name}
             </Typography>
           );
         }

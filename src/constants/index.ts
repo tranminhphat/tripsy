@@ -143,6 +143,7 @@ export const accountSettingOptions: {
   icon: any;
   title: string;
   description: string;
+  url: string;
 }[] = [
   {
     id: 1,
@@ -150,11 +151,13 @@ export const accountSettingOptions: {
     title: "Thông tin cá nhân",
     description:
       "Cung cấp thông tin cá nhân và cách chúng tôi có thể liên hệ với bạn",
+    url: "/account-settings/personal-info",
   },
   {
     id: 2,
     icon: PasswordSettings,
     title: "Đăng nhập và bảo mật",
     description: "Cập nhật mật khẩu và bảo mật tài khoản của bạn",
+    url: "/account-settings/login-and-security",
   },
 ];
