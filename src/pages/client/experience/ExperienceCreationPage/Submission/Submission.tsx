@@ -18,7 +18,7 @@ const getSteps = (currentProgress: number, currentStep: number) => [
       currentProgress === -1 || currentProgress > 4 || currentStep > 1,
   },
   {
-    label: "Xác thực thẻ căn cước",
+    label: "Xác thực danh tính",
     isCompleted:
       currentProgress === -1 || currentProgress > 4 || currentStep > 2,
   },
@@ -29,7 +29,7 @@ const getStepContent = (step: number) => {
     case 1:
       return "Xác thực hồ sơ";
     case 2:
-      return "Xác thực thẻ căn cước";
+      return "Xác thực danh tính";
     default:
       return "Unknown step";
   }

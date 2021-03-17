@@ -3,7 +3,6 @@ import { getExperienceById } from "api/experiences";
 import { getUserById } from "api/users";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 interface Props {
@@ -11,8 +10,7 @@ interface Props {
 }
 
 const InfoVerification: React.FC<Props> = ({ stepProps }) => {
-  const { setIsValid, setStepValue } = stepProps;
-  const experience = useSelector((state) => state.experience);
+  const { setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,9 +58,9 @@ const InfoVerification: React.FC<Props> = ({ stepProps }) => {
         <>
           <h1 className="text-4xl font-bold">Xác nhận hồ sơ của bạn</h1>
           <p className="mt-4 mb-4 text-lg text-gray-500">
-            Trước khi hoàn tất, hãy xác nhận lại hồ sơ của bạn, những thông tin
-            dưới đây sẽ được hiển thị khi khách tham gia vào hoạt động của bạn.
-            Nếu muốn thay đổi, hãy đến trang thông tin cá nhân để cập nhật.
+            Hãy xác nhận lại hồ sơ của bạn, những thông tin dưới đây sẽ được
+            hiển thị khi khách tham gia vào hoạt động của bạn. Nếu muốn thay
+            đổi, hãy đến trang thông tin cá nhân để cập nhật.
           </p>
           <div className="mt-2">
             <p className="text-xl font-bold">Họ</p>

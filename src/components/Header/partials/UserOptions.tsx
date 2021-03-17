@@ -84,6 +84,9 @@ const UserOptions: React.FC = () => {
             <MenuItem>Xin chào, {userData ? userData.firstName : ""}</MenuItem>
           </Link>
           <Link to={`/user/profile/${userData ? userData._id : ""}`}>
+            <MenuItem>Trang cá nhân</MenuItem>
+          </Link>
+          <Link to={`/account-settings`}>
             <MenuItem>Tài khoản</MenuItem>
           </Link>
           <Link to="/user/experience-hosting">

@@ -16,8 +16,8 @@ const Title: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const experience = useSelector((state) => state.experience);
   const { id } = useParams<{ id: string }>();
-  const [title, setTitle] = useState(experience.title ? experience.title : "");
   const [isLoading, setIsLoading] = useState(true);
+  const [title, setTitle] = useState(experience.title ? experience.title : "");
 
   useEffect(() => {
     fetchTitle(id);

@@ -1,13 +1,15 @@
-import * as React from "react";
 import { Header } from "components/Header/Header";
 import MyAlert from "components/Shared/MyAlert";
+import * as React from "react";
 
-interface Props {}
+interface Props {
+  withSearchBar?: boolean;
+}
 
-const MainLayout: React.FC<Props> = ({ children }) => {
+const MainLayout: React.FC<Props> = ({ withSearchBar = true, children }) => {
   return (
     <div className="h-full w-full">
-      <Header />
+      <Header withSearchBar={withSearchBar} />
       <div className="container mx-auto" style={{ paddingTop: "96px" }}>
         <div className="my-16">{children}</div>
         <MyAlert />

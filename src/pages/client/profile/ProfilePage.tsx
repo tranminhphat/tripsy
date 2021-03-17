@@ -29,10 +29,9 @@ const ProfilePage: React.FC<Props> = () => {
       setIsCurrentUser(data._id === currentUser.data.user._id);
     }
   };
-
-  if (userData) {
-    return (
-      <MainLayout>
+  return (
+    <MainLayout withSearchBar={false}>
+      {userData ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl">
             <UserOverview userData={userData} isCurrentUser={isCurrentUser} />
@@ -44,11 +43,7 @@ const ProfilePage: React.FC<Props> = () => {
             />
           </div>
         </div>
-      </MainLayout>
-    );
-  } else {
-    return (
-      <MainLayout>
+      ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <div className="p-8 flex items-center justify-center bg-white border border-gray-200 shadow-2xl rounded-2xl">
             <CircularProgress />
@@ -57,9 +52,9 @@ const ProfilePage: React.FC<Props> = () => {
             <CircularProgress />
           </div>
         </div>
-      </MainLayout>
-    );
-  }
+      )}
+    </MainLayout>
+  );
 };
 
 export default ProfilePage;

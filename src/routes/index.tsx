@@ -1,16 +1,16 @@
-import * as React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
 import Cookies from "js-cookie";
-
-import HomePage from "pages/client/home/HomePage";
+import NotFoundPage from "pages/404/404Page";
+import AccountPage from "pages/client/account/AccountPage";
+import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
-import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
-import ProfilePage from "pages/client/profile/ProfilePage";
-import ExperiencePage from "pages/client/experience/ExperiencePage";
 import ExperienceCreationPage from "pages/client/experience/ExperienceCreationPage/ExperienceCreationPage";
-import NotFoundPage from "pages/404/404Page";
+import ExperiencePage from "pages/client/experience/ExperiencePage";
+import HomePage from "pages/client/home/HomePage";
+import ProfilePage from "pages/client/profile/ProfilePage";
+import * as React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 interface Entry {
   exact?: boolean;
@@ -29,6 +29,12 @@ const routes: Entry[] = [
     exact: true,
     path: "/user/profile/:id",
     component: ProfilePage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/account-settings",
+    component: AccountPage,
     authRoute: true,
   },
   {
