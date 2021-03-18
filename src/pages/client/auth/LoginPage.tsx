@@ -22,7 +22,7 @@ const LoginPage: React.FC<Props> = ({ history }) => {
       if (data.userId) {
         try {
           const userData = await getUserById(data.userId);
-          if (!userData.data.isVerified) {
+          if (!userData.data.isEmailVerified) {
             dispatch(showAlert("error", "Email của bạn chưa được xác nhận"));
           } else {
             dispatch(setAuth());

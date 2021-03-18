@@ -14,6 +14,7 @@ export type UserFieldType =
   | "address"
   | "roleId"
   | "avatarUrl"
-  | "isVerified";
+  | "isEmailVerified"
+  | "isIdVerified";
 
 export type ExperienceFieldType = "_id" | "theme" | "title" | "language";

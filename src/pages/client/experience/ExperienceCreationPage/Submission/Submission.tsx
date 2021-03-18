@@ -14,11 +14,10 @@ interface Props {
 const getSteps = (currentProgress: number, currentStep: number) => [
   {
     label: "Xác thực hồ sơ",
-    isCompleted:
-      currentProgress === -1 || currentProgress > 4 || currentStep > 1,
+    isCompleted: true,
   },
   {
-    label: "Xác thực danh tính",
+    label: "Xác thực giấy tờ tùy thân",
     isCompleted:
       currentProgress === -1 || currentProgress > 4 || currentStep > 2,
   },
@@ -29,7 +28,7 @@ const getStepContent = (step: number) => {
     case 1:
       return "Xác thực hồ sơ";
     case 2:
-      return "Xác thực danh tính";
+      return "Xác thực giấy tờ tùy thân";
     default:
       return "Unknown step";
   }
@@ -44,6 +43,8 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
     currentStep: number;
   }>();
   const { currentProgress, currentStep } = location.state;
+
+  console.log(currentProgress);
 
   /* Store the array of steps in state */
   const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));

@@ -14,6 +14,7 @@ const MyBreadcrumbs: React.FC<Props> = ({ linkArray }) => {
         if (index !== linkArray.length - 1) {
           return (
             <Link
+              key={index}
               to={link.path}
               className="capitalize text-main-blue opacity-60 hover:opacity-100 transition ease-in-out duration-500"
             >
@@ -22,7 +23,10 @@ const MyBreadcrumbs: React.FC<Props> = ({ linkArray }) => {
           );
         } else {
           return (
-            <Typography className="capitalize text-main-blue cursor-default">
+            <Typography
+              key={index}
+              className="capitalize text-main-blue cursor-default"
+            >
               {link.name}
             </Typography>
           );

@@ -10,7 +10,7 @@ interface Props {
 const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
   return (
     <ul>
-      {userData.isVerified ? (
+      {userData.isEmailVerified ? (
         <li className="mt-3" key="email">
           <Typography>
             <span>

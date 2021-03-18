@@ -17,6 +17,7 @@ import { showAlert } from "redux/actions/alert/alertAction";
 interface Props {}
 
 const ExperiencePage: React.FC<Props> = () => {
+  const [isIdVerified, setIsIdVerified] = useState(false);
   const [experiences, setExperiences] = useState<IExperienceResponse[]>();
   const history = useHistory();
   const { url } = useRouteMatch();
@@ -27,7 +28,11 @@ const ExperiencePage: React.FC<Props> = () => {
   }, []);
 
   const fetchData = async () => {
-    const userResponse = await getCurrentUser(["_id", "firstName"]);
+    const userResponse = await getCurrentUser([
+      "_id",
+      "firstName",
+      "isIdVerified",
+    ]);
     const { user } = userResponse.data;
 
     const { data } = await getExperiences({
@@ -35,6 +40,7 @@ const ExperiencePage: React.FC<Props> = () => {
     });
 
     setExperiences(data);
+    setIsIdVerified(user.isIdVerified);
   };
 
   const handleCreateExperience = async () => {
@@ -79,7 +85,8 @@ const ExperiencePage: React.FC<Props> = () => {
           {experiences.length !== 0 ? (
             experiences.map((item, idx) => {
               const [currentProgress, currentStep] = calculateCurrentProgress(
-                item
+                item,
+                isIdVerified
               );
               return (
                 <div key={idx}>

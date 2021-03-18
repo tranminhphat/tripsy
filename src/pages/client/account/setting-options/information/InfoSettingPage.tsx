@@ -5,6 +5,7 @@ import { IUserResponse } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ChangeAddressForm from "./ChangeAddressForm";
 import ChangeBirthDateForm from "./ChangeBirthDateForm";
 import ChangeGenderForm from "./ChangeGenderForm";
@@ -23,6 +24,7 @@ const InfoSettingPage: React.FC<Props> = () => {
   const [opnePhoneNumberForm, setopenPhoneNumberForm] = useState(false);
 
   useEffect(() => {
+    console.log("here");
     fetchUserInfoData();
   }, []);
 
@@ -37,6 +39,7 @@ const InfoSettingPage: React.FC<Props> = () => {
       "dateOfBirth",
       "phoneNumber",
       "address",
+      "isIdVerified",
     ]);
     if (user) {
       setUserData(user);
@@ -197,6 +200,23 @@ const InfoSettingPage: React.FC<Props> = () => {
               </div>
               <div>
                 <hr />
+              </div>
+              <div className="flex justify-between mt-4">
+                <h3 className="text-lg font-bold text-main-blue">
+                  Giấy tờ tùy thân do chính phủ cấp
+                </h3>
+                <Link to="/account-settings/personal-info/update-id">
+                  <p className="text-lg font-bold text-secondary-blue hover:underline">
+                    {userData.isIdVerified ? "Cập nhật" : "Thêm"}
+                  </p>
+                </Link>
+              </div>
+              <div className="mt-2 mb-4">
+                {userData.isIdVerified ? (
+                  <p className="text-xl">Đã cung cấp giấy tờ tùy thân</p>
+                ) : (
+                  <p className="text-xl">Chưa cung cấp giấy tờ tùy thân</p>
+                )}
               </div>
             </div>
           </>

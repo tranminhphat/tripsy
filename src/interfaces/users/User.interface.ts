@@ -9,9 +9,10 @@ export interface IUserResponse {
   dateOfBirth?: string;
   address?: string;
   avatarUrl?: string;
-  isVerified?: boolean;
   roldId?: string;
   profileId?: string;
+  isEmailVerified?: boolean;
+  isIdVerified?: boolean;
 }
 
 export interface IDisplayedUserData {

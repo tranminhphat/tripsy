@@ -1,7 +1,8 @@
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 
 export const calculateCurrentProgress = (
-  experienceDocument: IExperienceResponse
+  experienceDocument: IExperienceResponse,
+  isIdVerified: boolean
 ) => {
   const {
     theme,
@@ -49,7 +50,7 @@ export const calculateCurrentProgress = (
   if (!groupSize) {
     return [3, 1];
   }
-  if (!duration) {
+  if (!!duration) {
     return [3, 2];
   }
   if (!startTime) {
@@ -60,6 +61,9 @@ export const calculateCurrentProgress = (
   }
   if (!bookingDate) {
     return [3, 5];
+  }
+  if (!isIdVerified) {
+    return [4, 2];
   }
 
   return [-1, 1];

@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import NotFoundPage from "pages/404/404Page";
 import AccountPage from "pages/client/account/AccountPage";
 import InfoSettingPage from "pages/client/account/setting-options/information/InfoSettingPage";
+import UpdateIDPage from "pages/client/account/setting-options/information/UpdateIDPage";
 import LoginAndSecuritySettingPage from "pages/client/account/setting-options/login-and-security/LoginAndSecuritySettingPage";
 import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import LoginPage from "pages/client/auth/LoginPage";
@@ -43,6 +44,12 @@ const routes: Entry[] = [
     exact: true,
     path: "/account-settings/personal-info",
     component: InfoSettingPage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/account-settings/personal-info/update-id",
+    component: UpdateIDPage,
     authRoute: true,
   },
   {
