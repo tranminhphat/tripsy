@@ -8,10 +8,10 @@ export interface IUserResponse {
   phoneNumber?: string;
   dateOfBirth?: string;
   address?: string;
-  roldId?: string;
   avatarUrl?: string;
-  introduction?: string;
   isVerified?: boolean;
+  roldId?: string;
+  profileId?: string;
 }
 
 export interface IDisplayedUserData {

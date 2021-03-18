@@ -1,10 +1,10 @@
 import { Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import { updateUserById } from "api/users";
+import { getProfileById, updateProfileById } from "api/profile";
 import { Field, Form, Formik } from "formik";
 import { IUserResponse } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showAlert } from "redux/actions/alert/alertAction";
 
@@ -14,12 +14,25 @@ interface Props {
 }
 
 const AboutMeTab: React.FC<Props> = ({ userData, isCurrentUser }) => {
-  const [introduction, setIntroduction] = useState(userData.introduction);
+  const [introduction, setIntroduction] = useState();
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    fetchProfile(userData.profileId as string);
+  }, [userData.profileId]);
+
+  const fetchProfile = async (id: string) => {
+    const {
+      data: { profile },
+    } = await getProfileById(id);
+    if (profile) {
+      setIntroduction(profile.introduction);
+    }
+  };
+
   const handleIntroductionUpdate = async (values) => {
-    const { data } = await updateUserById(userData._id!, values);
+    const { data } = await updateProfileById(userData.profileId!, values);
     if (data) {
       setIntroduction(values.introduction);
       dispatch(showAlert("success", "Cập nhật thành công"));
