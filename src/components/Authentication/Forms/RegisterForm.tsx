@@ -17,6 +17,8 @@ interface Props {
   onSubmit: (values: IRegisterForm) => void;
 }
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const validationSchema = yup.object({
   firstName: yup.string().required("Tên là thông tin bắt buộc"),
   lastName: yup.string().required("Họ là thông tin bắt buộc"),
@@ -43,6 +45,7 @@ const validationSchema = yup.object({
 
   phoneNumber: yup
     .string()
+    .matches(phoneRegExp, "Số điện thoại không hợp lệ.")
     .min(10, "Số điện thoại bao gồm 10 ký tự")
     .max(10, "Số điện thoại bao gồm 10 ký tự"),
 

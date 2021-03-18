@@ -9,21 +9,17 @@ import * as yup from "yup";
 
 interface Props {
   userId: string;
-  initialValues: { firstName: string; lastName: string };
+  initialValues: { dateOfBirth: string };
 }
 
 const validationSchema = yup.object({
-  firstName: yup.string().required("Tên là thông tin bắt buộc"),
-  lastName: yup.string().required("Họ là thông tin bắt buộc"),
+  dateOfBirth: yup.date().required("Ngày sinh là thông tin bắt buộc"),
 });
 
-const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
+const ChangeBirthDateForm: React.FC<Props> = ({ userId, initialValues }) => {
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  const handleOnSubmit = async (values: {
-    firstName: string;
-    lastName: string;
-  }) => {
+  const handleOnSubmit = async (values: { dateOfBirth: string }) => {
     setButtonLoading(true);
     const { data } = await updateUserById(userId, values);
     if (data) {
@@ -44,10 +40,7 @@ const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
         <Form>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 md:gap-8">
             <div>
-              <MyTextField label="Tên" name="firstName" className="w-full" />
-            </div>
-            <div>
-              <MyTextField label="Họ" name="lastName" className="w-full" />
+              <MyTextField type="date" name="dateOfBirth" className="w-full" />
             </div>
           </div>
           <div className="mt-4">
@@ -69,4 +62,4 @@ const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
   );
 };
 
-export default ChangeNameForm;
+export default ChangeBirthDateForm;

@@ -9,21 +9,23 @@ import * as yup from "yup";
 
 interface Props {
   userId: string;
-  initialValues: { firstName: string; lastName: string };
+  initialValues: { phoneNumber: string };
 }
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const validationSchema = yup.object({
-  firstName: yup.string().required("Tên là thông tin bắt buộc"),
-  lastName: yup.string().required("Họ là thông tin bắt buộc"),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, "Số điện thoại không hợp lệ.")
+    .min(10, "Số điện thoại bao gồm 10 ký tự")
+    .max(10, "Số điện thoại bao gồm 10 ký tự"),
 });
 
 const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  const handleOnSubmit = async (values: {
-    firstName: string;
-    lastName: string;
-  }) => {
+  const handleOnSubmit = async (values: { phoneNumber: string }) => {
     setButtonLoading(true);
     const { data } = await updateUserById(userId, values);
     if (data) {
@@ -42,13 +44,8 @@ const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
     >
       {() => (
         <Form>
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 md:gap-8">
-            <div>
-              <MyTextField label="Tên" name="firstName" className="w-full" />
-            </div>
-            <div>
-              <MyTextField label="Họ" name="lastName" className="w-full" />
-            </div>
+          <div className="w-full">
+            <MyTextField type="tel" name="phoneNumber" className="w-full" />
           </div>
           <div className="mt-4">
             <Button

@@ -5,7 +5,11 @@ import { IUserResponse } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import ChangeAddressForm from "./ChangeAddressForm";
+import ChangeBirthDateForm from "./ChangeBirthDateForm";
+import ChangeGenderForm from "./ChangeGenderForm";
 import ChangeNameForm from "./ChangeNameForm";
+import ChangePhoneNumberForm from "./ChangePhoneNumberForm";
 
 interface Props {}
 
@@ -13,6 +17,10 @@ const InfoSettingPage: React.FC<Props> = () => {
   const [userData, setUserData] = useState<IUserResponse>();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [openNameForm, setOpenNameForm] = useState(false);
+  const [openGenderForm, setOpenGenderForm] = useState(false);
+  const [openAddressForm, setOpenAddressFrom] = useState(false);
+  const [openBirthDateForm, setOpenBirthDateForm] = useState(false);
+  const [opnePhoneNumberForm, setopenPhoneNumberForm] = useState(false);
 
   useEffect(() => {
     fetchUserInfoData();
@@ -88,38 +96,56 @@ const InfoSettingPage: React.FC<Props> = () => {
               </div>
               <div className="flex justify-between mt-4">
                 <h3 className="text-lg font-bold text-main-blue">Giới tính</h3>
-                <button onClick={() => setIsFormOpen(!isFormOpen)}>
+                <button onClick={() => setOpenGenderForm(!openGenderForm)}>
                   <p className="text-lg font-bold text-secondary-blue hover:underline">
-                    {isFormOpen ? "Hủy" : "Chỉnh sửa"}
+                    {openGenderForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
               </div>
               <div className="mt-2 mb-4">
-                <p className="text-xl">
-                  {userData.gender === "male"
-                    ? "Nam"
-                    : userData.gender
-                    ? "Nữ"
-                    : "Khác"}
-                </p>
+                {!openGenderForm ? (
+                  <p className="text-xl">
+                    {userData.gender === "male"
+                      ? "Nam"
+                      : userData.gender
+                      ? "Nữ"
+                      : "Khác"}
+                  </p>
+                ) : (
+                  <ChangeGenderForm
+                    userId={userData._id as string}
+                    initialValues={{ gender: userData.gender as string }}
+                  />
+                )}
               </div>
               <div>
                 <hr />
               </div>
               <div className="flex justify-between mt-4">
                 <h3 className="text-lg font-bold text-main-blue">Ngày sinh</h3>
-                <button onClick={() => setIsFormOpen(!isFormOpen)}>
+                <button
+                  onClick={() => setOpenBirthDateForm(!openBirthDateForm)}
+                >
                   <p className="text-lg font-bold text-secondary-blue hover:underline">
-                    {isFormOpen ? "Hủy" : "Chỉnh sửa"}
+                    {openBirthDateForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
               </div>
               <div className="mt-2 mb-4">
-                <p className="text-xl">
-                  Ngày {userData.dateOfBirth?.slice(8, 10)} tháng{" "}
-                  {userData.dateOfBirth?.slice(5, 7)} năm{" "}
-                  {userData.dateOfBirth?.slice(0, 4)}
-                </p>
+                {!openBirthDateForm ? (
+                  <p className="text-xl">
+                    Ngày {userData.dateOfBirth?.slice(8, 10)} tháng{" "}
+                    {userData.dateOfBirth?.slice(5, 7)} năm{" "}
+                    {userData.dateOfBirth?.slice(0, 4)}
+                  </p>
+                ) : (
+                  <ChangeBirthDateForm
+                    userId={userData._id as string}
+                    initialValues={{
+                      dateOfBirth: userData.dateOfBirth as string,
+                    }}
+                  />
+                )}
               </div>
               <div>
                 <hr />
@@ -128,28 +154,46 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <h3 className="text-lg font-bold text-main-blue">
                   Số điện thoại
                 </h3>
-                <button onClick={() => setIsFormOpen(!isFormOpen)}>
+                <button
+                  onClick={() => setopenPhoneNumberForm(!opnePhoneNumberForm)}
+                >
                   <p className="text-lg font-bold text-secondary-blue hover:underline">
-                    {isFormOpen ? "Hủy" : "Chỉnh sửa"}
+                    {opnePhoneNumberForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
               </div>
               <div className="mt-2 mb-4">
-                <p className="text-xl">{userData.phoneNumber}</p>
+                {!opnePhoneNumberForm ? (
+                  <p className="text-xl">{userData.phoneNumber}</p>
+                ) : (
+                  <ChangePhoneNumberForm
+                    userId={userData._id as string}
+                    initialValues={{
+                      phoneNumber: userData.phoneNumber as string,
+                    }}
+                  />
+                )}
               </div>
               <div>
                 <hr />
               </div>
               <div className="flex justify-between mt-4">
                 <h3 className="text-lg font-bold text-main-blue">Địa chỉ</h3>
-                <button onClick={() => setIsFormOpen(!isFormOpen)}>
+                <button onClick={() => setOpenAddressFrom(!openAddressForm)}>
                   <p className="text-lg font-bold text-secondary-blue hover:underline">
-                    {isFormOpen ? "Hủy" : "Chỉnh sửa"}
+                    {openAddressForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
               </div>
               <div className="mt-2 mb-4">
-                <p className="text-xl">{userData.address}</p>
+                {!openAddressForm ? (
+                  <p className="text-xl">{userData.address}</p>
+                ) : (
+                  <ChangeAddressForm
+                    userId={userData._id as string}
+                    initialValues={{ address: userData.address as string }}
+                  />
+                )}
               </div>
               <div>
                 <hr />
