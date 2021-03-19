@@ -2,6 +2,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import Typography from "@material-ui/core/Typography";
+import CheckIcon from "assets/images/icons/check-mark.svg";
 import React from "react";
 
 interface Props {
@@ -17,7 +18,17 @@ const MyStepper: React.FC<Props> = ({ activeStep, steps, getStepContent }) => {
         {steps.map((step: { label: string; isCompleted: boolean }) => {
           return (
             <Step key={step.label} completed={step.isCompleted}>
-              <StepLabel>{step.label}</StepLabel>
+              {step.isCompleted ? (
+                <StepLabel
+                  icon={
+                    <img src={CheckIcon} width={24} height={24} alt="check" />
+                  }
+                >
+                  {step.label}
+                </StepLabel>
+              ) : (
+                <StepLabel>{step.label}</StepLabel>
+              )}
             </Step>
           );
         })}

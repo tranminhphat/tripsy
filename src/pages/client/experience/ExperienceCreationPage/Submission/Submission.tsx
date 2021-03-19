@@ -115,14 +115,14 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
       </div>
       <div className="flex-grow mx-4">{renderSwitch(activeStep)}</div>
       <div>
-        <div className="flex justify-between items-center p-4 bg-gray-100 border-t border-black rounded-md">
+        <div className="flex justify-between items-center p-4 bg-gray-300">
           <div>
             <Button
               disabled={activeStep === 1}
               onClick={handleBack}
-              className="mr-2"
+              className="text-black"
             >
-              Back
+              Quay lại
             </Button>
           </div>
           <div>
@@ -134,11 +134,10 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
             <Button
               disabled={!isValid}
               variant="contained"
-              color="primary"
-              className="mr-2"
+              className="bg-black text-white"
               onClick={handleNext}
             >
-              {activeStep === steps.length ? "Finish" : "Next"}
+              {activeStep === steps.length ? "Hoàn tất" : "Tiếp theo"}
             </Button>
           </div>
         </div>

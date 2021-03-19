@@ -1,8 +1,8 @@
 import { CircularProgress } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { getCurrentUser, updateUserById } from "api/users";
-import GovIDBackIcon from "assets/images/icons/account-settings/gov-id-back.svg";
-import GovIDFrontIcon from "assets/images/icons/account-settings/gov-id-front.svg";
+import GovIDBackIcon from "assets/images/icons/gov-id-back.svg";
+import GovIDFrontIcon from "assets/images/icons/gov-id-front.svg";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";

@@ -1,9 +1,9 @@
 import { Slide } from "@material-ui/core";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import CheckIcon from "@material-ui/icons/Check";
 import MenuIcon from "@material-ui/icons/Menu";
 import { updateExperienceById } from "api/experiences";
+import CheckIcon from "assets/images/icons/check-mark.svg";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -99,7 +99,17 @@ const ExperienceCreationPage: React.FC<Props> = () => {
 
   const drawer = (
     <div className="w-56 h-full p-6 bg-gray-100">
-      <button onClick={() => handleSaveProgress()}>Lưu và thoát ra</button>
+      <button
+        className="font-bold underline"
+        onClick={() => handleSaveProgress()}
+      >
+        Lưu và thoát ra
+      </button>
+      <div className="mt-4">
+        <h2 className="text-2xl font-bold text-main-blue">
+          Thiết lập hoạt động của bạn
+        </h2>
+      </div>
       <ul className="mt-5">
         <Link
           to={{
@@ -119,7 +129,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Ý tưởng</span>
               {currentProgressIndex > 1 || currentProgressIndex === -1 ? (
                 <span>
-                  <CheckIcon />
+                  <img src={CheckIcon} alt="check" />
                 </span>
               ) : null}
             </div>
@@ -141,7 +151,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Giới thiệu</span>
               {currentProgressIndex > 2 || currentProgressIndex === -1 ? (
                 <span>
-                  <CheckIcon />
+                  <img src={CheckIcon} alt="check" />
                 </span>
               ) : null}
             </div>
@@ -163,7 +173,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Thiết lập</span>
               {currentProgressIndex > 3 || currentProgressIndex === -1 ? (
                 <span>
-                  <CheckIcon />
+                  <img src={CheckIcon} alt="check" />
                 </span>
               ) : null}
             </div>
@@ -185,7 +195,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Xác thực</span>
               {currentProgressIndex > 4 || currentProgressIndex === -1 ? (
                 <span>
-                  <CheckIcon />
+                  <img src={CheckIcon} alt="check" />
                 </span>
               ) : null}
             </div>

@@ -1,5 +1,5 @@
-import PersonalInfoSettings from "assets/images/icons/account-settings/info-settings.svg";
-import PasswordSettings from "assets/images/icons/account-settings/password-settings.svg";
+import PersonalInfoSettings from "assets/images/icons/info-settings.svg";
+import PasswordSettings from "assets/images/icons/password-settings.svg";
 
 export const themes = [
   { id: "6040f1eff1be2a20fc64352f", value: "Animals", name: "Động vật" },
