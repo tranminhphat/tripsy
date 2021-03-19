@@ -8,6 +8,7 @@ import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
+import ExperienceActivationPage from "pages/client/experience/ExperienceActivationPage/ExperienceActivationPage";
 import ExperienceCreationPage from "pages/client/experience/ExperienceCreationPage/ExperienceCreationPage";
 import ExperiencePage from "pages/client/experience/ExperiencePage";
 import HomePage from "pages/client/home/HomePage";
@@ -62,6 +63,12 @@ const routes: Entry[] = [
     exact: true,
     path: "/user/experience-hosting",
     component: ExperiencePage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/user/experience-hosting/activation",
+    component: ExperienceActivationPage,
     authRoute: true,
   },
   {

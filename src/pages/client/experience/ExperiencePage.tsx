@@ -133,23 +133,24 @@ const ExperiencePage: React.FC<Props> = () => {
                           </div>
                         </Link>
                         <hr />
-
-                        <div className="hover:bg-gray-100">
-                          <div className="flex p-8">
-                            <div className="mr-2">
-                              <img src={FlyIcon} alt="fly" />
-                            </div>
-                            <div className="ml-2">
-                              <h3 className="text-lg font-bold text-gray-700">
-                                Đưa trải nghiệm đi vào hoạt động
-                              </h3>
-                              <p className="text-lgtext-gray-700">
-                                Click vào đây để lên kế hoạch cho trải nghiệm
-                                này
-                              </p>
+                        <Link to="/user/experience-hosting/activation">
+                          <div className="hover:bg-gray-100">
+                            <div className="flex p-8">
+                              <div className="mr-2">
+                                <img src={FlyIcon} alt="fly" />
+                              </div>
+                              <div className="ml-2">
+                                <h3 className="text-lg font-bold text-gray-700">
+                                  Đưa trải nghiệm đi vào hoạt động
+                                </h3>
+                                <p className="text-lgtext-gray-700">
+                                  Click vào đây để lên kế hoạch cho trải nghiệm
+                                  này
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       </>
                     ) : (
                       <>

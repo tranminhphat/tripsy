@@ -9738,6 +9738,11 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
+react-date-object@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/react-date-object/-/react-date-object-1.2.6.tgz#57ed18a514c6a140af2f78a8a79cdf24fb7f9f9f"
+  integrity sha512-09F4ZNjmuo2AVJ37FGtbq4ykhWpmWrRaF5yyV9nF21JuZts+wKJoHyQSVjv8LRYPKk9kkx+gH8a48otx8hIfCg==
+
 react-dev-utils@^11.0.1:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.1.tgz#30106c2055acfd6b047d2dc478a85c356e66fe45"
@@ -9787,6 +9792,11 @@ react-dom@^17.0.1:
     object-assign "^4.1.1"
     scheduler "^0.20.1"
 
+react-element-popper@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-element-popper/-/react-element-popper-1.0.7.tgz#2cbe9e0580670817c69d16c1ad4d4d3d366d55df"
+  integrity sha512-Ite7Td032Fh/80r55ebgC+P1JrBJGCe5PrsObUgWoAnItUmbnvERMwDXDGafYpScI0U229XnGMlbU7cnUQJo8Q==
+
 react-error-overlay@^6.0.8:
   version "6.0.8"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.8.tgz#474ed11d04fc6bda3af643447d85e9127ed6b5de"
@@ -9828,6 +9838,14 @@ react-mapbox-gl@4.8.6:
     "@types/supercluster" "^5.0.1"
     deep-equal "1.0.1"
     supercluster "^7.0.0"
+
+react-multi-date-picker@^2.2.7:
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/react-multi-date-picker/-/react-multi-date-picker-2.2.7.tgz#422f7895eb808ee093fefcedfa5c5788155e3b8c"
+  integrity sha512-uTQZC6dy3hVGgh8PwVMGGQh6K7a0bM7h8GZHaZPIipNJtTUA8x5094m3xTCjO5wM1U9wI7RW6Rtl0rtwrmFtNw==
+  dependencies:
+    react-date-object "^1.2.6"
+    react-element-popper "^1.0.7"
 
 react-redux@^7.2.2:
   version "7.2.2"
