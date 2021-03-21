@@ -133,7 +133,9 @@ const ExperiencePage: React.FC<Props> = () => {
                           </div>
                         </Link>
                         <hr />
-                        <Link to="/user/experience-hosting/activation">
+                        <Link
+                          to={`/user/experience-hosting/${item._id}/activation`}
+                        >
                           <div className="hover:bg-gray-100">
                             <div className="flex p-8">
                               <div className="mr-2">

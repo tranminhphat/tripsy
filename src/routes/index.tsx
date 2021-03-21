@@ -67,7 +67,7 @@ const routes: Entry[] = [
   },
   {
     exact: true,
-    path: "/user/experience-hosting/activation",
+    path: "/user/experience-hosting/:id/activation",
     component: ExperienceActivationPage,
     authRoute: true,
   },
