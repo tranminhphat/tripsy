@@ -21,4 +21,5 @@ export interface IExperienceResponse {
   startTime?: string;
   pricing?: { individualPrice: number; estimatedEarning: number };
   bookingDate?: number;
+  availableDates?: any;
 }

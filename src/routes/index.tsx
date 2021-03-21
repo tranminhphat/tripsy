@@ -8,9 +8,10 @@ import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
-import ExperienceActivationPage from "pages/client/experience/ExperienceActivationPage/ExperienceActivationPage";
-import ExperienceCreationPage from "pages/client/experience/ExperienceCreationPage/ExperienceCreationPage";
-import ExperiencePage from "pages/client/experience/ExperiencePage";
+import ExperiencePage from "pages/client/experience/Experience/ExperiencePage";
+import ExperienceActivationPage from "pages/client/experience/ExperienceManagement/ExperienceActivationPage/ExperienceActivationPage";
+import ExperienceCreationPage from "pages/client/experience/ExperienceManagement/ExperienceCreationPage/ExperienceCreationPage";
+import ExperienceManagementPage from "pages/client/experience/ExperienceManagement/ExperienceManagementPage";
 import HomePage from "pages/client/home/HomePage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import * as React from "react";
@@ -61,8 +62,15 @@ const routes: Entry[] = [
   },
   {
     exact: true,
-    path: "/user/experience-hosting",
+    path: "/experience/:id",
     component: ExperiencePage,
+    authRoute: true,
+  },
+
+  {
+    exact: true,
+    path: "/user/experience-hosting",
+    component: ExperienceManagementPage,
     authRoute: true,
   },
   {

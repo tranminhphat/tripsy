@@ -17,7 +17,7 @@ import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
 
-const ExperiencePage: React.FC<Props> = () => {
+const ExperienceManagementPage: React.FC<Props> = () => {
   const [isIdVerified, setIsIdVerified] = useState(false);
   const [experiences, setExperiences] = useState<IExperienceResponse[]>();
   const history = useHistory();
@@ -230,4 +230,4 @@ const ExperiencePage: React.FC<Props> = () => {
   );
 };
 
-export default ExperiencePage;
+export default ExperienceManagementPage;
