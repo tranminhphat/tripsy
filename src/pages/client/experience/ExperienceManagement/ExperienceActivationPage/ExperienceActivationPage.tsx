@@ -125,7 +125,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
             <Calendar
               mapDays={({ date, selectedDate }) => {
                 const today = new DateObject();
-                if (date.dayOfYear < today.dayOfYear) {
+                if (date.unix < today.unix + 7 * 86400) {
                   return {
                     disabled: true,
                     style: {
