@@ -213,10 +213,12 @@ const ExperienceManagementPage: React.FC<Props> = () => {
                         </div>
                       </>
                     )}
-
-                    <button onClick={() => handleDeleteExperience(item._id!)}>
-                      x
-                    </button>
+                    <hr />
+                    <div className="p-8">
+                      <button onClick={() => handleDeleteExperience(item._id!)}>
+                        <p className="font-bold underline">Xóa trải nghiệm</p>
+                      </button>
+                    </div>
                   </div>
                 );
               })

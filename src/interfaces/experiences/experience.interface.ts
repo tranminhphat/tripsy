@@ -15,7 +15,7 @@ export interface IExperienceResponse {
     type: string;
     base64String?: FileReaderResultType;
     url?: string;
-  };
+  }[];
   groupSize?: number;
   duration?: number;
   startTime?: string;
