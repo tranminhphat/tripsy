@@ -13,6 +13,7 @@ export type UserFieldType =
   | "phoneNumber"
   | "address"
   | "roleId"
+  | "profileId"
   | "avatarUrl"
   | "isEmailVerified"
   | "isIdVerified";

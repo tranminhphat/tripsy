@@ -1,4 +1,3 @@
-import { IProfileResponse } from "interfaces/profiles/profile.interface";
 import axios from "./configureAxios";
 
 export const getProfileById = (id: string) => {
@@ -9,9 +8,6 @@ export const createProfile = () => {
   return axios.post(`profiles`);
 };
 
-export const updateProfileById = (
-  id: string,
-  updatedProperties: IProfileResponse
-) => {
+export const updateProfileById = (id: string, updatedProperties) => {
   return axios.put(`profiles/${id}`, updatedProperties);
 };
