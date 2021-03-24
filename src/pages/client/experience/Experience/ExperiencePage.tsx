@@ -5,9 +5,11 @@ import { createBookingSession } from "api/payment";
 import { getProfileById, updateProfileById } from "api/profile";
 import { getCurrentUser } from "api/users";
 import LoveIcon from "assets/images/icons/love.svg";
+import LovedIcon from "assets/images/icons/loved.svg";
 import MyImageCarousel from "components/Shared/MyImageCarousel";
 import MyImageHero from "components/Shared/MyImageHero";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import { IProfileResponse } from "interfaces/profiles/profile.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -24,10 +26,13 @@ interface Props {}
 const ExperiencePage: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
+  const [isExperienceSaved, setIsExperienceSaved] = useState(false);
   const [experience, setExperience] = useState<IExperienceResponse>();
+  const [userProfile, setUserProfile] = useState<IProfileResponse>();
 
   useEffect(() => {
     fetchExperience(id);
+    fetchUserProfile();
   }, [id]);
 
   const fetchExperience = async (id: string) => {
@@ -39,7 +44,7 @@ const ExperiencePage: React.FC<Props> = () => {
     }
   };
 
-  const savedExperience = async () => {
+  const fetchUserProfile = async () => {
     const {
       data: {
         user: { profileId },
@@ -47,21 +52,33 @@ const ExperiencePage: React.FC<Props> = () => {
     } = await getCurrentUser(["profileId"]);
     if (profileId) {
       const {
-        data: {
-          profile: { savedExperiences },
-        },
+        data: { profile },
       } = await getProfileById(profileId);
-      if (!savedExperiences.includes(id)) {
-        const res = await updateProfileById(profileId, {
-          savedExperiences: [...savedExperiences, id],
-        });
-        if (res) {
-          dispatch(showAlert("success", "Lưu thành công"));
-        } else {
-          dispatch(showAlert("error", "Lưu thất bại"));
-        }
-      } else {
-        dispatch(showAlert("error", "Bạn đã lưu trải nghiệm này"));
+      if (profile) {
+        setUserProfile(profile);
+        setIsExperienceSaved(!!userProfile?.savedExperiences?.includes(id));
+      }
+    }
+  };
+
+  const savedExperience = async () => {
+    if (!isExperienceSaved) {
+      const res = await updateProfileById(userProfile?._id as string, {
+        savedExperiences: [...(userProfile?.savedExperiences as string[]), id],
+      });
+      if (res) {
+        dispatch(showAlert("success", "Lưu thành công"));
+        setIsExperienceSaved(true);
+      }
+    } else {
+      const res = await updateProfileById(userProfile?._id as string, {
+        savedExperiences: userProfile?.savedExperiences?.filter(
+          (item) => item !== id
+        ),
+      });
+      if (res) {
+        dispatch(showAlert("success", "Xóa thành công"));
+        setIsExperienceSaved(false);
       }
     }
   };
@@ -88,12 +105,14 @@ const ExperiencePage: React.FC<Props> = () => {
               <div className="flex items-center">
                 <img
                   className="mr-1"
-                  src={LoveIcon}
+                  src={isExperienceSaved ? LovedIcon : LoveIcon}
                   alt="saved experience"
                   width={16}
                   height={16}
                 />
-                <span className="ml-1 underline">Lưu</span>
+                <span className="ml-1 underline">
+                  {!isExperienceSaved ? "Lưu" : "Xóa"}
+                </span>
               </div>
             </button>
           </div>
@@ -116,6 +135,7 @@ const ExperiencePage: React.FC<Props> = () => {
             <CircularProgress />
           )}
         </div>
+        <div></div>
       </div>
     </MainLayout>
   );
