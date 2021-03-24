@@ -6,7 +6,7 @@ interface Props {
   width: string;
   height: string;
   coordinates: [number, number];
-  onDragEnd: (lng: number, lat: number) => void;
+  onDragEnd?: (lng: number, lat: number) => void;
 }
 
 const Map = ReactMapboxGl({
@@ -38,7 +38,13 @@ const MyMapbox: React.FC<Props> = ({
       >
         <Feature
           draggable={true}
-          onDragEnd={(e: any) => onDragEnd(e.lngLat.lng, e.lngLat.lat)}
+          onDragEnd={(e: any) => {
+            if (onDragEnd) {
+              return onDragEnd(e.lngLat.lng, e.lngLat.lat);
+            } else {
+              return null;
+            }
+          }}
           coordinates={coordinates}
         />
       </Layer>

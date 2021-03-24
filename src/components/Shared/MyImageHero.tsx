@@ -3,7 +3,7 @@ import { FileReaderResultType } from "types";
 
 interface Props {
   photoGallery: {
-    type?: string;
+    type: string;
     base64String?: FileReaderResultType;
     url?: string;
   }[];
