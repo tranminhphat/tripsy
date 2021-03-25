@@ -15,6 +15,7 @@ import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import MyImageCarousel from "components/Shared/MyImageCarousel";
 import MyImageHero from "components/Shared/MyImageHero";
 import MyMapbox from "components/Shared/MyMapbox";
+import currencyFormatter from "helpers/currencyFormatter";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import { IProfileResponse } from "interfaces/profiles/profile.interface";
 import { IUserResponse } from "interfaces/users/user.interface";
@@ -280,7 +281,9 @@ const ExperiencePage: React.FC<Props> = () => {
                     <div>
                       <p>
                         <span className="text-xl font-bold">
-                          {experience.pricing?.individualPrice}đ
+                          {currencyFormatter(
+                            experience.pricing?.individualPrice as number
+                          )}
                         </span>
                         <span className="text-xl"> / người</span>
                       </p>

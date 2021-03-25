@@ -16,7 +16,6 @@ export const calculateCurrentProgress = (
     photoGallery,
     groupSize,
     duration,
-    startTime,
     pricing,
     bookingDate,
   } = experienceDocument;
@@ -50,17 +49,14 @@ export const calculateCurrentProgress = (
   if (!groupSize) {
     return [3, 1];
   }
-  if (!!duration) {
+  if (!duration) {
     return [3, 2];
   }
-  if (!startTime) {
+  if (!pricing) {
     return [3, 3];
   }
-  if (!pricing) {
-    return [3, 4];
-  }
   if (!bookingDate) {
-    return [3, 5];
+    return [3, 4];
   }
   if (!isIdVerified) {
     return [4, 2];

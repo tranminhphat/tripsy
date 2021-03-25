@@ -18,7 +18,6 @@ export interface IExperienceResponse {
   }[];
   groupSize?: number;
   duration?: number;
-  startTime?: string;
   pricing?: { individualPrice: number; estimatedEarning: number };
   bookingDate?: number;
   availableDates?: any;

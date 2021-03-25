@@ -3,7 +3,6 @@ import MyStepper from "components/Shared/MyStepper";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import IDCardVerification from "./IDCardVerification";
 import InfoVerification from "./InfoVerification";
@@ -35,16 +34,12 @@ const getStepContent = (step: number) => {
 };
 
 const Setting: React.FC<Props> = ({ handleDone }) => {
-  const dispatch = useDispatch();
-
   /* Get the current step that user been doing from route */
   const location = useLocation<{
     currentProgress: number;
     currentStep: number;
   }>();
   const { currentProgress, currentStep } = location.state;
-
-  console.log(currentProgress);
 
   /* Store the array of steps in state */
   const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));
@@ -60,30 +55,11 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
 
   /* Handle click on the "Next" button */
   const handleNext = () => {
-    /* Update the experience state in redux store */
-    // dispatch(updateExperience(stepValue));
-    /* Update the active step */
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    /* Update the steps (isCompleted property) */
-    // const newSteps = steps.map((step, index) => {
-    //   if (index === activeStep - 1) {
-    //     return { ...step, isCompleted: true };
-    //   } else {
-    //     return { ...step };
-    //   }
-    // });
-    // setSteps(newSteps);
-
-    /* Check if we've done the progress yet */
     if (activeStep === steps.length) {
-      handleDone(4);
+      return handleDone(4);
     }
-
-    /* Disabled the "Next" button in the next step */
-    // setIsValid(false);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-
-  /* Handle click on the "Back" button */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };

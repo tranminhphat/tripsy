@@ -84,6 +84,9 @@ const ExperienceCreationPage: React.FC<Props> = () => {
    *
    */
   const handleDone = async (index: number) => {
+    if (index === 4) {
+      return handleSaveProgress();
+    }
     if (currentProgressIndex !== -1) {
       setCurrentProgressIndex((prevIndex) => prevIndex + 1);
     }
