@@ -16,6 +16,7 @@ import MyImageCarousel from "components/Shared/MyImageCarousel";
 import MyImageHero from "components/Shared/MyImageHero";
 import MyMapbox from "components/Shared/MyMapbox";
 import currencyFormatter from "helpers/currencyFormatter";
+import toWeekDayString from "helpers/toWeekDayString";
 import { IExperienceResponse } from "interfaces/experiences/experience.interface";
 import { IProfileResponse } from "interfaces/profiles/profile.interface";
 import { IUserResponse } from "interfaces/users/user.interface";
@@ -288,7 +289,16 @@ const ExperiencePage: React.FC<Props> = () => {
                         <span className="text-xl"> / người</span>
                       </p>
                     </div>
-                    <div></div>
+                    <div className="mt-4">
+                      <p className="text-lg">Lịch hoạt động: </p>
+                      {experience.availableDates.map((item) => (
+                        <div className="mt-2">
+                          {toWeekDayString(item.dateObject.weekDay)},{" "}
+                          {item.dateObject.day}/{item.dateObject.month}/
+                          {item.dateObject.year}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
