@@ -1,4 +1,5 @@
 import { Modal } from "@material-ui/core";
+import Fade from "@material-ui/core/Fade";
 import ClearIcon from "@material-ui/icons/Clear";
 import * as React from "react";
 
@@ -12,34 +13,43 @@ interface Props {
 const MyModal: React.FC<Props> = ({ open, setOpen, children, size }) => {
   const sizeClass =
     size === "full"
-      ? "max-w-full h-full"
+      ? "max-w-full"
       : size === "xl"
-      ? "max-w-xl h-80"
+      ? "max-w-xl"
       : size === "lg"
-      ? "max-w-lg h-72"
-      : "max-w-md h-60";
+      ? "max-w-lg"
+      : "max-w-md";
 
   return (
-    <Modal open={open}>
-      <div
-        className={`absolute w-max inset-0 m-auto bg-white rounded-2xl outline-none ${sizeClass}`}
-      >
-        <div className="flex flex-col justity-center items-center py-4 px-6">
-          <div className="flex justify-between">
-            <button
-              onClick={() => setOpen(false)}
-              className="focus:outline-none mr-4"
-            >
-              <span>
-                <ClearIcon />
-              </span>
-            </button>
-            {children.header}
+    <Modal
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      open={open}
+    >
+      <Fade in={open}>
+        <div
+          className={`w-full bg-white rounded-2xl outline-none ${sizeClass}`}
+        >
+          <div className="mt-4 px-6">
+            <div className="flex">
+              <button
+                onClick={() => setOpen(false)}
+                className="focus:outline-none mr-4"
+              >
+                <span>
+                  <ClearIcon />
+                </span>
+              </button>
+              {children.header}
+            </div>
+            <div className="mt-4">{children.content}</div>
+            <div className="mt-8 mb-4">{children.footer}</div>
           </div>
-          <div className="mt-8">{children.content}</div>
-          <div className="flex justify-around mt-8">{children.footer}</div>
         </div>
-      </div>
+      </Fade>
     </Modal>
   );
 };

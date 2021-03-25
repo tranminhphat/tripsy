@@ -288,6 +288,7 @@ const ExperiencePage: React.FC<Props> = () => {
                         <span className="text-xl"> / người</span>
                       </p>
                     </div>
+                    <div></div>
                   </div>
                 </div>
               </div>

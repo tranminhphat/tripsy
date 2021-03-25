@@ -90,14 +90,16 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
             </h2>
           ),
           content: (
-            <p>
-              Hình ảnh phải có độ phân giải ít nhất là 800px chiều rộng và
-              1200px chiều cao. Vui lòng đăng tải hình ảnh thỏa yêu cầu. Hình
-              bạn vừa tải lên có độ phân giải {width}x{height}
-            </p>
+            <div className="text-center">
+              <p className="text-lg">
+                Hình ảnh phải có độ phân giải ít nhất là 800px chiều rộng và
+                1200px chiều cao. Vui lòng đăng tải hình ảnh thỏa yêu cầu. Hình
+                bạn vừa tải lên có độ phân giải {width}x{height}
+              </p>
+            </div>
           ),
           footer: (
-            <>
+            <div className="flex justify-between">
               <Button
                 onClick={() => setIsModalOpen(false)}
                 variant="contained"
@@ -118,7 +120,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
               >
                 Tải ảnh khác
               </Button>
-            </>
+            </div>
           ),
         }}
       </MyModal>
