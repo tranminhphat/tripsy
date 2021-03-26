@@ -1,5 +1,5 @@
 import axios from "./configureAxios";
 
-export const createBookingSession = () => {
-  return axios.post("/payments/booking");
+export const createBookingSession = (metadata) => {
+  return axios.post("/payments/booking", { metadata });
 };

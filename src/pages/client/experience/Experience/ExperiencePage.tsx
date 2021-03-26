@@ -97,14 +97,22 @@ const ExperiencePage: React.FC<Props> = () => {
 
   const handleClick = async () => {
     const stripe = await stripePromise;
-    const {
-      data: { id },
-    } = await createBookingSession();
-    if (stripe && id) {
-      const result = await stripe.redirectToCheckout({
-        sessionId: id,
+    if (experience) {
+      const {
+        data: { id },
+      } = await createBookingSession({
+        name: experience.title,
+        description: experience.description,
+        price: experience.pricing?.individualPrice,
+        image: experience.photoGallery,
+        customerEmail: user?.email,
       });
-      console.log(result);
+      if (stripe && id) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: id,
+        });
+        console.log(result);
+      }
     }
   };
   return (
@@ -291,11 +299,16 @@ const ExperiencePage: React.FC<Props> = () => {
                     </div>
                     <div className="mt-4">
                       <p className="text-lg">Lịch hoạt động: </p>
-                      {experience.availableDates.map((item) => (
-                        <div className="mt-2">
-                          {toWeekDayString(item.dateObject.weekDay)},{" "}
-                          {item.dateObject.day}/{item.dateObject.month}/
-                          {item.dateObject.year}
+                      {experience.availableDates.map((item, idx) => (
+                        <div key={idx} className="mt-2 flex justify-between">
+                          <p>
+                            {toWeekDayString(item.dateObject.weekDay)},{" "}
+                            {item.dateObject.day}/{item.dateObject.month}/
+                            {item.dateObject.year}
+                          </p>
+                          <button type="button" onClick={handleClick}>
+                            Đặt chổ
+                          </button>
                         </div>
                       ))}
                     </div>
