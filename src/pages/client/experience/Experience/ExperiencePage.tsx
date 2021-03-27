@@ -1,8 +1,6 @@
 import { CircularProgress, Hidden } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
-import { loadStripe } from "@stripe/stripe-js";
 import { getExperienceById } from "api/experiences";
-import { createBookingSession } from "api/payment";
 import { getProfileById, updateProfileById } from "api/profile";
 import { getCurrentUser } from "api/users";
 import ClockIcon from "assets/images/icons/clock.svg";
@@ -24,18 +22,15 @@ import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useRouteMatch } from "react-router-dom";
 import { showAlert } from "redux/actions/alert/alertAction";
-
-const stripePromise = loadStripe(
-  "pk_test_51IXjZvDcrQRGXIG6oVlm1uSOLxiyQnMTeGoCgnoYV3dcMAISpT1WpHia1PmB85B7oyIF26CQCkt3IbcQKcXvSs6C00Z348v2eg"
-);
 
 interface Props {}
 
 const ExperiencePage: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
+  const { url } = useRouteMatch();
   const [isExperienceSaved, setIsExperienceSaved] = useState(false);
   const [experience, setExperience] = useState<IExperienceResponse>();
   const [userProfile, setUserProfile] = useState<IProfileResponse>();
@@ -95,26 +90,6 @@ const ExperiencePage: React.FC<Props> = () => {
     }
   };
 
-  const handleClick = async () => {
-    const stripe = await stripePromise;
-    if (experience) {
-      const {
-        data: { id },
-      } = await createBookingSession({
-        name: experience.title,
-        description: experience.description,
-        price: experience.pricing?.individualPrice,
-        image: experience.photoGallery,
-        customerEmail: user?.email,
-      });
-      if (stripe && id) {
-        const result = await stripe.redirectToCheckout({
-          sessionId: id,
-        });
-        console.log(result);
-      }
-    }
-  };
   return (
     <MainLayout>
       {experience && user && userProfile ? (
@@ -306,9 +281,14 @@ const ExperiencePage: React.FC<Props> = () => {
                             {item.dateObject.day}/{item.dateObject.month}/
                             {item.dateObject.year}
                           </p>
-                          <button type="button" onClick={handleClick}>
+                          <Link
+                            to={{
+                              pathname: `${url}/confirm-booking`,
+                              state: { time: item },
+                            }}
+                          >
                             Đặt chổ
-                          </button>
+                          </Link>
                         </div>
                       ))}
                     </div>

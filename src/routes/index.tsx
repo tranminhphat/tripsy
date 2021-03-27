@@ -8,7 +8,9 @@ import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
 import ResetPasswordPage from "pages/client/auth/ResetPasswordPage";
+import ConfirmBookingPage from "pages/client/experience/Experience/ConfirmBookingPage";
 import ExperiencePage from "pages/client/experience/Experience/ExperiencePage";
+import SuccessBookingResponsePage from "pages/client/experience/Experience/SuccessBookingResponsePage";
 import ExperienceActivationPage from "pages/client/experience/ExperienceManagement/ExperienceActivationPage/ExperienceActivationPage";
 import ExperienceCreationPage from "pages/client/experience/ExperienceManagement/ExperienceCreationPage/ExperienceCreationPage";
 import ExperienceManagementPage from "pages/client/experience/ExperienceManagement/ExperienceManagementPage";
@@ -66,7 +68,18 @@ const routes: Entry[] = [
     component: ExperiencePage,
     authRoute: true,
   },
-
+  {
+    exact: true,
+    path: "/experience/:id/confirm-booking",
+    component: ConfirmBookingPage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/experience/:id/confirm-booking/success",
+    component: SuccessBookingResponsePage,
+    authRoute: true,
+  },
   {
     exact: true,
     path: "/user/experience-hosting",
