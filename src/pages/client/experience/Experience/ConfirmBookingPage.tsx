@@ -2,6 +2,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 import { loadStripe } from "@stripe/stripe-js";
 import { getExperienceById } from "api/experiences";
 import { createBookingSession } from "api/payment";
+import { createReceipt } from "api/receipt";
 import { getCurrentUser, getUserById } from "api/users";
 import LeftArrow from "assets/images/icons/left-arrow.svg";
 import { startTimeOptions } from "constants/index";
@@ -69,25 +70,38 @@ const ConfirmBookingPage: React.FC<Props> = () => {
   const handleClick = async () => {
     const stripe = await stripePromise;
     if (experience) {
-      const {
-        data: { id },
-      } = await createBookingSession({
-        experience: {
-          id: experience._id,
-          name: experience.title,
-          description: experience.description,
-          price: experience.pricing?.individualPrice,
-          image: experience.photoGallery,
-        },
-        customer: {
-          customerId: currentUser?._id,
-          customerEmail: currentUser?.email,
-        },
+      const { data: receiptId } = await createReceipt({
+        hostId: experience.hostId,
+        experienceId: experience._id,
+        takePlace: time,
+        unitPrice: experience.pricing?.individualPrice,
+        numberOfGuest: 1,
+        totalPrice: (experience.pricing?.individualPrice as number) * 1,
       });
-      if (stripe && id) {
-        await stripe.redirectToCheckout({
-          sessionId: id,
+      if (receiptId) {
+        const {
+          data: { id: sessionId },
+        } = await createBookingSession({
+          receipt: {
+            id: receiptId,
+          },
+          experience: {
+            id: experience._id,
+            name: experience.title,
+            description: experience.description,
+            price: experience.pricing?.individualPrice,
+            image: experience.photoGallery,
+          },
+          customer: {
+            customerId: currentUser?._id,
+            customerEmail: currentUser?.email,
+          },
         });
+        if (stripe && sessionId) {
+          await stripe.redirectToCheckout({
+            sessionId: sessionId,
+          });
+        }
       }
     }
   };

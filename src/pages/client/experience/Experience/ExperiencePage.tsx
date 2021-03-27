@@ -180,7 +180,7 @@ const ExperiencePage: React.FC<Props> = () => {
                       <div className="ml-4 text-lg">
                         Bao gồm:{" "}
                         {experience.hostProvisions?.map((item) => (
-                          <span>{item.itemName}</span>
+                          <span key={item.id}>{item.itemName}</span>
                         ))}
                       </div>
                     </div>
