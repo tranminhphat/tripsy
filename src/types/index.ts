@@ -12,10 +12,12 @@ export type UserFieldType =
   | "dateOfBirth"
   | "phoneNumber"
   | "address"
+  | "avatarUrl"
   | "roleId"
   | "profileId"
-  | "avatarUrl"
+  | "payoutAccountId"
   | "isEmailVerified"
-  | "isIdVerified";
+  | "isIdVerified"
+  | "isPayOutEnabled";
 
 export type ExperienceFieldType = "_id" | "theme" | "title" | "language";

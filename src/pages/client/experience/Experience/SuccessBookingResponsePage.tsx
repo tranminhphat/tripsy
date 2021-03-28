@@ -15,7 +15,6 @@ const SuccessBookingResponsePage: React.FC<Props> = () => {
   const values = queryString.parse(location.search);
   const { session_id, receipt_id } = values;
   const [user, setUser] = useState<IUserResponse>();
-
   useEffect(() => {
     retrieveBooking();
     // eslint-disable-next-line react-hooks/exhaustive-deps

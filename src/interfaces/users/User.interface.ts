@@ -11,8 +11,10 @@ export interface IUserResponse {
   avatarUrl?: string;
   roldId?: string;
   profileId?: string;
+  payoutAccountId?: string;
   isEmailVerified?: boolean;
   isIdVerified?: boolean;
+  isPayOutEnabled?: boolean;
 }
 
 export interface IDisplayedUserData {
