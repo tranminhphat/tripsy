@@ -1,8 +1,8 @@
 import { Button, CircularProgress } from "@material-ui/core";
 import { loadStripe } from "@stripe/stripe-js";
-import { createCheckoutSession } from "api/checkout";
 import { getExperienceById } from "api/experiences";
 import { createReceipt } from "api/receipt";
+import { createCheckoutSession } from "api/stripe";
 import { getCurrentUser, getUserById } from "api/users";
 import LeftArrow from "assets/images/icons/left-arrow.svg";
 import { startTimeOptions } from "constants/index";

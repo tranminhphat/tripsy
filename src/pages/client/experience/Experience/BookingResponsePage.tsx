@@ -1,5 +1,5 @@
-import { retrieveCheckoutSession } from "api/checkout";
 import { deleteReceiptById, updateReceiptById } from "api/receipt";
+import { getCheckoutSessionById } from "api/stripe";
 import { getCurrentUser } from "api/users";
 import { IUserResponse } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
@@ -25,12 +25,15 @@ const BookingResponsePage: React.FC<Props> = () => {
   }, []);
 
   const retrieveBooking = async () => {
-    const { data } = await retrieveCheckoutSession(session_id as string);
-    if (data === "paid") {
+    const {
+      data: { session },
+    } = await getCheckoutSessionById(session_id as string);
+    if (session.payment_status === "paid") {
       const {
         data: { receipt },
       } = await updateReceiptById(receipt_id as string, {
         status: "paid",
+        checkOutSessionId: session_id as string,
       });
       const {
         data: { user },
