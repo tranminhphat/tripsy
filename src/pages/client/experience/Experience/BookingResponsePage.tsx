@@ -1,5 +1,5 @@
 import { retrieveBookingSession } from "api/payment";
-import { updateReceiptById } from "api/receipt";
+import { deleteReceiptById, updateReceiptById } from "api/receipt";
 import { getCurrentUser } from "api/users";
 import { IUserResponse } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
@@ -10,13 +10,17 @@ import { useLocation } from "react-router-dom";
 
 interface Props {}
 
-const SuccessBookingResponsePage: React.FC<Props> = () => {
+const BookingResponsePage: React.FC<Props> = () => {
   const location = useLocation();
   const values = queryString.parse(location.search);
-  const { session_id, receipt_id } = values;
+  const { status, session_id, receipt_id } = values;
   const [user, setUser] = useState<IUserResponse>();
   useEffect(() => {
-    retrieveBooking();
+    if (status === "succeed") {
+      retrieveBooking();
+    } else {
+      deleteReceipt();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -28,7 +32,6 @@ const SuccessBookingResponsePage: React.FC<Props> = () => {
       } = await updateReceiptById(receipt_id as string, {
         status: "paid",
       });
-      console.log(receipt);
       const {
         data: { user },
       } = await getCurrentUser(["firstName"]);
@@ -37,19 +40,30 @@ const SuccessBookingResponsePage: React.FC<Props> = () => {
       }
     }
   };
+
+  const deleteReceipt = async () => {
+    const response = await deleteReceiptById(receipt_id as string);
+    console.log(response);
+  };
   return (
     <MainLayout>
-      {user ? (
+      {status === "succeed" ? (
+        user ? (
+          <div>
+            <p className="text-lg">
+              Cảm ơn {user.firstName}, trải nghiệm của bạn đã được đăng ký thành
+              công.
+            </p>
+            <p className="text-lg">Mã biên lai của bạn là: {receipt_id}</p>
+          </div>
+        ) : null
+      ) : (
         <div>
-          <p className="text-lg">
-            Cảm ơn {user.firstName}, trải nghiệm của bạn đã được đăng ký thành
-            công.
-          </p>
-          <p className="text-lg">Mã biên lai của bạn là: {receipt_id}</p>
+          <p className="text-lg">Trải nghiệm đăng ký ko thành công.</p>
         </div>
-      ) : null}
+      )}
     </MainLayout>
   );
 };
 
-export default SuccessBookingResponsePage;
+export default BookingResponsePage;

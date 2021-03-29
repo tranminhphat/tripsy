@@ -61,7 +61,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
   const fetchCurrentUser = async () => {
     const {
       data: { user },
-    } = await getCurrentUser(["email"]);
+    } = await getCurrentUser(["_id", "email"]);
     if (user) {
       setCurrentUser(user);
     }
@@ -69,10 +69,11 @@ const ConfirmBookingPage: React.FC<Props> = () => {
 
   const handleClick = async () => {
     const stripe = await stripePromise;
-    if (experience) {
+    if (experience && currentUser) {
       const { data: receiptId } = await createReceipt({
         hostId: experience.hostId,
         experienceId: experience._id,
+        guestId: currentUser._id,
         takePlace: time,
         unitPrice: experience.pricing?.individualPrice,
         numberOfGuest: 1,
@@ -93,8 +94,8 @@ const ConfirmBookingPage: React.FC<Props> = () => {
             image: experience.photoGallery,
           },
           customer: {
-            customerId: currentUser?._id,
-            customerEmail: currentUser?.email,
+            customerId: currentUser._id,
+            customerEmail: currentUser.email,
           },
         });
         if (stripe && sessionId) {

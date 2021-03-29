@@ -273,24 +273,35 @@ const ExperiencePage: React.FC<Props> = () => {
                       </p>
                     </div>
                     <div className="mt-4">
-                      <p className="text-lg">Lịch hoạt động: </p>
-                      {experience.availableDates.map((item, idx) => (
-                        <div key={idx} className="mt-2 flex justify-between">
-                          <p>
-                            {toWeekDayString(item.dateObject.weekDay)},{" "}
-                            {item.dateObject.day}/{item.dateObject.month}/
-                            {item.dateObject.year}
-                          </p>
-                          <Link
-                            to={{
-                              pathname: `${url}/confirm-booking`,
-                              state: { time: item },
-                            }}
-                          >
-                            Đặt chổ
-                          </Link>
-                        </div>
-                      ))}
+                      {experience.hostId === user._id ? (
+                        <p className="text-lg">
+                          Đây là hoạt động do bạn tổ chức
+                        </p>
+                      ) : (
+                        <>
+                          <p className="text-lg">Lịch hoạt động: </p>
+                          {experience.availableDates.map((item, idx) => (
+                            <div
+                              key={idx}
+                              className="mt-2 flex justify-between"
+                            >
+                              <p>
+                                {toWeekDayString(item.dateObject.weekDay)},{" "}
+                                {item.dateObject.day}/{item.dateObject.month}/
+                                {item.dateObject.year}
+                              </p>
+                              <Link
+                                to={{
+                                  pathname: `${url}/confirm-booking`,
+                                  state: { time: item },
+                                }}
+                              >
+                                Đặt chổ
+                              </Link>
+                            </div>
+                          ))}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
