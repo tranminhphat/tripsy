@@ -2,6 +2,7 @@ import { Tab, Tabs } from "@material-ui/core";
 import MyTabPanel from "components/Shared/MyTabPanel";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
+import ExperienceListTab from "./ExperienceListTab";
 import HostingListTab from "./HostingListTab";
 
 interface Props {}
@@ -36,7 +37,7 @@ const ExperienceManagementPage: React.FC<Props> = () => {
         />
       </Tabs>
       <MyTabPanel value={value} index={0}>
-        Page One
+        <ExperienceListTab />
       </MyTabPanel>
       <MyTabPanel value={value} index={1}>
         <HostingListTab />

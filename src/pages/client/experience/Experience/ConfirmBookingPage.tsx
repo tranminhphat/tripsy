@@ -1,7 +1,7 @@
 import { Button, CircularProgress } from "@material-ui/core";
 import { loadStripe } from "@stripe/stripe-js";
+import { createCheckoutSession } from "api/checkout";
 import { getExperienceById } from "api/experiences";
-import { createBookingSession } from "api/payment";
 import { createReceipt } from "api/receipt";
 import { getCurrentUser, getUserById } from "api/users";
 import LeftArrow from "assets/images/icons/left-arrow.svg";
@@ -82,7 +82,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
       if (receiptId) {
         const {
           data: { id: sessionId },
-        } = await createBookingSession({
+        } = await createCheckoutSession({
           receipt: {
             id: receiptId,
           },
