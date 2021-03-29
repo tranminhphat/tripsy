@@ -13,7 +13,7 @@ import ExperiencePage from "pages/client/experience/Experience/ExperiencePage";
 import SuccessBookingResponsePage from "pages/client/experience/Experience/SuccessBookingResponsePage";
 import ExperienceActivationPage from "pages/client/experience/ExperienceManagement/ExperienceActivationPage/ExperienceActivationPage";
 import ExperienceCreationPage from "pages/client/experience/ExperienceManagement/ExperienceCreationPage/ExperienceCreationPage";
-import ExperienceManagementPage from "pages/client/experience/ExperienceManagement/ExperienceManagementPage";
+import ExperienceManagementPage from "pages/client/experience/ExperienceManagement/ExperienceManagementPage/ExperienceManagementPage";
 import HomePage from "pages/client/home/HomePage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import * as React from "react";
