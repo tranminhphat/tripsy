@@ -1,3 +1,4 @@
+import { getActivityById, updateActivityById } from "api/activity";
 import { deleteReceiptById, updateReceiptById } from "api/receipt";
 import { getCheckoutSessionById } from "api/stripe";
 import { getCurrentUser } from "api/users";
@@ -13,10 +14,9 @@ interface Props {}
 const BookingResponsePage: React.FC<Props> = () => {
   const location = useLocation();
   const values = queryString.parse(location.search);
-  const { status, session_id, receipt_id } = values;
+  const { status, session_id, receipt_id, activity_id } = values;
   const [user, setUser] = useState<IUser>();
   useEffect(() => {
-    fetchUser();
     if (status === "succeed") {
       retrieveBooking();
     } else {
@@ -25,26 +25,30 @@ const BookingResponsePage: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchUser = async () => {
-    const {
-      data: { user },
-    } = await getCurrentUser(["firstName"]);
-    if (user) {
-      setUser(user);
-    }
-  };
-
   const retrieveBooking = async () => {
     const {
       data: { session },
     } = await getCheckoutSessionById(session_id as string);
     if (session.payment_status === "paid") {
-      const {
-        data: { receipt },
-      } = await updateReceiptById(receipt_id as string, {
+      await updateReceiptById(receipt_id as string, {
         status: "paid",
         checkOutSessionId: session_id as string,
       });
+      const {
+        data: { user },
+      } = await getCurrentUser(["_id", "firstName"]);
+      if (user) {
+        setUser(user);
+        const {
+          data: { activity },
+        } = await getActivityById(activity_id as string);
+
+        if (activity) {
+          await updateActivityById(activity_id as string, {
+            listOfGuestId: [...activity.listOfGuestId, user._id],
+          });
+        }
+      }
     }
   };
 

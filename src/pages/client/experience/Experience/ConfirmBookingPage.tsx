@@ -1,5 +1,6 @@
 import { Button, CircularProgress } from "@material-ui/core";
 import { loadStripe } from "@stripe/stripe-js";
+import { getActivityById } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { createReceipt } from "api/receipt";
 import { createCheckoutSession } from "api/stripe";
@@ -8,9 +9,11 @@ import LeftArrow from "assets/images/icons/left-arrow.svg";
 import { startTimeOptions } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
+import IActivity from "interfaces/activity/activity.interface";
 import IExperience from "interfaces/experiences/experience.interface";
 import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
+import queryString from "query-string";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
@@ -23,20 +26,18 @@ const stripePromise = loadStripe(
 
 const ConfirmBookingPage: React.FC<Props> = () => {
   const history = useHistory();
+  const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const location = useLocation<{ time }>();
+  const { activityId } = queryString.parse(location.search);
   const [experience, setExperience] = useState<IExperience>();
+  const [activity, setActivity] = useState<IActivity>();
   const [host, setHost] = useState<IUser>();
   const [currentUser, setCurrentUser] = useState<IUser>();
-  const { time } = location.state;
 
   useEffect(() => {
-    if (time) {
-      fetchExperience(id);
-    } else {
-      history.goBack();
-    }
-  }, [id]);
+    fetchExperience(id);
+    fetchActivity(activityId as string);
+  }, [id, activityId]);
 
   const fetchExperience = async (id: string) => {
     const {
@@ -47,6 +48,13 @@ const ConfirmBookingPage: React.FC<Props> = () => {
       fetchHostData(experience.hostId);
       fetchCurrentUser();
     }
+  };
+
+  const fetchActivity = async (id: string) => {
+    const {
+      data: { activity },
+    } = await getActivityById(id);
+    setActivity(activity);
   };
 
   const fetchHostData = async (hostId: string) => {
@@ -69,12 +77,12 @@ const ConfirmBookingPage: React.FC<Props> = () => {
 
   const handleClick = async () => {
     const stripe = await stripePromise;
-    if (experience && currentUser) {
+    if (experience && currentUser && activity) {
       const { data: receiptId } = await createReceipt({
         hostId: experience.hostId,
         experienceId: experience._id,
         guestId: currentUser._id,
-        takePlace: time,
+        takePlace: activity.date,
         unitPrice: experience.pricing?.individualPrice,
         numberOfGuest: 1,
         totalPrice: (experience.pricing?.individualPrice as number) * 1,
@@ -83,6 +91,9 @@ const ConfirmBookingPage: React.FC<Props> = () => {
         const {
           data: { id: sessionId },
         } = await createCheckoutSession({
+          activity: {
+            id: activityId,
+          },
           receipt: {
             id: receiptId,
           },
@@ -109,7 +120,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
 
   return (
     <MainLayout withSearchBar={false}>
-      {experience && host ? (
+      {experience && host && activity ? (
         <div className="container mx-auto px-40">
           <div className="flex items-center">
             <button className="mr-8" onClick={() => history.goBack()}>
@@ -131,23 +142,24 @@ const ConfirmBookingPage: React.FC<Props> = () => {
             <div className="flex justify-between">
               <p className="text-xl font-bold">Ngày diễn ra:</p>
               <p className="text-xl">
-                {toWeekDayString(time.dateObject.weekDay)}, ngày{" "}
-                {time.dateObject.day} tháng {time.dateObject.month} năm{" "}
-                {time.dateObject.year}
+                {toWeekDayString(activity.date.dateObject.weekDay)}, ngày{" "}
+                {activity.date.dateObject.day} tháng{" "}
+                {activity.date.dateObject.month} năm{" "}
+                {activity.date.dateObject.year}
               </p>
             </div>
             <div className="flex justify-between">
               <p className="text-xl font-bold">Giờ bắt đầu:</p>
               <p className="text-xl">
-                {startTimeOptions[time.startTimeIdx].text}
+                {startTimeOptions[activity.date.startTimeIdx].text}
               </p>
             </div>
             <div className="flex justify-between">
               <p className="text-xl font-bold">Giờ kết thúc:</p>
               <p className="text-xl">
-                {time.endTimeIdx >= 45
-                  ? startTimeOptions[time.endTimeIdx + 4 - 48].text
-                  : startTimeOptions[time.endTimeIdx].text}
+                {activity.date.endTimeIdx >= 45
+                  ? startTimeOptions[activity.date.endTimeIdx + 4 - 48].text
+                  : startTimeOptions[activity.date.endTimeIdx].text}
               </p>
             </div>
             <div className="flex justify-between">

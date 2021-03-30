@@ -1,5 +1,6 @@
 import { CircularProgress, Hidden } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
+import { getActivities } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { getProfileById, updateProfileById } from "api/profile";
 import { getCurrentUser } from "api/users";
@@ -15,6 +16,7 @@ import MyImageHero from "components/Shared/MyImageHero";
 import MyMapbox from "components/Shared/MyMapbox";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
+import IActivity from "interfaces/activity/activity.interface";
 import IExperience from "interfaces/experiences/experience.interface";
 import IProfile from "interfaces/profiles/profile.interface";
 import { IUser } from "interfaces/users/user.interface";
@@ -33,11 +35,13 @@ const ExperiencePage: React.FC<Props> = () => {
   const { url } = useRouteMatch();
   const [isExperienceSaved, setIsExperienceSaved] = useState(false);
   const [experience, setExperience] = useState<IExperience>();
+  const [activities, setActivities] = useState<IActivity[]>();
   const [userProfile, setUserProfile] = useState<IProfile>();
   const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     fetchExperience(id);
+    fetchActivitiesByExperienceId(id);
     fetchUserProfile();
   }, [id]);
 
@@ -48,6 +52,13 @@ const ExperiencePage: React.FC<Props> = () => {
     if (experience) {
       setExperience(experience);
     }
+  };
+
+  const fetchActivitiesByExperienceId = async (experienceId: string) => {
+    const { data: activities } = await getActivities({
+      experienceId: experienceId,
+    });
+    setActivities(activities);
   };
 
   const fetchUserProfile = async () => {
@@ -280,26 +291,31 @@ const ExperiencePage: React.FC<Props> = () => {
                       ) : (
                         <>
                           <p className="text-lg">Lịch hoạt động: </p>
-                          {experience.availableDates.map((item, idx) => (
-                            <div
-                              key={idx}
-                              className="mt-2 flex justify-between"
-                            >
-                              <p>
-                                {toWeekDayString(item.dateObject.weekDay)},{" "}
-                                {item.dateObject.day}/{item.dateObject.month}/
-                                {item.dateObject.year}
-                              </p>
-                              <Link
-                                to={{
-                                  pathname: `${url}/confirm-booking`,
-                                  state: { time: item },
-                                }}
-                              >
-                                Đặt chổ
-                              </Link>
-                            </div>
-                          ))}
+                          {activities
+                            ? activities.map((item, idx) => (
+                                <div
+                                  key={idx}
+                                  className="mt-2 flex justify-between"
+                                >
+                                  <p>
+                                    {toWeekDayString(
+                                      item.date.dateObject.weekDay
+                                    )}
+                                    , {item.date.dateObject.day}/
+                                    {item.date.dateObject.month}/
+                                    {item.date.dateObject.year}
+                                  </p>
+                                  <Link
+                                    to={{
+                                      pathname: `${url}/confirm-booking`,
+                                      search: `?activityId=${item._id}`,
+                                    }}
+                                  >
+                                    Đặt chổ
+                                  </Link>
+                                </div>
+                              ))
+                            : null}
                         </>
                       )}
                     </div>

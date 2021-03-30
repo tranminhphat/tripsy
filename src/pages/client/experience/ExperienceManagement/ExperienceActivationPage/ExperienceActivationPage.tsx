@@ -5,10 +5,12 @@ import {
   Select,
   Typography,
 } from "@material-ui/core";
+import { createActivity, getActivities } from "api/activity";
 import { getExperienceById, updateExperienceById } from "api/experiences";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import toWeekDayString from "helpers/toWeekDayString";
+import IActivity from "interfaces/activity/activity.interface";
 import IExperience from "interfaces/experiences/experience.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
@@ -36,6 +38,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const [pickerValue, setPickerValue] = useState<any>();
   const [experience, setExperience] = useState<IExperience>();
+  const [activities, setActivities] = useState<IActivity[]>();
   const [open, setOpen] = useState(false);
   const [startTimeOpen, setStartTimeOpen] = useState(false);
   const [startTime, setStartTime] = useState(0);
@@ -43,11 +46,12 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
 
   React.useEffect(() => {
-    fetchAvailableDates(id);
+    fetchExperience(id);
+    fetchActivitesByExperienceId(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchAvailableDates = async (id: string) => {
+  const fetchExperience = async (id: string) => {
     const {
       data: { experience },
     } = await getExperienceById(id);
@@ -56,22 +60,14 @@ const ExperienceActivationPage: React.FC<Props> = () => {
     }
   };
 
-  const filterDates = (filterString: string, dateArray: Date[]) => {
-    const date = new DateObject();
-    if (filterString === "future") {
-      return dateArray.filter(
-        (item) => item.dateObject.unix - date.unix > 1209600
-      );
-    }
-
-    if (filterString === "upcomming") {
-      return dateArray.filter(
-        (item) => item.dateObject.unix - date.unix <= 1209600
-      );
-    }
+  const fetchActivitesByExperienceId = async (experienceId: string) => {
+    const { data: activities } = await getActivities({
+      experienceId: experienceId,
+    });
+    setActivities(activities);
   };
 
-  const handleAddDate = async () => {
+  const handleCreateActivity = async () => {
     const newDate = {
       startTimeIdx: startTime,
       endTimeIdx: endTime,
@@ -85,6 +81,13 @@ const ExperienceActivationPage: React.FC<Props> = () => {
       },
     };
 
+    const {
+      data: { res },
+    } = await createActivity({
+      experienceId: experience?._id,
+      date: newDate,
+    });
+
     const { data } = await updateExperienceById(id, {
       availableDates: [...experience?.availableDates, newDate],
     });
@@ -95,7 +98,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
       setEndTime(0);
       setPickerValue(null);
       setOpen(false);
-      fetchAvailableDates(id);
+      fetchExperience(id);
     }
   };
 
@@ -117,34 +120,18 @@ const ExperienceActivationPage: React.FC<Props> = () => {
         {experience ? (
           <div className="flex justify-between container">
             <div>
-              <p>Up comming</p>
-              {filterDates("upcomming", experience.availableDates)!.map(
-                (item) => (
-                  <div
-                    className="mt-4"
-                    key={`${item.dateObject.day}/${item.dateObject.month}/${item.dateObject.year}`}
-                  >
-                    <div className="border border-gray-300 rounded-xl p-4 shadow-lg">
-                      {toWeekDayString(item.dateObject.weekDay)},{" "}
-                      {item.dateObject.day}/{item.dateObject.month}/
-                      {item.dateObject.year}
+              {activities
+                ? activities.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="border border-gray-300 rounded-xl p-4 shadow-lg"
+                    >
+                      {toWeekDayString(item.date.dateObject.weekDay)},{" "}
+                      {item.date.dateObject.day}/{item.date.dateObject.month}/
+                      {item.date.dateObject.year}
                     </div>
-                  </div>
-                )
-              )}
-              <p>Future</p>
-              {filterDates("future", experience.availableDates)!.map((item) => (
-                <div
-                  className="mt-4"
-                  key={`${item.dateObject.day}/${item.dateObject.month}/${item.dateObject.year}`}
-                >
-                  <div className="border border-gray-300 rounded-xl p-4 shadow-lg">
-                    {toWeekDayString(item.dateObject.weekDay)},{" "}
-                    {item.dateObject.day}/{item.dateObject.month}/
-                    {item.dateObject.year}
-                  </div>
-                </div>
-              ))}
+                  ))
+                : null}
             </div>
             <MyModal size="xl" open={open} setOpen={setOpen}>
               {{
@@ -240,7 +227,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                       Hủy
                     </Button>
                     <Button
-                      onClick={handleAddDate}
+                      onClick={handleCreateActivity}
                       disabled={!(pickerValue && startTime && endTime)}
                       variant="contained"
                       color="primary"
@@ -252,48 +239,6 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                 ),
               }}
             </MyModal>
-            {/* <Calendar
-                      mapDays={({ date, selectedDate }) => {
-                        const today = new DateObject();
-                        if (date.unix < today.unix + bookingDate * 86400) {
-                          return {
-                            disabled: true,
-                            style: {
-                              disabled: true,
-                              style: { color: "#ccc" },
-                            },
-                          };
-                        }
-                        const upComming = upCommingDates.map(
-                          (item) => item.dayOfYear
-                        );
-                        const future = futureDates.map(
-                          (item) => item.dayOfYear
-                        );
-                        if (upComming.includes(date.dayOfYear)) {
-                          return {
-                            disabled: true,
-                            style: {
-                              color: "green",
-                              fontWeight: "bold",
-                            },
-                          };
-                        }
-                        if (future.includes(date.dayOfYear)) {
-                          return {
-                            disabled: true,
-                            style: {
-                              color: "orange",
-                              fontWeight: "bold",
-                            },
-                          };
-                        }
-                      }}
-                      multiple
-                      format="DD/MM/YYYY"
-                      value={value}
-                      onChange={setValue}
-                    /> */}
           </div>
         ) : (
           <CircularProgress />
