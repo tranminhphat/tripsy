@@ -1,7 +1,7 @@
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import MyStepper from "components/Shared/MyStepper";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -71,7 +71,7 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
   const [activeStep, setActiveStep] = useState(currentStep);
 
   /* Store the updatedValue in state */
-  const [stepValue, setStepValue] = useState<IExperienceResponse>({});
+  const [stepValue, setStepValue] = useState<IExperience>({});
 
   /* Check if user have done the current step for the "Next" button */
   const [isValid, setIsValid] = useState<boolean>(false);

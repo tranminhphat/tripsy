@@ -2,14 +2,14 @@ import { Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { getProfileById, updateProfileById } from "api/profile";
 import { Field, Form, Formik } from "formik";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
-  userData: IUserResponse;
+  userData: IUser;
   isCurrentUser: boolean;
 }
 

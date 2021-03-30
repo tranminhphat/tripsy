@@ -8,7 +8,7 @@ import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import {
   IDisplayedUserData,
   IUpdateUserData,
-  IUserResponse,
+  IUser,
 } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useState } from "react";
@@ -22,7 +22,7 @@ import DisplayedInformationForm from "./DisplayedInformationForm";
 import UpdateInformationForm from "./UpdateInformationForm";
 
 interface Props {
-  userData: IUserResponse;
+  userData: IUser;
   isCurrentUser: boolean;
 }
 
@@ -58,7 +58,7 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
 
   /* Store the displayed data of user */
 
-  const [displayedData, setDisplayedData] = useState<IUserResponse>({
+  const [displayedData, setDisplayedData] = useState<IUser>({
     email: userData.email,
     gender: userData.gender,
     phoneNumber: userData.phoneNumber,

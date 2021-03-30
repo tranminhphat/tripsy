@@ -1,12 +1,12 @@
 import IAction from "interfaces/action/action.interface";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 import {
   GET_EXPERIENCE,
   RESET_EXPERIENCE,
   UPDATE_EXPERIENCE,
 } from "redux/actions/experience/experienceActionTypes";
 
-const initialState: IExperienceResponse = {};
+const initialState: IExperience = {};
 
 const experienceReducer = (state = initialState, action: IAction) => {
   switch (action.type) {

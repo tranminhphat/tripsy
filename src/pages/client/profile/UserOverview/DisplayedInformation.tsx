@@ -4,15 +4,12 @@ import EmailIcon from "@material-ui/icons/Email";
 import LocationIcon from "@material-ui/icons/LocationOn";
 import PhoneIcon from "@material-ui/icons/PhoneIphone";
 import GenderIcon from "@material-ui/icons/Wc";
-import {
-  IDisplayedUserData,
-  IUserResponse,
-} from "interfaces/users/user.interface";
+import { IDisplayedUserData, IUser } from "interfaces/users/user.interface";
 import React from "react";
 
 interface Props {
   displayedField: IDisplayedUserData;
-  displayedData: IUserResponse;
+  displayedData: IUser;
 }
 
 const DisplayedInformation: React.FC<Props> = ({

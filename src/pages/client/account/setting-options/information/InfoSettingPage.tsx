@@ -1,7 +1,7 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getCurrentUser } from "api/users";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import ChangePhoneNumberForm from "./ChangePhoneNumberForm";
 interface Props {}
 
 const InfoSettingPage: React.FC<Props> = () => {
-  const [userData, setUserData] = useState<IUserResponse>();
+  const [userData, setUserData] = useState<IUser>();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [openNameForm, setOpenNameForm] = useState(false);
   const [openGenderForm, setOpenGenderForm] = useState(false);

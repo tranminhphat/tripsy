@@ -15,9 +15,9 @@ import MyImageHero from "components/Shared/MyImageHero";
 import MyMapbox from "components/Shared/MyMapbox";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
-import { IProfileResponse } from "interfaces/profiles/profile.interface";
-import { IUserResponse } from "interfaces/users/user.interface";
+import IExperience from "interfaces/experiences/experience.interface";
+import IProfile from "interfaces/profiles/profile.interface";
+import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -32,9 +32,9 @@ const ExperiencePage: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
   const { url } = useRouteMatch();
   const [isExperienceSaved, setIsExperienceSaved] = useState(false);
-  const [experience, setExperience] = useState<IExperienceResponse>();
-  const [userProfile, setUserProfile] = useState<IProfileResponse>();
-  const [user, setUser] = useState<IUserResponse>();
+  const [experience, setExperience] = useState<IExperience>();
+  const [userProfile, setUserProfile] = useState<IProfile>();
+  const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     fetchExperience(id);

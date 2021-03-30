@@ -13,8 +13,8 @@ import { getCurrentUser, updateUserById } from "api/users";
 import BankIcon from "assets/images/icons/bank.svg";
 import FlyIcon from "assets/images/icons/fly.svg";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
-import { IUserResponse } from "interfaces/users/user.interface";
+import IExperience from "interfaces/experiences/experience.interface";
+import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -24,10 +24,10 @@ import { showAlert } from "redux/actions/alert/alertAction";
 interface Props {}
 
 const HostingListTab: React.FC<Props> = () => {
-  const [userData, setUserData] = useState<IUserResponse>();
+  const [userData, setUserData] = useState<IUser>();
   const [payoutId, setPayoutId] = useState<string>();
   const [isPayOutEnabled, setIsPayOutEnabled] = useState(false);
-  const [experiences, setExperiences] = useState<IExperienceResponse[]>();
+  const [experiences, setExperiences] = useState<IExperience[]>();
   const history = useHistory();
   const { url } = useRouteMatch();
   const dispatch = useDispatch();

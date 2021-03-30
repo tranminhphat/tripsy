@@ -1,13 +1,13 @@
 import { CircularProgress } from "@material-ui/core";
 import { getExperiences } from "api/experiences";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const HomePage: React.FC = () => {
-  const [experiences, setExperiences] = useState<IExperienceResponse[]>();
+  const [experiences, setExperiences] = useState<IExperience[]>();
 
   useEffect(() => {
     fetchExperience();

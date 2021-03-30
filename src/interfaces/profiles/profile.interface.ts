@@ -1,4 +1,4 @@
-export interface IProfileResponse {
+export default interface IProfile {
   _id?: string;
   introduction?: string;
   savedExperiences?: string[];

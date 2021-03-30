@@ -5,13 +5,13 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import PersonIcon from "@material-ui/icons/Person";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import MyTabPanel from "components/Shared/MyTabPanel";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useState } from "react";
 import AboutMeTab from "./Tabs/AboutMeTab";
 
 interface Props {
-  userData: IUserResponse;
+  userData: IUser;
   isCurrentUser: boolean;
 }
 

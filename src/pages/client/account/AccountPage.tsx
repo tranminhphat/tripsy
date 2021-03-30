@@ -1,7 +1,7 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getCurrentUser } from "api/users";
 import { accountSettingOptions } from "constants/index";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 interface Props {}
 
 const AccountPage: React.FC<Props> = () => {
-  const [userData, setUserData] = useState<IUserResponse>();
+  const [userData, setUserData] = useState<IUser>();
 
   useEffect(() => {
     fetchUserData();

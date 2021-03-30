@@ -1,6 +1,6 @@
 import { FileReaderResultType } from "types";
 
-export interface IExperienceResponse {
+export default interface IExperience {
   _id?: string;
   hostId?: string;
   theme?: string;

@@ -9,7 +9,7 @@ import { getExperienceById, updateExperienceById } from "api/experiences";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import toWeekDayString from "helpers/toWeekDayString";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useState } from "react";
@@ -35,7 +35,7 @@ interface Date {
 const ExperienceActivationPage: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const [pickerValue, setPickerValue] = useState<any>();
-  const [experience, setExperience] = useState<IExperienceResponse>();
+  const [experience, setExperience] = useState<IExperience>();
   const [open, setOpen] = useState(false);
   const [startTimeOpen, setStartTimeOpen] = useState(false);
   const [startTime, setStartTime] = useState(0);

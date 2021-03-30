@@ -1,4 +1,4 @@
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 import {
   GET_EXPERIENCE,
   RESET_EXPERIENCE,
@@ -9,7 +9,7 @@ export const getExperience = () => ({
   type: GET_EXPERIENCE,
 });
 
-export const updateExperience = (updatedProperties: IExperienceResponse) => ({
+export const updateExperience = (updatedProperties: IExperience) => ({
   type: UPDATE_EXPERIENCE,
   payload: { updatedProperties },
 });

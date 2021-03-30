@@ -1,7 +1,7 @@
 import { deleteReceiptById, updateReceiptById } from "api/receipt";
 import { getCheckoutSessionById } from "api/stripe";
 import { getCurrentUser } from "api/users";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import queryString from "query-string";
 import * as React from "react";
@@ -14,8 +14,9 @@ const BookingResponsePage: React.FC<Props> = () => {
   const location = useLocation();
   const values = queryString.parse(location.search);
   const { status, session_id, receipt_id } = values;
-  const [user, setUser] = useState<IUserResponse>();
+  const [user, setUser] = useState<IUser>();
   useEffect(() => {
+    fetchUser();
     if (status === "succeed") {
       retrieveBooking();
     } else {
@@ -23,6 +24,15 @@ const BookingResponsePage: React.FC<Props> = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const fetchUser = async () => {
+    const {
+      data: { user },
+    } = await getCurrentUser(["firstName"]);
+    if (user) {
+      setUser(user);
+    }
+  };
 
   const retrieveBooking = async () => {
     const {
@@ -35,12 +45,6 @@ const BookingResponsePage: React.FC<Props> = () => {
         status: "paid",
         checkOutSessionId: session_id as string,
       });
-      const {
-        data: { user },
-      } = await getCurrentUser(["firstName"]);
-      if (user) {
-        setUser(user);
-      }
     }
   };
 

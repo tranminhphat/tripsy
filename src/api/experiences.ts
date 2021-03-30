@@ -1,10 +1,10 @@
 import createFilterString from "helpers/createFilterString";
 import createLookUpString from "helpers/createLookUpString";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 import { ExperienceFieldType } from "types";
 import axios from "./configureAxios";
 
-export const getExperiences = (filterObject: IExperienceResponse) => {
+export const getExperiences = (filterObject: IExperience) => {
   const filterString = createFilterString(filterObject);
   return axios.get(`experiences?filter=${filterString}`);
 };

@@ -3,7 +3,7 @@ import RegisterForm from "components/Authentication/Forms/RegisterForm";
 import EmailVerificationModal from "components/Authentication/Modals/EmailVerificationModal";
 import useErrorHandler from "hooks/useErrorHandler";
 import IRegisterForm from "interfaces/forms/register-form.interface";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useState } from "react";
@@ -17,7 +17,7 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useErrorHandler();
-  const [userResponse, setUserResponse] = useState<IUserResponse>();
+  const [userResponse, setUserResponse] = useState<IUser>();
   const dispatch = useDispatch();
 
   const handleModalOpen = () => {

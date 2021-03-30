@@ -1,7 +1,7 @@
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 
 export const calculateCurrentProgress = (
-  experienceDocument: IExperienceResponse,
+  experienceDocument: IExperience,
   isIdVerified: boolean
 ) => {
   const {

@@ -1,6 +1,6 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getCurrentUser, getUserById } from "api/users";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ interface Props {}
 
 const ProfilePage: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
-  const [userData, setUserData] = useState<IUserResponse>();
+  const [userData, setUserData] = useState<IUser>();
   const [isCurrentUser, setIsCurrentUser] = useState(false);
 
   useEffect(() => {

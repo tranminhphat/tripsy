@@ -8,8 +8,8 @@ import LeftArrow from "assets/images/icons/left-arrow.svg";
 import { startTimeOptions } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
-import { IUserResponse } from "interfaces/users/user.interface";
+import IExperience from "interfaces/experiences/experience.interface";
+import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -25,9 +25,9 @@ const ConfirmBookingPage: React.FC<Props> = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
   const location = useLocation<{ time }>();
-  const [experience, setExperience] = useState<IExperienceResponse>();
-  const [host, setHost] = useState<IUserResponse>();
-  const [currentUser, setCurrentUser] = useState<IUserResponse>();
+  const [experience, setExperience] = useState<IExperience>();
+  const [host, setHost] = useState<IUser>();
+  const [currentUser, setCurrentUser] = useState<IUser>();
   const { time } = location.state;
 
   useEffect(() => {

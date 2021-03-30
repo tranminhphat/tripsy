@@ -1,6 +1,6 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
-import { IExperienceResponse } from "interfaces/experiences/experience.interface";
+import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -48,7 +48,7 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
   const [activeStep, setActiveStep] = useState(currentStep);
 
   /* Store the updatedValue in state */
-  const [stepValue, setStepValue] = useState<IExperienceResponse>({});
+  const [stepValue, setStepValue] = useState<IExperience>({});
 
   /* Check if user have done the current step for the "Next" button */
   const [isValid, setIsValid] = useState<boolean>(true);

@@ -4,7 +4,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
 import { getCurrentUser } from "api/users";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
-import { IUserResponse } from "interfaces/users/user.interface";
+import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ import { setAuth } from "redux/actions/auth/authAction";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = useState(null);
-  const [userData, setUserData] = useState<IUserResponse>();
+  const [userData, setUserData] = useState<IUser>();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {

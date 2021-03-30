@@ -1,5 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
-import { getReceipts } from "api/receipt";
+import { deleteReceiptById, getReceipts } from "api/receipt";
 import { createRefund, getCheckoutSessionById } from "api/stripe";
 import { getCurrentUser } from "api/users";
 import * as React from "react";
@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 interface Props {}
 
 const ExperienceListTab: React.FC<Props> = () => {
-  const [experience, setExperience] = useState<any[]>();
+  const [receipts, setReceipts] = useState<any[]>();
   useEffect(() => {
     fetchExperience();
   }, []);
@@ -22,29 +22,34 @@ const ExperienceListTab: React.FC<Props> = () => {
     if (userId) {
       const { data } = await getReceipts({ guestId: userId });
       if (data) {
-        setExperience(data);
+        setReceipts(data);
       }
     }
   };
 
-  const handleRefundExperience = async (checkOutSessionId: string) => {
+  const handleRefundExperience = async (
+    checkOutSessionId: string,
+    receiptId: string
+  ) => {
     const {
       data: { session },
     } = await getCheckoutSessionById(checkOutSessionId);
     if (session.payment_intent) {
-      const refund = await createRefund(session.payment_intent);
-      console.log(refund);
+      await createRefund(session.payment_intent);
+      await deleteReceiptById(receiptId);
     }
   };
 
   return (
     <div>
-      {experience ? (
-        experience.map((item) => (
+      {receipts ? (
+        receipts.map((item) => (
           <div key={item._id}>
             <p>{item.experienceId}</p>
             <button
-              onClick={() => handleRefundExperience(item.checkOutSessionId)}
+              onClick={() =>
+                handleRefundExperience(item.checkOutSessionId, item._id)
+              }
             >
               refund
             </button>
