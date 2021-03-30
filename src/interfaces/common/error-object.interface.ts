@@ -1,4 +1,4 @@
-export default interface ErrorObject {
+export default interface IErrorObject {
   userMessage: string;
   internalMessage?: string;
 }

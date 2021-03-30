@@ -1,11 +1,11 @@
-import ErrorObject from "interfaces/common/error-object.interface";
+import IErrorObject from "interfaces/common/error-object.interface";
 import { useState } from "react";
 
-const useErrorHandler = (): [string, (errorObject: any) => void] => {
+const useErrorHandler = (): [string, (IErrorObject: any) => void] => {
   const [error, setError] = useState("");
 
-  const setErrorMessage = (errorObject: ErrorObject) => {
-    setError(errorObject.userMessage);
+  const setErrorMessage = (IErrorObject: IErrorObject) => {
+    setError(IErrorObject.userMessage);
   };
 
   return [error, setErrorMessage];
