@@ -34,3 +34,9 @@ export const createRefund = async (paymentIntentId: string) => {
 export const getRefundById = async (refundId: string) => {
   return await axios.get(`stripe/refunds/${refundId}`);
 };
+
+/* Transfers */
+
+export const createTransfer = async (activityId: string) => {
+  return axios.post(`stripe/transfers/${activityId}`);
+};

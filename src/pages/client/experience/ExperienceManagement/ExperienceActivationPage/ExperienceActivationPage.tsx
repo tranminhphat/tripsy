@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import { createActivity, getActivities } from "api/activity";
 import { getExperienceById, updateExperienceById } from "api/experiences";
+import { createTransfer } from "api/stripe";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import toWeekDayString from "helpers/toWeekDayString";
@@ -102,6 +103,10 @@ const ExperienceActivationPage: React.FC<Props> = () => {
     }
   };
 
+  const getTransfer = async (activityId: string) => {
+    await createTransfer(activityId);
+  };
+
   return (
     <MainLayout withSearchBar={false}>
       <div className="container mx-auto px-28">
@@ -126,9 +131,14 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                       key={idx}
                       className="border border-gray-300 rounded-xl p-4 shadow-lg"
                     >
-                      {toWeekDayString(item.date.dateObject.weekDay)},{" "}
-                      {item.date.dateObject.day}/{item.date.dateObject.month}/
-                      {item.date.dateObject.year}
+                      <p>
+                        {toWeekDayString(item.date.dateObject.weekDay)},{" "}
+                        {item.date.dateObject.day}/{item.date.dateObject.month}/
+                        {item.date.dateObject.year}
+                      </p>
+                      <button onClick={() => getTransfer(item._id!)}>
+                        nhan tien
+                      </button>
                     </div>
                   ))
                 : null}
