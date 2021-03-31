@@ -28,13 +28,10 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
     <div className="my-12 flex flex-col items-center justify-center w-96 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-4">
-        <h1
-          style={{ fontFamily: "Lora" }}
-          className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue"
-        >
+        <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue">
           Đăng nhập
         </h1>
-        <p style={{ fontFamily: "Lora" }}>
+        <p>
           và bắt đầu những <em className="font-bold">trải nghiệm</em>
         </p>
       </div>
@@ -64,11 +61,7 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
               />
             </div>
             <div className="mt-4 w-7/12 flex justify-end">
-              <Link
-                style={{ fontFamily: "Lora" }}
-                className="hover:underline"
-                to="/forgot-password"
-              >
+              <Link className="hover:underline" to="/forgot-password">
                 Quên mật khẩu?
               </Link>
             </div>
@@ -85,7 +78,6 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-4 mb-6">
               <a
-                style={{ fontFamily: "Lora" }}
                 className="text-lg underline hover:no-underline hover:text-main-pink"
                 href="/register"
               >

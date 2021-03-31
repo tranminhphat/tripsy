@@ -65,13 +65,10 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
   return (
     <div className="my-12 flex flex-col items-center justify-center w-96 md:w-1/2 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-4">
-        <h1
-          style={{ fontFamily: "Lora" }}
-          className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue"
-        >
+        <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue">
           Đăng ký
         </h1>
-        <p style={{ fontFamily: "Lora" }}>
+        <p>
           và bắt đầu những <em className="font-bold">trải nghiệm</em>
         </p>
       </div>
@@ -190,7 +187,6 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
                 <a
                   className="underline hover:no-underline hover:text-main-pink"
                   href="/login"
-                  style={{ fontFamily: "Lora" }}
                 >
                   Đăng nhập ngay!
                 </a>

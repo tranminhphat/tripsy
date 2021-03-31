@@ -1,4 +1,4 @@
-import BrandLogoImage from "assets/images/logos/logo_128.png";
+import BrandLogoImage from "assets/images/logos/logo_icon_128.png";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
@@ -12,9 +12,9 @@ const BrandLogo: React.FC<Props> = () => {
           style={{
             backgroundImage: `url(${BrandLogoImage})`,
             width: 128,
-            height: 128,
+            height: 40,
           }}
-          className="hover:transform hover:scale-105 transition ease-in-out duration-500 bg-contain bg-no-repeat bg-center"
+          className="bg-contain bg-no-repeat bg-center"
         />
       </Link>
     </>

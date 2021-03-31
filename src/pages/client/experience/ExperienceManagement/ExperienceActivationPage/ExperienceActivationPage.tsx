@@ -82,9 +82,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
       },
     };
 
-    const {
-      data: { res },
-    } = await createActivity({
+    await createActivity({
       experienceId: experience?._id,
       date: newDate,
     });

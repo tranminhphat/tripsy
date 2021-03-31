@@ -27,10 +27,7 @@ const ForgotPasswordForm: React.FC<Props> = ({
   return (
     <div className="my-32 flex flex-col items-center justify-center w-96 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-4">
-        <h3
-          style={{ fontFamily: "Lora" }}
-          className="text-2xl font-semibold leading-normal mt-0 mb-2 text-main-blue"
-        >
+        <h3 className="text-2xl font-semibold leading-normal mt-0 mb-2 text-main-blue">
           Nhập địa chỉ email của bạn
         </h3>
       </div>

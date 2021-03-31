@@ -26,10 +26,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
           <img src={EmailVerificationImage} alt="Email verification" />
         </div>
         <div className="flex flex-col justity-center items-center">
-          <h2
-            style={{ fontFamily: "Lora" }}
-            className="text-2xl font-semibold my-4"
-          >
+          <h2 className="text-2xl font-semibold my-4">
             Xác nhận email của bạn
           </h2>
           <div className="text-gray-400 mx-4">
@@ -52,7 +49,6 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
             <p>
               Bạn chưa nhận được email?{" "}
               <a
-                style={{ fontFamily: "Lora" }}
                 className="underline cursor-pointer hover:no-underline hover:text-main-pink"
                 onClick={() => resendEmailVerification(userId, userEmail)}
                 href="#resend-email-verification"
