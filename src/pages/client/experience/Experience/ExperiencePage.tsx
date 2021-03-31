@@ -2,7 +2,7 @@ import { CircularProgress, Hidden } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import { getActivities } from "api/activity";
 import { getExperienceById } from "api/experiences";
-import { getProfileById, updateProfileById } from "api/profile";
+import { getProfileById, saveExperience } from "api/profile";
 import { getCurrentUser } from "api/users";
 import ClockIcon from "assets/images/icons/clock.svg";
 import ConversationIcon from "assets/images/icons/conversation.svg";
@@ -80,24 +80,17 @@ const ExperiencePage: React.FC<Props> = () => {
   };
 
   const savedExperience = async () => {
-    if (!isExperienceSaved) {
-      const res = await updateProfileById(userProfile?._id as string, {
-        savedExperiences: [...(userProfile?.savedExperiences as string[]), id],
-      });
-      if (res) {
-        dispatch(showAlert("success", "Lưu thành công"));
-        setIsExperienceSaved(true);
-      }
+    const { data } = await saveExperience(
+      userProfile?._id as string,
+      experience?._id as string
+    );
+
+    if (data) {
+      dispatch(showAlert("success", "Lưu thành công"));
+      setIsExperienceSaved(true);
     } else {
-      const res = await updateProfileById(userProfile?._id as string, {
-        savedExperiences: userProfile?.savedExperiences?.filter(
-          (item) => item !== id
-        ),
-      });
-      if (res) {
-        dispatch(showAlert("success", "Xóa thành công"));
-        setIsExperienceSaved(false);
-      }
+      dispatch(showAlert("success", "Xóa thành công"));
+      setIsExperienceSaved(false);
     }
   };
 

@@ -18,6 +18,10 @@ export const updateActivityById = async (id: string, updatedProperties) => {
   return await axios.put(`activities/${id}`, updatedProperties);
 };
 
+export const updateListOfGuest = async (id: string) => {
+  return await axios.put(`activities/${id}/update-guestlist`);
+};
+
 export const deleteActivityById = async (id: string) => {
   return await axios.delete(`activities/${id}`);
 };

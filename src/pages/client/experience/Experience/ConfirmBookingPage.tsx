@@ -81,6 +81,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
       const { data: receiptId } = await createReceipt({
         hostId: experience.hostId,
         experienceId: experience._id,
+        activityId: activity._id,
         guestId: currentUser._id,
         takePlace: activity.date,
         unitPrice: experience.pricing?.individualPrice,

@@ -11,3 +11,7 @@ export const createProfile = () => {
 export const updateProfileById = (id: string, updatedProperties) => {
   return axios.put(`profiles/${id}`, updatedProperties);
 };
+
+export const saveExperience = (id: string, experienceId: string) => {
+  return axios.put(`profiles/${id}/save-experience/${experienceId}`);
+};
