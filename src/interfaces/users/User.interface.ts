@@ -16,17 +16,3 @@ export interface IUser {
   isIdVerified?: boolean;
   isPayOutEnabled?: boolean;
 }
-
-export interface IDisplayedUserData {
-  email: boolean;
-  gender: boolean;
-  phoneNumber: boolean;
-  dateOfBirth: boolean;
-  address: boolean;
-}
-
-export interface IUpdateUserData {
-  gender?: string;
-  phoneNumber?: string;
-  address?: string;
-}

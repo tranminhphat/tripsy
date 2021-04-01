@@ -16,7 +16,6 @@ interface Props {}
 
 const InfoSettingPage: React.FC<Props> = () => {
   const [userData, setUserData] = useState<IUser>();
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const [openNameForm, setOpenNameForm] = useState(false);
   const [openGenderForm, setOpenGenderForm] = useState(false);
   const [openAddressForm, setOpenAddressFrom] = useState(false);
@@ -24,7 +23,6 @@ const InfoSettingPage: React.FC<Props> = () => {
   const [opnePhoneNumberForm, setopenPhoneNumberForm] = useState(false);
 
   useEffect(() => {
-    console.log("here");
     fetchUserInfoData();
   }, []);
 
@@ -74,7 +72,7 @@ const InfoSettingPage: React.FC<Props> = () => {
                   Tên pháp lý
                 </h3>
                 <button onClick={() => setOpenNameForm(!openNameForm)}>
-                  <p className="text-lg font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-secondary-blue hover:underline">
                     {openNameForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -100,7 +98,7 @@ const InfoSettingPage: React.FC<Props> = () => {
               <div className="flex justify-between mt-4">
                 <h3 className="text-lg font-bold text-main-blue">Giới tính</h3>
                 <button onClick={() => setOpenGenderForm(!openGenderForm)}>
-                  <p className="text-lg font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-secondary-blue hover:underline">
                     {openGenderForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -129,7 +127,7 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <button
                   onClick={() => setOpenBirthDateForm(!openBirthDateForm)}
                 >
-                  <p className="text-lg font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-secondary-blue hover:underline">
                     {openBirthDateForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -160,7 +158,7 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <button
                   onClick={() => setopenPhoneNumberForm(!opnePhoneNumberForm)}
                 >
-                  <p className="text-lg font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-secondary-blue hover:underline">
                     {opnePhoneNumberForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -183,7 +181,7 @@ const InfoSettingPage: React.FC<Props> = () => {
               <div className="flex justify-between mt-4">
                 <h3 className="text-lg font-bold text-main-blue">Địa chỉ</h3>
                 <button onClick={() => setOpenAddressFrom(!openAddressForm)}>
-                  <p className="text-lg font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-secondary-blue hover:underline">
                     {openAddressForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -206,7 +204,7 @@ const InfoSettingPage: React.FC<Props> = () => {
                   Giấy tờ tùy thân do chính phủ cấp
                 </h3>
                 <Link to="/account-settings/personal-info/update-id">
-                  <p className="text-lg font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-secondary-blue hover:underline">
                     {userData.isIdVerified ? "Cập nhật" : "Thêm"}
                   </p>
                 </Link>

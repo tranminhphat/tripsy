@@ -32,11 +32,11 @@ const ProfilePage: React.FC<Props> = () => {
   return (
     <MainLayout withSearchBar={false}>
       {userData ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:gap-12 md:grid-cols-7">
+          <div className="bg-white border border-gray-300 rounded-2xl md:col-span-2">
             <UserOverview userData={userData} isCurrentUser={isCurrentUser} />
           </div>
-          <div className="bg-white border border-gray-200  rounded-2xl md:col-span-3">
+          <div className="md:col-span-5">
             <UserInformation
               userData={userData}
               isCurrentUser={isCurrentUser}
@@ -45,10 +45,10 @@ const ProfilePage: React.FC<Props> = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="p-8 flex items-center justify-center bg-white border border-gray-200 shadow-2xl rounded-2xl">
+          <div className="p-8 flex items-center justify-center bg-white">
             <CircularProgress />
           </div>
-          <div className="p-8 flex items-center justify-center bg-white border border-gray-200 rounded-2xl">
+          <div className="p-8 flex items-center justify-center bg-white">
             <CircularProgress />
           </div>
         </div>

@@ -11,7 +11,7 @@ const MainLayout: React.FC<Props> = ({ withSearchBar = true, children }) => {
     <div className="h-full w-full">
       <Header withSearchBar={withSearchBar} />
       <div className="container mx-auto" style={{ paddingTop: "96px" }}>
-        <div className="my-8">{children}</div>
+        <div>{children}</div>
         <MyAlert />
       </div>
     </div>

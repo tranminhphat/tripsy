@@ -23,3 +23,10 @@ export const getUserById = (id: string, fieldsArray?: UserFieldType[]) => {
 export const updateUserById = (id: string, data) => {
   return axios.put(`users/${id}`, data);
 };
+
+export const changePassword = (
+  currentPassword: string,
+  newPassword: string
+) => {
+  return axios.put(`users/change-password`, { currentPassword, newPassword });
+};

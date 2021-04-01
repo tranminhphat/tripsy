@@ -1,14 +1,11 @@
-import Paper from "@material-ui/core/Paper";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import PersonIcon from "@material-ui/icons/Person";
-import PersonPinIcon from "@material-ui/icons/PersonPin";
-import MyTabPanel from "components/Shared/MyTabPanel";
+import { Button, Typography } from "@material-ui/core";
+import { getProfileById, updateProfileById } from "api/profile";
+import { Field, Form, Formik } from "formik";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useState } from "react";
-import AboutMeTab from "./Tabs/AboutMeTab";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   userData: IUser;
@@ -16,43 +13,97 @@ interface Props {
 }
 
 const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
-  const [value, setValue] = useState(0);
+  const [introduction, setIntroduction] = useState();
+  const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
+  useEffect(() => {
+    fetchProfile(userData.profileId as string);
+  }, [userData.profileId]);
+
+  const fetchProfile = async (id: string) => {
+    const {
+      data: { profile },
+    } = await getProfileById(id);
+    if (profile) {
+      setIntroduction(profile.introduction);
+    }
+  };
+
+  const handleIntroductionUpdate = async (values) => {
+    const { data } = await updateProfileById(userData.profileId!, values);
+    if (data) {
+      setIntroduction(values.introduction);
+      dispatch(showAlert("success", "Cập nhật thành công"));
+    } else {
+      dispatch(showAlert("success", "Cập nhật thất bại"));
+    }
   };
 
   return (
     <div>
-      <Paper square className="text-main-blue">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="fullWidth"
-          indicatorColor="secondary"
-          textColor="inherit"
-          aria-label="icon label tabs example"
-        >
-          <Tab
-            className="focus:outline-none"
-            icon={<PersonIcon />}
-            label="Về tôi"
-          />
-          <Tab
-            className="focus:outline-none"
-            icon={<FavoriteIcon />}
-            label="FAVORITES"
-          />
-          <Tab
-            className="focus:outline-none"
-            icon={<PersonPinIcon />}
-            label="NEARBY"
-          />
-        </Tabs>
-      </Paper>
-      <MyTabPanel value={value} index={0}>
-        <AboutMeTab userData={userData} isCurrentUser={isCurrentUser} />
-      </MyTabPanel>
+      <div>
+        <Typography className="text-4xl">
+          Xin chào, tôi là {userData.firstName}
+        </Typography>
+      </div>
+      {!isCreatingIntroduction ? (
+        <div className="mt-2">
+          {introduction ? (
+            <div className="whitespace-pre-line">{introduction}</div>
+          ) : (
+            <div>Bạn chưa có lời giới thiệu</div>
+          )}
+          {isCurrentUser ? (
+            <div className="mt-2">
+              <p
+                className="underline hover:no-underline cursor-pointer"
+                onClick={() => setIsCreatingIntroduction(true)}
+              >
+                Cập nhật lời giới thiệu
+              </p>
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <div className="mt-2">
+          <Formik
+            initialValues={{ introduction: introduction }}
+            onSubmit={(values) => {
+              handleIntroductionUpdate(values);
+            }}
+          >
+            {() => (
+              <Form>
+                <div>
+                  <Field
+                    as="textarea"
+                    name="introduction"
+                    className="w-full h-36 pl-4 border border-gray-300"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <Button
+                    className="bg-main-blue text-white"
+                    variant="contained"
+                    type="submit"
+                  >
+                    Cập nhật
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => setIsCreatingIntroduction(false)}
+                  >
+                    Xong
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      )}
     </div>
   );
 };

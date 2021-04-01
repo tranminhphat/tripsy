@@ -18,13 +18,17 @@ const MyTextField: React.FC<MyTextFieldProps> = ({
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
     <>
-      <label
-        htmlFor={props.name}
-        className="text-xs mb-4 uppercase text-gray-400"
-      >
-        {label}
-      </label>
+      {label ? (
+        <label
+          htmlFor={props.name}
+          className="text-xs mb-4 uppercase text-gray-400"
+        >
+          {label}
+        </label>
+      ) : null}
       <TextField
+        size="small"
+        variant="outlined"
         className={className}
         type={type}
         helperText={errorText}
