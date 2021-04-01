@@ -5,9 +5,18 @@ import {
   Select,
   Typography,
 } from "@material-ui/core";
-import { createActivity, getActivities } from "api/activity";
+import {
+  createActivity,
+  deleteActivityById,
+  getActivities,
+} from "api/activity";
 import { getExperienceById, updateExperienceById } from "api/experiences";
-import { createTransfer } from "api/stripe";
+import { deleteReceiptById, getReceipts } from "api/receipt";
+import {
+  createRefund,
+  createTransfer,
+  getCheckoutSessionById,
+} from "api/stripe";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import toWeekDayString from "helpers/toWeekDayString";
@@ -101,13 +110,50 @@ const ExperienceActivationPage: React.FC<Props> = () => {
     }
   };
 
-  const getTransfer = async (activityId: string) => {
-    await createTransfer(activityId);
+  const handleCancelActivity = async (activity: IActivity) => {
+    if (activity.listOfGuestId.length === 0) {
+      await deleteActivityById(activity._id!);
+    } else {
+      for (let i = 0; i < activity.listOfGuestId.length; i++) {
+        const { data: receipt } = await getReceipts({
+          activityId: activity._id,
+          guestId: activity.listOfGuestId[i],
+        });
+
+        const {
+          data: { session },
+        } = await getCheckoutSessionById(receipt[0].checkOutSessionId);
+        if (session.payment_intent) {
+          await deleteReceiptById(receipt[0]._id!);
+          await createRefund(session.payment_intent);
+          await deleteActivityById(activity._id!);
+        }
+      }
+    }
+  };
+
+  const handleCompleteActivity = async (activityId: string) => {
+    await createTransfer(activityId); // Tra tien cho host
+    await deleteActivityById(activityId); // Xoa hoat dong
+  };
+
+  const canActivityCancel = (unixTime: number, listOfGuest: string[]) => {
+    const today = new DateObject();
+    return unixTime - today.unix < 86400 * 14 || listOfGuest.length === 0;
+  };
+
+  const isActivityEnd = (unixTime: number) => {
+    const today = new DateObject();
+    return today.unix > unixTime;
+  };
+
+  const compareFunction = (a: IActivity, b: IActivity) => {
+    return a.date.dateObject.unix - b.date.dateObject.unix;
   };
 
   return (
     <MainLayout withSearchBar={false}>
-      <div className="container mx-auto px-28">
+      <div className="container mx-auto px-48 my-10">
         <div className="flex justify-between container">
           <Typography className="text-3xl text-main-blue font-bold">
             Lịch hoạt động
@@ -122,21 +168,87 @@ const ExperienceActivationPage: React.FC<Props> = () => {
         </div>
         {experience ? (
           <div className="flex justify-between container">
-            <div>
+            <div className="mt-8">
               {activities
-                ? activities.map((item, idx) => (
+                ? activities.sort(compareFunction).map((item, idx) => (
                     <div
                       key={idx}
-                      className="border border-gray-300 rounded-xl p-4 shadow-lg"
+                      className="border border-gray-300 rounded-xl p-4 shadow-lg mt-4"
                     >
-                      <p>
-                        {toWeekDayString(item.date.dateObject.weekDay)},{" "}
-                        {item.date.dateObject.day}/{item.date.dateObject.month}/
-                        {item.date.dateObject.year}
-                      </p>
-                      <button onClick={() => getTransfer(item._id!)}>
-                        nhan tien
-                      </button>
+                      <div>
+                        <p className="text-lg">
+                          Mã hoạt động: <span>{item._id}</span>
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-lg ">
+                          Thời điểm diễn ra:{" "}
+                          <span>
+                            {toWeekDayString(item.date.dateObject.weekDay)},{" "}
+                            {item.date.dateObject.day}/
+                            {item.date.dateObject.month}/
+                            {item.date.dateObject.year}
+                          </span>
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-lg ">
+                          Số lượng khách tham gia :{" "}
+                          <span>
+                            {item.listOfGuestId.length}/{experience.groupSize}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="flex justify-between mt-4">
+                        <div
+                          className={`${
+                            !canActivityCancel(
+                              item.date.dateObject.unix,
+                              item.listOfGuestId
+                            )
+                              ? "cursor-not-allowed"
+                              : ""
+                          }`}
+                        >
+                          <Button
+                            variant="contained"
+                            size="large"
+                            onClick={() => handleCancelActivity(item)}
+                            className={` text-white ${
+                              !canActivityCancel(
+                                item.date.dateObject.unix,
+                                item.listOfGuestId
+                              )
+                                ? " pointer-events-none bg-gray-400"
+                                : "bg-red-600"
+                            }`}
+                          >
+                            Hủy
+                          </Button>
+                        </div>
+                        <div
+                          className={`${
+                            !isActivityEnd(item.date.dateObject.unix)
+                              ? "cursor-not-allowed"
+                              : ""
+                          }`}
+                        >
+                          <Button
+                            variant="contained"
+                            size="large"
+                            className={`text-white ${
+                              !isActivityEnd(item.date.dateObject.unix)
+                                ? "bg-gray-400"
+                                : "bg-secondary-blue"
+                            }`}
+                            onClick={() =>
+                              handleCompleteActivity(item._id as string)
+                            }
+                          >
+                            Hoàn thành
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   ))
                 : null}
