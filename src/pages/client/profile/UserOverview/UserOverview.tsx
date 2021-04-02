@@ -1,11 +1,13 @@
 import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import { getProfileById } from "api/profile";
 import { updateUserById } from "api/users";
-import CheckGuardIcon from "assets/images/icons/checkguard.svg";
+import StarIcon from "assets/images/icons/star.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import IProfile from "interfaces/profiles/profile.interface";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileReaderResultType } from "types";
 import ConfirmedInformation from "./ConfirmedInformation";
 
@@ -15,11 +17,26 @@ interface Props {
 }
 
 const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
+  /* Store user profile */
+  const [profile, setProfile] = useState<IProfile>();
   /* Store user updated avatar file */
   const [fileInputState] = useState("");
 
   /* Store base64 string of the avatar file  */
   const [fileReader, setFileReader] = useState<FileReaderResultType>();
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    const {
+      data: { profile },
+    } = await getProfileById(userData.profileId as string);
+    if (profile) {
+      setProfile(profile);
+    }
+  };
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -95,12 +112,14 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
         ) : null}
       </div>
       <div className="self-start w-full my-4">
-        {userData.isIdVerified ? (
+        {profile ? (
           <div className="flex items-center">
             <span className="mr-3">
-              <img src={CheckGuardIcon} alt="id verified" />
+              <img src={StarIcon} alt="id verified" />
             </span>
-            <Typography className="font-bold">Giấy tờ tùy thân</Typography>
+            <Typography className="font-bold">
+              {profile?.reviews.length} đánh giá
+            </Typography>
           </div>
         ) : null}
       </div>

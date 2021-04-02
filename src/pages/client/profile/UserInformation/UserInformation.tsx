@@ -79,12 +79,12 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                   <Field
                     as="textarea"
                     name="introduction"
-                    className="w-full h-36 pl-4 border border-gray-300"
+                    className="w-full h-36 p-4 border border-gray-300"
                   />
                 </div>
                 <div className="flex justify-end">
                   <Button
-                    className="bg-main-blue text-white"
+                    className="bg-secondary-blue text-white"
                     variant="contained"
                     type="submit"
                   >

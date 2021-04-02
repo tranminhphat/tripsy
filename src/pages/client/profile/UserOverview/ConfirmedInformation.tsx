@@ -1,5 +1,5 @@
 import { Typography } from "@material-ui/core";
-import Check from "@material-ui/icons/Check";
+import CheckGuardIcon from "assets/images/icons/checkguard.svg";
 import { IUser } from "interfaces/users/user.interface";
 import React from "react";
 
@@ -14,7 +14,11 @@ const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
         <li className="mt-3" key="email">
           <Typography>
             <span>
-              <Check />
+              <img
+                className="inline"
+                src={CheckGuardIcon}
+                alt="email verified"
+              />
             </span>{" "}
             Địa chỉ email
           </Typography>
@@ -24,9 +28,23 @@ const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
         <li className="mt-3" key="phoneNumber">
           <Typography>
             <span>
-              <Check />
+              <img
+                className="inline"
+                src={CheckGuardIcon}
+                alt="phone verified"
+              />
             </span>{" "}
             Số điện thoại
+          </Typography>
+        </li>
+      ) : null}
+      {userData.isIdVerified ? (
+        <li className="mt-3" key="email">
+          <Typography>
+            <span>
+              <img className="inline" src={CheckGuardIcon} alt="id verified" />
+            </span>{" "}
+            Giấy tờ tùy thân
           </Typography>
         </li>
       ) : null}
