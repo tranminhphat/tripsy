@@ -37,6 +37,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
   useEffect(() => {
     fetchExperience(id);
     fetchActivity(activityId as string);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, activityId]);
 
   const fetchExperience = async (id: string) => {

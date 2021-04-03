@@ -1,6 +1,5 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
-import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -42,13 +41,10 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
   const { currentProgress, currentStep } = location.state;
 
   /* Store the array of steps in state */
-  const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));
+  const [steps] = useState(getSteps(currentProgress, currentStep));
 
   /* Store the active step in state */
   const [activeStep, setActiveStep] = useState(currentStep);
-
-  /* Store the updatedValue in state */
-  const [stepValue, setStepValue] = useState<IExperience>({});
 
   /* Check if user have done the current step for the "Next" button */
   const [isValid, setIsValid] = useState<boolean>(true);
@@ -65,7 +61,6 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
   };
 
   const stepProps = {
-    setStepValue,
     setIsValid,
   };
 
@@ -74,7 +69,7 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
       case 1:
         return <InfoVerification stepProps={stepProps} />;
       case 2:
-        return <IDCardVerification stepProps={stepProps} />;
+        return <IDCardVerification />;
       default:
         return null;
     }

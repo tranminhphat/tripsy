@@ -25,6 +25,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
     if (photoInput) {
       checkImageValid(photoInput);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photoInput]);
 
   const checkImageValid = (photoInput: Blob) => {

@@ -5,9 +5,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-interface Props {
-  stepProps: any;
-}
+interface Props {}
 
 const IDCardVerification: React.FC<Props> = () => {
   const [isIdVerified, setIsIdVerified] = useState(false);

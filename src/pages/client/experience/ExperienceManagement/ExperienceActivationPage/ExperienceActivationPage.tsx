@@ -31,18 +31,6 @@ import { useParams } from "react-router-dom";
 import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
-interface Date {
-  startTimeIdx: number;
-  endTimeIdx: number;
-  dateObject: {
-    dayOfYear: number;
-    weekDay: number;
-    day: number;
-    month: number;
-    year: number;
-    unix: number;
-  };
-}
 
 const ExperienceActivationPage: React.FC<Props> = () => {
   const dispatch = useDispatch();

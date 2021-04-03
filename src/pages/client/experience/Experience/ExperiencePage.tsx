@@ -43,6 +43,7 @@ const ExperiencePage: React.FC<Props> = () => {
     fetchExperience(id);
     fetchActivitiesByExperienceId(id);
     fetchUserProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchExperience = async (id: string) => {
