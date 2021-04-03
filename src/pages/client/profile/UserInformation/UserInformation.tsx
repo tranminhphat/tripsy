@@ -41,70 +41,72 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
   };
 
   return (
-    <div>
+    <>
       <div>
-        <Typography className="text-4xl">
-          Xin chào, tôi là {userData.firstName}
-        </Typography>
-      </div>
-      {!isCreatingIntroduction ? (
-        <div className="mt-2">
-          {introduction ? (
-            <div className="whitespace-pre-line">{introduction}</div>
-          ) : (
-            <div>Bạn chưa có lời giới thiệu</div>
-          )}
-          {isCurrentUser ? (
-            <div className="mt-2">
-              <p
-                className="underline hover:no-underline cursor-pointer"
-                onClick={() => setIsCreatingIntroduction(true)}
-              >
-                Cập nhật lời giới thiệu
-              </p>
-            </div>
-          ) : null}
+        <div>
+          <Typography className="text-4xl">
+            Xin chào, tôi là {userData.firstName}
+          </Typography>
         </div>
-      ) : (
-        <div className="mt-2">
-          <Formik
-            initialValues={{ introduction: introduction }}
-            onSubmit={(values) => {
-              handleIntroductionUpdate(values);
-            }}
-          >
-            {() => (
-              <Form>
-                <div>
-                  <Field
-                    as="textarea"
-                    name="introduction"
-                    className="w-full h-36 p-4 border border-gray-300"
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <Button
-                    className="bg-secondary-blue text-white"
-                    variant="contained"
-                    type="submit"
-                  >
-                    Cập nhật
-                  </Button>
-                  <Button
-                    className="ml-2"
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => setIsCreatingIntroduction(false)}
-                  >
-                    Xong
-                  </Button>
-                </div>
-              </Form>
+        {!isCreatingIntroduction ? (
+          <div className="mt-2">
+            {introduction ? (
+              <div className="whitespace-pre-line">{introduction}</div>
+            ) : (
+              <div>Bạn chưa có lời giới thiệu</div>
             )}
-          </Formik>
-        </div>
-      )}
-    </div>
+            {isCurrentUser ? (
+              <div className="mt-2">
+                <p
+                  className="underline hover:no-underline cursor-pointer"
+                  onClick={() => setIsCreatingIntroduction(true)}
+                >
+                  Cập nhật lời giới thiệu
+                </p>
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div className="mt-2">
+            <Formik
+              initialValues={{ introduction: introduction }}
+              onSubmit={(values) => {
+                handleIntroductionUpdate(values);
+              }}
+            >
+              {() => (
+                <Form>
+                  <div>
+                    <Field
+                      as="textarea"
+                      name="introduction"
+                      className="w-full h-36 p-4 border border-gray-300"
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <Button
+                      className="bg-secondary-blue text-white"
+                      variant="contained"
+                      type="submit"
+                    >
+                      Cập nhật
+                    </Button>
+                    <Button
+                      className="ml-2"
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => setIsCreatingIntroduction(false)}
+                    >
+                      Xong
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

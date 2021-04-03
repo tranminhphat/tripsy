@@ -32,7 +32,7 @@ const ProfilePage: React.FC<Props> = () => {
   return (
     <MainLayout withSearchBar={false}>
       {userData ? (
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:gap-12 md:grid-cols-7">
+        <div className="mt-6 max-w-6xl mx-auto grid grid-cols-1 md:gap-12 md:grid-cols-7">
           <div className="bg-white border border-gray-300 rounded-2xl md:col-span-2">
             <UserOverview userData={userData} isCurrentUser={isCurrentUser} />
           </div>
