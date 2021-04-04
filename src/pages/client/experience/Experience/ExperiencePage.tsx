@@ -11,6 +11,7 @@ import LoveIcon from "assets/images/icons/love.svg";
 import LovedIcon from "assets/images/icons/loved.svg";
 import PeopleIcon from "assets/images/icons/people.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import ReviewSection from "components/Experience/ReviewSection";
 import MyImageCarousel from "components/Shared/MyImageCarousel";
 import MyImageHero from "components/Shared/MyImageHero";
 import MyMapbox from "components/Shared/MyMapbox";
@@ -132,7 +133,7 @@ const ExperiencePage: React.FC<Props> = () => {
               </Hidden>
             </div>
           </div>
-          <div className="mt-8">
+          <div className="my-8">
             <div className="px-4 flex justify-between">
               <div className="relative w-7/12 mx-0">
                 <div className="mt-8">
@@ -262,6 +263,9 @@ const ExperiencePage: React.FC<Props> = () => {
                       }
                     />
                   </div>
+                </div>
+                <div className="mt-8">
+                  <ReviewSection experienceId={experience._id!} />
                 </div>
               </div>
               <div className="relative w-1/3 ml-1/12">

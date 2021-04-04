@@ -27,7 +27,19 @@ export const createExperienceReview = (
   });
 };
 
-export const getReviews = (filterObject) => {
+export const getReviews = (
+  filterObject?,
+  sortString?,
+  pageNumber?,
+  pageSize?
+) => {
   const filterString = createFilterString(filterObject);
-  return axios.get(`reviews?filter=${filterString}`);
+  return axios.get(
+    `reviews?filter=${filterString}&sort=${sortString}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+  );
+};
+
+export const countReviews = (filterObject?) => {
+  const filterString = createFilterString(filterObject);
+  return axios.get(`reviews/count?filter=${filterString}`);
 };
