@@ -39,7 +39,7 @@ const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
         </li>
       ) : null}
       {userData.isIdVerified ? (
-        <li className="mt-3" key="email">
+        <li className="mt-3" key="id">
           <Typography>
             <span>
               <img className="inline" src={CheckGuardIcon} alt="id verified" />

@@ -7,10 +7,10 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 
 interface Props {
-  experienceId: string;
+  userId: string;
 }
 
-const ReviewSection: React.FC<Props> = ({ experienceId }) => {
+const ReviewSection: React.FC<Props> = ({ userId }) => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [count, setCount] = useState<{
     totalItems: number;
@@ -25,13 +25,13 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
   }, []);
 
   const fetchInitialData = async () => {
-    const { data } = await countReviews({ objectId: experienceId });
+    const { data } = await countReviews({ objectId: userId });
     if (data) {
       setCount(data);
     }
     const {
       data: { items },
-    } = await getReviews({ objectId: experienceId }, "", 1, 1);
+    } = await getReviews({ objectId: userId }, "", 1, 1);
     if (items) {
       setReviews([...reviews, ...items]);
     }
@@ -40,7 +40,7 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
   async function loadMoreData() {
     const {
       data: { items },
-    } = await getReviews({ objectId: experienceId }, "", pageNumber, 1);
+    } = await getReviews({ objectId: userId }, "", pageNumber, 1);
     if (items.length !== 0) {
       setReviews([...reviews, ...items]);
       setPageNumber(pageNumber + 1);
@@ -55,18 +55,17 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
       {reviews && count ? (
         <>
           <div className="flex items-center">
-            <p className="text-xl font-bold">
-              <span className="mr-2">
-                <img
-                  className="inline"
-                  src={BlackStarIcon}
-                  alt="average stars"
-                />
-              </span>
-              <span>
-                {count.averageStars} ({count.totalItems} đánh giá)
-              </span>
-            </p>
+            <span className="mr-2 text-xl font-bold">
+              <img
+                src={BlackStarIcon}
+                alt="average stars"
+                width={24}
+                height={24}
+              />
+            </span>
+            <span className="text-xl font-bold">
+              {count.averageStars} ({count.totalItems} đánh giá)
+            </span>
           </div>
           <ul className="mt-4">
             {reviews.map((item) => (
@@ -84,11 +83,11 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
                         alt="User"
                       />
                     </div>
-                    <div>
+                    <div className="font-bold">
                       {item.user.firstName} {item.user.lastName}
                     </div>
                   </div>
-                  <div>{item.content}</div>
+                  <div className="mt-2">{item.content}</div>
                 </div>
               </li>
             ))}

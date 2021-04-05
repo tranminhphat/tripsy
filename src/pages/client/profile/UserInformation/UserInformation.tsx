@@ -1,12 +1,13 @@
 import { Button, Typography } from "@material-ui/core";
 import { getProfileById, updateProfileById } from "api/profile";
+import ReviewSection from "components/Profile/ReviewSection";
+import MyTruncateText from "components/Shared/MyTruncateText";
 import { Field, Form, Formik } from "formik";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showAlert } from "redux/actions/alert/alertAction";
-
 interface Props {
   userData: IUser;
   isCurrentUser: boolean;
@@ -51,7 +52,9 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
         {!isCreatingIntroduction ? (
           <div className="mt-2">
             {introduction ? (
-              <div className="whitespace-pre-line">{introduction}</div>
+              <div className="whitespace-pre-line">
+                <MyTruncateText text={introduction!} />
+              </div>
             ) : (
               <div>Bạn chưa có lời giới thiệu</div>
             )}
@@ -105,6 +108,13 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
             </Formik>
           </div>
         )}
+      </div>
+
+      <div className="mt-4">
+        <hr />
+      </div>
+      <div className="mt-4">
+        <ReviewSection userId={userData._id!} />
       </div>
     </>
   );

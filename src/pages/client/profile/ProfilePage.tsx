@@ -33,7 +33,10 @@ const ProfilePage: React.FC<Props> = () => {
     <MainLayout withSearchBar={false}>
       {userData ? (
         <div className="mt-6 max-w-6xl mx-auto grid grid-cols-1 md:gap-12 md:grid-cols-7">
-          <div className="bg-white border border-gray-300 rounded-2xl md:col-span-2">
+          <div
+            style={{ height: "max-content" }}
+            className="bg-white border border-gray-300 rounded-2xl md:col-span-2"
+          >
             <UserOverview userData={userData} isCurrentUser={isCurrentUser} />
           </div>
           <div className="md:col-span-5">
