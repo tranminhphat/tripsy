@@ -1,6 +1,7 @@
 import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import { getProfileById } from "api/profile";
+import { countReviews } from "api/review";
 import { updateUserById } from "api/users";
 import StarIcon from "assets/images/icons/star.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
@@ -19,6 +20,7 @@ interface Props {
 const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
   /* Store user profile */
   const [profile, setProfile] = useState<IProfile>();
+  const [numberOfReviews, setNumberOfReviews] = useState();
   /* Store user updated avatar file */
   const [fileInputState] = useState("");
 
@@ -36,6 +38,10 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
     } = await getProfileById(userData.profileId as string);
     if (profile) {
       setProfile(profile);
+      const { data } = await countReviews({ objectId: userData._id });
+      if (data) {
+        setNumberOfReviews(data.totalItems);
+      }
     }
   };
 
@@ -113,13 +119,13 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
         ) : null}
       </div>
       <div className="self-start w-full my-4">
-        {profile ? (
+        {profile && numberOfReviews ? (
           <div className="flex items-center">
             <span className="mr-3">
               <img src={StarIcon} alt="id verified" />
             </span>
             <Typography className="font-bold">
-              {profile?.reviews.length} đánh giá
+              {numberOfReviews} đánh giá
             </Typography>
           </div>
         ) : null}

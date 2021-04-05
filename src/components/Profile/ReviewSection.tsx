@@ -2,6 +2,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { countReviews, getReviews } from "api/review";
 import BlackStarIcon from "assets/images/icons/blackstar.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import MyTruncateText from "components/Shared/MyTruncateText";
 import useInfiniteScroll from "hooks/useInfiniteScroll";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -87,7 +88,9 @@ const ReviewSection: React.FC<Props> = ({ userId }) => {
                       {item.user.firstName} {item.user.lastName}
                     </div>
                   </div>
-                  <div className="mt-2">{item.content}</div>
+                  <div className="mt-2">
+                    <MyTruncateText text={item.content} />
+                  </div>
                 </div>
               </li>
             ))}

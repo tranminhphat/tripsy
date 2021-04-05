@@ -2,6 +2,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { countReviews, getReviews } from "api/review";
 import BlackStarIcon from "assets/images/icons/blackstar.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import MyTruncateText from "components/Shared/MyTruncateText";
 import useInfiniteScroll from "hooks/useInfiniteScroll";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -55,18 +56,17 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
       {reviews && count ? (
         <>
           <div className="flex items-center">
-            <p className="text-xl font-bold">
-              <span className="mr-2">
-                <img
-                  className="inline"
-                  src={BlackStarIcon}
-                  alt="average stars"
-                />
-              </span>
-              <span>
-                {count.averageStars} ({count.totalItems} đánh giá)
-              </span>
-            </p>
+            <span className="mr-2 text-xl font-bold">
+              <img
+                src={BlackStarIcon}
+                alt="average stars"
+                width={24}
+                height={24}
+              />
+            </span>
+            <span className="text-xl font-bold">
+              {count.averageStars} ({count.totalItems} đánh giá)
+            </span>
           </div>
           <ul className="mt-4">
             {reviews.map((item) => (
@@ -84,11 +84,13 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
                         alt="User"
                       />
                     </div>
-                    <div>
+                    <div className="font-bold">
                       {item.user.firstName} {item.user.lastName}
                     </div>
                   </div>
-                  <div>{item.content}</div>
+                  <div className="mt-2">
+                    <MyTruncateText text={item.content} />
+                  </div>
                 </div>
               </li>
             ))}
