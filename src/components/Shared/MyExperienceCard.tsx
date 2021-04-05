@@ -13,17 +13,16 @@ const MyExperienceCard: React.FC<Props> = ({
   experiencePrice,
 }) => {
   return (
-    <div>
+    <div className="border border-gray-200 rounded-t-lg">
       <div>
         <img
           className="rounded-lg"
-          width={220}
           height={300}
           src={experienceImage}
           alt="experience"
         />
       </div>
-      <div className="mt-2">
+      <div className="mt-2 p-4">
         <h1 className="text-2xl font-bold">{experienceTitle}</h1>
         <p className="text-lg">{currencyFormatter(experiencePrice)} / người</p>
       </div>
