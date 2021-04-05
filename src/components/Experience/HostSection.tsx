@@ -1,5 +1,6 @@
 import { Avatar } from "@material-ui/core";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import MyTruncateText from "components/Shared/MyTruncateText";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
@@ -35,7 +36,9 @@ const HostSection: React.FC<Props> = ({
         </div>
       </div>
       <div className="mt-4">
-        <p className="text-lg">{introduction}</p>
+        <p className="text-lg">
+          <MyTruncateText text={introduction} />
+        </p>
       </div>
     </>
   );
