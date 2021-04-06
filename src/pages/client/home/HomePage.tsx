@@ -23,15 +23,11 @@ const HomePage: React.FC = () => {
   return (
     <MainLayout>
       {experiences ? (
-        <div className="grid grid-cols-10 gap-8">
+        <div>
           {experiences.map((item) => (
-            <div className="col-span-2" key={item._id}>
+            <div key={item._id}>
               <Link to={`/experience/${item._id}`}>
-                <MyExperienceCard
-                  experienceTitle={item.title!}
-                  experienceImage={item.photoGallery![0].url!}
-                  experiencePrice={item.pricing?.individualPrice!}
-                />
+                <MyExperienceCard experience={item} />
               </Link>
             </div>
           ))}

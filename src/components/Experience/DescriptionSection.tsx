@@ -1,3 +1,4 @@
+import MyTruncateText from "components/Shared/MyTruncateText";
 import * as React from "react";
 
 interface Props {
@@ -11,7 +12,9 @@ const DescriptionSection: React.FC<Props> = ({ description }) => {
         <h1 className="text-2xl font-bold">Bạn sẽ làm gì</h1>
       </div>
       <div className="mt-4">
-        <p className="text-lg">{description}</p>
+        <p className="text-lg">
+          <MyTruncateText text={description} />
+        </p>
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import { getExperienceById, updatePhotoGallery } from "api/experiences";
 import MyPhotoUpload from "components/Shared/MyPhotoUpload";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 interface Props {
@@ -27,7 +26,6 @@ const initialPhoToGallery: ExperiencePhoto[] = [
 
 const Photos: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid } = stepProps;
-  const experience = useSelector((state) => state.experience);
   const { id } = useParams<{ id: string }>();
   const [photoGallery, setPhotoGallery] = useState<ExperiencePhoto[]>();
   const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +43,9 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
     } = await getExperienceById(id);
     if (photoGallery) {
       setPhotoGallery(photoGallery);
+      if (!photoGallery.some((photo) => photo.url === "")) {
+        setIsValid(true);
+      }
     }
 
     setIsLoading(false);

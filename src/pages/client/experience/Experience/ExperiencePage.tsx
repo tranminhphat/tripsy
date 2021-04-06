@@ -169,7 +169,7 @@ const ExperiencePage: React.FC<Props> = () => {
                 </div>
               </div>
               <div className="relative w-1/3 ml-1/12">
-                <div className="sticky top-20 z-10 inline-block w-full">
+                <div className="sticky mt-8 top-24 z-10 inline-block w-full">
                   <div className="border border-gray-300 rounded-lg shadow-lg p-4">
                     <div>
                       <p>

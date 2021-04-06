@@ -12,6 +12,7 @@ import {
 import { getCurrentUser, updateUserById } from "api/users";
 import BankIcon from "assets/images/icons/bank.svg";
 import FlyIcon from "assets/images/icons/fly.svg";
+import MyTruncateText from "components/Shared/MyTruncateText";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
 import IExperience from "interfaces/experiences/experience.interface";
 import { IUser } from "interfaces/users/user.interface";
@@ -173,7 +174,9 @@ const HostingListTab: React.FC<Props> = () => {
                                       </h1>
                                     </div>
                                     <div className="mt-2">
-                                      <p>{item.description}</p>
+                                      <MyTruncateText
+                                        text={item.description!}
+                                      />
                                     </div>
                                   </div>
                                   <div></div>
