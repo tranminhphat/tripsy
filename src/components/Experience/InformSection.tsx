@@ -49,12 +49,15 @@ const InformSection: React.FC<Props> = ({
         </div>
         <div className="w-1/2 mb-4 flex items-center relative">
           <div>
-            <img src={ListIcon} alt="hours" />
+            <img src={ListIcon} width={56} height={56} alt="hours" />
           </div>
           <div className="ml-4 text-lg">
             Bao gồm:{" "}
-            {experience.hostProvisions?.map((item) => (
-              <span key={item.id}>{item.itemName}</span>
+            {experience.hostProvisions?.map((item, idx) => (
+              <span key={item.id}>
+                {item.itemName}
+                {idx !== experience.hostProvisions!.length - 1 ? ", " : ""}
+              </span>
             ))}
           </div>
         </div>

@@ -7,19 +7,10 @@ interface Props {
   open: boolean;
   setOpen: (bool: boolean) => void;
   children: any;
-  size: "full" | "xl" | "lg" | "md";
+  size: "full" | "6xl" | "5xl" | "4xl" | "3xl" | "2xl" | "xl" | "lg" | "md";
 }
 
 const MyModal: React.FC<Props> = ({ open, setOpen, children, size }) => {
-  const sizeClass =
-    size === "full"
-      ? "max-w-full"
-      : size === "xl"
-      ? "max-w-xl"
-      : size === "lg"
-      ? "max-w-lg"
-      : "max-w-md";
-
   return (
     <Modal
       style={{
@@ -31,7 +22,7 @@ const MyModal: React.FC<Props> = ({ open, setOpen, children, size }) => {
     >
       <Fade in={open}>
         <div
-          className={`w-full bg-white rounded-2xl outline-none ${sizeClass}`}
+          className={`w-full bg-white rounded-2xl outline-none max-w-${size}`}
         >
           <div className="mt-4 px-6">
             <div className="flex">
