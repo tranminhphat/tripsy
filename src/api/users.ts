@@ -30,3 +30,11 @@ export const changePassword = (
 ) => {
   return axios.put(`users/change-password`, { currentPassword, newPassword });
 };
+
+export const changeAvatar = (base64String: string) => {
+  return axios.put(`users/change-avatar`, { base64String });
+};
+
+export const verifyIdentity = (idCard: { front: string; back: string }) => {
+  return axios.put(`users/verify-id`, idCard);
+};

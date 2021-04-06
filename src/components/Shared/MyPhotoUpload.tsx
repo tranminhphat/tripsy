@@ -29,7 +29,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
   }, [photoInput]);
 
   const checkImageValid = (photoInput: Blob) => {
-    if (width < 800 || height < 1200) {
+    if (width < 720 || height < 1080) {
       setIsModalOpen(true);
     } else {
       previewFile(photoInput);
@@ -93,8 +93,8 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
           content: (
             <div className="text-center">
               <p className="text-lg">
-                Hình ảnh phải có độ phân giải ít nhất là 800px chiều rộng và
-                1200px chiều cao. Vui lòng đăng tải hình ảnh thỏa yêu cầu. Hình
+                Hình ảnh phải có độ phân giải ít nhất là 720px chiều rộng và
+                1080px chiều cao. Vui lòng đăng tải hình ảnh thỏa yêu cầu. Hình
                 bạn vừa tải lên có độ phân giải {width}x{height}
               </p>
             </div>

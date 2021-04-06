@@ -2,7 +2,7 @@ import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import { getProfileById } from "api/profile";
 import { countReviews } from "api/review";
-import { updateUserById } from "api/users";
+import { changeAvatar } from "api/users";
 import StarIcon from "assets/images/icons/star.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import IProfile from "interfaces/profiles/profile.interface";
@@ -55,9 +55,7 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
   };
 
   const changeUserAvatar = async (fileReader) => {
-    const { data } = await updateUserById(userData._id!, {
-      avatarUrl: fileReader,
-    });
+    const { data } = await changeAvatar(fileReader);
     if (data) {
       window.location.reload();
     }

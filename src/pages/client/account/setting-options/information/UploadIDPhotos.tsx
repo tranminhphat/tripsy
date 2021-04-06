@@ -1,6 +1,6 @@
 import { CircularProgress } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { getCurrentUser, updateUserById } from "api/users";
+import { verifyIdentity } from "api/users";
 import GovIDBackIcon from "assets/images/icons/gov-id-back.svg";
 import GovIDFrontIcon from "assets/images/icons/gov-id-front.svg";
 import * as React from "react";
@@ -42,13 +42,9 @@ const UploadIDPhotos: React.FC<Props> = ({ setIdType }) => {
 
   const handleSubmit = async () => {
     setButtonLoading(true);
-    const {
-      data: {
-        user: { _id },
-      },
-    } = await getCurrentUser(["_id"]);
-    const res = await updateUserById(_id, {
-      idCard: { front: frontCardPreview, back: backCardPreview },
+    const res = await verifyIdentity({
+      front: frontCardPreview as string,
+      back: backCardPreview as string,
     });
     if (res) {
       history.push("/account-settings/personal-info");
