@@ -30,7 +30,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, photo, handleUpload }) => {
   }, [photoInput]);
 
   const checkImageValid = async (photoInput: Blob) => {
-    if (width < 720 || height < 1080) {
+    if (width < 720 || height < 1000) {
       setIsModalOpen(true);
     } else {
       const reader = new FileReader();
@@ -107,7 +107,10 @@ const MyPhotoUpload: React.FC<Props> = ({ url, photo, handleUpload }) => {
           footer: (
             <div className="flex justify-between">
               <Button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setIsLoading(false);
+                }}
                 variant="contained"
                 className="mr-2"
               >
@@ -118,6 +121,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, photo, handleUpload }) => {
                   if (photoInputEl.current !== null) {
                     photoInputEl.current.click();
                     setIsModalOpen(false);
+                    setIsLoading(false);
                   }
                 }}
                 variant="contained"

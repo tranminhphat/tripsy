@@ -59,7 +59,7 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
   const handleAddItemToProvisionList = () => {
     setProvisionList((prevList) => [
       ...prevList,
-      { id: prevList.length, itemName: "" },
+      { id: prevList.length + 1, itemName: "" },
     ]);
   };
 

@@ -57,7 +57,7 @@ const GuestBring: React.FC<Props> = ({ stepProps }) => {
   const handleAddItemToBringList = () => {
     setBringList((prevList) => [
       ...prevList,
-      { id: prevList.length, itemName: "" },
+      { id: prevList.length + 1, itemName: "" },
     ]);
   };
 

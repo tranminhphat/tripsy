@@ -47,7 +47,6 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
         setIsValid(true);
       }
     }
-
     setIsLoading(false);
   };
 
