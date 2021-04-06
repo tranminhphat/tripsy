@@ -28,6 +28,16 @@ export const updateExperienceById = (id: string, data) => {
   return axios.put(`experiences/${id}`, data);
 };
 
+export const updatePhotoGallery = (
+  id: string,
+  type: string,
+  base64String: string
+) => {
+  return axios.put(`experiences/${id}/update-gallery`, {
+    photo: { type, base64String },
+  });
+};
+
 export const deleteExperienceById = (id: string) => {
   return axios.delete(`experiences/${id}`);
 };

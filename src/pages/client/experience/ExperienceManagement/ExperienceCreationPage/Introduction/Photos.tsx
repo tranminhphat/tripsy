@@ -1,11 +1,10 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { getExperienceById } from "api/experiences";
+import { getExperienceById, updatePhotoGallery } from "api/experiences";
 import MyPhotoUpload from "components/Shared/MyPhotoUpload";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { FileReaderResultType } from "types";
 
 interface Props {
   stepProps: any;
@@ -13,27 +12,24 @@ interface Props {
 
 interface ExperiencePhoto {
   type: string;
-  base64String: FileReaderResultType;
-  url?: string;
+  url: string;
 }
 
 const initialPhoToGallery: ExperiencePhoto[] = [
-  { type: "cover", base64String: "" },
-  { type: "host", base64String: "" },
-  { type: "action", base64String: "" },
-  { type: "details", base64String: "" },
-  { type: "location", base64String: "" },
-  { type: "miscellaneous1", base64String: "" },
-  { type: "miscellaneous2", base64String: "" },
+  { type: "cover", url: "" },
+  { type: "host", url: "" },
+  { type: "action", url: "" },
+  { type: "details", url: "" },
+  { type: "location", url: "" },
+  { type: "miscellaneous1", url: "" },
+  { type: "miscellaneous2", url: "" },
 ];
 
 const Photos: React.FC<Props> = ({ stepProps }) => {
-  const { setIsValid, setStepValue } = stepProps;
+  const { setIsValid } = stepProps;
   const experience = useSelector((state) => state.experience);
   const { id } = useParams<{ id: string }>();
-  const [photoGallery, setPhotoGallery] = useState<ExperiencePhoto[]>(
-    experience.photoGallery ? experience.photoGallery : initialPhoToGallery
-  );
+  const [photoGallery, setPhotoGallery] = useState<ExperiencePhoto[]>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -41,57 +37,29 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  useEffect(() => {
-    handleUpdateStepValue();
-    console.log(photoGallery);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [photoGallery]);
-
   const fetchPhotos = async (id: string) => {
     const {
       data: {
         experience: { photoGallery },
       },
     } = await getExperienceById(id);
-    if (photoGallery.length !== 0) {
+    if (photoGallery) {
       setPhotoGallery(photoGallery);
     }
 
     setIsLoading(false);
   };
 
-  const handleSetBase64String = (
+  const handleUploadGalleryPhoto = async (
     type: string,
-    base64String: FileReaderResultType
+    base64String: string
   ) => {
-    setPhotoGallery(
-      photoGallery.map((item) => {
-        if (item.type === type) {
-          return { type: item.type, base64String };
-        } else {
-          return item;
-        }
-      })
-    );
-  };
-
-  const handleUpdateStepValue = () => {
-    if (checkIsPhotoEnough(photoGallery)) {
+    const {
+      data: { experience },
+    } = await updatePhotoGallery(id, type, base64String);
+    if (!experience.photoGallery.some((photo) => photo.url === "")) {
       setIsValid(true);
-      setStepValue({ photoGallery: photoGallery });
-    } else {
-      setIsValid(false);
     }
-  };
-
-  const checkIsPhotoEnough = (photoGallery: ExperiencePhoto[]) => {
-    for (let i = 0; i < photoGallery.length; i++) {
-      if (photoGallery[i].base64String === "") {
-        return false;
-      }
-    }
-
-    return true;
   };
 
   return (
@@ -143,13 +111,11 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
             </p>
           </div>
           <div className="mt-2">
-            {photoGallery.length !== 0 ? (
+            {photoGallery && photoGallery.length !== 0 ? (
               <MyPhotoUpload
-                type="cover"
+                handleUpload={handleUploadGalleryPhoto}
+                photo={photoGallery[0]}
                 url={photoGallery[0].url ? photoGallery[0].url : null}
-                setBase64String={(base64String: FileReaderResultType) =>
-                  handleSetBase64String("cover", base64String)
-                }
               />
             ) : null}
           </div>
@@ -167,15 +133,13 @@ const Photos: React.FC<Props> = ({ stepProps }) => {
           </div>
           <div className="mt-4">
             <div className="flex items-stretch justify-start flex-wrap">
-              {photoGallery.length !== 0
+              {photoGallery && photoGallery.length !== 0
                 ? photoGallery.slice(1).map((photo) => (
                     <div key={photo.type} className="w-1/3 mb-2">
                       <MyPhotoUpload
-                        type={photo.type}
+                        photo={photo}
                         url={photo.url ? photo.url : null}
-                        setBase64String={(base64String: FileReaderResultType) =>
-                          handleSetBase64String(photo.type, base64String)
-                        }
+                        handleUpload={handleUploadGalleryPhoto}
                       />
                     </div>
                   ))

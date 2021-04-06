@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import AddPhotoIcon from "@material-ui/icons/AddPhotoAlternate";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -7,11 +7,12 @@ import MyModal from "./MyModal";
 
 interface Props {
   url?: FileReaderResultType;
-  type?: string;
-  setBase64String?: (base64String: FileReaderResultType) => void;
+  photo: { type: string; url: string };
+  handleUpload: any;
 }
 
-const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
+const MyPhotoUpload: React.FC<Props> = ({ url, photo, handleUpload }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [photoInput, setPhotoInput] = useState<Blob | null>(null);
   const [previewSource, setPreviewSource] = useState<FileReaderResultType>(
     url ? url : null
@@ -32,7 +33,13 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
     if (width < 720 || height < 1080) {
       setIsModalOpen(true);
     } else {
-      previewFile(photoInput);
+      const reader = new FileReader();
+      reader.readAsDataURL(photoInput);
+      reader.onloadend = async () => {
+        await handleUpload(photo.type, reader.result);
+        setIsLoading(false);
+        setPreviewSource(reader.result);
+      };
     }
   };
 
@@ -44,38 +51,36 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
       img.onload = () => {
         setWidth(img.naturalWidth);
         setHeight(img.naturalHeight);
+        setIsLoading(true);
         setPhotoInput(file);
       };
     }
   };
 
-  const previewFile = (file: Blob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-      if (setBase64String) {
-        setBase64String(reader.result);
-      }
-    };
-  };
-
   return (
     <div className="h-60 w-40">
-      <label htmlFor={type}>
+      <label htmlFor={photo.type}>
         <div className="h-60 w-40 border border-gray-400 border-dashed flex justify-center items-center cursor-pointer">
-          {previewSource ? (
-            <img
-              className="w-full h-full"
-              src={previewSource as string}
-              alt="cover"
-            />
+          {isLoading ? (
+            <div>
+              <CircularProgress />
+            </div>
           ) : (
-            <AddPhotoIcon />
+            <>
+              {previewSource ? (
+                <img
+                  className="w-full h-full"
+                  src={previewSource as string}
+                  alt="cover"
+                />
+              ) : (
+                <AddPhotoIcon />
+              )}
+            </>
           )}
         </div>
         <input
-          id={type}
+          id={photo.type}
           type="file"
           ref={photoInputEl}
           accept=".jpg,.jpeg,.png.gif"
