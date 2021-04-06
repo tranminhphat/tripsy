@@ -28,7 +28,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, type, setBase64String }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photoInput]);
 
-  const checkImageValid = (photoInput: Blob) => {
+  const checkImageValid = async (photoInput: Blob) => {
     if (width < 720 || height < 1080) {
       setIsModalOpen(true);
     } else {

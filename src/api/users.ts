@@ -36,5 +36,5 @@ export const changeAvatar = (base64String: string) => {
 };
 
 export const verifyIdentity = (idCard: { front: string; back: string }) => {
-  return axios.put(`users/verify-id`, idCard);
+  return axios.put(`users/verify-id`, { idCard });
 };
