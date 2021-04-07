@@ -1,4 +1,5 @@
 import * as React from "react";
+import FilterGroupSize from "./FilterGroupSize";
 import FilterTheme from "./FilterTheme";
 
 interface Props {
@@ -7,12 +8,18 @@ interface Props {
 }
 
 const FilterMetadata: React.FC<Props> = ({ setFilterObject, filterObject }) => {
-  const { theme } = filterObject;
+  const { theme, groupSize } = filterObject;
 
   return (
     <div className="flex">
       <div>
-        <FilterTheme initialTheme={theme} setFilterObject={setFilterObject} />
+        <FilterTheme initialValue={theme} setFilterObject={setFilterObject} />
+      </div>
+      <div className="ml-2">
+        <FilterGroupSize
+          initialValue={groupSize}
+          setFilterObject={setFilterObject}
+        />
       </div>
     </div>
   );

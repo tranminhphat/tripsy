@@ -5,16 +5,16 @@ import * as React from "react";
 import { useState } from "react";
 
 interface Props {
-  initialTheme: string;
+  initialValue: string;
   setFilterObject: any;
 }
 
-const FilterMetadata: React.FC<Props> = ({ initialTheme, setFilterObject }) => {
+const FilterMetadata: React.FC<Props> = ({ initialValue, setFilterObject }) => {
   const [value, setValue] = useState<string | null>(
-    initialTheme ? initialTheme : null
+    initialValue ? initialValue : null
   );
   const [theme, setTheme] = useState<string | null>(
-    initialTheme ? initialTheme : null
+    initialValue ? initialValue : null
   );
   console.log(theme);
   const [openTheme, setOpenTheme] = useState(false);
