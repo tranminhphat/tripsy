@@ -49,7 +49,7 @@ const UserOptions: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
         <Button className="focus:outline-none hover:bg-transparent hover:shadow-lg p-0 border border-solid border-gray-300 h-12 w-12 lg:hidden mr-3 rounded-full">
           <SearchIcon className="text-3xl" />
         </Button>
@@ -105,7 +105,7 @@ const UserOptions: React.FC = () => {
           </Menu>
         </>
       ) : (
-        <>
+        <div className="flex items-center justify-center">
           <div className="underline hover:no-underline mr-2">
             <Link to="/login" onClick={handleClose}>
               Đăng nhập{" "}
@@ -116,7 +116,7 @@ const UserOptions: React.FC = () => {
               Đăng ký
             </Link>
           </div>
-        </>
+        </div>
       )}
     </>
   );
