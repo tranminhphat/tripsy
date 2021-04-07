@@ -13,7 +13,6 @@ const HomePage: React.FC = () => {
   const [filterObject, setFilterObject] = useState({});
 
   useEffect(() => {
-    console.log(filterObject);
     fetchExperience(filterObject);
   }, [filterObject]);
 
@@ -26,7 +25,10 @@ const HomePage: React.FC = () => {
   return (
     <MainLayout>
       <div className="my-6">
-        <FilterMetadata setFilterObject={setFilterObject} />
+        <FilterMetadata
+          filterObject={filterObject}
+          setFilterObject={setFilterObject}
+        />
       </div>
       {experiences ? (
         <div>

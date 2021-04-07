@@ -14,16 +14,6 @@ interface ExperiencePhoto {
   url: string;
 }
 
-const initialPhoToGallery: ExperiencePhoto[] = [
-  { type: "cover", url: "" },
-  { type: "host", url: "" },
-  { type: "action", url: "" },
-  { type: "details", url: "" },
-  { type: "location", url: "" },
-  { type: "miscellaneous1", url: "" },
-  { type: "miscellaneous2", url: "" },
-];
-
 const Photos: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();

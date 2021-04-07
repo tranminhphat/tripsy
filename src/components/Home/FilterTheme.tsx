@@ -5,16 +5,30 @@ import * as React from "react";
 import { useState } from "react";
 
 interface Props {
+  initialTheme: string;
   setFilterObject: any;
 }
 
-const FilterMetadata: React.FC<Props> = ({ setFilterObject }) => {
-  const [value, setValue] = useState<string>();
-  const [theme, setTheme] = useState<string>();
+const FilterMetadata: React.FC<Props> = ({ initialTheme, setFilterObject }) => {
+  const [value, setValue] = useState<string | null>(
+    initialTheme ? initialTheme : null
+  );
+  const [theme, setTheme] = useState<string | null>(
+    initialTheme ? initialTheme : null
+  );
+  console.log(theme);
   const [openTheme, setOpenTheme] = useState(false);
 
   const handleSetFilterObject = (value: any) => {
-    setFilterObject((prevVal) => ({ ...prevVal, theme: value }));
+    if (value !== null) {
+      setFilterObject((prevVal) => ({ ...prevVal, theme: value }));
+    } else {
+      setFilterObject((prevVal) => {
+        let filterObject = { ...prevVal };
+        delete filterObject.theme;
+        return filterObject;
+      });
+    }
     setOpenTheme(false);
   };
 
@@ -38,7 +52,11 @@ const FilterMetadata: React.FC<Props> = ({ setFilterObject }) => {
                       <div className="w-full h-full mr-2 p-4 mb-4 ">
                         <button
                           onClick={() => setValue(item.name)}
-                          className="w-full h-full border border-gray-300 text-center rounded-lg cursor-pointer focus:border-black"
+                          className={`w-full h-full border text-center rounded-lg cursor-pointer focus:border-black ${
+                            item.name === value
+                              ? "border-black"
+                              : "border-gray-300"
+                          }`}
                         >
                           <Typography className="text-lg">
                             {item.name}
@@ -55,7 +73,17 @@ const FilterMetadata: React.FC<Props> = ({ setFilterObject }) => {
             <div className="flex justify-end">
               <Button
                 onClick={() => {
-                  setTheme(value);
+                  setValue(null);
+                }}
+                variant="contained"
+                size="large"
+                className="ml-2"
+              >
+                Xóa
+              </Button>
+              <Button
+                onClick={() => {
+                  setTheme(value!);
                   handleSetFilterObject(value);
                 }}
                 variant="contained"
