@@ -3,7 +3,7 @@ import PlusIcon from "assets/images/icons/plus.svg";
 import SubtractIcon from "assets/images/icons/subtract.svg";
 import MyModal from "components/Shared/MyModal";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   initialValue: number;
@@ -15,8 +15,13 @@ const FilterGroupSize: React.FC<Props> = ({
   setFilterObject,
 }) => {
   const [openModal, setOpenModal] = useState(false);
-  const [value, setValue] = useState(initialValue ? initialValue : 0);
-  const [groupSize, setGroupSize] = useState(initialValue ? initialValue : 0);
+  const [value, setValue] = useState(0);
+  const [groupSize, setGroupSize] = useState(0);
+
+  useEffect(() => {
+    setValue(initialValue ? initialValue : 0);
+    setGroupSize(initialValue ? initialValue : 0);
+  }, [initialValue]);
 
   const handleFilter = (value: number) => {
     if (value !== 0) {

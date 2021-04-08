@@ -2,7 +2,7 @@ import { Button, Typography } from "@material-ui/core";
 import MyModal from "components/Shared/MyModal";
 import { themes } from "constants/index";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   initialValue: string;
@@ -10,14 +10,14 @@ interface Props {
 }
 
 const FilterMetadata: React.FC<Props> = ({ initialValue, setFilterObject }) => {
-  const [value, setValue] = useState<string | null>(
-    initialValue ? initialValue : null
-  );
-  const [theme, setTheme] = useState<string | null>(
-    initialValue ? initialValue : null
-  );
-  console.log(theme);
+  const [value, setValue] = useState<string | null>(null);
+  const [theme, setTheme] = useState<string | null>(null);
   const [openTheme, setOpenTheme] = useState(false);
+
+  useEffect(() => {
+    setValue(initialValue ? initialValue : null);
+    setTheme(initialValue ? initialValue : null);
+  }, [initialValue]);
 
   const handleSetFilterObject = (value: any) => {
     if (value !== null) {
@@ -49,10 +49,10 @@ const FilterMetadata: React.FC<Props> = ({ initialValue, setFilterObject }) => {
                 {themes.map((item) => {
                   return (
                     <div key={item.id} className="w-1/3 h-auto relative">
-                      <div className="w-full h-full mr-2 p-4 mb-4 ">
+                      <div className="w-full h-full mr-2 p-2 mb-4 ">
                         <button
                           onClick={() => setValue(item.name)}
-                          className={`w-full h-full border text-center rounded-lg cursor-pointer focus:border-black ${
+                          className={`w-full h-full border p-2 text-center rounded-lg cursor-pointer focus:border-black ${
                             item.name === value
                               ? "border-black"
                               : "border-gray-300"

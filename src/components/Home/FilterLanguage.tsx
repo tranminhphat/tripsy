@@ -1,7 +1,7 @@
 import { Button, Checkbox, Typography } from "@material-ui/core";
 import MyModal from "components/Shared/MyModal";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   initialValue: string;
@@ -10,8 +10,13 @@ interface Props {
 
 const FilterLanguage: React.FC<Props> = ({ initialValue, setFilterObject }) => {
   const [openModal, setOpenModal] = useState(false);
-  const [value, setValue] = useState(initialValue ? initialValue : null);
-  const [language, setLanguage] = useState(initialValue ? initialValue : null);
+  const [value, setValue] = useState<string | null>(null);
+  const [language, setLanguage] = useState<string | null>(null);
+
+  useEffect(() => {
+    setValue(initialValue ? initialValue : null);
+    setLanguage(initialValue ? initialValue : null);
+  }, [initialValue]);
 
   const handleFilter = (value: string | null) => {
     if (value) {
