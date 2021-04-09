@@ -5,6 +5,7 @@ import * as React from "react";
 import FilterDate from "./FilterDate";
 import FilterGroupSize from "./FilterGroupSize";
 import FilterLanguage from "./FilterLanguage";
+import FilterLocation from "./FilterLocation";
 import FilterPrice from "./FilterPrice";
 import FilterTheme from "./FilterTheme";
 
@@ -21,7 +22,7 @@ const FilterMetadata: React.FC<Props> = ({
   dayOfYear,
   setDayOfYear,
 }) => {
-  const { theme, groupSize, language, price } = filterObject;
+  const { theme, groupSize, language, price, location } = filterObject;
 
   return (
     <div className="flex items-center">
@@ -53,6 +54,13 @@ const FilterMetadata: React.FC<Props> = ({
       <div className="ml-2">
         <FilterDate setDayOfYear={setDayOfYear} dayOfYear={dayOfYear} />
       </div>
+      <div className="ml-2">
+        <FilterLocation
+          initialValue={location}
+          setFilterObject={setFilterObject}
+        />
+      </div>
+
       <div className="ml-2">
         <IconButton
           className="outline-none"
