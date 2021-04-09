@@ -20,5 +20,4 @@ export default interface IExperience {
   duration?: number;
   pricing?: { individualPrice: number; estimatedEarning: number };
   bookingDate?: number;
-  availableDates?: any;
 }

@@ -10,7 +10,7 @@ import {
   deleteActivityById,
   getActivities,
 } from "api/activity";
-import { getExperienceById, updateExperienceById } from "api/experiences";
+import { getExperienceById } from "api/experiences";
 import { deleteReceiptById, getReceipts } from "api/receipt";
 import {
   createRefund,
@@ -79,13 +79,9 @@ const ExperienceActivationPage: React.FC<Props> = () => {
       },
     };
 
-    await createActivity({
+    const { data } = await createActivity({
       experienceId: experience?._id,
       date: newDate,
-    });
-
-    const { data } = await updateExperienceById(id, {
-      availableDates: [...experience?.availableDates, newDate],
     });
 
     if (data) {

@@ -2,6 +2,7 @@ import { IconButton, Typography } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import FilterIcon from "assets/images/icons/filter.svg";
 import * as React from "react";
+import FilterDate from "./FilterDate";
 import FilterGroupSize from "./FilterGroupSize";
 import FilterLanguage from "./FilterLanguage";
 import FilterPrice from "./FilterPrice";
@@ -9,10 +10,17 @@ import FilterTheme from "./FilterTheme";
 
 interface Props {
   filterObject: any;
+  dayOfYear: any;
   setFilterObject: any;
+  setDayOfYear: any;
 }
 
-const FilterMetadata: React.FC<Props> = ({ setFilterObject, filterObject }) => {
+const FilterMetadata: React.FC<Props> = ({
+  setFilterObject,
+  filterObject,
+  dayOfYear,
+  setDayOfYear,
+}) => {
   const { theme, groupSize, language, price } = filterObject;
 
   return (
@@ -43,9 +51,15 @@ const FilterMetadata: React.FC<Props> = ({ setFilterObject, filterObject }) => {
         />
       </div>
       <div className="ml-2">
+        <FilterDate setDayOfYear={setDayOfYear} dayOfYear={dayOfYear} />
+      </div>
+      <div className="ml-2">
         <IconButton
           className="outline-none"
-          onClick={() => setFilterObject({})}
+          onClick={() => {
+            setFilterObject({});
+            setDayOfYear();
+          }}
         >
           <ClearIcon />
         </IconButton>

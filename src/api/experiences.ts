@@ -4,6 +4,10 @@ import IExperience from "interfaces/experiences/experience.interface";
 import { ExperienceFieldType } from "types";
 import axios from "./configureAxios";
 
+export const getExperiencesByDate = (dayOfYear: number) => {
+  return axios.get(`experiences/date/${dayOfYear}`);
+};
+
 export const getExperiences = (filterObject: IExperience) => {
   const filterString = createFilterString(filterObject);
   return axios.get(`experiences?filter=${filterString}`);

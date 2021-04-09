@@ -8,7 +8,7 @@ interface Props {
 
 const MyExperienceCard: React.FC<Props> = ({ experience }) => {
   return (
-    <div className="flex justify-between border border-gray-300 rounded-lg max-w-lg">
+    <div className="flex justify-between border border-gray-300 rounded-lg ">
       <div className="mt-2 p-4">
         <h1 className="text-2xl font-bold">{experience.title}</h1>
         <p className="text-lg">
