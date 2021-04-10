@@ -2,6 +2,7 @@ import { CircularProgress } from "@material-ui/core";
 import { getExperiences, getExperiencesByDate } from "api/experiences";
 import { Header } from "components/Header/Header";
 import FilterMetadata from "components/Home/FilterMetadata";
+import SortMetadata from "components/Home/SortMetadata";
 import MyAlert from "components/Shared/MyAlert";
 import MyExperienceCard from "components/Shared/MyExperienceCard";
 import IExperience from "interfaces/experiences/experience.interface";
@@ -25,20 +26,24 @@ const intersection = (a, b) => {
 const HomePage: React.FC = () => {
   const [experiences, setExperiences] = useState<IExperience[]>();
   const [filterObject, setFilterObject] = useState({});
+  const [sortString, setSortString] = useState("");
   const [dayOfYear, setDayOfYear] = useState<number>();
 
   useEffect(() => {
-    fetchExperiences(filterObject, dayOfYear);
-  }, [filterObject, dayOfYear]);
+    fetchExperiences(filterObject, sortString, dayOfYear);
+  }, [filterObject, sortString, dayOfYear]);
 
-  const fetchExperiences = async (filterObject, dayOfYear) => {
+  const fetchExperiences = async (filterObject, sortString, dayOfYear) => {
     if (!dayOfYear) {
-      const { data } = await getExperiences(filterObject);
+      const { data } = await getExperiences(filterObject, sortString);
       if (data) {
         setExperiences(data);
       }
     } else {
-      const { data: experiencesByField } = await getExperiences(filterObject);
+      const { data: experiencesByField } = await getExperiences(
+        filterObject,
+        sortString
+      );
       const { data: experiencesByDate } = await getExperiencesByDate(dayOfYear);
       const intersectObject = intersection(
         experiencesByDate,
@@ -53,6 +58,9 @@ const HomePage: React.FC = () => {
       <Header withSearchBar={true} setFilterObject={setFilterObject} />
       <div className="container mx-auto" style={{ paddingTop: "96px" }}>
         <div>
+          <div className="my-4">
+            <SortMetadata setSortString={setSortString} />
+          </div>
           <div className="my-6">
             <FilterMetadata
               filterObject={filterObject}

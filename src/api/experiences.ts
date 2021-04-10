@@ -8,9 +8,12 @@ export const getExperiencesByDate = (dayOfYear: number) => {
   return axios.get(`experiences/date/${dayOfYear}`);
 };
 
-export const getExperiences = (filterObject: IExperience) => {
+export const getExperiences = (
+  filterObject: IExperience,
+  sortString?: string
+) => {
   const filterString = createFilterString(filterObject);
-  return axios.get(`experiences?filter=${filterString}`);
+  return axios.get(`experiences?filter=${filterString}&sort=${sortString}`);
 };
 
 export const getExperienceById = (
