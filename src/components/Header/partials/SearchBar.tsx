@@ -1,20 +1,33 @@
+import { IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import * as React from "react";
+import { useState } from "react";
 
-interface Props {}
+interface Props {
+  setFilterObject: any;
+}
 
-const SearchBar: React.FC<Props> = () => {
+const SearchBar: React.FC<Props> = ({ setFilterObject }) => {
+  const [value, setValue] = useState<string>();
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="flex items-center h-3/4 border border-solid border-gray-300 bg-gray-50 rounded-xl">
-      <div className="ml-4 flex w-full">
-        <div className="mr-2">
-          <SearchIcon />
-        </div>
+      <div className="ml-4 flex justify-between w-full">
         <input
-          className="focus:outline-none bg-gray-50 w-full mr-4"
+          value={value}
+          onChange={handleChange}
+          className="focus:outline-none bg-gray-50 w-full ml-2"
           type="text"
-          placeholder="Bạn muốn đi đâu?"
+          placeholder="Tìm kiếm theo tên trải nghiệm"
         />
+        <div className="mr-2">
+          <IconButton onClick={() => setFilterObject({ title: value })}>
+            <SearchIcon />
+          </IconButton>
+        </div>
       </div>
     </div>
   );

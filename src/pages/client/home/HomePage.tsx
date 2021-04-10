@@ -1,9 +1,10 @@
 import { CircularProgress } from "@material-ui/core";
 import { getExperiences, getExperiencesByDate } from "api/experiences";
+import { Header } from "components/Header/Header";
 import FilterMetadata from "components/Home/FilterMetadata";
+import MyAlert from "components/Shared/MyAlert";
 import MyExperienceCard from "components/Shared/MyExperienceCard";
 import IExperience from "interfaces/experiences/experience.interface";
-import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -48,29 +49,35 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <MainLayout>
-      <div className="my-6">
-        <FilterMetadata
-          filterObject={filterObject}
-          setFilterObject={setFilterObject}
-          setDayOfYear={setDayOfYear}
-          dayOfYear={dayOfYear}
-        />
-      </div>
-      {experiences ? (
+    <div className="h-full w-full">
+      <Header withSearchBar={true} setFilterObject={setFilterObject} />
+      <div className="container mx-auto" style={{ paddingTop: "96px" }}>
         <div>
-          {experiences.map((item) => (
-            <div className="mt-4 max-w-lg" key={item._id}>
-              <Link to={`/experience/${item._id}`}>
-                <MyExperienceCard experience={item} />
-              </Link>
+          <div className="my-6">
+            <FilterMetadata
+              filterObject={filterObject}
+              setFilterObject={setFilterObject}
+              setDayOfYear={setDayOfYear}
+              dayOfYear={dayOfYear}
+            />
+          </div>
+          {experiences ? (
+            <div>
+              {experiences.map((item) => (
+                <div className="mt-4 max-w-lg" key={item._id}>
+                  <Link to={`/experience/${item._id}`}>
+                    <MyExperienceCard experience={item} />
+                  </Link>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <CircularProgress />
+          )}
         </div>
-      ) : (
-        <CircularProgress />
-      )}
-    </MainLayout>
+        <MyAlert />
+      </div>
+    </div>
   );
 };
 
