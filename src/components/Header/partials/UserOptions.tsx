@@ -1,5 +1,4 @@
 import { Avatar, Button, IconButton, Menu, MenuItem } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
 import BellIcon from "@material-ui/icons/NotificationsNone";
 import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
@@ -48,32 +47,31 @@ const UserOptions: React.FC = () => {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-center">
-        <Button className="focus:outline-none hover:bg-transparent hover:shadow-lg p-0 border border-solid border-gray-300 h-12 w-12 lg:hidden mr-3 rounded-full">
-          <SearchIcon className="text-3xl" />
-        </Button>
-      </div>
+    <div className="flex items-center justify-center">
+      <IconButton className="text-black mr-2 border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 focus:outline-none rounded-full lg:hidden">
+        <SearchIcon />
+      </IconButton>
       {isLoggedIn ? (
         <>
-          <IconButton className="text-black mr-2 border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 focus:outline-none">
-            <BellIcon />
-          </IconButton>
+          <div>
+            <IconButton className="text-black mr-2 border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 focus:outline-none rounded-full">
+              <BellIcon />
+            </IconButton>
+          </div>
+
           <Button
-            className="border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 p-0 focus:outline-none h-12 rounded-3xl"
+            className="focus:outline-none rounded-full"
             aria-controls="simple-menu"
             aria-haspopup="true"
             onClick={handleClick}
           >
-            <MenuIcon className="mr-1 ml-2" />
             <Avatar
-              className="ml-1 mr-2"
               src={
                 userData && userData.avatarUrl
                   ? userData.avatarUrl
                   : SkeletonUserAvatar
               }
-              style={{ width: "32px", height: "32px" }}
+              style={{ width: "48px", height: "48px" }}
               alt="User not logged in"
             />
           </Button>
@@ -85,11 +83,6 @@ const UserOptions: React.FC = () => {
             open={Boolean(menuEl)}
             onClose={handleClose}
           >
-            <Link to="/" onClick={handleClose}>
-              <MenuItem>
-                Xin chào, {userData ? userData.firstName : ""}
-              </MenuItem>
-            </Link>
             <Link to={`/user/profile/${userData ? userData._id : ""}`}>
               <MenuItem>Trang cá nhân</MenuItem>
             </Link>
@@ -118,7 +111,7 @@ const UserOptions: React.FC = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
