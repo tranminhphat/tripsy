@@ -8,7 +8,7 @@ interface Props {
 }
 
 const FilterDate: React.FC<Props> = ({ setDayOfYear, dayOfYear }) => {
-  const [value, setValue] = useState(!dayOfYear ? undefined : new DateObject());
+  const [value, setValue] = useState(undefined);
 
   const handleChange = (e: any) => {
     setValue(e);
