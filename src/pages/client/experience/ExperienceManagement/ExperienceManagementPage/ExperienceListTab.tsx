@@ -1,5 +1,7 @@
 import { Button, CircularProgress } from "@material-ui/core";
 import { updateListOfGuest } from "api/activity";
+import { getExperienceById } from "api/experiences";
+import { updateCheckpoints } from "api/profile";
 import { deleteReceiptById, getReceipts } from "api/receipt";
 import { createExperienceReview, createUserReview } from "api/review";
 import { createRefund, getCheckoutSessionById } from "api/stripe";
@@ -7,6 +9,7 @@ import { getCurrentUser } from "api/users";
 import BlackStarIcon from "assets/images/icons/blackstar.svg";
 import StarIcon from "assets/images/icons/star.svg";
 import MyModal from "components/Shared/MyModal";
+import { themes } from "constants/index";
 import { Field, Form, Formik } from "formik";
 import IReceipt from "interfaces/receipts/receipt.interface";
 import * as React from "react";
@@ -36,7 +39,7 @@ const ExperienceListTab: React.FC<Props> = () => {
       },
     } = await getCurrentUser(["_id"]);
     if (userId) {
-      const { data } = await getReceipts({ guestId: userId });
+      const { data } = await getReceipts({ guestId: userId, status: "paid" });
       if (data) {
         setReceipts(data);
       }
@@ -97,25 +100,47 @@ const ExperienceListTab: React.FC<Props> = () => {
     }
   };
 
+  const handleDoneExperience = async (experienceId: string) => {
+    const {
+      data: { experience },
+    } = await getExperienceById(experienceId);
+    const [{ id: themeId }] = themes.filter(
+      (item) => item.name === experience.theme
+    );
+    const { data } = await updateCheckpoints(themeId);
+    alert(`stage: ${data.stage}, points: ${data.points}`);
+  };
+
   return (
     <div>
       {receipts ? (
         receipts.map((item) => (
           <div key={item._id}>
             <p>{item.experienceId}</p>
-            <button
-              onClick={() =>
-                handleRefundExperience(item.checkOutSessionId as string, item)
-              }
-            >
-              refund
-            </button>
-            <button onClick={() => setOpenUserReviewModal(true)}>
-              user review
-            </button>
-            <button onClick={() => setOpenExperienceReviewModal(true)}>
-              experience review
-            </button>
+            <div>
+              <button
+                onClick={() =>
+                  handleRefundExperience(item.checkOutSessionId as string, item)
+                }
+              >
+                refund
+              </button>
+            </div>
+            <div>
+              <button onClick={() => setOpenUserReviewModal(true)}>
+                user review
+              </button>
+            </div>
+            <div>
+              <button onClick={() => setOpenExperienceReviewModal(true)}>
+                experience review
+              </button>
+            </div>
+            <div>
+              <button onClick={() => handleDoneExperience(item.experienceId)}>
+                done experience
+              </button>
+            </div>
             <MyModal
               size="xl"
               open={openUserReviewModal}
