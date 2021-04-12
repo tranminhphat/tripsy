@@ -70,9 +70,9 @@ const ExperienceCreationPage: React.FC<Props> = () => {
       if (data) {
         history.push("/user/experience-hosting");
         dispatch(resetExperiece());
-        dispatch(showAlert("success", "success"));
+        dispatch(showAlert("success", "Lưu thiết lập thành công"));
       } else {
-        dispatch(showAlert("error", "error"));
+        dispatch(showAlert("error", "Lưu thiết lập thất bại"));
       }
     }
   };
