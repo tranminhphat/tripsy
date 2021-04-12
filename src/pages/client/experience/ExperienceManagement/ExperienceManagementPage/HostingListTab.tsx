@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import {
   createExperience,
   deleteExperienceById,
@@ -12,6 +12,7 @@ import {
 import { getCurrentUser, updateUserById } from "api/users";
 import BankIcon from "assets/images/icons/bank.svg";
 import FlyIcon from "assets/images/icons/fly.svg";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
 import IExperience from "interfaces/experiences/experience.interface";
@@ -129,8 +130,8 @@ const HostingListTab: React.FC<Props> = () => {
               </Button>
             </div>
             {!experiences ? (
-              <div className="flex justify-center items-center">
-                <CircularProgress />
+              <div className="flex-grow justify-center items-center">
+                <MyLoadingIndicator width={300} height={300} />
               </div>
             ) : (
               <div className="mt-8">
@@ -317,8 +318,8 @@ const HostingListTab: React.FC<Props> = () => {
           </div>
         )
       ) : (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
     </div>

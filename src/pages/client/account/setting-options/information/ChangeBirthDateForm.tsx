@@ -1,6 +1,6 @@
-import { CircularProgress } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { updateUserById } from "api/users";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTextField from "components/Shared/MyTextField";
 import { Form, Formik } from "formik";
 import * as React from "react";
@@ -47,13 +47,10 @@ const ChangeBirthDateForm: React.FC<Props> = ({ userId, initialValues }) => {
             <Button
               type="submit"
               variant="contained"
-              className="bg-secondary-blue text-white"
+              className="bg-secondary-blue overflow-hidden text-white"
+              style={{ width: "80px", height: "40px" }}
             >
-              {!buttonLoading ? (
-                "Lưu"
-              ) : (
-                <CircularProgress className="text-white" />
-              )}
+              {!buttonLoading ? "Lưu" : <MyLoadingIndicator />}
             </Button>
           </div>
         </Form>

@@ -1,5 +1,5 @@
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { getCurrentUser, getUserById } from "api/users";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
@@ -47,13 +47,8 @@ const ProfilePage: React.FC<Props> = () => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="p-8 flex items-center justify-center bg-white">
-            <CircularProgress />
-          </div>
-          <div className="p-8 flex items-center justify-center bg-white">
-            <CircularProgress />
-          </div>
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
     </MainLayout>

@@ -1,4 +1,3 @@
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
 import {
   getCities,
@@ -6,6 +5,7 @@ import {
   getWardsByDistrictsName,
 } from "api/seeds";
 import MyAutocomplete from "components/Shared/MyAutocomplete";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyMapbox from "components/Shared/MyMapbox";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -276,8 +276,8 @@ const Address: React.FC<Props> = ({ stepProps }) => {
           </div>
         </>
       ) : (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
     </div>

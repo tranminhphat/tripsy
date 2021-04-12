@@ -1,8 +1,8 @@
-import { CircularProgress } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { verifyIdentity } from "api/users";
 import GovIDBackIcon from "assets/images/icons/gov-id-back.svg";
 import GovIDFrontIcon from "assets/images/icons/gov-id-front.svg";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -122,7 +122,12 @@ const UploadIDPhotos: React.FC<Props> = ({ setIdType }) => {
         </div>
       </div>
       <div className="flex justify-between mt-8">
-        <Button onClick={() => setIdType("")}>Quay lại</Button>
+        <Button
+          style={{ width: "80px", height: "40px" }}
+          onClick={() => setIdType("")}
+        >
+          Quay lại
+        </Button>
         <Button
           disabled={!(frontCardPreview && backCardPreview)}
           onClick={() => handleSubmit()}
@@ -132,12 +137,9 @@ const UploadIDPhotos: React.FC<Props> = ({ setIdType }) => {
               ? "bg-gray-400 text-white"
               : "bg-secondary-blue text-white"
           }
+          style={{ width: "80px", height: "40px", whiteSpace: "nowrap" }}
         >
-          {buttonLoading ? (
-            <CircularProgress className="text-white" size={30} />
-          ) : (
-            "Cập nhật"
-          )}
+          {buttonLoading ? <MyLoadingIndicator /> : "Cập nhật"}
         </Button>
       </div>
     </div>

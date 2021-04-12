@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { updateListOfGuest } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { updateCheckpoints } from "api/profile";
@@ -8,7 +8,9 @@ import { createRefund, getCheckoutSessionById } from "api/stripe";
 import { getCurrentUser } from "api/users";
 import BlackStarIcon from "assets/images/icons/blackstar.svg";
 import StarIcon from "assets/images/icons/star.svg";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
+import MyProgressBar from "components/Shared/MyProgressBar";
 import { themes } from "constants/index";
 import { Field, Form, Formik } from "formik";
 import IReceipt from "interfaces/receipts/receipt.interface";
@@ -20,6 +22,8 @@ import { showAlert } from "redux/actions/alert/alertAction";
 interface Props {}
 
 const ExperienceListTab: React.FC<Props> = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [percent, setPercent] = useState<number | null>(null);
   const [receipts, setReceipts] = useState<IReceipt[]>();
   const [numOfStars, setNumOfStars] = useState(0);
   const dispatch = useDispatch();
@@ -101,6 +105,7 @@ const ExperienceListTab: React.FC<Props> = () => {
   };
 
   const handleDoneExperience = async (experienceId: string) => {
+    setIsLoading(true);
     const {
       data: { experience },
     } = await getExperienceById(experienceId);
@@ -108,7 +113,8 @@ const ExperienceListTab: React.FC<Props> = () => {
       (item) => item.name === experience.theme
     );
     const { data } = await updateCheckpoints(themeId);
-    alert(`stage: ${data.stage}, points: ${data.points}`);
+    setPercent(data.currentPoints);
+    setIsLoading(false);
   };
 
   return (
@@ -137,9 +143,29 @@ const ExperienceListTab: React.FC<Props> = () => {
               </button>
             </div>
             <div>
-              <button onClick={() => handleDoneExperience(item.experienceId)}>
-                done experience
-              </button>
+              <Button
+                className="bg-secondary-blue text-white overflow-hidden"
+                style={{ width: "160px", height: "50px" }}
+                variant="contained"
+                onClick={() => handleDoneExperience(item.experienceId)}
+              >
+                <span>
+                  {!isLoading ? "done experience" : <MyLoadingIndicator />}
+                </span>
+              </Button>
+              <div>
+                {percent ? (
+                  <MyProgressBar
+                    label="Full progressbar"
+                    visualParts={[
+                      {
+                        percentage: `${percent}%`,
+                        color: "bg-main-blue",
+                      },
+                    ]}
+                  />
+                ) : null}
+              </div>
             </div>
             <MyModal
               size="xl"
@@ -353,7 +379,9 @@ const ExperienceListTab: React.FC<Props> = () => {
           </div>
         ))
       ) : (
-        <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
+        </div>
       )}
     </div>
   );

@@ -27,6 +27,7 @@
     "postcss": "^7.0.35",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-lottie": "^1.2.3",
     "react-mapbox-autocomplete": "^0.2.3",
     "react-mapbox-gl": "4.8.6",
     "react-material-ui-carousel": "^2.2.1",

@@ -1,6 +1,6 @@
 import { MenuItem, Select } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { durationOptions } from "constants/index";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -81,8 +81,8 @@ const Duration: React.FC<Props> = ({ stepProps }) => {
           </Select>
         </>
       ) : (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
     </div>

@@ -1,10 +1,4 @@
-import {
-  Button,
-  CircularProgress,
-  MenuItem,
-  Select,
-  Typography,
-} from "@material-ui/core";
+import { Button, MenuItem, Select, Typography } from "@material-ui/core";
 import {
   createActivity,
   deleteActivityById,
@@ -17,6 +11,7 @@ import {
   createTransfer,
   getCheckoutSessionById,
 } from "api/stripe";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import toWeekDayString from "helpers/toWeekDayString";
@@ -345,7 +340,9 @@ const ExperienceActivationPage: React.FC<Props> = () => {
             </MyModal>
           </div>
         ) : (
-          <CircularProgress />
+          <div className="flex-grow justify-center items-center">
+            <MyLoadingIndicator width={300} height={300} />
+          </div>
         )}
       </div>
     </MainLayout>

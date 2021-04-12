@@ -1,8 +1,9 @@
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import AddPhotoIcon from "@material-ui/icons/AddPhotoAlternate";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { FileReaderResultType } from "types";
+import MyLoadingIndicator from "./MyLoadingIndicator";
 import MyModal from "./MyModal";
 
 interface Props {
@@ -63,7 +64,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, photo, handleUpload }) => {
         <div className="h-60 w-40 border border-gray-400 border-dashed flex justify-center items-center cursor-pointer">
           {isLoading ? (
             <div>
-              <CircularProgress />
+              <MyLoadingIndicator />
             </div>
           ) : (
             <>

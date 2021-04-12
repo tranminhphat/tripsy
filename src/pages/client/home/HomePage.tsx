@@ -1,10 +1,10 @@
-import { CircularProgress } from "@material-ui/core";
 import { getExperiences, getExperiencesByDate } from "api/experiences";
 import { Header } from "components/Header/Header";
 import FilterMetadata from "components/Home/FilterMetadata";
 import SortMetadata from "components/Home/SortMetadata";
 import MyAlert from "components/Shared/MyAlert";
 import MyExperienceCard from "components/Shared/MyExperienceCard";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -80,7 +80,9 @@ const HomePage: React.FC = () => {
               ))}
             </div>
           ) : (
-            <CircularProgress />
+            <div className="flex-grow justify-center items-center">
+              <MyLoadingIndicator width={300} height={300} />
+            </div>
           )}
         </div>
         <MyAlert />

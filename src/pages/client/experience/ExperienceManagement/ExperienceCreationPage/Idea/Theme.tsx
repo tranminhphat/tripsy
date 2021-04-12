@@ -1,8 +1,8 @@
 import { Slide, Typography } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import ArrowRightIcon from "@material-ui/icons/ArrowForwardIos";
 import CloseIcon from "@material-ui/icons/Close";
 import { getExperienceById } from "api/experiences";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { themes } from "constants/index";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -112,8 +112,8 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
             </div>
           </>
         ) : (
-          <div className="flex justify-center items-center">
-            <CircularProgress />
+          <div className="flex-grow justify-center items-center">
+            <MyLoadingIndicator width={300} height={300} />
           </div>
         )}
       </div>

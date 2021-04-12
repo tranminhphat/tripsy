@@ -1,6 +1,6 @@
-import { CircularProgress } from "@material-ui/core";
 import { getExperienceById } from "api/experiences";
 import { getUserById } from "api/users";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -94,8 +94,8 @@ const InfoVerification: React.FC<Props> = ({ stepProps }) => {
           </div>
         </>
       ) : (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
     </div>

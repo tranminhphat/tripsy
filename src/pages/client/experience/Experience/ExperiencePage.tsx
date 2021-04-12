@@ -1,4 +1,3 @@
-import { CircularProgress } from "@material-ui/core";
 import { getActivities } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { getProfileById, saveExperience } from "api/profile";
@@ -12,6 +11,7 @@ import LocationSection from "components/Experience/LocationSection";
 import PhotoGallerySection from "components/Experience/PhotoGallerySection";
 import ReviewSection from "components/Experience/ReviewSection";
 import TitleSection from "components/Experience/TitleSection";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
 import IActivity from "interfaces/activity/activity.interface";
@@ -224,7 +224,9 @@ const ExperiencePage: React.FC<Props> = () => {
           </div>
         </div>
       ) : (
-        <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
+        </div>
       )}
     </MainLayout>
   );

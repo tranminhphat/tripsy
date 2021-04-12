@@ -1,6 +1,6 @@
 import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import MyErrorMessage from "components/Shared/MyErrorMessage";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTextField from "components/Shared/MyTextField";
 import { Form, Formik } from "formik";
 import * as React from "react";
@@ -44,15 +44,11 @@ const ForgotPasswordForm: React.FC<Props> = ({
             </div>
             <div className="mt-8 w-4/12 h-12">
               <Button
-                className="outline:none w-full h-full bg-main-blue text-white"
+                className="outline:none w-full h-full overflow-hidden bg-main-blue text-white"
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? (
-                  <CircularProgress className="text-white" />
-                ) : (
-                  <p>Tiếp tục</p>
-                )}
+                {isLoading ? <MyLoadingIndicator /> : <p>Tiếp tục</p>}
               </Button>
             </div>
             <div className="mt-4 mb-6">

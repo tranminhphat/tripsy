@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { getCurrentUser } from "api/users";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -63,8 +63,8 @@ const IDCardVerification: React.FC<Props> = () => {
           )}
         </>
       ) : (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
     </div>

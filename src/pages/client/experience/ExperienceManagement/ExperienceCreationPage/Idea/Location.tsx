@@ -1,6 +1,6 @@
 import { Typography } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { getExperienceById } from "api/experiences";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import MapboxAutocomplete from "react-mapbox-autocomplete";
@@ -89,8 +89,8 @@ const Location: React.FC<Props> = ({ stepProps }) => {
           )}
         </>
       ) : (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import MyErrorMessage from "components/Shared/MyErrorMessage";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyRadioButton from "components/Shared/MyRadioButton";
 import { Form, Formik } from "formik";
 import IRegisterForm from "interfaces/forms/register-form.interface";
@@ -171,11 +171,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? (
-                  <CircularProgress className="text-white" />
-                ) : (
-                  <p>Đăng ký</p>
-                )}
+                {isLoading ? <MyLoadingIndicator /> : <p>Đăng ký</p>}
               </Button>
             </div>
             <div className="mt-4 md:col-span-2">

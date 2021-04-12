@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { loadStripe } from "@stripe/stripe-js";
 import { getActivityById } from "api/activity";
 import { getExperienceById } from "api/experiences";
@@ -6,6 +6,7 @@ import { createReceipt } from "api/receipt";
 import { createCheckoutSession } from "api/stripe";
 import { getCurrentUser, getUserById } from "api/users";
 import LeftArrow from "assets/images/icons/left-arrow.svg";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { startTimeOptions } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
@@ -207,7 +208,9 @@ const ConfirmBookingPage: React.FC<Props> = () => {
           </div>
         </div>
       ) : (
-        <CircularProgress />
+        <div className="flex-grow justify-center items-center">
+          <MyLoadingIndicator width={300} height={300} />
+        </div>
       )}
     </MainLayout>
   );
