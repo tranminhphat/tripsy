@@ -1,6 +1,6 @@
 import { login } from "api/auth";
 import { getUserById } from "api/users";
-import LoginForm from "components/Authentication/Forms/LoginForm";
+import LoginForm from "components/Forms/LoginForm";
 import useErrorHandler from "hooks/useErrorHandler";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import MainLayout from "layouts/MainLayout";

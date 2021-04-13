@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 interface Props {
-  label: string;
   backgroundColor?: string;
   visualParts: any;
 }
 
 const MyProgressBar: React.FC<Props> = ({
-  label,
   backgroundColor = "#e5e5e5",
   // expected format for visual parts
   visualParts = [
@@ -35,7 +33,6 @@ const MyProgressBar: React.FC<Props> = ({
 
   return (
     <>
-      <div className="progressLabel">{label}</div>
       <div
         className="flex h-8 my-4 rounded-lg"
         style={{

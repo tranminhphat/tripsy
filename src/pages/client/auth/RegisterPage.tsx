@@ -1,6 +1,6 @@
 import { register } from "api/auth";
-import RegisterForm from "components/Authentication/Forms/RegisterForm";
-import EmailVerificationModal from "components/Authentication/Modals/EmailVerificationModal";
+import RegisterForm from "components/Forms/RegisterForm";
+import EmailVerificationModal from "components/Modals/EmailVerificationModal";
 import useErrorHandler from "hooks/useErrorHandler";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import { IUser } from "interfaces/users/user.interface";

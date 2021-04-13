@@ -5,7 +5,7 @@ import ILoginForm from "interfaces/forms/login-form.interface";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
-import MyTextField from "../../Shared/MyTextField";
+import MyTextField from "../Shared/MyTextField";
 
 interface Props {
   error: string;

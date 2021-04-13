@@ -8,8 +8,8 @@ import * as React from "react";
 import { useState } from "react";
 import { FileReaderResultType } from "types";
 import * as yup from "yup";
-import { MyFileInput } from "../../Shared/MyFileInput";
-import MyTextField from "../../Shared/MyTextField";
+import { MyFileInput } from "../Shared/MyFileInput";
+import MyTextField from "../Shared/MyTextField";
 
 interface Props {
   error: string;

@@ -1,5 +1,5 @@
 import { resetPassword } from "api/auth";
-import ResetPasswordForm from "components/Authentication/Forms/ResetPasswordForm";
+import ResetPasswordForm from "components/Forms/ResetPasswordForm";
 import useErrorHandler from "hooks/useErrorHandler";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";

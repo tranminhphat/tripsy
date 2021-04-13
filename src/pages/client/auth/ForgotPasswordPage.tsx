@@ -1,6 +1,6 @@
 import { forgotPassword } from "api/auth";
-import ForgotPasswordForm from "components/Authentication/Forms/ForgotPasswordForm";
-import ForgotPasswordModal from "components/Authentication/Modals/ForgotPasswordModal";
+import ForgotPasswordForm from "components/Forms/ForgotPasswordForm";
+import ForgotPasswordModal from "components/Modals/ForgotPasswordModal";
 import useErrorHandler from "hooks/useErrorHandler";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
