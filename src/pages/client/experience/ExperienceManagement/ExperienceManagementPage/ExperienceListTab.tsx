@@ -24,7 +24,7 @@ const ExperienceListTab: React.FC<Props> = () => {
   );
 
   const [isLoading, setIsLoading] = useState(false);
-  const [percent, setPercent] = useState<number | null>(null);
+  const [checkpointData, setCheckpointData] = useState<any>(null);
   const [receipts, setReceipts] = useState<IReceipt[]>();
 
   useEffect(() => {
@@ -68,7 +68,8 @@ const ExperienceListTab: React.FC<Props> = () => {
       (item) => item.name === experience.theme
     );
     const { data } = await updateCheckpoints(themeId);
-    setPercent(data.currentPoints);
+    console.log(data);
+    setCheckpointData(data);
     setIsLoading(false);
   };
 
@@ -138,13 +139,13 @@ const ExperienceListTab: React.FC<Props> = () => {
               objectId={item.experienceId}
             />
 
-            {percent ? (
+            {checkpointData ? (
               <CheckpointModal
                 isOpen={openCheckpointModal}
                 onClose={() => {
-                  setPercent(null);
+                  setCheckpointData(null);
                 }}
-                percent={percent}
+                checkpointData={checkpointData}
               />
             ) : null}
           </div>

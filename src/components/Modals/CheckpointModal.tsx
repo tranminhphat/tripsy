@@ -1,4 +1,4 @@
-import { Button, makeStyles, Modal } from "@material-ui/core";
+import { Button, makeStyles, Modal, Typography } from "@material-ui/core";
 import FlagIcon from "assets/images/icons/flag.svg";
 import MyProgressBar from "components/Shared/MyProgressBar";
 import * as React from "react";
@@ -7,7 +7,7 @@ import { useState } from "react";
 interface Props {
   isOpen: boolean;
   onClose: any;
-  percent: number;
+  checkpointData: any;
 }
 
 const useStyles = makeStyles({
@@ -35,7 +35,11 @@ const useStyles = makeStyles({
   },
 });
 
-const CheckpointModal: React.FC<Props> = ({ isOpen, onClose, percent }) => {
+const CheckpointModal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  checkpointData,
+}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(isOpen);
 
@@ -62,13 +66,19 @@ const CheckpointModal: React.FC<Props> = ({ isOpen, onClose, percent }) => {
           </div>
         </div>
         <div className="flex flex-col justity-center items-center">
-          <h2 className="text-2xl font-semibold my-4">Chúc mừng</h2>
+          <Typography className="text-2xl font-semibold my-4">
+            Chúc mừng
+          </Typography>
+          <Typography className="text-lg">
+            Bạn đã hoàn thành trải nghiệm tại chủ đề {checkpointData.theme} và
+            nhận thêm 10 điểm tích lũy.
+          </Typography>
           <div className="w-full">
             <div className="mx-16">
               <MyProgressBar
                 visualParts={[
                   {
-                    percentage: `${percent}%`,
+                    percentage: `${checkpointData.currentPoints}%`,
                     color: "bg-secondary-blue",
                   },
                 ]}
