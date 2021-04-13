@@ -101,7 +101,7 @@ const FilterGroupSize: React.FC<Props> = ({
                 }}
                 variant="contained"
                 size="large"
-                className="bg-main-blue text-white ml-2"
+                className="bg-secondary-blue text-white ml-2"
               >
                 Lọc
               </Button>

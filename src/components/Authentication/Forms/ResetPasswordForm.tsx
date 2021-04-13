@@ -53,7 +53,7 @@ const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button
-                className="outline:none w-full h-full bg-main-blue text-white"
+                className="outline:none w-full h-full bg-secondary-blue text-white"
                 type="submit"
               >
                 Đổi mật khẩu

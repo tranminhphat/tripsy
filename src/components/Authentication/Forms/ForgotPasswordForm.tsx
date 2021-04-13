@@ -44,7 +44,7 @@ const ForgotPasswordForm: React.FC<Props> = ({
             </div>
             <div className="mt-8 w-4/12 h-12">
               <Button
-                className="outline:none w-full h-full overflow-hidden bg-main-blue text-white"
+                className="outline:none w-full h-full overflow-hidden bg-secondary-blue text-white"
                 type="submit"
                 disabled={isLoading}
               >

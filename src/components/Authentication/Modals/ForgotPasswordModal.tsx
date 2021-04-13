@@ -17,7 +17,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
   return (
     <Modal open={open}>
       <div className="absolute w-max h-96 inset-0 m-auto bg-white outline-none pb-4">
-        <div className="flex justify-center bg-main-blue pt-10 rounded-b-full">
+        <div className="flex justify-center bg-secondary-blue pt-10 rounded-b-full">
           <img src={EmailVerificationImage} alt="Email verification" />
         </div>
         <div className="flex flex-col justity-center items-center">
@@ -33,7 +33,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
           </div>
           <Button
             onClick={() => onModalClose()}
-            className="outline-none w-32 h-12 mt-8 outline:none bg-main-blue text-white"
+            className="outline-none w-32 h-12 mt-8 outline:none bg-secondary-blue text-white"
           >
             Đồng ý
           </Button>

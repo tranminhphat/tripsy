@@ -1,4 +1,5 @@
-import { Button } from "@material-ui/core";
+import { Button, Modal } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { updateListOfGuest } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { updateCheckpoints } from "api/profile";
@@ -7,6 +8,7 @@ import { createExperienceReview, createUserReview } from "api/review";
 import { createRefund, getCheckoutSessionById } from "api/stripe";
 import { getCurrentUser } from "api/users";
 import BlackStarIcon from "assets/images/icons/blackstar.svg";
+import FlagIcon from "assets/images/icons/flag.svg";
 import StarIcon from "assets/images/icons/star.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
@@ -19,9 +21,35 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showAlert } from "redux/actions/alert/alertAction";
 
+const useStyles = makeStyles({
+  root: {
+    "&::before": {
+      content: "''",
+      position: "absolute",
+      borderRadius: "50%",
+      backgroundColor: "#ecf2f6",
+      width: "170%",
+      height: "200%",
+      display: "block",
+      left: "-35%",
+      top: "-100%",
+      zIndex: 0,
+    },
+    height: "128px",
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    position: "relative",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+});
+
 interface Props {}
 
 const ExperienceListTab: React.FC<Props> = () => {
+  const [openCheckpointModal, setOpenCheckpointModal] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [percent, setPercent] = useState<number | null>(null);
   const [receipts, setReceipts] = useState<IReceipt[]>();
@@ -31,6 +59,7 @@ const ExperienceListTab: React.FC<Props> = () => {
   const [openExperienceReviewModal, setOpenExperienceReviewModal] = useState(
     false
   );
+  const classes = useStyles();
 
   useEffect(() => {
     fetchExperience();
@@ -147,25 +176,12 @@ const ExperienceListTab: React.FC<Props> = () => {
                 className="bg-secondary-blue text-white overflow-hidden"
                 style={{ width: "160px", height: "50px" }}
                 variant="contained"
-                onClick={() => handleDoneExperience(item.experienceId)}
+                onClick={() => setOpenCheckpointModal(true)}
               >
                 <span>
                   {!isLoading ? "done experience" : <MyLoadingIndicator />}
                 </span>
               </Button>
-              <div>
-                {percent ? (
-                  <MyProgressBar
-                    label="Full progressbar"
-                    visualParts={[
-                      {
-                        percentage: `${percent}%`,
-                        color: "bg-main-blue",
-                      },
-                    ]}
-                  />
-                ) : null}
-              </div>
             </div>
             <MyModal
               size="xl"
@@ -376,6 +392,63 @@ const ExperienceListTab: React.FC<Props> = () => {
                 ),
               }}
             </MyModal>
+
+            <Modal open={openCheckpointModal}>
+              <div
+                style={{ borderRadius: 4 }}
+                className="relative max-w-2xl mx-auto my-16 bg-white outline-none border-none pb-4"
+              >
+                <div className={classes.root}>
+                  <div>
+                    <img
+                      height={100}
+                      width={100}
+                      className="z-10 relative mt-8 ml-16"
+                      src={FlagIcon}
+                      alt="checkpoints verification"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col justity-center items-center">
+                  <h2 className="text-2xl font-semibold my-4">
+                    Xác nhận email của bạn
+                  </h2>
+                  <div className="mx-4">
+                    <div>
+                      {percent ? (
+                        <MyProgressBar
+                          label="Full progressbar"
+                          visualParts={[
+                            {
+                              percentage: `${percent}%`,
+                              color: "bg-secondary-blue",
+                            },
+                          ]}
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => setOpenCheckpointModal(false)}
+                    className="outline-none w-32 h-12 mt-8 outline:none bg-secondary-blue text-white"
+                  >
+                    Đồng ý
+                  </Button>
+                  <div className="mt-8 mb-4">
+                    <p>
+                      Bạn chưa nhận được email?{" "}
+                      <a
+                        className="underline cursor-pointer hover:no-underline hover:text-main-pink"
+                        onClick={() => {}}
+                        href="#reset-password"
+                      >
+                        Click để gửi lại.
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Modal>
           </div>
         ))
       ) : (

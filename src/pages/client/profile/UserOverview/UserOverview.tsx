@@ -108,7 +108,7 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
             </Button>
             <Button
               variant="contained"
-              className="bg-main-blue text-white mt-4 ml-1"
+              className="bg-secondary-blue text-white mt-4 ml-1"
               onClick={() => changeUserAvatar(fileReader)}
             >
               Thay đổi
