@@ -3,4 +3,5 @@ export default interface IProfile {
   introduction?: string;
   savedExperiences?: string[];
   reviews: string[];
+  checkpoints: { themeId: string; points: number }[];
 }

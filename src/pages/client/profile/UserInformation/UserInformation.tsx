@@ -1,8 +1,11 @@
 import { Button, Typography } from "@material-ui/core";
 import { getProfileById, updateProfileById } from "api/profile";
+import TrophyIcon from "assets/images/icons/trophy.svg";
 import ReviewSection from "components/Profile/ReviewSection";
 import MyTruncateText from "components/Shared/MyTruncateText";
+import { themes } from "constants/index";
 import { Field, Form, Formik } from "formik";
+import IProfile from "interfaces/profiles/profile.interface";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -14,7 +17,8 @@ interface Props {
 }
 
 const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
-  const [introduction, setIntroduction] = useState();
+  const [profile, setProfile] = useState<IProfile>();
+  const [introduction, setIntroduction] = useState("");
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
   const dispatch = useDispatch();
 
@@ -27,6 +31,7 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
       data: { profile },
     } = await getProfileById(id);
     if (profile) {
+      setProfile(profile);
       setIntroduction(profile.introduction);
     }
   };
@@ -110,6 +115,32 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
         )}
       </div>
 
+      <div className="mt-4">
+        <hr />
+      </div>
+      <div className="mt-4">
+        {profile ? (
+          <div>
+            <Typography className="text-xl font-bold">Danh hiệu</Typography>
+            {profile.checkpoints.map((item) => {
+              const theme = themes.find((theme) => theme.id === item.themeId);
+              const themeName = theme?.name;
+              if (item.points === 100) {
+                return (
+                  <div className="mt-4 flex items-center">
+                    <img src={TrophyIcon} alt="trophy" width={60} height={80} />
+                    <Typography className="ml-2 text-lg">
+                      {themeName}
+                    </Typography>
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </div>
+        ) : null}
+      </div>
       <div className="mt-4">
         <hr />
       </div>
