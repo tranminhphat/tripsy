@@ -68,7 +68,6 @@ const ExperienceListTab: React.FC<Props> = () => {
       (item) => item.name === experience.theme
     );
     const { data } = await updateCheckpoints(themeId);
-    console.log(data);
     setCheckpointData(data);
     setIsLoading(false);
   };
