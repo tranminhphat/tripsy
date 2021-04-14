@@ -13,7 +13,6 @@ const useInfiniteScroll = (callback: any) => {
   }, [isFetching]);
 
   useEffect(() => {
-    console.log(isFetching);
     if (!isFetching) return;
     callback();
     // eslint-disable-next-line react-hooks/exhaustive-deps
