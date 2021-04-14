@@ -62,7 +62,7 @@ const LoginAndSecuritySettingPage: React.FC<Props> = () => {
           ]}
         />
         <div className="my-4">
-          <h1 className="text-4xl font-bold text-main-blue">
+          <h1 className="text-4xl font-bold text-secondary">
             Đăng nhập và bảo mật
           </h1>
         </div>
@@ -77,7 +77,7 @@ const LoginAndSecuritySettingPage: React.FC<Props> = () => {
             <Form>
               <div className="mt-16 max-w-xl">
                 <div>
-                  <h3 className="text-lg font-bold text-main-blue">
+                  <h3 className="text-lg font-bold text-secondary">
                     Đổi mật khẩu
                   </h3>
                 </div>
@@ -116,7 +116,7 @@ const LoginAndSecuritySettingPage: React.FC<Props> = () => {
                     <Button
                       variant="contained"
                       size="large"
-                      className="bg-secondary-blue text-white"
+                      className="bg-primary text-white"
                       type="submit"
                     >
                       Thay đổi

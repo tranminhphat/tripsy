@@ -98,7 +98,7 @@ const CheckpointModal: React.FC<Props> = ({
                     visualParts={[
                       {
                         percentage: `${checkpointData.currentPoints}%`,
-                        color: "bg-secondary-blue",
+                        color: "bg-primary",
                       },
                     ]}
                   />
@@ -113,7 +113,7 @@ const CheckpointModal: React.FC<Props> = ({
             </div>
             <Button
               onClick={() => handleClose()}
-              className="outline-none w-32 h-12 mt-8 outline:none bg-secondary-blue text-white"
+              className="outline-none w-32 h-12 mt-8 outline:none bg-primary text-white"
             >
               Xác nhận
             </Button>
@@ -148,7 +148,7 @@ const CheckpointModal: React.FC<Props> = ({
             </div>
             <Button
               onClick={() => setOpenReward(false)}
-              className="outline-none w-32 h-12 mt-8 outline:none bg-secondary-blue text-white"
+              className="outline-none w-32 h-12 mt-8 outline:none bg-primary text-white"
             >
               Xác nhận
             </Button>

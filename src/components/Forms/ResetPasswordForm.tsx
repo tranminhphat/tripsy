@@ -21,11 +21,11 @@ const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
     <div className="my-20 flex flex-col items-center justify-center w-96 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-8">
-        <h3 className="text-2xl font-semibold leading-normal my-2 text-main-blue">
+        <h3 className="text-2xl font-semibold leading-normal my-2 text-secondary">
           Nhập một mật khẩu mới
         </h3>
       </div>
-      <div className="mt-4 w-80 h-px border border-solid border-main-blue" />
+      <div className="mt-4 w-80 h-px border border-solid border-secondary" />
       <Formik
         initialValues={{ password: "", confirmPassword: "" }}
         onSubmit={(values) => {
@@ -53,7 +53,7 @@ const ResetPasswordForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button
-                className="outline:none w-full h-full bg-secondary-blue text-white"
+                className="outline:none w-full h-full bg-primary text-white"
                 type="submit"
               >
                 Đổi mật khẩu

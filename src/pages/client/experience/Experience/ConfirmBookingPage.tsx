@@ -199,7 +199,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
             <div className="flex flex-row-reverse mt-4">
               <Button
                 variant="contained"
-                className="bg-secondary-blue text-white self-end"
+                className="bg-primary text-white self-end"
                 onClick={handleClick}
               >
                 Thanh toán

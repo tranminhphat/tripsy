@@ -134,12 +134,12 @@ const ExperienceActivationPage: React.FC<Props> = () => {
     <MainLayout withSearchBar={false}>
       <div className="container mx-auto px-48 my-10">
         <div className="flex justify-between container">
-          <Typography className="text-3xl text-main-blue font-bold">
+          <Typography className="text-3xl text-secondary font-bold">
             Lịch hoạt động
           </Typography>
           <Button
             variant="outlined"
-            className="focus:outline-none text-secondary-blue border-secondary-blue hover:bg-secondary-blue hover:text-white"
+            className="focus:outline-none text-primary border-primary hover:bg-primary hover:text-white"
             onClick={() => setOpen(true)}
           >
             Thêm lịch hoạt động
@@ -218,7 +218,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                             className={`text-white ${
                               !isActivityEnd(item.date.dateObject.unix)
                                 ? "bg-gray-400"
-                                : "bg-secondary-blue"
+                                : "bg-primary"
                             }`}
                             onClick={() =>
                               handleCompleteActivity(item._id as string)

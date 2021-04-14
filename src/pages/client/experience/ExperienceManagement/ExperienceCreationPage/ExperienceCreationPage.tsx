@@ -109,7 +109,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
         Lưu và thoát ra
       </button>
       <div className="mt-4">
-        <h2 className="text-2xl font-bold text-main-blue">
+        <h2 className="text-2xl font-bold text-secondary">
           Thiết lập hoạt động của bạn
         </h2>
       </div>

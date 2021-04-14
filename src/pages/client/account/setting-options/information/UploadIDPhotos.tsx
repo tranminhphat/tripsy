@@ -58,7 +58,7 @@ const UploadIDPhotos: React.FC<Props> = ({ setIdType }) => {
 
   return (
     <div className="my-2 max-w-2xl">
-      <h1 className="text-4xl font-bold text-main-blue">
+      <h1 className="text-4xl font-bold text-secondary">
         Thêm ảnh mặt trước và mặt sau giấy tờ tùy thân của bạn
       </h1>
       <p className="mt-2 text-xl text-gray-400">
@@ -135,7 +135,7 @@ const UploadIDPhotos: React.FC<Props> = ({ setIdType }) => {
           className={
             !(frontCardPreview && backCardPreview)
               ? "bg-gray-400 text-white"
-              : "bg-secondary-blue text-white"
+              : "bg-primary text-white"
           }
           style={{ width: "80px", height: "40px", whiteSpace: "nowrap" }}
         >

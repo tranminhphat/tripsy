@@ -34,7 +34,7 @@ const AccountPage: React.FC<Props> = () => {
               </strong>
               <span>{userData.email} - </span>
               <Link
-                className="font-bold text-main-blue hover:underline"
+                className="font-bold text-secondary hover:underline"
                 to={`/user/profile/${userData ? userData._id : ""}`}
               >
                 Truy cập hồ sơ
@@ -53,7 +53,7 @@ const AccountPage: React.FC<Props> = () => {
                       <img src={setting.icon} alt="settings" />
                     </div>
                     <div>
-                      <h3 className="mt-2 text-2xl font-bold text-main-blue">
+                      <h3 className="mt-2 text-2xl font-bold text-secondary">
                         {setting.title}
                       </h3>
                     </div>

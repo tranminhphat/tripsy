@@ -5,9 +5,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "main-blue": "#233044",
-        "secondary-blue": "#0062cc",
-        "main-pink": "#ffa7c4",
+        primary: "#0062cc",
+        secondary: "#233044",
+        info: "#17a2b8",
+        success: "#28a745",
+        warning: "#ffc107",
+        danger: "#dc3545",
+        dark: "#343a40",
       },
     },
   },

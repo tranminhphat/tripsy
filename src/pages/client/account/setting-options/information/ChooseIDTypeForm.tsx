@@ -16,7 +16,7 @@ const validationSchema = yup.object({
 const ChooseIDTypeForm: React.FC<Props> = ({ setIdType }) => {
   return (
     <div className="my-2 max-w-2xl">
-      <h1 className="mb-4 text-4xl font-bold text-main-blue">
+      <h1 className="mb-4 text-4xl font-bold text-secondary">
         Chọn một loại giấy tờ tùy thân để thêm vào
       </h1>
       <div>
@@ -36,7 +36,7 @@ const ChooseIDTypeForm: React.FC<Props> = ({ setIdType }) => {
                     type="radio"
                     value="driver-license"
                     label="Giấy phép lái xe"
-                    className="text-secondary-blue"
+                    className="text-primary"
                   />
                 </div>
                 <div className="mt-2 border border-gray-300 p-4 rounded-lg">
@@ -66,7 +66,7 @@ const ChooseIDTypeForm: React.FC<Props> = ({ setIdType }) => {
                   variant="contained"
                   className={
                     values.idType
-                      ? "bg-secondary-blue text-white"
+                      ? "bg-primary text-white"
                       : "bg-gray-300 text-white"
                   }
                 >

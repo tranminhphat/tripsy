@@ -118,12 +118,12 @@ const HostingListTab: React.FC<Props> = () => {
         isPayOutEnabled ? (
           <>
             <div className="flex justify-between container">
-              <Typography className="text-3xl text-main-blue font-bold">
+              <Typography className="text-3xl text-secondary font-bold">
                 Hoạt động trải nghiệm của bạn
               </Typography>
               <Button
                 variant="outlined"
-                className="focus:outline-none text-secondary-blue border-secondary-blue hover:bg-secondary-blue hover:text-white"
+                className="focus:outline-none text-primary border-primary hover:bg-primary hover:text-white"
                 onClick={handleCreateExperience}
               >
                 Tạo hoạt động mới
@@ -292,7 +292,7 @@ const HostingListTab: React.FC<Props> = () => {
                 <img src={BankIcon} alt="bank" />
               </div>
               <div className="mt-6 text-center">
-                <h1 className="text-3xl text-main-blue font-bold">
+                <h1 className="text-3xl text-secondary font-bold">
                   Thiết lập tài khoản thanh toán để tạo trải nghiệm
                 </h1>
               </div>
@@ -307,7 +307,7 @@ const HostingListTab: React.FC<Props> = () => {
                   variant="contained"
                   fullWidth={true}
                   size="large"
-                  className="bg-secondary-blue text-white"
+                  className="bg-primary text-white"
                   onClick={handleCreatePayOutAccount}
                 >
                   Thiết lập tài khoản

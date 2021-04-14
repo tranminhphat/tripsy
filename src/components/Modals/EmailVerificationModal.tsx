@@ -22,7 +22,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
   return (
     <Modal open={open}>
       <div className="absolute w-max h-96 inset-0 m-auto bg-white outline-none pb-4">
-        <div className="flex justify-center bg-secondary-blue pt-10 rounded-b-full">
+        <div className="flex justify-center bg-primary pt-10 rounded-b-full">
           <img src={EmailVerificationImage} alt="Email verification" />
         </div>
         <div className="flex flex-col justity-center items-center">
@@ -31,17 +31,17 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
           </h2>
           <div className="text-gray-400 mx-4">
             <p>
-              Cảm ơn <span className="text-main-blue">{userFirstName}</span> !
+              Cảm ơn <span className="text-secondary">{userFirstName}</span> !
               Chúng tôi đã gửi một thư xác nhận email
             </p>
             <p>
-              vào địa chỉ: <span className="text-main-blue">{userEmail}</span>,
+              vào địa chỉ: <span className="text-secondary">{userEmail}</span>,
               hãy xác nhận email của bạn
             </p>
           </div>
           <Button
             onClick={() => onModalClose()}
-            className="outline:none w-32 h-12 mt-8 outline:none bg-secondary-blue text-white"
+            className="outline:none w-32 h-12 mt-8 outline:none bg-primary text-white"
           >
             Đồng ý
           </Button>
@@ -49,7 +49,7 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
             <p>
               Bạn chưa nhận được email?{" "}
               <a
-                className="underline cursor-pointer hover:no-underline hover:text-main-pink"
+                className="underline cursor-pointer hover:no-underline"
                 onClick={() => resendEmailVerification(userId, userEmail)}
                 href="#resend-email-verification"
               >

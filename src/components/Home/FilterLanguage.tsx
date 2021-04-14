@@ -87,7 +87,7 @@ const FilterLanguage: React.FC<Props> = ({ initialValue, setFilterObject }) => {
                 }}
                 variant="contained"
                 size="large"
-                className="bg-secondary-blue text-white ml-2"
+                className="bg-primary text-white ml-2"
               >
                 Lọc
               </Button>

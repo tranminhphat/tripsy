@@ -51,7 +51,7 @@ const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
             <Button
               type="submit"
               variant="contained"
-              className="bg-secondary-blue overflow-hidden text-white"
+              className="bg-primary overflow-hidden text-white"
               style={{ width: "80px", height: "40px" }}
             >
               {!buttonLoading ? "Lưu" : <MyLoadingIndicator />}

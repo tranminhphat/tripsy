@@ -212,7 +212,7 @@ const ExperiencePage: React.FC<Props> = () => {
                                       }}
                                     >
                                       <Button
-                                        className="bg-secondary-blue text-white"
+                                        className="bg-primary text-white"
                                         variant="contained"
                                       >
                                         Đặt chổ

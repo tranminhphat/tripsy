@@ -62,17 +62,17 @@ const InfoSettingPage: React.FC<Props> = () => {
         {userData ? (
           <>
             <div className="my-4">
-              <h1 className="text-4xl font-bold text-main-blue">
+              <h1 className="text-4xl font-bold text-secondary">
                 Thông tin cá nhân
               </h1>
             </div>
             <div className="mt-16 max-w-xl">
               <div className="flex justify-between">
-                <h3 className="text-lg font-bold text-main-blue">
+                <h3 className="text-lg font-bold text-secondary">
                   Tên pháp lý
                 </h3>
                 <button onClick={() => setOpenNameForm(!openNameForm)}>
-                  <p className="font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-primary hover:underline">
                     {openNameForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -96,9 +96,9 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <hr />
               </div>
               <div className="flex justify-between mt-4">
-                <h3 className="text-lg font-bold text-main-blue">Giới tính</h3>
+                <h3 className="text-lg font-bold text-secondary">Giới tính</h3>
                 <button onClick={() => setOpenGenderForm(!openGenderForm)}>
-                  <p className="font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-primary hover:underline">
                     {openGenderForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -123,11 +123,11 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <hr />
               </div>
               <div className="flex justify-between mt-4">
-                <h3 className="text-lg font-bold text-main-blue">Ngày sinh</h3>
+                <h3 className="text-lg font-bold text-secondary">Ngày sinh</h3>
                 <button
                   onClick={() => setOpenBirthDateForm(!openBirthDateForm)}
                 >
-                  <p className="font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-primary hover:underline">
                     {openBirthDateForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -152,13 +152,13 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <hr />
               </div>
               <div className="flex justify-between mt-4">
-                <h3 className="text-lg font-bold text-main-blue">
+                <h3 className="text-lg font-bold text-secondary">
                   Số điện thoại
                 </h3>
                 <button
                   onClick={() => setopenPhoneNumberForm(!opnePhoneNumberForm)}
                 >
-                  <p className="font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-primary hover:underline">
                     {opnePhoneNumberForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -179,9 +179,9 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <hr />
               </div>
               <div className="flex justify-between mt-4">
-                <h3 className="text-lg font-bold text-main-blue">Địa chỉ</h3>
+                <h3 className="text-lg font-bold text-secondary">Địa chỉ</h3>
                 <button onClick={() => setOpenAddressFrom(!openAddressForm)}>
-                  <p className="font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-primary hover:underline">
                     {openAddressForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
@@ -200,11 +200,11 @@ const InfoSettingPage: React.FC<Props> = () => {
                 <hr />
               </div>
               <div className="flex justify-between mt-4">
-                <h3 className="text-lg font-bold text-main-blue">
+                <h3 className="text-lg font-bold text-secondary">
                   Giấy tờ tùy thân do chính phủ cấp
                 </h3>
                 <Link to="/account-settings/personal-info/update-id">
-                  <p className="font-bold text-secondary-blue hover:underline">
+                  <p className="font-bold text-primary hover:underline">
                     {userData.isIdVerified ? "Cập nhật" : "Thêm"}
                   </p>
                 </Link>

@@ -28,14 +28,14 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
   return (
     <div className="my-12 flex flex-col items-center justify-center w-96 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-4">
-        <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue">
+        <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-secondary">
           Đăng nhập
         </h1>
         <p>
           và bắt đầu những <em className="font-bold">trải nghiệm</em>
         </p>
       </div>
-      <div className="mt-4 w-80 h-px border border-solid border-main-blue" />
+      <div className="mt-4 w-80 h-px border border-solid border-secondary" />
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={(values) => {
@@ -67,7 +67,7 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-12 w-4/12 h-12">
               <Button
-                className="outline:none w-full h-full focus:outline-none bg-secondary-blue text-white"
+                className="outline:none w-full h-full focus:outline-none bg-secondary text-white"
                 type="submit"
               >
                 Đăng nhập
@@ -78,7 +78,7 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
             </div>
             <div className="mt-4 mb-6">
               <a
-                className="text-lg underline hover:no-underline hover:text-main-pink"
+                className="text-lg underline hover:no-underline"
                 href="/register"
               >
                 Hoặc tạo một tài khoản mới

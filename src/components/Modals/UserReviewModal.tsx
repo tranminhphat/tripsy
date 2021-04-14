@@ -121,7 +121,7 @@ const UserReviewModal: React.FC<Props> = ({ objectId, setOpen, open }) => {
                   </div>
                   <div className="flex justify-end">
                     <Button
-                      className="bg-secondary-blue text-white"
+                      className="bg-primary text-white"
                       variant="contained"
                       type="submit"
                     >

@@ -65,14 +65,14 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
   return (
     <div className="my-12 flex flex-col items-center justify-center w-96 md:w-1/2 bg-white border border-gray-200 shadow-2xl rounded-2xl">
       <div className="text-center mt-4">
-        <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-main-blue">
+        <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-secondary">
           Đăng ký
         </h1>
         <p>
           và bắt đầu những <em className="font-bold">trải nghiệm</em>
         </p>
       </div>
-      <div className=" mt-4 w-80 h-px border border-solid border-main-blue" />
+      <div className=" mt-4 w-80 h-px border border-solid border-secondary" />
       <Formik
         initialValues={{
           firstName: "",
@@ -167,7 +167,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
             <div className="mt-4 w-7/12" />
             <div className="mt-8 w-4/12 md:col-span-2 h-12">
               <Button
-                className="outline:none w-full h-full bg-secondary-blue text-white"
+                className="outline:none w-full h-full bg-secondary text-white"
                 type="submit"
                 disabled={isLoading}
               >
@@ -180,10 +180,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
             <div className="mt-4 md:col-span-2 mb-6">
               <span className="text-lg">
                 Bạn đã có tài khoản?{" "}
-                <a
-                  className="underline hover:no-underline hover:text-main-pink"
-                  href="/login"
-                >
+                <a className="underline hover:no-underline" href="/login">
                   Đăng nhập ngay!
                 </a>
               </span>

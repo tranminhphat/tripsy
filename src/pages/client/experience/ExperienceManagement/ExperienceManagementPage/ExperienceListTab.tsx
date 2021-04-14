@@ -1,15 +1,22 @@
-import { Button } from "@material-ui/core";
+import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
+import CancelIcon from "@material-ui/icons/Close";
+import DoneIcon from "@material-ui/icons/Done";
 import { updateListOfGuest } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { updateCheckpoints } from "api/profile";
-import { deleteReceiptById, getReceipts } from "api/receipt";
+import { deleteReceiptById, getReceipts, updateReceiptById } from "api/receipt";
 import { createRefund, getCheckoutSessionById } from "api/stripe";
 import { getCurrentUser } from "api/users";
+import ClockIcon from "assets/images/icons/clock.svg";
+import DestinationIcon from "assets/images/icons/destination.svg";
+import HostIcon from "assets/images/icons/host.svg";
+import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import CheckpointModal from "components/Modals/CheckpointModal";
 import ExperienceReviewModal from "components/Modals/ExperienceReviewModal";
 import UserReviewModal from "components/Modals/UserReviewModal";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { themes } from "constants/index";
+import currencyFormatter from "helpers/currencyFormatter";
 import IReceipt from "interfaces/receipts/receipt.interface";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -29,7 +36,7 @@ const ExperienceListTab: React.FC<Props> = () => {
 
   useEffect(() => {
     fetchExperience();
-  }, []);
+  }, [checkpointData]);
 
   const fetchExperience = async () => {
     const {
@@ -38,7 +45,7 @@ const ExperienceListTab: React.FC<Props> = () => {
       },
     } = await getCurrentUser(["_id"]);
     if (userId) {
-      const { data } = await getReceipts({ guestId: userId, status: "paid" });
+      const { data } = await getReceipts({ guestId: userId });
       if (data) {
         setReceipts(data);
       }
@@ -59,7 +66,10 @@ const ExperienceListTab: React.FC<Props> = () => {
     }
   };
 
-  const handleCompleteExperience = async (experienceId: string) => {
+  const handleCompleteExperience = async (
+    experienceId: string,
+    receiptId: string
+  ) => {
     setIsLoading(true);
     const {
       data: { experience },
@@ -69,61 +79,147 @@ const ExperienceListTab: React.FC<Props> = () => {
     );
     const { data } = await updateCheckpoints(themeId);
     setCheckpointData(data);
+    await updateReceiptById(receiptId, { status: "finish" });
     setIsLoading(false);
   };
 
   return (
-    <div>
+    <div className="my-8">
       {receipts ? (
         receipts.map((item) => (
-          <div key={item._id}>
-            <p>{item.experienceId}</p>
-            <div>
-              <Button
-                className="bg-secondary-blue text-white overflow-hidden"
-                style={{ width: "160px", height: "50px" }}
-                variant="contained"
-                onClick={() =>
-                  handleRefundExperience(item.checkOutSessionId as string, item)
-                }
-              >
-                <span>refund</span>
-              </Button>
-            </div>
-            <div>
-              <Button
-                className="bg-secondary-blue text-white overflow-hidden"
-                style={{ width: "160px", height: "50px" }}
-                variant="contained"
-                onClick={() => setOpenUserReviewModal(true)}
-              >
-                <span>user review</span>
-              </Button>
-            </div>
-            <div>
-              <Button
-                className="bg-secondary-blue text-white overflow-hidden"
-                style={{ width: "160px", height: "50px" }}
-                variant="contained"
-                onClick={() => setOpenExperienceReviewModal(true)}
-              >
-                <span>experience review</span>
-              </Button>
-            </div>
-            <div>
-              <Button
-                className="bg-secondary-blue text-white overflow-hidden"
-                style={{ width: "160px", height: "50px" }}
-                variant="contained"
-                onClick={() => {
-                  handleCompleteExperience(item.experienceId);
-                  setOpenCheckpointModal(true);
-                }}
-              >
-                <span>
-                  {!isLoading ? "done experience" : <MyLoadingIndicator />}
-                </span>
-              </Button>
+          <div className="max-w-2xl" key={item._id}>
+            <div className="flex justify-between border border-gray-300 rounded-lg ">
+              <div className="mt-2 p-4 flex-grow">
+                <div className="flex items-center justify-between">
+                  <h1 className="text-2xl font-bold">
+                    {item.experience?.title}
+                  </h1>
+                  <Typography className="underline">
+                    {currencyFormatter(
+                      item.experience?.pricing?.individualPrice!
+                    )}
+                  </Typography>
+                </div>
+                <div className="flex items-center mt-4">
+                  <img src={HostIcon} alt="host" width={32} height={32} />
+                  <div className="ml-6 flex items-center">
+                    <Avatar
+                      src={
+                        item.host?.avatarUrl
+                          ? item.host?.avatarUrl
+                          : SkeletonUserAvatar
+                      }
+                      style={{ width: "32px", height: "32px" }}
+                      alt="User"
+                    />
+                    <Typography className="ml-2 text-lg">
+                      {item.host?.firstName} {item.host?.lastName}
+                    </Typography>
+                  </div>
+                </div>
+                <div className="flex items-center mt-2">
+                  <img
+                    src={DestinationIcon}
+                    alt="destination"
+                    width={32}
+                    height={32}
+                  />
+                  <Typography className="ml-6 text-lg">
+                    {item.experience?.address?.district},{" "}
+                    {item.experience?.address?.city}
+                  </Typography>
+                </div>
+                <div className="flex items-center mt-2">
+                  <img src={ClockIcon} alt="date" width={32} height={32} />
+                  <Typography className="ml-6 text-lg">
+                    {item.activity?.date.dateObject.day}/
+                    {item.activity?.date.dateObject.month}/
+                    {item.activity?.date.dateObject.year}
+                  </Typography>
+                </div>
+                <div className="flex items-center mt-4">
+                  {item.status !== "finish" ? (
+                    <>
+                      <div className="mr-4">
+                        <Tooltip title="Hủy và nhận hoàn tiền">
+                          <Button
+                            className="bg-danger text-white overflow-hidden"
+                            style={{ width: "200px", height: "50px" }}
+                            variant="contained"
+                            onClick={() =>
+                              handleRefundExperience(
+                                item.checkOutSessionId as string,
+                                item
+                              )
+                            }
+                          >
+                            <div className="flex items-center">
+                              <CancelIcon />
+                              <Typography className="ml-2">Hủy bỏ</Typography>
+                            </div>
+                          </Button>
+                        </Tooltip>
+                      </div>
+                      <div className="ml-4">
+                        <Tooltip title="Hoàn thành và nhận điểm tích lũy">
+                          <Button
+                            className="bg-success text-white overflow-hidden"
+                            style={{ width: "200px", height: "50px" }}
+                            variant="contained"
+                            onClick={() => {
+                              handleCompleteExperience(
+                                item.experienceId,
+                                item._id!
+                              );
+                              setOpenCheckpointModal(true);
+                            }}
+                          >
+                            {!isLoading ? (
+                              <div className="flex items-center">
+                                <DoneIcon />
+                                <Typography className="ml-2">
+                                  Hoàn thành
+                                </Typography>
+                              </div>
+                            ) : (
+                              <MyLoadingIndicator />
+                            )}
+                          </Button>
+                        </Tooltip>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="mr-4">
+                        <Button
+                          className="bg-primary whitespace-nowrap text-white overflow-hidden"
+                          style={{ width: "200px", height: "50px" }}
+                          variant="contained"
+                          onClick={() => setOpenUserReviewModal(true)}
+                        >
+                          <span>Đánh giá người tổ chức</span>
+                        </Button>
+                      </div>
+                      <div className="ml-4">
+                        <Button
+                          className="bg-primary text-white overflow-hidden"
+                          style={{ width: "200px", height: "50px" }}
+                          variant="contained"
+                          onClick={() => setOpenExperienceReviewModal(true)}
+                        >
+                          <span>Đánh giá trải nghiệm</span>
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+              <img
+                className="rounded-lg"
+                width={180}
+                src={item.experience?.photoGallery![0].url}
+                alt="experience"
+              />
             </div>
 
             <UserReviewModal

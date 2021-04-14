@@ -25,13 +25,13 @@ const ExperienceManagementPage: React.FC<Props> = () => {
       >
         <Tab
           className={`focus:outline-none text-lg ${
-            value === 0 ? "text-secondary-blue" : null
+            value === 0 ? "text-primary" : null
           }`}
           label="Trải nghiệm"
         />
         <Tab
           className={`focus:outline-none text-lg ${
-            value === 1 ? "text-secondary-blue" : null
+            value === 1 ? "text-primary" : null
           }`}
           label="Hoạt động của bạn"
         />

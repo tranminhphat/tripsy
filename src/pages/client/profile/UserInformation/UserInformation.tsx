@@ -93,15 +93,14 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                   </div>
                   <div className="flex justify-end">
                     <Button
-                      className="bg-secondary-blue text-white"
+                      className="bg-primary text-white"
                       variant="contained"
                       type="submit"
                     >
                       Cập nhật
                     </Button>
                     <Button
-                      className="ml-2"
-                      color="secondary"
+                      className="ml-2 bg-success text-white"
                       variant="contained"
                       onClick={() => setIsCreatingIntroduction(false)}
                     >
