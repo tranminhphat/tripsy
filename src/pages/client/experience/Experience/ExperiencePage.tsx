@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import { getActivities } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { getProfileById, saveExperience } from "api/profile";
@@ -93,6 +94,10 @@ const ExperiencePage: React.FC<Props> = () => {
     }
   };
 
+  const compareFunction = (a: IActivity, b: IActivity) => {
+    return a.date.dateObject.unix - b.date.dateObject.unix;
+  };
+
   return (
     <MainLayout>
       {experience && user && userProfile ? (
@@ -185,29 +190,36 @@ const ExperiencePage: React.FC<Props> = () => {
                         <>
                           <p className="text-lg">Lịch hoạt động: </p>
                           {activities
-                            ? activities.map((item, idx) => (
-                                <div
-                                  key={idx}
-                                  className="mt-2 flex justify-between"
-                                >
-                                  <p>
-                                    {toWeekDayString(
-                                      item.date.dateObject.weekDay
-                                    )}
-                                    , {item.date.dateObject.day}/
-                                    {item.date.dateObject.month}/
-                                    {item.date.dateObject.year}
-                                  </p>
-                                  <Link
-                                    to={{
-                                      pathname: `${url}/confirm-booking`,
-                                      search: `?activityId=${item._id}`,
-                                    }}
+                            ? activities
+                                .sort(compareFunction)
+                                .map((item, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="mt-2 flex items-center justify-between"
                                   >
-                                    Đặt chổ
-                                  </Link>
-                                </div>
-                              ))
+                                    <p>
+                                      {toWeekDayString(
+                                        item.date.dateObject.weekDay
+                                      )}
+                                      , {item.date.dateObject.day}/
+                                      {item.date.dateObject.month}/
+                                      {item.date.dateObject.year}
+                                    </p>
+                                    <Link
+                                      to={{
+                                        pathname: `${url}/confirm-booking`,
+                                        search: `?activityId=${item._id}`,
+                                      }}
+                                    >
+                                      <Button
+                                        className="bg-secondary-blue text-white"
+                                        variant="contained"
+                                      >
+                                        Đặt chổ
+                                      </Button>
+                                    </Link>
+                                  </div>
+                                ))
                             : null}
                         </>
                       )}
