@@ -84,10 +84,10 @@ const ExperienceListTab: React.FC<Props> = () => {
   };
 
   return (
-    <div className="my-8">
+    <div>
       {receipts ? (
         receipts.map((item) => (
-          <div className="max-w-2xl" key={item._id}>
+          <div className="max-w-2xl my-8" key={item._id}>
             <div className="flex justify-between border border-gray-300 rounded-lg ">
               <div className="mt-2 p-4 flex-grow">
                 <div className="flex items-center justify-between">
