@@ -1,11 +1,11 @@
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import MyStepper from "components/Shared/MyStepper";
-import ExperienceCreationContext from "contexts/ExperienceCreationContext";
 import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 import Language from "./Language";
 import Location from "./Location";
 import Theme from "./Theme";
@@ -62,6 +62,7 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
     currentStep: number;
   }>();
   const { currentProgress, currentStep } = location.state;
+  console.log(currentProgress, currentStep);
 
   /* Store the array of steps in state */
   const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));

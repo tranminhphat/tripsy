@@ -3,20 +3,20 @@ import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { groupSizeOptions } from "constants/index";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 interface Props {
   stepProps: any;
 }
 
 const GroupSize: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const { id } = useParams<{ id: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [groupSize, setGroupSize] = useState(
-    experience.groupSize ? experience.groupSize : 1
+    creationObject.groupSize ? creationObject.groupSize : 1
   );
   const [open, setOpen] = useState(false);
 
@@ -26,7 +26,7 @@ const GroupSize: React.FC<Props> = ({ stepProps }) => {
   }, [id]);
 
   const fetchGroupSize = async (id: string) => {
-    if (experience.groupSize) {
+    if (creationObject.groupSize) {
       setIsValid(true);
     } else {
       const {

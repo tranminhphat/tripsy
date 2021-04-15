@@ -1,9 +1,9 @@
 import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 
 interface Props {
   stepProps: any;
@@ -12,9 +12,9 @@ interface Props {
 const Description: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const [description, setDescription] = useState(
-    experience.description ? experience.description : ""
+    creationObject.description ? creationObject.description : ""
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,7 +24,7 @@ const Description: React.FC<Props> = ({ stepProps }) => {
   }, []);
 
   const fetchDescription = async (id: string) => {
-    if (experience.description) {
+    if (creationObject.description) {
       setIsValid(true);
     } else {
       const {

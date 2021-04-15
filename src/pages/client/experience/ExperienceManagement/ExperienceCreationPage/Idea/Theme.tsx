@@ -5,9 +5,9 @@ import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { themes } from "constants/index";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 
 interface Props {
   stepProps: any;
@@ -16,9 +16,9 @@ interface Props {
 const Theme: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const [theme, setTheme] = useState<string>(
-    experience.theme ? experience.theme : "Chủ đề"
+    creationObject.theme ? creationObject.theme : "Chủ đề"
   );
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +29,7 @@ const Theme: React.FC<Props> = ({ stepProps }) => {
   }, [id]);
 
   const fetchData = async (id: string) => {
-    if (experience.theme) {
+    if (creationObject.theme) {
       setIsValid(true);
     } else {
       const {

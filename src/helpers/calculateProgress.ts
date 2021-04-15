@@ -43,7 +43,7 @@ export const calculateCurrentProgress = (
   if (!title) {
     return [2, 5];
   }
-  if (!photoGallery) {
+  if (photoGallery?.some((photo) => photo.url === "")) {
     return [2, 6];
   }
   if (!groupSize) {

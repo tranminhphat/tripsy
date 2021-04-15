@@ -8,9 +8,9 @@ import MyAutocomplete from "components/Shared/MyAutocomplete";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyMapbox from "components/Shared/MyMapbox";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 
 interface Props {
   stepProps: any;
@@ -47,16 +47,16 @@ const initialAddressInput: AddressInput = {
 const Address: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const [coordinates, setCoordinates] = useState<[number, number]>(
-    experience.location ? experience.location.coordinates : [0, 0]
+    creationObject.location ? creationObject.location.coordinates : [0, 0]
   );
 
   const [cities, setCities] = useState<string[]>();
   const [districts, setDistricts] = useState<string[]>();
   const [wards, setWards] = useState<string[]>();
   const [address, setAddress] = useState<AddressObject>(
-    experience.address ? experience.address : initialAddress
+    creationObject.address ? creationObject.address : initialAddress
   );
   const [addressInput, setAddressInput] = useState<AddressInput>(
     initialAddressInput

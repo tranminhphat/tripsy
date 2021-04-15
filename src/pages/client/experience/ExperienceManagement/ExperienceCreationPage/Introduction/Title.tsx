@@ -1,9 +1,9 @@
 import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 
 interface Props {
   stepProps: any;
@@ -14,10 +14,13 @@ const TITLE_MIN_LENGTH = 5;
 
 const Title: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
+  console.log(creationObject);
   const { id } = useParams<{ id: string }>();
   const [isLoading, setIsLoading] = useState(true);
-  const [title, setTitle] = useState(experience.title ? experience.title : "");
+  const [title, setTitle] = useState(
+    creationObject.title ? creationObject.title : ""
+  );
 
   useEffect(() => {
     fetchTitle(id);

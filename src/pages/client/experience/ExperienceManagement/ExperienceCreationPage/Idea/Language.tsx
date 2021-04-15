@@ -3,9 +3,9 @@ import MyAutocomplete from "components/Shared/MyAutocomplete";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { languages } from "constants/index";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 interface Props {
   stepProps: any;
 }
@@ -13,9 +13,9 @@ interface Props {
 const Language: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const [language, setLanguage] = useState<string | null>(
-    experience.language ? experience.language : null
+    creationObject.language ? creationObject.language : null
   );
   const [languageInput, setLanguageInput] = useState("");
 
@@ -27,7 +27,7 @@ const Language: React.FC<Props> = ({ stepProps }) => {
   }, [id]);
 
   const fetchData = async (id: string) => {
-    if (experience.language) {
+    if (creationObject.language) {
       setIsValid(true);
     } else {
       const {

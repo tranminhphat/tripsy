@@ -3,9 +3,9 @@ import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { durationOptions } from "constants/index";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 
 interface Props {
   stepProps: any;
@@ -13,11 +13,11 @@ interface Props {
 
 const Duration: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const { id } = useParams<{ id: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [duration, setDuration] = useState(
-    experience.duration ? experience.duration : 2
+    creationObject.duration ? creationObject.duration : 2
   );
 
   const [durationOpen, setDurationOpen] = useState(false);

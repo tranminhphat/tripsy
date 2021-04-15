@@ -3,9 +3,9 @@ import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import currencyFormatter from "helpers/currencyFormatter";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 const useStyles = makeStyles({
   number: {
     "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
@@ -21,14 +21,14 @@ interface Props {
 
 const Price: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const { id } = useParams<{ id: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [price, setPrice] = useState<number>(
-    experience.pricing ? experience.pricing.individualPrice : 1
+    creationObject.pricing ? creationObject.pricing.individualPrice : 1
   );
   const [estimatedEarning, setEstimatedEarning] = useState<string>(
-    experience.pricing ? experience.pricing.estimatedEarning : "0.8"
+    creationObject.pricing ? creationObject.pricing.estimatedEarning : "0.8"
   );
   const classes = useStyles();
 

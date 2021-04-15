@@ -2,10 +2,10 @@ import { Typography } from "@material-ui/core";
 import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MapboxAutocomplete from "react-mapbox-autocomplete";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 interface Props {
   stepProps: any;
 }
@@ -20,9 +20,9 @@ const initialValue: LocationProps = { city: "", coordinates: [0, 0] };
 const Location: React.FC<Props> = ({ stepProps }) => {
   const { setStepValue, setIsValid } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const [location, setLocation] = useState<LocationProps>(
-    experience.location ? experience.location : initialValue
+    creationObject.location ? creationObject.location : initialValue
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,7 +32,7 @@ const Location: React.FC<Props> = ({ stepProps }) => {
   }, [id]);
 
   const fetchData = async (id: string) => {
-    if (experience.location) {
+    if (creationObject.location) {
       setIsValid(true);
     } else {
       const {

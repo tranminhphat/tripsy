@@ -5,8 +5,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { updateExperienceById } from "api/experiences";
 import CheckIcon from "assets/images/icons/check-mark.svg";
 import AlertContext from "contexts/AlertContext";
-import ExperienceCreationContext from "contexts/ExperienceCreationContext";
-import React, { useContext, useState } from "react";
+import IExperience from "interfaces/experiences/experience.interface";
+import React, { createContext, useContext, useState } from "react";
 import {
   Link,
   Route,
@@ -23,11 +23,11 @@ import Submission from "./Submission/Submission";
 
 interface Props {}
 
+const ExperienceCreationContext = createContext<any>({});
+
 const ExperienceCreationPage: React.FC<Props> = () => {
   const { url, path } = useRouteMatch();
-  const { creationObject, resetCreationObject } = useContext(
-    ExperienceCreationContext
-  );
+  const [creationObject, setCreationObject] = useState<IExperience>({});
   const { alert } = useContext(AlertContext);
   const history = useHistory();
 
@@ -68,7 +68,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
       const { data } = await updateExperienceById(id, creationObject);
       if (data) {
         history.push("/user/experience-hosting");
-        resetCreationObject();
+        setCreationObject({});
         alert("success", "Lưu thiết lập thành công");
       } else {
         alert("error", "Lưu thiết lập thất bại");
@@ -116,7 +116,14 @@ const ExperienceCreationPage: React.FC<Props> = () => {
         <Link
           to={{
             pathname: `${url}/progress1`,
-            state: { currentProgress, currentStep },
+            state: {
+              currentProgress:
+                currentProgress > 1 || currentProgress === -1
+                  ? 1
+                  : currentProgress,
+              currentStep:
+                currentProgress > 1 || currentProgress === -1 ? 1 : currentStep,
+            },
           }}
         >
           <li className="mt-2" onClick={() => handleListItemClick(1)}>
@@ -140,7 +147,14 @@ const ExperienceCreationPage: React.FC<Props> = () => {
         <Link
           to={{
             pathname: `${url}/progress2`,
-            state: { currentProgress, currentStep },
+            state: {
+              currentProgress:
+                currentProgress > 2 || currentProgress === -1
+                  ? 2
+                  : currentProgress,
+              currentStep:
+                currentProgress > 2 || currentProgress === -1 ? 1 : currentStep,
+            },
           }}
         >
           <li className="mt-2" onClick={() => handleListItemClick(2)}>
@@ -162,7 +176,14 @@ const ExperienceCreationPage: React.FC<Props> = () => {
         <Link
           to={{
             pathname: `${url}/progress3`,
-            state: { currentProgress, currentStep },
+            state: {
+              currentProgress:
+                currentProgress > 3 || currentProgress === -1
+                  ? 3
+                  : currentProgress,
+              currentStep:
+                currentProgress > 3 || currentProgress === -1 ? 1 : currentStep,
+            },
           }}
         >
           <li className="mt-2" onClick={() => handleListItemClick(3)}>
@@ -184,7 +205,14 @@ const ExperienceCreationPage: React.FC<Props> = () => {
         <Link
           to={{
             pathname: `${url}/progress4`,
-            state: { currentProgress, currentStep },
+            state: {
+              currentProgress:
+                currentProgress > 4 || currentProgress === -1
+                  ? 4
+                  : currentProgress,
+              currentStep:
+                currentProgress > 4 || currentProgress === -1 ? 1 : currentStep,
+            },
           }}
         >
           <li className="mt-2" onClick={() => handleListItemClick(4)}>
@@ -208,52 +236,68 @@ const ExperienceCreationPage: React.FC<Props> = () => {
   );
 
   return (
-    <div className="flex">
-      <Hidden smUp implementation="css">
-        <Slide direction="right" in={mobileOpen} mountOnEnter unmountOnExit>
-          {drawer}
-        </Slide>
-      </Hidden>
-      <Hidden xsDown implementation="css">
-        {drawer}
-      </Hidden>
-      <main className="flex-grow border-l border-black">
+    <ExperienceCreationContext.Provider
+      value={{
+        creationObject,
+        updateCreationObject: (updatedProperties) => {
+          setCreationObject((prevVal) => ({
+            ...prevVal,
+            ...updatedProperties,
+          }));
+        },
+        resetCreationObject: () => {
+          setCreationObject({});
+        },
+      }}
+    >
+      <div className="flex">
         <Hidden smUp implementation="css">
-          <IconButton
-            className="ml-4"
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Slide direction="right" in={mobileOpen} mountOnEnter unmountOnExit>
+            {drawer}
+          </Slide>
         </Hidden>
-        <Switch>
-          <Route
-            exact
-            path={`${path}/progress1/`}
-            render={() => <Idea handleDone={handleDone} />}
-          />
-          <Route
-            exact
-            path={`${path}/progress2/`}
-            render={() => <Introduction handleDone={handleDone} />}
-          />
-          <Route
-            exact
-            path={`${path}/progress3/`}
-            render={() => <Setting handleDone={handleDone} />}
-          />
-          <Route
-            exact
-            path={`${path}/progress4/`}
-            render={() => <Submission handleDone={handleDone} />}
-          />
-        </Switch>
-      </main>
-    </div>
+        <Hidden xsDown implementation="css">
+          {drawer}
+        </Hidden>
+        <main className="flex-grow border-l border-black">
+          <Hidden smUp implementation="css">
+            <IconButton
+              className="ml-4"
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+          <Switch>
+            <Route
+              exact
+              path={`${path}/progress1/`}
+              render={() => <Idea handleDone={handleDone} />}
+            />
+            <Route
+              exact
+              path={`${path}/progress2/`}
+              render={() => <Introduction handleDone={handleDone} />}
+            />
+            <Route
+              exact
+              path={`${path}/progress3/`}
+              render={() => <Setting handleDone={handleDone} />}
+            />
+            <Route
+              exact
+              path={`${path}/progress4/`}
+              render={() => <Submission handleDone={handleDone} />}
+            />
+          </Switch>
+        </main>
+      </div>
+    </ExperienceCreationContext.Provider>
   );
 };
 
+export { ExperienceCreationContext };
 export default ExperienceCreationPage;

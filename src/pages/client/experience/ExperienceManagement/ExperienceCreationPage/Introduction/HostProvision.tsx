@@ -1,9 +1,9 @@
 import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 
 interface Props {
   stepProps: any;
@@ -21,9 +21,11 @@ const defaultProvisionList: ProvisionListItem[] = [
 const HostProvision: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
-  const experience = useSelector((state) => state.experience);
+  const { creationObject } = useContext(ExperienceCreationContext);
   const [provisionList, setProvisionList] = useState<ProvisionListItem[]>(
-    experience.hostProvisions ? experience.hostProvisions : defaultProvisionList
+    creationObject.hostProvisions
+      ? creationObject.hostProvisions
+      : defaultProvisionList
   );
   const [isLoading, setIsLoading] = useState(true);
 

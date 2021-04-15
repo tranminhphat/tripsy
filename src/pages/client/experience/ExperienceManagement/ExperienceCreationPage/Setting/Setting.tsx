@@ -1,10 +1,10 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
-import ExperienceCreationContext from "contexts/ExperienceCreationContext";
 import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
 import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { ExperienceCreationContext } from "../ExperienceCreationPage";
 import BookingDate from "./BookingDate";
 import Duration from "./Duration";
 import GroupSize from "./GroupSize";
