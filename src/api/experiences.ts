@@ -9,7 +9,7 @@ export const getExperiencesByDate = (dayOfYear: number) => {
 };
 
 export const getExperiences = (
-  filterObject: IExperience,
+  filterObject?: IExperience,
   sortString?: string
 ) => {
   const filterString = createFilterString(filterObject);

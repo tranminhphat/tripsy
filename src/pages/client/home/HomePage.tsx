@@ -1,16 +1,16 @@
-import { getExperiences, getExperiencesByDate } from "api/experiences";
 import { Header } from "components/Header/Header";
 import FilterMetadata from "components/Home/FilterMetadata";
 import SortMetadata from "components/Home/SortMetadata";
 import MyAlert from "components/Shared/MyAlert";
 import MyExperienceCard from "components/Shared/MyExperienceCard";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
-import IExperience from "interfaces/experiences/experience.interface";
+import useExperiences from "hooks/queries/experiences/useExperiences";
+import useExperiencesByDate from "hooks/queries/experiences/useExperiencesByDate";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const intersection = (a, b) => {
+const intersectionExperiences = (a, b) => {
   if (a) {
     const experienceIdByDate = a.map((item) => {
       const { experience } = item;
@@ -24,34 +24,42 @@ const intersection = (a, b) => {
 };
 
 const HomePage: React.FC = () => {
-  const [experiences, setExperiences] = useState<IExperience[]>();
+  // const [experiences, setExperiences] = useState<IExperience[]>();
   const [filterObject, setFilterObject] = useState({});
   const [sortString, setSortString] = useState("");
   const [dayOfYear, setDayOfYear] = useState<number>();
 
-  useEffect(() => {
-    fetchExperiences(filterObject, sortString, dayOfYear);
-  }, [filterObject, sortString, dayOfYear]);
+  const { data: experiencesByField } = useExperiences(filterObject, sortString);
+  const { data: experiencesByDate } = useExperiencesByDate(dayOfYear);
 
-  const fetchExperiences = async (filterObject, sortString, dayOfYear) => {
-    if (!dayOfYear) {
-      const { data } = await getExperiences(filterObject, sortString);
-      if (data) {
-        setExperiences(data);
-      }
-    } else {
-      const { data: experiencesByField } = await getExperiences(
-        filterObject,
-        sortString
-      );
-      const { data: experiencesByDate } = await getExperiencesByDate(dayOfYear);
-      const intersectObject = intersection(
-        experiencesByDate,
-        experiencesByField
-      );
-      setExperiences(intersectObject);
-    }
-  };
+  const experiences = intersectionExperiences(
+    experiencesByDate,
+    experiencesByField
+  );
+
+  // useEffect(() => {
+  //   fetchExperiences(filterObject, sortString, dayOfYear);
+  // }, [filterObject, sortString, dayOfYear]);
+
+  // const fetchExperiences = async (filterObject, sortString, dayOfYear) => {
+  //   if (!dayOfYear) {
+  //     const { data } = await getExperiences(filterObject, sortString);
+  //     if (data) {
+  //       setExperiences(data);
+  //     }
+  //   } else {
+  //     const { data: experiencesByField } = await getExperiences(
+  //       filterObject,
+  //       sortString
+  //     );
+  //     const { data: experiencesByDate } = await getExperiencesByDate(dayOfYear);
+  //     const intersectObject = intersection(
+  //       experiencesByDate,
+  //       experiencesByField
+  //     );
+  //     setExperiences(intersectObject);
+  //   }
+  // };
 
   return (
     <div className="h-full w-full">
