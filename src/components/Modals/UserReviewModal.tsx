@@ -8,7 +8,6 @@ import AlertContext from "contexts/AlertContext";
 import { Field, Form, Formik } from "formik";
 import * as React from "react";
 import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
 
 interface Props {
   open: boolean;
@@ -20,7 +19,6 @@ const UserReviewModal: React.FC<Props> = ({ objectId, setOpen, open }) => {
   const [numOfStars, setNumOfStars] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { alert } = useContext(AlertContext);
-  const dispatch = useDispatch();
 
   const handleCreateUserReview = async (
     objectId: string,

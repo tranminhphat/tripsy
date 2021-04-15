@@ -1,11 +1,10 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
+import ExperienceCreationContext from "contexts/ExperienceCreationContext";
 import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { updateExperience } from "redux/actions/experience/experienceAction";
 import BookingDate from "./BookingDate";
 import Duration from "./Duration";
 import GroupSize from "./GroupSize";
@@ -54,7 +53,7 @@ const getStepContent = (step: number) => {
 };
 
 const Setting: React.FC<Props> = ({ handleDone }) => {
-  const dispatch = useDispatch();
+  const { updateCreationObject } = useContext(ExperienceCreationContext);
 
   /* Get the current step that user been doing from route */
   const location = useLocation<{
@@ -77,8 +76,8 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
 
   /* Handle click on the "Next" button */
   const handleNext = () => {
-    /* Update the experience state in redux store */
-    dispatch(updateExperience(stepValue));
+    /* Update the experience state in context */
+    updateCreationObject(stepValue);
     /* Update the active step */
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     /* Update the steps (isCompleted property) */

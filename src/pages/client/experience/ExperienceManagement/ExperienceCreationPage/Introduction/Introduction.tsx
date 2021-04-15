@@ -1,11 +1,10 @@
 import { Button, Typography } from "@material-ui/core";
 import MyStepper from "components/Shared/MyStepper";
+import ExperienceCreationContext from "contexts/ExperienceCreationContext";
 import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { updateExperience } from "redux/actions/experience/experienceAction";
 import Address from "./Address";
 import Description from "./Description";
 import GuestBring from "./GuestBring";
@@ -73,7 +72,7 @@ interface Props {
 }
 
 const Introduction: React.FC<Props> = ({ handleDone }) => {
-  const dispatch = useDispatch();
+  const { updateCreationObject } = useContext(ExperienceCreationContext);
   const location = useLocation<{
     currentProgress: number;
     currentStep: number;
@@ -85,7 +84,7 @@ const Introduction: React.FC<Props> = ({ handleDone }) => {
   const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleNext = () => {
-    dispatch(updateExperience(stepValue));
+    updateCreationObject(stepValue);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     const newSteps = steps.map((step, index) => {
       if (index === activeStep - 1) {

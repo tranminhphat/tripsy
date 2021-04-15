@@ -5,8 +5,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { updateExperienceById } from "api/experiences";
 import CheckIcon from "assets/images/icons/check-mark.svg";
 import AlertContext from "contexts/AlertContext";
+import ExperienceCreationContext from "contexts/ExperienceCreationContext";
 import React, { useContext, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Link,
   Route,
@@ -16,7 +16,6 @@ import {
   useParams,
   useRouteMatch,
 } from "react-router-dom";
-import { resetExperiece } from "redux/actions/experience/experienceAction";
 import Idea from "./Idea/Idea";
 import Introduction from "./Introduction/Introduction";
 import Setting from "./Setting/Setting";
@@ -26,12 +25,11 @@ interface Props {}
 
 const ExperienceCreationPage: React.FC<Props> = () => {
   const { url, path } = useRouteMatch();
-  const dispatch = useDispatch();
+  const { creationObject, resetCreationObject } = useContext(
+    ExperienceCreationContext
+  );
   const { alert } = useContext(AlertContext);
   const history = useHistory();
-
-  /* Save updated properties of an experience document in database */
-  const updatedProperties = useSelector((state) => state.experience);
 
   /* Get the current progress of experience process via router*/
   const location = useLocation<{
@@ -66,11 +64,11 @@ const ExperienceCreationPage: React.FC<Props> = () => {
 
   /* Handle when user click on "Save & exit" */
   const handleSaveProgress = async () => {
-    if (updatedProperties) {
-      const { data } = await updateExperienceById(id, updatedProperties);
+    if (creationObject) {
+      const { data } = await updateExperienceById(id, creationObject);
       if (data) {
         history.push("/user/experience-hosting");
-        dispatch(resetExperiece());
+        resetCreationObject();
         alert("success", "Lưu thiết lập thành công");
       } else {
         alert("error", "Lưu thiết lập thất bại");
