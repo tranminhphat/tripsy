@@ -1,4 +1,5 @@
 import { AlertProvider } from "contexts/AlertContext";
+import { AuthProvider } from "contexts/AuthContext";
 import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -13,13 +14,15 @@ const queryClient = new QueryClient();
 ReactDOM.render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
-      <AlertProvider>
-        <Router>
-          <div style={{ fontFamily: "Arial, san-serif" }}>
-            <App />
-          </div>
-        </Router>
-      </AlertProvider>
+      <AuthProvider>
+        <AlertProvider>
+          <Router>
+            <div style={{ fontFamily: "Arial, san-serif" }}>
+              <App />
+            </div>
+          </Router>
+        </AlertProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </Provider>,
   document.getElementById("root")

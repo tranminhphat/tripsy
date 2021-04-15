@@ -5,26 +5,24 @@ import { logout } from "api/auth";
 import { getCurrentUser } from "api/users";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import AlertContext from "contexts/AlertContext";
+import AuthContext from "contexts/AuthContext";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setAuth } from "redux/actions/auth/authAction";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = useState(null);
   const { alert } = useContext(AlertContext);
   const [userData, setUserData] = useState<IUser>();
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const { isAuth, refreshAuth } = useContext(AuthContext);
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isAuth) {
       fetchData();
     } else {
       setUserData(undefined);
     }
-  }, [isLoggedIn]);
+  }, [isAuth]);
 
   const fetchData = async () => {
     const { data } = await getCurrentUser(["_id", "firstName", "avatarUrl"]);
@@ -43,7 +41,7 @@ const UserOptions: React.FC = () => {
     const res = await logout();
     if (res) {
       alert("success", "Đăng xuất thành công");
-      dispatch(setAuth());
+      refreshAuth();
     }
   };
 
@@ -52,7 +50,7 @@ const UserOptions: React.FC = () => {
       <IconButton className="text-black mr-2 border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 focus:outline-none rounded-full lg:hidden">
         <SearchIcon />
       </IconButton>
-      {isLoggedIn ? (
+      {isAuth ? (
         <>
           <div>
             <IconButton className="text-black mr-2 border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 focus:outline-none rounded-full">

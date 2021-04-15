@@ -2,11 +2,9 @@ import * as React from "react";
 import { createContext, useState } from "react";
 import { AlertType } from "types";
 
-interface Props {}
-
 const AlertContext = createContext<any>(null);
 
-const AlertProvider: React.FC<Props> = ({ children }) => {
+const AlertProvider: React.FC<{}> = ({ children }) => {
   const [isAlert, setIsAlert] = useState(false);
   const [alertType, setAlertType] = useState<AlertType>();
   const [alertMessage, setAlertMessage] = useState<string | null>();

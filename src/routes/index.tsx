@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+import AuthContext from "contexts/AuthContext";
 import NotFoundPage from "pages/404/404Page";
 import AccountPage from "pages/client/account/AccountPage";
 import InfoSettingPage from "pages/client/account/setting-options/information/InfoSettingPage";
@@ -17,6 +17,7 @@ import ExperienceManagementPage from "pages/client/experience/ExperienceManageme
 import HomePage from "pages/client/home/HomePage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import * as React from "react";
+import { useContext } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 interface Entry {
@@ -103,22 +104,22 @@ const routes: Entry[] = [
   },
 ];
 
-const isLoggedIn = () => {
-  return Cookies.get("jwt") !== undefined;
-};
+const AuthRoute = ({ component: Component, ...rest }) => {
+  const { isAuth } = useContext(AuthContext);
 
-const AuthRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      isLoggedIn() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/login" }} />
-      )
-    }
-  />
-);
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        isAuth ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/login" }} />
+        )
+      }
+    />
+  );
+};
 
 const AppRouter: React.FC = () => {
   return (

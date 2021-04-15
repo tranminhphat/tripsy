@@ -2,20 +2,19 @@ import { login } from "api/auth";
 import { getUserById } from "api/users";
 import LoginForm from "components/Forms/LoginForm";
 import AlertContext from "contexts/AlertContext";
+import AuthContext from "contexts/AuthContext";
 import useErrorHandler from "hooks/useErrorHandler";
 import ILoginForm from "interfaces/forms/login-form.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useContext } from "react";
-import { useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { setAuth } from "redux/actions/auth/authAction";
 
 interface Props extends RouteComponentProps {}
 
 const LoginPage: React.FC<Props> = ({ history }) => {
-  const dispatch = useDispatch();
   const { alert } = useContext(AlertContext);
+  const { refreshAuth } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useErrorHandler();
 
   const handleSubmit = async (values: ILoginForm) => {
@@ -27,7 +26,7 @@ const LoginPage: React.FC<Props> = ({ history }) => {
           if (!userData.data.isEmailVerified) {
             alert("error", "Email của bạn chưa được xác nhận");
           } else {
-            dispatch(setAuth());
+            refreshAuth();
             alert("success", "Đăng nhập thành công");
             history.push("/");
           }
