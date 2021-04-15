@@ -1,25 +1,21 @@
 import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import AlertContext from "contexts/AlertContext";
 import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { closeAlert } from "redux/actions/alert/alertAction";
+import { useContext } from "react";
 
 const Alert = (props: AlertProps) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
 const MyAlert: React.FC = () => {
-  const { isAlert, alertType, alertMessage } = useSelector(
-    (state) => state.alert
-  );
-
-  const dispatch = useDispatch();
+  const { alert, isAlert, alertType, alertMessage } = useContext(AlertContext);
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(closeAlert());
+    alert(undefined);
   };
 
   return (

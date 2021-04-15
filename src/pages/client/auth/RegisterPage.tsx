@@ -1,15 +1,14 @@
 import { register } from "api/auth";
 import RegisterForm from "components/Forms/RegisterForm";
 import EmailVerificationModal from "components/Modals/EmailVerificationModal";
+import AlertContext from "contexts/AlertContext";
 import useErrorHandler from "hooks/useErrorHandler";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props extends RouteComponentProps {}
 
@@ -18,14 +17,14 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useErrorHandler();
   const [userResponse, setUserResponse] = useState<IUser>();
-  const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
 
   const handleModalOpen = () => {
     setIsOpen(true);
   };
   const handleModalClose = () => {
     setIsOpen(false);
-    dispatch(showAlert("success", "Đăng ký thành công"));
+    alert("success", "Đăng ký thành công");
     history.push("/login");
   };
   const handleSubmit = async (values: IRegisterForm) => {
@@ -41,7 +40,7 @@ const RegisterPage: React.FC<Props> = ({ history }) => {
       setIsLoading(false);
       if (err.response) {
         setErrorMessage(err.response.data.error);
-        dispatch(showAlert("error", "Đăng ký thất bại"));
+        alert("error", "Đăng ký thất bại");
       }
     }
   };

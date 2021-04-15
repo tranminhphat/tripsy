@@ -3,11 +3,10 @@ import { verifyIdentity } from "api/users";
 import GovIDBackIcon from "assets/images/icons/gov-id-back.svg";
 import GovIDFrontIcon from "assets/images/icons/gov-id-front.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import AlertContext from "contexts/AlertContext";
 import * as React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { showAlert } from "redux/actions/alert/alertAction";
 import { FileReaderResultType } from "types";
 
 interface Props {
@@ -24,7 +23,7 @@ const UploadIDPhotos: React.FC<Props> = ({ setIdType }) => {
   );
   const [buttonLoading, setButtonLoading] = useState(false);
   const history = useHistory();
-  const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
 
   const handleInputChange = (e: any) => {
     const reader = new FileReader();
@@ -48,10 +47,10 @@ const UploadIDPhotos: React.FC<Props> = ({ setIdType }) => {
     });
     if (res) {
       history.push("/account-settings/personal-info");
-      dispatch(showAlert("success", "Cập nhật thành công"));
+      alert("success", "Cập nhật thành công");
       setButtonLoading(false);
     } else {
-      dispatch(showAlert("error", "Xảy ra lỗi"));
+      alert("error", "Xảy ra lỗi");
       setButtonLoading(false);
     }
   };

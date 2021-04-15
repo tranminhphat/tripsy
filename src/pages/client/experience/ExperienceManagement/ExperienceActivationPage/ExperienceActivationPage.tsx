@@ -14,21 +14,20 @@ import {
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
+import AlertContext from "contexts/AlertContext";
 import toWeekDayString from "helpers/toWeekDayString";
 import IActivity from "interfaces/activity/activity.interface";
 import IExperience from "interfaces/experiences/experience.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Calendar, DateObject } from "react-multi-date-picker";
-import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
 
 const ExperienceActivationPage: React.FC<Props> = () => {
-  const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
   const [pickerValue, setPickerValue] = useState<any>();
   const [experience, setExperience] = useState<IExperience>();
   const [activities, setActivities] = useState<IActivity[]>();
@@ -80,7 +79,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
     });
 
     if (data) {
-      dispatch(showAlert("success", "Thêm thành công"));
+      alert("success", "Thêm thành công");
       setStartTime(0);
       setEndTime(0);
       setPickerValue(null);

@@ -4,16 +4,17 @@ import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
 import { getCurrentUser } from "api/users";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import AlertContext from "contexts/AlertContext";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { showAlert } from "redux/actions/alert/alertAction";
 import { setAuth } from "redux/actions/auth/authAction";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = useState(null);
+  const { alert } = useContext(AlertContext);
   const [userData, setUserData] = useState<IUser>();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const UserOptions: React.FC = () => {
     setMenuEl(null);
     const res = await logout();
     if (res) {
-      dispatch(showAlert("success", "Đăng xuất thành công"));
+      alert("success", "Đăng xuất thành công");
       dispatch(setAuth());
     }
   };

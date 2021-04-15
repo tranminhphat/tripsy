@@ -4,11 +4,11 @@ import BlackStarIcon from "assets/images/icons/blackstar.svg";
 import StarIcon from "assets/images/icons/star.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
+import AlertContext from "contexts/AlertContext";
 import { Field, Form, Formik } from "formik";
 import * as React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
-import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {
   open: boolean;
@@ -23,6 +23,7 @@ const ExperienceReviewModal: React.FC<Props> = ({
 }) => {
   const [numOfStars, setNumOfStars] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const { alert } = useContext(AlertContext);
   const dispatch = useDispatch();
 
   const handleCreateExperienceReview = async (
@@ -38,12 +39,12 @@ const ExperienceReviewModal: React.FC<Props> = ({
       );
       if (review) {
         setOpen(false);
-        dispatch(showAlert("success", "Đánh giá thành công"));
+        alert("success", "Đánh giá thành công");
       }
     } catch (err) {
       console.error(err);
       setOpen(false);
-      dispatch(showAlert("error", "Đánh giá thất bại"));
+      alert("error", "Đánh giá thất bại");
     }
   };
 

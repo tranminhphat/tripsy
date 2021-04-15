@@ -4,13 +4,12 @@ import TrophyIcon from "assets/images/icons/trophy.svg";
 import ReviewSection from "components/Profile/ReviewSection";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import { themes } from "constants/index";
+import AlertContext from "contexts/AlertContext";
 import { Field, Form, Formik } from "formik";
 import IProfile from "interfaces/profiles/profile.interface";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { showAlert } from "redux/actions/alert/alertAction";
+import { useContext, useEffect, useState } from "react";
 interface Props {
   userData: IUser;
   isCurrentUser: boolean;
@@ -20,7 +19,7 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
   const [profile, setProfile] = useState<IProfile>();
   const [introduction, setIntroduction] = useState("");
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
-  const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
 
   useEffect(() => {
     fetchProfile(userData.profileId as string);
@@ -40,9 +39,9 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
     const { data } = await updateProfileById(userData.profileId!, values);
     if (data) {
       setIntroduction(values.introduction);
-      dispatch(showAlert("success", "Cập nhật thành công"));
+      alert("success", "Cập nhật thành công");
     } else {
-      dispatch(showAlert("success", "Cập nhật thất bại"));
+      alert("success", "Cập nhật thất bại");
     }
   };
 

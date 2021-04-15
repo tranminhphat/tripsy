@@ -2,17 +2,17 @@ import { Button } from "@material-ui/core";
 import { changePassword } from "api/users";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyTextField from "components/Shared/MyTextField";
+import AlertContext from "contexts/AlertContext";
 import { Form, Formik } from "formik";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useDispatch } from "react-redux";
-import { showAlert } from "redux/actions/alert/alertAction";
+import { useContext } from "react";
 import * as yup from "yup";
 
 interface Props {}
 
 const LoginAndSecuritySettingPage: React.FC<Props> = () => {
-  const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
 
   const handleChangePassword = async (
     currentPassword: string,
@@ -21,12 +21,12 @@ const LoginAndSecuritySettingPage: React.FC<Props> = () => {
     try {
       const { data } = await changePassword(currentPassword, newPassword);
       if (data) {
-        dispatch(showAlert("success", data));
+        alert("success", data);
       }
     } catch (err) {
       if (err.response) {
         const { userMessage } = err.response.data.error;
-        dispatch(showAlert("error", userMessage));
+        alert("error", userMessage);
       }
     }
   };

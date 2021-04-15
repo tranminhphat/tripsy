@@ -4,7 +4,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { updateExperienceById } from "api/experiences";
 import CheckIcon from "assets/images/icons/check-mark.svg";
-import React, { useState } from "react";
+import AlertContext from "contexts/AlertContext";
+import React, { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Link,
@@ -15,7 +16,6 @@ import {
   useParams,
   useRouteMatch,
 } from "react-router-dom";
-import { showAlert } from "redux/actions/alert/alertAction";
 import { resetExperiece } from "redux/actions/experience/experienceAction";
 import Idea from "./Idea/Idea";
 import Introduction from "./Introduction/Introduction";
@@ -27,6 +27,7 @@ interface Props {}
 const ExperienceCreationPage: React.FC<Props> = () => {
   const { url, path } = useRouteMatch();
   const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
   const history = useHistory();
 
   /* Save updated properties of an experience document in database */
@@ -70,9 +71,9 @@ const ExperienceCreationPage: React.FC<Props> = () => {
       if (data) {
         history.push("/user/experience-hosting");
         dispatch(resetExperiece());
-        dispatch(showAlert("success", "Lưu thiết lập thành công"));
+        alert("success", "Lưu thiết lập thành công");
       } else {
-        dispatch(showAlert("error", "Lưu thiết lập thất bại"));
+        alert("error", "Lưu thiết lập thất bại");
       }
     }
   };

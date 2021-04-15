@@ -14,14 +14,13 @@ import BankIcon from "assets/images/icons/bank.svg";
 import FlyIcon from "assets/images/icons/fly.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
+import AlertContext from "contexts/AlertContext";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
 import IExperience from "interfaces/experiences/experience.interface";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
-import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
 
@@ -32,7 +31,7 @@ const HostingListTab: React.FC<Props> = () => {
   const [experiences, setExperiences] = useState<IExperience[]>();
   const history = useHistory();
   const { url } = useRouteMatch();
-  const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
 
   useEffect(() => {
     fetchExperience();
@@ -99,9 +98,9 @@ const HostingListTab: React.FC<Props> = () => {
       data: { message },
     } = await deleteExperienceById(id);
     if (message) {
-      dispatch(showAlert("success", message));
+      alert("success", message);
     } else {
-      dispatch(showAlert("error", "Xảy ra lỗi"));
+      alert("error", "Xảy ra lỗi");
     }
   };
 

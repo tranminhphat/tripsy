@@ -13,6 +13,7 @@ import PhotoGallerySection from "components/Experience/PhotoGallerySection";
 import ReviewSection from "components/Experience/ReviewSection";
 import TitleSection from "components/Experience/TitleSection";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import AlertContext from "contexts/AlertContext";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
 import IActivity from "interfaces/activity/activity.interface";
@@ -21,15 +22,13 @@ import IProfile from "interfaces/profiles/profile.interface";
 import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
-import { showAlert } from "redux/actions/alert/alertAction";
 
 interface Props {}
 
 const ExperiencePage: React.FC<Props> = () => {
-  const dispatch = useDispatch();
+  const { alert } = useContext(AlertContext);
   const { id } = useParams<{ id: string }>();
   const { url } = useRouteMatch();
   const [isExperienceSaved, setIsExperienceSaved] = useState(false);
@@ -86,10 +85,10 @@ const ExperiencePage: React.FC<Props> = () => {
     );
 
     if (data) {
-      dispatch(showAlert("success", "Lưu thành công"));
+      alert("success", "Lưu thành công");
       setIsExperienceSaved(true);
     } else {
-      dispatch(showAlert("success", "Xóa thành công"));
+      alert("success", "Xóa thành công");
       setIsExperienceSaved(false);
     }
   };
