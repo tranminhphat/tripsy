@@ -1,10 +1,9 @@
-import { getCurrentUser } from "api/users";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
-import { IUser } from "interfaces/users/user.interface";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import ChangeAddressForm from "./ChangeAddressForm";
 import ChangeBirthDateForm from "./ChangeBirthDateForm";
@@ -15,34 +14,13 @@ import ChangePhoneNumberForm from "./ChangePhoneNumberForm";
 interface Props {}
 
 const InfoSettingPage: React.FC<Props> = () => {
-  const [userData, setUserData] = useState<IUser>();
+  const { data: userData, status } = useCurrentUser();
+  console.log(status);
   const [openNameForm, setOpenNameForm] = useState(false);
   const [openGenderForm, setOpenGenderForm] = useState(false);
   const [openAddressForm, setOpenAddressFrom] = useState(false);
   const [openBirthDateForm, setOpenBirthDateForm] = useState(false);
   const [opnePhoneNumberForm, setopenPhoneNumberForm] = useState(false);
-
-  useEffect(() => {
-    fetchUserInfoData();
-  }, []);
-
-  const fetchUserInfoData = async () => {
-    const {
-      data: { user },
-    } = await getCurrentUser([
-      "_id",
-      "firstName",
-      "lastName",
-      "gender",
-      "dateOfBirth",
-      "phoneNumber",
-      "address",
-      "isIdVerified",
-    ]);
-    if (user) {
-      setUserData(user);
-    }
-  };
 
   return (
     <MainLayout withSearchBar={false}>

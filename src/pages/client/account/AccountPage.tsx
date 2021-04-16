@@ -1,27 +1,15 @@
-import { getCurrentUser } from "api/users";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { accountSettingOptions } from "constants/index";
-import { IUser } from "interfaces/users/user.interface";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {}
 
 const AccountPage: React.FC<Props> = () => {
-  const [userData, setUserData] = useState<IUser>();
+  const { data: userData } = useCurrentUser();
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  const fetchUserData = async () => {
-    const {
-      data: { user },
-    } = await getCurrentUser(["_id", "firstName", "lastName", "email"]);
-    setUserData(user);
-  };
   return (
     <MainLayout withSearchBar={false}>
       {userData ? (

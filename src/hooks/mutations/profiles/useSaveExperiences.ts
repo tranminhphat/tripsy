@@ -1,5 +1,5 @@
 import { saveExperience } from "api/profile";
-import { QueryClient, useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 interface Params {
   profileId: string;
@@ -7,16 +7,18 @@ interface Params {
 }
 
 const useSaveExperiences = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(
     async ({ profileId, experienceId }: Params) => {
-      const { data } = await saveExperience(profileId, experienceId);
-      return data;
+      const {
+        data: { profile },
+      } = await saveExperience(profileId, experienceId);
+      return profile;
     },
     {
-      onSuccess: (_, variables) => {
-        queryClient.invalidateQueries(["profiles", variables.profileId]);
+      onSuccess: (profile) => {
+        queryClient.invalidateQueries(["profiles", profile._id]);
       },
     }
   );

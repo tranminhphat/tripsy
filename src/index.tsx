@@ -3,6 +3,7 @@ import { AuthProvider } from "contexts/AuthContext";
 import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import "./index.css";
@@ -20,6 +21,7 @@ ReactDOM.render(
         </Router>
       </AlertProvider>
     </AuthProvider>
+    <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>,
   document.getElementById("root")
 );

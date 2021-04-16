@@ -2,32 +2,20 @@ import { Avatar, Button, IconButton, Menu, MenuItem } from "@material-ui/core";
 import BellIcon from "@material-ui/icons/NotificationsNone";
 import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
-import { getCurrentUser } from "api/users";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
-import { IUser } from "interfaces/users/user.interface";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = useState(null);
   const { alert } = useContext(AlertContext);
-  const [userData, setUserData] = useState<IUser>();
+  const { data: userData } = useCurrentUser();
   const { isAuth, refreshAuth } = useContext(AuthContext);
-  useEffect(() => {
-    if (isAuth) {
-      fetchData();
-    } else {
-      setUserData(undefined);
-    }
-  }, [isAuth]);
 
-  const fetchData = async () => {
-    const { data } = await getCurrentUser(["_id", "firstName", "avatarUrl"]);
-    setUserData(data.user);
-  };
   const handleClick = (event) => {
     setMenuEl(event.currentTarget);
   };

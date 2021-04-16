@@ -1,12 +1,11 @@
 import { updateListOfGuest } from "api/activity";
 import { deleteReceiptById, updateReceiptById } from "api/receipt";
 import { getCheckoutSessionById } from "api/stripe";
-import { getCurrentUser } from "api/users";
-import { IUser } from "interfaces/users/user.interface";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import MainLayout from "layouts/MainLayout";
 import queryString from "query-string";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 interface Props {}
@@ -15,9 +14,8 @@ const BookingResponsePage: React.FC<Props> = () => {
   const location = useLocation();
   const values = queryString.parse(location.search);
   const { status, session_id, receipt_id, activity_id } = values;
-  const [user, setUser] = useState<IUser>();
+  const { data: user } = useCurrentUser();
   useEffect(() => {
-    fetchCurrentUser();
     if (status === "succeed") {
       retrieveBooking();
     } else {
@@ -25,15 +23,6 @@ const BookingResponsePage: React.FC<Props> = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const fetchCurrentUser = async () => {
-    const {
-      data: { user },
-    } = await getCurrentUser(["_id", "firstName"]);
-    if (user) {
-      setUser(user);
-    }
-  };
 
   const retrieveBooking = async () => {
     const {

@@ -1,10 +1,9 @@
 import Button from "@material-ui/core/Button";
-import { updateUserById } from "api/users";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTextField from "components/Shared/MyTextField";
 import { Form, Formik } from "formik";
+import useUserUpdate from "hooks/mutations/users/useUserUpdate";
 import * as React from "react";
-import { useState } from "react";
 import * as yup from "yup";
 
 interface Props {
@@ -17,22 +16,13 @@ const validationSchema = yup.object({
 });
 
 const ChangeAddressForm: React.FC<Props> = ({ userId, initialValues }) => {
-  const [buttonLoading, setButtonLoading] = useState(false);
-
-  const handleOnSubmit = async (values: { address: string }) => {
-    setButtonLoading(true);
-    const { data } = await updateUserById(userId, values);
-    if (data) {
-      setButtonLoading(false);
-      window.location.reload();
-    }
-  };
+  const userMutation = useUserUpdate();
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        handleOnSubmit(values);
+        userMutation.mutate({ userId, ...values });
       }}
       validationSchema={validationSchema}
     >
@@ -48,7 +38,7 @@ const ChangeAddressForm: React.FC<Props> = ({ userId, initialValues }) => {
               className="bg-primary overflow-hidden text-white"
               style={{ width: "80px", height: "40px" }}
             >
-              {!buttonLoading ? "Lưu" : <MyLoadingIndicator />}
+              {!userMutation.isLoading ? "Lưu" : <MyLoadingIndicator />}
             </Button>
           </div>
         </Form>

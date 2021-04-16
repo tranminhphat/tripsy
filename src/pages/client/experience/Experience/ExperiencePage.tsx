@@ -19,7 +19,6 @@ import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import IActivity from "interfaces/activity/activity.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useState } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
 
 interface Props {}
@@ -32,9 +31,7 @@ const ExperiencePage: React.FC<Props> = () => {
   const { data: activities } = useActivitiesByExperienceId(id);
   const { data: user } = useCurrentUser();
   const { data: userProfile } = useProfile(user?.profileId);
-  const [isExperienceSaved, setIsExperienceSaved] = useState(
-    userProfile?.savedExperiences?.includes(id)
-  );
+  const isExperienceSaved = userProfile?.savedExperiences?.includes(id);
 
   const compareFunction = (a: IActivity, b: IActivity) => {
     return a.date.dateObject.unix - b.date.dateObject.unix;
@@ -54,7 +51,6 @@ const ExperiencePage: React.FC<Props> = () => {
                     profileId: userProfile._id!,
                     experienceId: experience._id!,
                   });
-                  setIsExperienceSaved(savedExperience.data);
                 }}
               >
                 <div className="flex items-center">
