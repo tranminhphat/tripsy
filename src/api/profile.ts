@@ -13,7 +13,7 @@ export const updateProfileById = (id: string, updatedProperties) => {
 };
 
 export const saveExperience = (id: string, experienceId: string) => {
-  return axios.put(`profiles/${id}/save-experience/${experienceId}`);
+  return axios.patch(`profiles/${id}/save-experience/${experienceId}`);
 };
 
 export const updateCheckpoints = (themeId: string) => {

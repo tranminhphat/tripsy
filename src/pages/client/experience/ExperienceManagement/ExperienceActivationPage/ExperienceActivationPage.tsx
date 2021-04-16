@@ -53,7 +53,9 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   };
 
   const fetchActivitesByExperienceId = async (experienceId: string) => {
-    const { data: activities } = await getActivities({
+    const {
+      data: { activities },
+    } = await getActivities({
       experienceId: experienceId,
     });
     setActivities(activities);

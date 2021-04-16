@@ -10,18 +10,18 @@ export const getActivityById = (id: string) => {
   return axios.get(`activities/${id}`);
 };
 
-export const createActivity = async (model) => {
-  return await axios.post("activities", { model });
+export const createActivity = (model) => {
+  return axios.post("activities", { model });
 };
 
-export const updateActivityById = async (id: string, updatedProperties) => {
-  return await axios.put(`activities/${id}`, updatedProperties);
+export const updateActivityById = (id: string, updatedProperties) => {
+  return axios.put(`activities/${id}`, updatedProperties);
 };
 
-export const updateListOfGuest = async (id: string) => {
-  return await axios.put(`activities/${id}/update-guestlist`);
+export const updateListOfGuest = (id: string) => {
+  return axios.put(`activities/${id}/update-guestlist`);
 };
 
-export const deleteActivityById = async (id: string) => {
-  return await axios.delete(`activities/${id}`);
+export const deleteActivityById = (id: string) => {
+  return axios.delete(`activities/${id}`);
 };

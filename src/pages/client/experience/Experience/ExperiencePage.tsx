@@ -1,8 +1,4 @@
 import { Button } from "@material-ui/core";
-import { getActivities } from "api/activity";
-import { getExperienceById } from "api/experiences";
-import { getProfileById, saveExperience } from "api/profile";
-import { getCurrentUser } from "api/users";
 import LoveIcon from "assets/images/icons/love.svg";
 import LovedIcon from "assets/images/icons/loved.svg";
 import DescriptionSection from "components/Experience/DescriptionSection";
@@ -13,85 +9,32 @@ import PhotoGallerySection from "components/Experience/PhotoGallerySection";
 import ReviewSection from "components/Experience/ReviewSection";
 import TitleSection from "components/Experience/TitleSection";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
-import AlertContext from "contexts/AlertContext";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
+import useSaveExperiences from "hooks/mutations/profiles/useSaveExperiences";
+import useActivitiesByExperienceId from "hooks/queries/activities/useActivitiesByExperienceId";
+import useExperience from "hooks/queries/experiences/useExperience";
+import useProfile from "hooks/queries/profiles/useProfile";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import IActivity from "interfaces/activity/activity.interface";
-import IExperience from "interfaces/experiences/experience.interface";
-import IProfile from "interfaces/profiles/profile.interface";
-import { IUser } from "interfaces/users/user.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
 
 interface Props {}
 
 const ExperiencePage: React.FC<Props> = () => {
-  const { alert } = useContext(AlertContext);
   const { id } = useParams<{ id: string }>();
   const { url } = useRouteMatch();
-  const [isExperienceSaved, setIsExperienceSaved] = useState(false);
-  const [experience, setExperience] = useState<IExperience>();
-  const [activities, setActivities] = useState<IActivity[]>();
-  const [userProfile, setUserProfile] = useState<IProfile>();
-  const [user, setUser] = useState<IUser>();
-
-  useEffect(() => {
-    fetchExperience(id);
-    fetchActivitiesByExperienceId(id);
-    fetchUserProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  const fetchExperience = async (id: string) => {
-    const {
-      data: { experience },
-    } = await getExperienceById(id);
-    if (experience) {
-      setExperience(experience);
-    }
-  };
-
-  const fetchActivitiesByExperienceId = async (experienceId: string) => {
-    const { data: activities } = await getActivities({
-      experienceId: experienceId,
-    });
-    setActivities(activities);
-  };
-
-  const fetchUserProfile = async () => {
-    const {
-      data: { user },
-    } = await getCurrentUser();
-    if (user) {
-      setUser(user);
-    }
-    if (user.profileId) {
-      const {
-        data: { profile },
-      } = await getProfileById(user.profileId);
-      if (profile) {
-        setUserProfile(profile);
-        setIsExperienceSaved(!!userProfile?.savedExperiences?.includes(id));
-      }
-    }
-  };
-
-  const savedExperience = async () => {
-    const { data } = await saveExperience(
-      userProfile?._id as string,
-      experience?._id as string
-    );
-
-    if (data) {
-      alert("success", "Lưu thành công");
-      setIsExperienceSaved(true);
-    } else {
-      alert("success", "Xóa thành công");
-      setIsExperienceSaved(false);
-    }
-  };
+  const savedExperience = useSaveExperiences();
+  const { data: experience } = useExperience(id);
+  const { data: activities } = useActivitiesByExperienceId(id);
+  const { data: user } = useCurrentUser();
+  const { data: userProfile } = useProfile(user?.profileId);
+  const [isExperienceSaved, setIsExperienceSaved] = useState(
+    userProfile?.savedExperiences?.includes(id)
+  );
 
   const compareFunction = (a: IActivity, b: IActivity) => {
     return a.date.dateObject.unix - b.date.dateObject.unix;
@@ -104,7 +47,16 @@ const ExperiencePage: React.FC<Props> = () => {
           <div className="flex justify-between">
             <div>Breadcrumb</div>
             <div>
-              <button type="button" onClick={savedExperience}>
+              <button
+                type="button"
+                onClick={() => {
+                  savedExperience.mutate({
+                    profileId: userProfile._id!,
+                    experienceId: experience._id!,
+                  });
+                  setIsExperienceSaved(savedExperience.data);
+                }}
+              >
                 <div className="flex items-center">
                   <img
                     className="mr-1"

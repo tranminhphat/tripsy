@@ -6,8 +6,11 @@ const useExperiences = (filterObject: any, sortString: string) => {
   return useQuery<IExperience[]>(
     ["experiences", filterObject, sortString],
     async () => {
-      const { data } = await getExperiences(filterObject, sortString);
-      return data;
+      const { data: experiences } = await getExperiences(
+        filterObject,
+        sortString
+      );
+      return experiences;
     }
   );
 };

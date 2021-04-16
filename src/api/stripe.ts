@@ -25,18 +25,16 @@ export const getCheckoutSessionById = (sessionId: string) => {
 
 /* Refund */
 
-export const createRefund = async (paymentIntentId: string) => {
-  return await axios.post(
-    `stripe/refunds?payment_intent_id=${paymentIntentId}`
-  );
+export const createRefund = (paymentIntentId: string) => {
+  return axios.post(`stripe/refunds?payment_intent_id=${paymentIntentId}`);
 };
 
-export const getRefundById = async (refundId: string) => {
-  return await axios.get(`stripe/refunds/${refundId}`);
+export const getRefundById = (refundId: string) => {
+  return axios.get(`stripe/refunds/${refundId}`);
 };
 
 /* Transfers */
 
-export const createTransfer = async (activityId: string) => {
+export const createTransfer = (activityId: string) => {
   return axios.post(`stripe/transfers/${activityId}`);
 };
