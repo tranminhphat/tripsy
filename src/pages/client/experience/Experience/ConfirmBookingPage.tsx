@@ -1,22 +1,19 @@
 import { Button } from "@material-ui/core";
 import { loadStripe } from "@stripe/stripe-js";
-import { getActivityById } from "api/activity";
-import { getExperienceById } from "api/experiences";
 import { createReceipt } from "api/receipt";
 import { createCheckoutSession } from "api/stripe";
-import { getCurrentUser, getUserById } from "api/users";
 import LeftArrow from "assets/images/icons/left-arrow.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { startTimeOptions } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
-import IActivity from "interfaces/activity/activity.interface";
-import IExperience from "interfaces/experiences/experience.interface";
-import { IUser } from "interfaces/users/user.interface";
+import useActivity from "hooks/queries/activities/useActivity";
+import useExperience from "hooks/queries/experiences/useExperience";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
+import useUser from "hooks/queries/users/useUser";
 import MainLayout from "layouts/MainLayout";
 import queryString from "query-string";
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 
 interface Props {}
@@ -30,52 +27,10 @@ const ConfirmBookingPage: React.FC<Props> = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const { activityId } = queryString.parse(location.search);
-  const [experience, setExperience] = useState<IExperience>();
-  const [activity, setActivity] = useState<IActivity>();
-  const [host, setHost] = useState<IUser>();
-  const [currentUser, setCurrentUser] = useState<IUser>();
-
-  useEffect(() => {
-    fetchExperience(id);
-    fetchActivity(activityId as string);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, activityId]);
-
-  const fetchExperience = async (id: string) => {
-    const {
-      data: { experience },
-    } = await getExperienceById(id);
-    if (experience) {
-      setExperience(experience);
-      fetchHostData(experience.hostId);
-      fetchCurrentUser();
-    }
-  };
-
-  const fetchActivity = async (id: string) => {
-    const {
-      data: { activity },
-    } = await getActivityById(id);
-    setActivity(activity);
-  };
-
-  const fetchHostData = async (hostId: string) => {
-    const {
-      data: { user },
-    } = await getUserById(hostId, ["firstName", "lastName"]);
-    if (user) {
-      setHost(user);
-    }
-  };
-
-  const fetchCurrentUser = async () => {
-    const {
-      data: { user },
-    } = await getCurrentUser(["_id", "email"]);
-    if (user) {
-      setCurrentUser(user);
-    }
-  };
+  const { data: experience } = useExperience(id);
+  const { data: activity } = useActivity(activityId as string);
+  const { data: currentUser } = useCurrentUser();
+  const { data: host } = useUser(experience?.hostId!);
 
   const handleClick = async () => {
     const stripe = await stripePromise;

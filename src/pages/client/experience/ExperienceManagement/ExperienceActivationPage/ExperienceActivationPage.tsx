@@ -1,10 +1,5 @@
 import { Button, MenuItem, Select, Typography } from "@material-ui/core";
-import {
-  createActivity,
-  deleteActivityById,
-  getActivities,
-} from "api/activity";
-import { getExperienceById } from "api/experiences";
+import { deleteActivityById } from "api/activity";
 import { deleteReceiptById, getReceipts } from "api/receipt";
 import {
   createRefund,
@@ -16,8 +11,11 @@ import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import AlertContext from "contexts/AlertContext";
 import toWeekDayString from "helpers/toWeekDayString";
+import useCreateActivity from "hooks/mutations/activities/useCreateActivity";
+import useDeleteActivity from "hooks/mutations/activities/useDeleteActivity";
+import useActivitiesByExperienceId from "hooks/queries/activities/useActivitiesByExperienceId";
+import useExperience from "hooks/queries/experiences/useExperience";
 import IActivity from "interfaces/activity/activity.interface";
-import IExperience from "interfaces/experiences/experience.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useContext, useState } from "react";
@@ -27,39 +25,17 @@ import { useParams } from "react-router-dom";
 interface Props {}
 
 const ExperienceActivationPage: React.FC<Props> = () => {
+  const { id } = useParams<{ id: string }>();
   const { alert } = useContext(AlertContext);
+  const { data: experience } = useExperience(id);
+  const { data: activities } = useActivitiesByExperienceId(experience?._id!);
+  const createActivity = useCreateActivity();
+  const deleteActivity = useDeleteActivity();
   const [pickerValue, setPickerValue] = useState<any>();
-  const [experience, setExperience] = useState<IExperience>();
-  const [activities, setActivities] = useState<IActivity[]>();
   const [open, setOpen] = useState(false);
   const [startTimeOpen, setStartTimeOpen] = useState(false);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState<any>();
-  const { id } = useParams<{ id: string }>();
-
-  React.useEffect(() => {
-    fetchExperience(id);
-    fetchActivitesByExperienceId(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const fetchExperience = async (id: string) => {
-    const {
-      data: { experience },
-    } = await getExperienceById(id);
-    if (experience) {
-      setExperience(experience);
-    }
-  };
-
-  const fetchActivitesByExperienceId = async (experienceId: string) => {
-    const {
-      data: { activities },
-    } = await getActivities({
-      experienceId: experienceId,
-    });
-    setActivities(activities);
-  };
 
   const handleCreateActivity = async () => {
     const newDate = {
@@ -75,24 +51,23 @@ const ExperienceActivationPage: React.FC<Props> = () => {
       },
     };
 
-    const { data } = await createActivity({
-      experienceId: experience?._id,
-      date: newDate,
-    });
-
-    if (data) {
-      alert("success", "Thêm thành công");
-      setStartTime(0);
-      setEndTime(0);
-      setPickerValue(null);
-      setOpen(false);
-      fetchExperience(id);
-    }
+    createActivity.mutate(
+      { experienceId: experience?._id, newDate },
+      {
+        onSuccess: () => {
+          alert("success", "Thêm thành công");
+          setStartTime(0);
+          setEndTime(0);
+          setPickerValue(null);
+          setOpen(false);
+        },
+      }
+    );
   };
 
   const handleCancelActivity = async (activity: IActivity) => {
     if (activity.listOfGuestId.length === 0) {
-      await deleteActivityById(activity._id!);
+      deleteActivity.mutate({ activityId: activity._id });
     } else {
       for (let i = 0; i < activity.listOfGuestId.length; i++) {
         const { data: receipt } = await getReceipts({
@@ -106,7 +81,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
         if (session.payment_intent) {
           await deleteReceiptById(receipt[0]._id!);
           await createRefund(session.payment_intent);
-          await deleteActivityById(activity._id!);
+          deleteActivity.mutate({ activityId: activity._id });
         }
       }
     }
