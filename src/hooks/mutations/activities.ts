@@ -1,7 +1,7 @@
-import { createActivity } from "api/activity";
+import { createActivity, deleteActivityById } from "api/activity";
 import { useMutation, useQueryClient } from "react-query";
 
-const useCreateActivity = () => {
+export const useCreateActivity = () => {
   const queryClient = useQueryClient();
   return useMutation(
     async ({ experienceId, newDate }: any) => {
@@ -20,4 +20,16 @@ const useCreateActivity = () => {
   );
 };
 
-export default useCreateActivity;
+export const useDeleteActivity = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ activityId }: any) => {
+      return await deleteActivityById(activityId);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("activities");
+      },
+    }
+  );
+};

@@ -1,6 +1,6 @@
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
-import useCurrentUser from "hooks/queries/users/useCurrentUser";
+import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useState } from "react";

@@ -10,11 +10,13 @@ import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import AlertContext from "contexts/AlertContext";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
-import useCreateExperience from "hooks/mutations/experiences/useCreateExperience";
-import useDeleteExperience from "hooks/mutations/experiences/useDeleteExperience";
-import useUpdateUser from "hooks/mutations/users/useUpdateUser";
-import useExperiences from "hooks/queries/experiences/useExperiences";
-import useCurrentUser from "hooks/queries/users/useCurrentUser";
+import {
+  useCreateExperience,
+  useDeleteExperience,
+} from "hooks/mutations/experiences";
+import { useUpdateUser } from "hooks/mutations/users";
+import { useExperiences } from "hooks/queries/experiences";
+import { useCurrentUser } from "hooks/queries/users";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";

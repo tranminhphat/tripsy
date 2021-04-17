@@ -1,7 +1,7 @@
 import { updateListOfGuest } from "api/activity";
 import { deleteReceiptById, updateReceiptById } from "api/receipt";
 import { getCheckoutSessionById } from "api/stripe";
-import useCurrentUser from "hooks/queries/users/useCurrentUser";
+import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import queryString from "query-string";
 import * as React from "react";

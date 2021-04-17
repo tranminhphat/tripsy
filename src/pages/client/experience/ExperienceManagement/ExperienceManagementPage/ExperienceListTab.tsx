@@ -3,8 +3,7 @@ import CancelIcon from "@material-ui/icons/Close";
 import DoneIcon from "@material-ui/icons/Done";
 import { updateListOfGuest } from "api/activity";
 import { getExperienceById } from "api/experiences";
-import { updateCheckpoints } from "api/profile";
-import { deleteReceiptById, updateReceiptById } from "api/receipt";
+import { deleteReceiptById } from "api/receipt";
 import { createRefund, getCheckoutSessionById } from "api/stripe";
 import ClockIcon from "assets/images/icons/clock.svg";
 import DestinationIcon from "assets/images/icons/destination.svg";
@@ -16,8 +15,10 @@ import UserReviewModal from "components/Modals/UserReviewModal";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { themes } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
+import { useUpdateCheckpoint } from "hooks/mutations/profiles";
+import { useUpdateReceipt } from "hooks/mutations/receipts";
 import useReceipts from "hooks/queries/receipts/useReceipts";
-import useCurrentUser from "hooks/queries/users/useCurrentUser";
+import { useCurrentUser } from "hooks/queries/users";
 import IReceipt from "interfaces/receipts/receipt.interface";
 import * as React from "react";
 import { useState } from "react";
@@ -35,6 +36,8 @@ const ExperienceListTab: React.FC<Props> = () => {
   const [checkpointData, setCheckpointData] = useState<any>(null);
   const { data: currentUser } = useCurrentUser();
   const { data: receipts } = useReceipts({ guestId: currentUser?._id });
+  const updateCheckpoint = useUpdateCheckpoint();
+  const updateReceipt = useUpdateReceipt();
 
   const handleRefundExperience = async (
     checkOutSessionId: string,
@@ -61,10 +64,16 @@ const ExperienceListTab: React.FC<Props> = () => {
     const [{ id: themeId }] = themes.filter(
       (item) => item.name === experience.theme
     );
-    const { data } = await updateCheckpoints(themeId);
-    setCheckpointData(data);
-    await updateReceiptById(receiptId, { status: "finish" });
-    setIsLoading(false);
+    updateCheckpoint.mutate(
+      { themeId },
+      {
+        onSuccess: (data) => {
+          setCheckpointData(data);
+          updateReceipt.mutate({ receiptId, values: { status: "finish" } });
+          setIsLoading(false);
+        },
+      }
+    );
   };
 
   return (

@@ -1,7 +1,7 @@
 import { updateUserById } from "api/users";
 import { useMutation, useQueryClient } from "react-query";
 
-const useUpdateUser = () => {
+export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
     async ({ userId, values }: any) => {
@@ -11,11 +11,9 @@ const useUpdateUser = () => {
       return user;
     },
     {
-      onSuccess: async (data) => {
-        await queryClient.invalidateQueries("currentUser");
+      onSuccess: () => {
+        queryClient.invalidateQueries("currentUser");
       },
     }
   );
 };
-
-export default useUpdateUser;

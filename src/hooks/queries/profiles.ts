@@ -2,7 +2,7 @@ import { getProfileById } from "api/profile";
 import IProfile from "interfaces/profiles/profile.interface";
 import { useQuery } from "react-query";
 
-const useProfile = (profileId: string | undefined) => {
+export const useProfile = (profileId: string | undefined) => {
   return useQuery<IProfile>(
     ["profiles", profileId],
     async () => {
@@ -14,5 +14,3 @@ const useProfile = (profileId: string | undefined) => {
     { enabled: !!profileId }
   );
 };
-
-export default useProfile;

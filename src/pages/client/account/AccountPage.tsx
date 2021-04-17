@@ -1,6 +1,6 @@
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { accountSettingOptions } from "constants/index";
-import useCurrentUser from "hooks/queries/users/useCurrentUser";
+import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { Link } from "react-router-dom";

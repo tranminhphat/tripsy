@@ -4,8 +4,10 @@ import SortMetadata from "components/Home/SortMetadata";
 import MyAlert from "components/Shared/MyAlert";
 import MyExperienceCard from "components/Shared/MyExperienceCard";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
-import useExperiences from "hooks/queries/experiences/useExperiences";
-import useExperiencesByDate from "hooks/queries/experiences/useExperiencesByDate";
+import {
+  useExperiences,
+  useExperiencesByDate,
+} from "hooks/queries/experiences";
 import * as React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";

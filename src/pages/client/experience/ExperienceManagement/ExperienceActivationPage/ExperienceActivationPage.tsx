@@ -10,11 +10,13 @@ import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import AlertContext from "contexts/AlertContext";
 import toWeekDayString from "helpers/toWeekDayString";
-import useCreateActivity from "hooks/mutations/activities/useCreateActivity";
-import useDeleteActivity from "hooks/mutations/activities/useDeleteActivity";
-import useDeleteReceipt from "hooks/mutations/receipts/useDeleteReceipt";
-import useActivitiesByExperienceId from "hooks/queries/activities/useActivitiesByExperienceId";
-import useExperience from "hooks/queries/experiences/useExperience";
+import {
+  useCreateActivity,
+  useDeleteActivity,
+} from "hooks/mutations/activities";
+import { useDeleteReceipt } from "hooks/mutations/receipts";
+import { useActivitiesByExperienceId } from "hooks/queries/activities";
+import { useExperience } from "hooks/queries/experiences";
 import IActivity from "interfaces/activity/activity.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";

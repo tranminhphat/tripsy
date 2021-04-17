@@ -5,7 +5,7 @@ import { logout } from "api/auth";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
-import useCurrentUser from "hooks/queries/users/useCurrentUser";
+import { useCurrentUser } from "hooks/queries/users";
 import * as React from "react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";

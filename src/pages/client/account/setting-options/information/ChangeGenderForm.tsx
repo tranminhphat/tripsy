@@ -2,7 +2,7 @@ import Button from "@material-ui/core/Button";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyRadioButton from "components/Shared/MyRadioButton";
 import { Form, Formik } from "formik";
-import useUpdateUser from "hooks/mutations/users/useUpdateUser";
+import { useUpdateUser } from "hooks/mutations/users";
 import * as React from "react";
 import * as yup from "yup";
 
