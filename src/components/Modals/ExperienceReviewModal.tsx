@@ -1,7 +1,6 @@
 import { Button } from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
 import { createExperienceReview } from "api/review";
-import BlackStarIcon from "assets/images/icons/blackstar.svg";
-import StarIcon from "assets/images/icons/star.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
 import AlertContext from "contexts/AlertContext";
@@ -67,64 +66,15 @@ const ExperienceReviewModal: React.FC<Props> = ({
               {() => (
                 <Form>
                   <div className="flex items-center">
-                    <p className="text-lg">Số sao: </p>
-                    <span
-                      className="ml-2 cursor-pointer"
-                      onClick={() => setNumOfStars(1)}
-                    >
-                      <img
-                        width={16}
-                        height={16}
-                        src={numOfStars >= 1 ? BlackStarIcon : StarIcon}
-                        alt="review star"
-                      />
-                    </span>
-                    <span
-                      className="ml-2 cursor-pointer"
-                      onClick={() => setNumOfStars(2)}
-                    >
-                      <img
-                        width={16}
-                        height={16}
-                        src={numOfStars >= 2 ? BlackStarIcon : StarIcon}
-                        alt="review star"
-                      />
-                    </span>
-                    <span
-                      className="ml-2 cursor-pointer"
-                      onClick={() => setNumOfStars(3)}
-                    >
-                      <img
-                        width={16}
-                        height={16}
-                        src={numOfStars >= 3 ? BlackStarIcon : StarIcon}
-                        alt="review star"
-                      />
-                    </span>
-                    <span
-                      className="ml-2 cursor-pointer"
-                      onClick={() => setNumOfStars(4)}
-                    >
-                      <img
-                        width={16}
-                        height={16}
-                        src={numOfStars >= 4 ? BlackStarIcon : StarIcon}
-                        alt="review star"
-                      />
-                    </span>
-                    <span
-                      className="ml-2 cursor-pointer"
-                      onClick={() => setNumOfStars(5)}
-                    >
-                      <img
-                        width={16}
-                        height={16}
-                        src={numOfStars >= 5 ? BlackStarIcon : StarIcon}
-                        alt="review star"
-                      />
-                    </span>
+                    <Rating
+                      name="simple-controlled"
+                      value={numOfStars}
+                      onChange={(event, newValue) => {
+                        setNumOfStars(newValue as number);
+                      }}
+                    />
                   </div>
-                  <div>
+                  <div className="mt-2">
                     <Field
                       as="textarea"
                       name="content"

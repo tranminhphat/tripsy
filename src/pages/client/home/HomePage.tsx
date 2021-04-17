@@ -41,23 +41,28 @@ const HomePage: React.FC = () => {
   return (
     <div className="h-full w-full">
       <Header withSearchBar={true} setFilterObject={setFilterObject} />
-      <div className="container mx-auto" style={{ paddingTop: "96px" }}>
-        <div>
-          <div className="my-4">
-            <SortMetadata setSortString={setSortString} />
-          </div>
-          <div className="my-6">
-            <FilterMetadata
-              filterObject={filterObject}
-              setFilterObject={setFilterObject}
-              setDayOfYear={setDayOfYear}
-              dayOfYear={dayOfYear}
-            />
+      <div
+        className="container mx-auto h-full flex items-center grid grid-cols-4 lg:grid-cols-12"
+        style={{ paddingTop: "96px" }}
+      >
+        <div className="col-span-8">
+          <div>
+            <div className="my-4">
+              <FilterMetadata
+                filterObject={filterObject}
+                setFilterObject={setFilterObject}
+                setDayOfYear={setDayOfYear}
+                dayOfYear={dayOfYear}
+              />
+            </div>
+            <div className="my-4">
+              <SortMetadata setSortString={setSortString} />
+            </div>
           </div>
           {experiences ? (
-            <div>
+            <div className="grid grid-cols-8 gap-4">
               {experiences.map((item) => (
-                <div className="mt-4 max-w-lg" key={item._id}>
+                <div className="col-span-4 mt-4" key={item._id}>
                   <Link to={`/experience/${item._id}`}>
                     <MyExperienceCard experience={item} />
                   </Link>

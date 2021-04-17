@@ -9,6 +9,7 @@ import ClockIcon from "assets/images/icons/clock.svg";
 import DestinationIcon from "assets/images/icons/destination.svg";
 import HostIcon from "assets/images/icons/host.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import FilterExperienceList from "components/Experience/FilterExperienceList";
 import CheckpointModal from "components/Modals/CheckpointModal";
 import ExperienceReviewModal from "components/Modals/ExperienceReviewModal";
 import UserReviewModal from "components/Modals/UserReviewModal";
@@ -31,11 +32,12 @@ const ExperienceListTab: React.FC<Props> = () => {
   const [openExperienceReviewModal, setOpenExperienceReviewModal] = useState(
     false
   );
+  const [status, setStatus] = useState<string>("paid");
 
   const [isLoading, setIsLoading] = useState(false);
   const [checkpointData, setCheckpointData] = useState<any>(null);
   const { data: currentUser } = useCurrentUser();
-  const { data: receipts } = useReceipts({ guestId: currentUser?._id });
+  const { data: receipts } = useReceipts({ guestId: currentUser?._id, status });
   const updateCheckpoint = useUpdateCheckpoint();
   const updateReceipt = useUpdateReceipt();
 
@@ -77,10 +79,11 @@ const ExperienceListTab: React.FC<Props> = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-2xl my-8">
+      <FilterExperienceList setStatus={setStatus} />
       {receipts ? (
         receipts.map((item) => (
-          <div className="max-w-2xl my-8" key={item._id}>
+          <div key={item._id}>
             <div className="flex justify-between border border-gray-300 rounded-lg ">
               <div className="mt-2 p-4 flex-grow">
                 <div className="flex items-center justify-between">

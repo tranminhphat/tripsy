@@ -1,6 +1,6 @@
 import Avatar from "@material-ui/core/Avatar";
 import { countReviews, getReviews } from "api/review";
-import BlackStarIcon from "assets/images/icons/blackstar.svg";
+import StarIcon from "assets/images/icons/star.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import useInfiniteScroll from "hooks/useInfiniteScroll";
@@ -57,12 +57,7 @@ const ReviewSection: React.FC<Props> = ({ userId }) => {
         <>
           <div className="flex items-center">
             <span className="mr-2 text-xl font-bold">
-              <img
-                src={BlackStarIcon}
-                alt="average stars"
-                width={24}
-                height={24}
-              />
+              <img src={StarIcon} alt="average stars" width={24} height={24} />
             </span>
             <span className="text-xl font-bold">
               {count.averageStars} ({count.totalItems} đánh giá)

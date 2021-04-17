@@ -1,5 +1,5 @@
 import { Button, Typography } from "@material-ui/core";
-import TrophyIcon from "assets/images/icons/trophy.svg";
+import MedalIcon from "assets/images/icons/medal.svg";
 import ReviewSection from "components/Profile/ReviewSection";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import { themes } from "constants/index";
@@ -118,7 +118,7 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
               if (item.points === 100) {
                 return (
                   <div className="mt-4 flex items-center">
-                    <img src={TrophyIcon} alt="trophy" width={60} height={80} />
+                    <img src={MedalIcon} alt="medal" width={32} height={32} />
                     <Typography className="ml-2 text-lg">
                       {themeName}
                     </Typography>
