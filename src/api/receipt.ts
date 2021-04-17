@@ -1,9 +1,9 @@
 import createFilterString from "helpers/createFilterString";
 import axios from "./configureAxios";
 
-export const getReceipts = (filterObject) => {
+export const getReceipts = (filterObject?: any, sortString?: string) => {
   const filterString = createFilterString(filterObject);
-  return axios.get(`receipts?filter=${filterString}`);
+  return axios.get(`receipts?filter=${filterString}&sort=${sortString}`);
 };
 
 export const createReceipt = (model) => {

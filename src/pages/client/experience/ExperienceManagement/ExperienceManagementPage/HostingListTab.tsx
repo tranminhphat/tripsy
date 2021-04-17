@@ -1,22 +1,20 @@
 import { Button, Typography } from "@material-ui/core";
 import {
-  createExperience,
-  deleteExperienceById,
-  getExperiences,
-} from "api/experiences";
-import {
   createOnBoardingLink,
   createPayOutAccount,
   getAccountById,
 } from "api/stripe";
-import { getCurrentUser, updateUserById } from "api/users";
 import BankIcon from "assets/images/icons/bank.svg";
 import FlyIcon from "assets/images/icons/fly.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import AlertContext from "contexts/AlertContext";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
-import IExperience from "interfaces/experiences/experience.interface";
+import useCreateExperience from "hooks/mutations/experiences/useCreateExperience";
+import useDeleteExperience from "hooks/mutations/experiences/useDeleteExperience";
+import useUpdateUser from "hooks/mutations/users/useUpdateUser";
+import useExperiences from "hooks/queries/experiences/useExperiences";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
@@ -25,45 +23,29 @@ import { Link, useHistory, useRouteMatch } from "react-router-dom";
 interface Props {}
 
 const HostingListTab: React.FC<Props> = () => {
-  const [userData, setUserData] = useState<IUser>();
+  const { data: userData } = useCurrentUser();
+  const { data: experiences } = useExperiences({ hostId: userData?._id });
+  const updateUser = useUpdateUser();
+  const createExperience = useCreateExperience();
+  const deleteExperience = useDeleteExperience();
   const [payoutId, setPayoutId] = useState<string>();
   const [isPayOutEnabled, setIsPayOutEnabled] = useState(false);
-  const [experiences, setExperiences] = useState<IExperience[]>();
   const history = useHistory();
   const { url } = useRouteMatch();
   const { alert } = useContext(AlertContext);
 
   useEffect(() => {
-    fetchExperience();
+    fetchPayOutInformation(userData!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchExperience = async () => {
-    const userResponse = await getCurrentUser([
-      "_id",
-      "firstName",
-      "payoutAccountId",
-      "isIdVerified",
-      "isPayOutEnabled",
-    ]);
-    const { user } = userResponse.data;
-
-    const { data } = await getExperiences({
-      hostId: user._id,
-    });
-
-    setExperiences(data);
-    setUserData(user);
-
-    fetchPayOutInformation(user);
-  };
-
-  const fetchPayOutInformation = async (user) => {
+  const fetchPayOutInformation = async (user: IUser) => {
     if (!user.isPayOutEnabled) {
       if (!user.payoutAccountId) {
         const { data: payoutAccountId } = await createPayOutAccount();
-        await updateUserById(user._id, {
-          payoutAccountId: payoutAccountId,
+        updateUser.mutate({
+          userId: user._id,
+          values: { payoutAccountId: payoutAccountId },
         });
         setPayoutId(payoutAccountId);
       } else {
@@ -72,8 +54,11 @@ const HostingListTab: React.FC<Props> = () => {
           data: { account },
         } = await getAccountById(user.payoutAccountId);
         if (account.charges_enabled) {
-          await updateUserById(user._id as string, {
-            isPayOutEnabled: true,
+          updateUser.mutate({
+            userId: user._id,
+            values: {
+              isPayOutEnabled: true,
+            },
           });
           setIsPayOutEnabled(true);
         }
@@ -84,24 +69,29 @@ const HostingListTab: React.FC<Props> = () => {
   };
 
   const handleCreateExperience = async () => {
-    const { data } = await createExperience();
-    if (data) {
-      history.push({
-        pathname: `/user/experience-hosting/${data}/progress1`,
-        state: { currentProgress: 1, currentStep: 1 },
-      });
-    }
+    createExperience.mutate(undefined, {
+      onSuccess: (data) => {
+        history.push({
+          pathname: `/user/experience-hosting/${data}/progress1`,
+          state: { currentProgress: 1, currentStep: 1 },
+        });
+      },
+    });
   };
 
   const handleDeleteExperience = async (id: string) => {
-    const {
-      data: { message },
-    } = await deleteExperienceById(id);
-    if (message) {
-      alert("success", message);
-    } else {
-      alert("error", "Xảy ra lỗi");
-    }
+    deleteExperience.mutate(
+      { experienceId: id },
+      {
+        onSuccess: (message) => {
+          if (message) {
+            alert("success", message);
+          } else {
+            alert("error", "Xảy ra lỗi");
+          }
+        },
+      }
+    );
   };
 
   const handleCreatePayOutAccount = async () => {

@@ -4,9 +4,8 @@ import DoneIcon from "@material-ui/icons/Done";
 import { updateListOfGuest } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { updateCheckpoints } from "api/profile";
-import { deleteReceiptById, getReceipts, updateReceiptById } from "api/receipt";
+import { deleteReceiptById, updateReceiptById } from "api/receipt";
 import { createRefund, getCheckoutSessionById } from "api/stripe";
-import { getCurrentUser } from "api/users";
 import ClockIcon from "assets/images/icons/clock.svg";
 import DestinationIcon from "assets/images/icons/destination.svg";
 import HostIcon from "assets/images/icons/host.svg";
@@ -17,9 +16,11 @@ import UserReviewModal from "components/Modals/UserReviewModal";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { themes } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
+import useReceipts from "hooks/queries/receipts/useReceipts";
+import useCurrentUser from "hooks/queries/users/useCurrentUser";
 import IReceipt from "interfaces/receipts/receipt.interface";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Props {}
 
@@ -32,25 +33,8 @@ const ExperienceListTab: React.FC<Props> = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [checkpointData, setCheckpointData] = useState<any>(null);
-  const [receipts, setReceipts] = useState<IReceipt[]>();
-
-  useEffect(() => {
-    fetchExperience();
-  }, [checkpointData]);
-
-  const fetchExperience = async () => {
-    const {
-      data: {
-        user: { _id: userId },
-      },
-    } = await getCurrentUser(["_id"]);
-    if (userId) {
-      const { data } = await getReceipts({ guestId: userId });
-      if (data) {
-        setReceipts(data);
-      }
-    }
-  };
+  const { data: currentUser } = useCurrentUser();
+  const { data: receipts } = useReceipts({ guestId: currentUser?._id });
 
   const handleRefundExperience = async (
     checkOutSessionId: string,

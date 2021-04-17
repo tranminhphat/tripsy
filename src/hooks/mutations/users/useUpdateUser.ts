@@ -1,13 +1,13 @@
 import { updateUserById } from "api/users";
 import { useMutation, useQueryClient } from "react-query";
 
-const useUserUpdate = () => {
+const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    async (values: any) => {
+    async ({ userId, values }: any) => {
       const {
         data: { user },
-      } = await updateUserById(values.userId, { ...values });
+      } = await updateUserById(userId, { ...values });
       return user;
     },
     {
@@ -18,4 +18,4 @@ const useUserUpdate = () => {
   );
 };
 
-export default useUserUpdate;
+export default useUpdateUser;

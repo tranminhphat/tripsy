@@ -1,6 +1,5 @@
 import { Button, MenuItem, Select, Typography } from "@material-ui/core";
-import { deleteActivityById } from "api/activity";
-import { deleteReceiptById, getReceipts } from "api/receipt";
+import { getReceipts } from "api/receipt";
 import {
   createRefund,
   createTransfer,
@@ -13,6 +12,7 @@ import AlertContext from "contexts/AlertContext";
 import toWeekDayString from "helpers/toWeekDayString";
 import useCreateActivity from "hooks/mutations/activities/useCreateActivity";
 import useDeleteActivity from "hooks/mutations/activities/useDeleteActivity";
+import useDeleteReceipt from "hooks/mutations/receipts/useDeleteReceipt";
 import useActivitiesByExperienceId from "hooks/queries/activities/useActivitiesByExperienceId";
 import useExperience from "hooks/queries/experiences/useExperience";
 import IActivity from "interfaces/activity/activity.interface";
@@ -31,6 +31,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   const { data: activities } = useActivitiesByExperienceId(experience?._id!);
   const createActivity = useCreateActivity();
   const deleteActivity = useDeleteActivity();
+  const deleteReceipt = useDeleteReceipt();
   const [pickerValue, setPickerValue] = useState<any>();
   const [open, setOpen] = useState(false);
   const [startTimeOpen, setStartTimeOpen] = useState(false);
@@ -79,8 +80,8 @@ const ExperienceActivationPage: React.FC<Props> = () => {
           data: { session },
         } = await getCheckoutSessionById(receipt[0].checkOutSessionId);
         if (session.payment_intent) {
-          await deleteReceiptById(receipt[0]._id!);
           await createRefund(session.payment_intent);
+          deleteReceipt.mutate({ receiptId: receipt[0]._id });
           deleteActivity.mutate({ activityId: activity._id });
         }
       }
@@ -89,7 +90,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
 
   const handleCompleteActivity = async (activityId: string) => {
     await createTransfer(activityId); // Tra tien cho host
-    await deleteActivityById(activityId); // Xoa hoat dong
+    deleteActivity.mutate({ activityId });
   };
 
   const canActivityCancel = (unixTime: number, listOfGuest: string[]) => {

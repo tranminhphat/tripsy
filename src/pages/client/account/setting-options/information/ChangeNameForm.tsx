@@ -2,7 +2,7 @@ import Button from "@material-ui/core/Button";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTextField from "components/Shared/MyTextField";
 import { Form, Formik } from "formik";
-import useUserUpdate from "hooks/mutations/users/useUserUpdate";
+import useUpdateUser from "hooks/mutations/users/useUpdateUser";
 import * as React from "react";
 import * as yup from "yup";
 
@@ -17,13 +17,13 @@ const validationSchema = yup.object({
 });
 
 const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
-  const userMutation = useUserUpdate();
+  const userMutation = useUpdateUser();
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        userMutation.mutate({ userId, ...values });
+        userMutation.mutate({ userId, values });
       }}
       validationSchema={validationSchema}
     >
