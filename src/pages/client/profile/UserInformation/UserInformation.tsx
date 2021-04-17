@@ -1,48 +1,40 @@
 import { Button, Typography } from "@material-ui/core";
-import { getProfileById, updateProfileById } from "api/profile";
 import TrophyIcon from "assets/images/icons/trophy.svg";
 import ReviewSection from "components/Profile/ReviewSection";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import { themes } from "constants/index";
 import AlertContext from "contexts/AlertContext";
 import { Field, Form, Formik } from "formik";
-import IProfile from "interfaces/profiles/profile.interface";
+import { useUpdateProfile } from "hooks/mutations/profiles";
+import { useProfile } from "hooks/queries/profiles";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 interface Props {
   userData: IUser;
   isCurrentUser: boolean;
 }
 
 const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
-  const [profile, setProfile] = useState<IProfile>();
-  const [introduction, setIntroduction] = useState("");
+  const { data: profile } = useProfile(userData.profileId);
+  const updateProfile = useUpdateProfile();
+  const [introduction, setIntroduction] = useState(profile?.introduction);
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
   const { alert } = useContext(AlertContext);
 
-  useEffect(() => {
-    fetchProfile(userData.profileId as string);
-  }, [userData.profileId]);
-
-  const fetchProfile = async (id: string) => {
-    const {
-      data: { profile },
-    } = await getProfileById(id);
-    if (profile) {
-      setProfile(profile);
-      setIntroduction(profile.introduction);
-    }
-  };
-
   const handleIntroductionUpdate = async (values) => {
-    const { data } = await updateProfileById(userData.profileId!, values);
-    if (data) {
-      setIntroduction(values.introduction);
-      alert("success", "Cập nhật thành công");
-    } else {
-      alert("success", "Cập nhật thất bại");
-    }
+    updateProfile.mutate(
+      { profileId: profile?._id, values },
+      {
+        onSuccess: () => {
+          setIntroduction(values.introduction);
+          alert("success", "Cập nhật thành công");
+        },
+        onError: () => {
+          alert("success", "Cập nhật thất bại");
+        },
+      }
+    );
   };
 
   return (

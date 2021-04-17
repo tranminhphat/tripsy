@@ -91,7 +91,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   };
 
   const handleCompleteActivity = async (activityId: string) => {
-    await createTransfer(activityId); // Tra tien cho host
+    await createTransfer(activityId);
     deleteActivity.mutate({ activityId });
   };
 

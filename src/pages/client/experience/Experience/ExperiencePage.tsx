@@ -81,12 +81,7 @@ const ExperiencePage: React.FC<Props> = () => {
                   <hr />
                 </div>
                 <div className="mt-8">
-                  <InformSection
-                    experience={experience}
-                    userId={user._id!}
-                    userFirstName={user.firstName!}
-                    userAvatar={user.avatarUrl!}
-                  />
+                  <InformSection experience={experience} />
                 </div>
                 <div className="mt-8">
                   <hr />

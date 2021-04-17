@@ -17,7 +17,7 @@ import { themes } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
 import { useUpdateCheckpoint } from "hooks/mutations/profiles";
 import { useUpdateReceipt } from "hooks/mutations/receipts";
-import useReceipts from "hooks/queries/receipts/useReceipts";
+import { useReceipts } from "hooks/queries/receipts";
 import { useCurrentUser } from "hooks/queries/users";
 import IReceipt from "interfaces/receipts/receipt.interface";
 import * as React from "react";

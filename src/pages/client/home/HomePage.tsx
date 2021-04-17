@@ -26,7 +26,6 @@ const intersectionExperiences = (a, b) => {
 };
 
 const HomePage: React.FC = () => {
-  // const [experiences, setExperiences] = useState<IExperience[]>();
   const [filterObject, setFilterObject] = useState({});
   const [sortString, setSortString] = useState("");
   const [dayOfYear, setDayOfYear] = useState<number>();
@@ -38,30 +37,6 @@ const HomePage: React.FC = () => {
     experiencesByDate,
     experiencesByField
   );
-
-  // useEffect(() => {
-  //   fetchExperiences(filterObject, sortString, dayOfYear);
-  // }, [filterObject, sortString, dayOfYear]);
-
-  // const fetchExperiences = async (filterObject, sortString, dayOfYear) => {
-  //   if (!dayOfYear) {
-  //     const { data } = await getExperiences(filterObject, sortString);
-  //     if (data) {
-  //       setExperiences(data);
-  //     }
-  //   } else {
-  //     const { data: experiencesByField } = await getExperiences(
-  //       filterObject,
-  //       sortString
-  //     );
-  //     const { data: experiencesByDate } = await getExperiencesByDate(dayOfYear);
-  //     const intersectObject = intersection(
-  //       experiencesByDate,
-  //       experiencesByField
-  //     );
-  //     setExperiences(intersectObject);
-  //   }
-  // };
 
   return (
     <div className="h-full w-full">

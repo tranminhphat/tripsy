@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { UserFieldType } from "types";
 
 export const useUser = (userId: string) => {
-  return useQuery(
+  return useQuery<IUser>(
     ["user", userId],
     async () => {
       const { data: user } = await getUserById(userId);

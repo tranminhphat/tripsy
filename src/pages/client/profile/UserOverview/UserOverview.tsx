@@ -1,14 +1,13 @@
 import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import { getProfileById } from "api/profile";
-import { countReviews } from "api/review";
 import { changeAvatar } from "api/users";
 import StarIcon from "assets/images/icons/star.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
-import IProfile from "interfaces/profiles/profile.interface";
+import { useProfile } from "hooks/queries/profiles";
+import { useCountReview } from "hooks/queries/reviews";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FileReaderResultType } from "types";
 import ConfirmedInformation from "./ConfirmedInformation";
 
@@ -18,32 +17,10 @@ interface Props {
 }
 
 const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
-  /* Store user profile */
-  const [profile, setProfile] = useState<IProfile>();
-  const [numberOfReviews, setNumberOfReviews] = useState();
-  /* Store user updated avatar file */
+  const { data: profile } = useProfile(userData.profileId);
+  const { data: reviewObject } = useCountReview(userData._id!);
   const [fileInputState] = useState("");
-
-  /* Store base64 string of the avatar file  */
   const [fileReader, setFileReader] = useState<FileReaderResultType>();
-
-  useEffect(() => {
-    fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const fetchProfile = async () => {
-    const {
-      data: { profile },
-    } = await getProfileById(userData.profileId as string);
-    if (profile) {
-      setProfile(profile);
-      const { data } = await countReviews({ objectId: userData._id });
-      if (data) {
-        setNumberOfReviews(data.totalItems);
-      }
-    }
-  };
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -117,13 +94,13 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
         ) : null}
       </div>
       <div className="self-start w-full my-4">
-        {profile && numberOfReviews ? (
+        {profile && reviewObject ? (
           <div className="flex items-center">
             <span className="mr-3">
               <img src={StarIcon} alt="id verified" />
             </span>
             <Typography className="font-bold">
-              {numberOfReviews} đánh giá
+              {reviewObject.totalItems} đánh giá
             </Typography>
           </div>
         ) : null}

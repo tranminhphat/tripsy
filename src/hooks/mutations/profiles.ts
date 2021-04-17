@@ -1,5 +1,26 @@
-import { saveExperience, updateCheckpoints } from "api/profile";
+import {
+  saveExperience,
+  updateCheckpoints,
+  updateProfileById,
+} from "api/profile";
 import { useMutation, useQueryClient } from "react-query";
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ profileId, values }: any) => {
+      const {
+        data: { profile },
+      } = await updateProfileById(profileId, { ...values });
+      return profile;
+    },
+    {
+      onSuccess: (profile) => {
+        queryClient.invalidateQueries(["profiles", profile._id]);
+      },
+    }
+  );
+};
 
 export const useSaveExperiences = () => {
   const queryClient = useQueryClient();
