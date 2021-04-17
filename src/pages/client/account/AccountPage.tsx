@@ -13,7 +13,7 @@ const AccountPage: React.FC<Props> = () => {
   return (
     <MainLayout withSearchBar={false}>
       {userData ? (
-        <div className="container mx-auto px-40">
+        <div className="container mx-auto px-28 mt-8">
           <div className="flex flex-col">
             <h1 className="text-4xl font-bold">Tài khoản</h1>
             <p className="text-lg mt-2">

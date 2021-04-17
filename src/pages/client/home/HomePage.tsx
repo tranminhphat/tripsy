@@ -43,7 +43,7 @@ const HomePage: React.FC = () => {
       <Header withSearchBar={true} setFilterObject={setFilterObject} />
       <div
         className="container mx-auto h-full flex items-center grid grid-cols-4 lg:grid-cols-12"
-        style={{ paddingTop: "96px" }}
+        style={{ marginTop: "108px" }}
       >
         <div className="col-span-8">
           <div>

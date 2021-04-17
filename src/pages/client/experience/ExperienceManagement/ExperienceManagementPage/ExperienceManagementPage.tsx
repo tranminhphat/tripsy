@@ -16,32 +16,34 @@ const ExperienceManagementPage: React.FC<Props> = () => {
 
   return (
     <MainLayout withSearchBar={false}>
-      <Tabs
-        TabIndicatorProps={{
-          style: { backgroundColor: "#0062cc" },
-        }}
-        value={value}
-        onChange={handleChange}
-      >
-        <Tab
-          className={`focus:outline-none text-lg ${
-            value === 0 ? "text-primary" : null
-          }`}
-          label="Trải nghiệm"
-        />
-        <Tab
-          className={`focus:outline-none text-lg ${
-            value === 1 ? "text-primary" : null
-          }`}
-          label="Hoạt động của bạn"
-        />
-      </Tabs>
-      <MyTabPanel value={value} index={0}>
-        <ExperienceListTab />
-      </MyTabPanel>
-      <MyTabPanel value={value} index={1}>
-        <HostingListTab />
-      </MyTabPanel>
+      <div className="mt-6">
+        <Tabs
+          TabIndicatorProps={{
+            style: { backgroundColor: "#0062cc" },
+          }}
+          value={value}
+          onChange={handleChange}
+        >
+          <Tab
+            className={`focus:outline-none text-lg ${
+              value === 0 ? "text-primary" : null
+            }`}
+            label="Trải nghiệm"
+          />
+          <Tab
+            className={`focus:outline-none text-lg ${
+              value === 1 ? "text-primary" : null
+            }`}
+            label="Hoạt động của bạn"
+          />
+        </Tabs>
+        <MyTabPanel value={value} index={0}>
+          <ExperienceListTab />
+        </MyTabPanel>
+        <MyTabPanel value={value} index={1}>
+          <HostingListTab />
+        </MyTabPanel>
+      </div>
     </MainLayout>
   );
 };

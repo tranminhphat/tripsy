@@ -1,6 +1,4 @@
 import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
-import CancelIcon from "@material-ui/icons/Close";
-import DoneIcon from "@material-ui/icons/Done";
 import { updateListOfGuest } from "api/activity";
 import { getExperienceById } from "api/experiences";
 import { deleteReceiptById } from "api/receipt";
@@ -83,7 +81,7 @@ const ExperienceListTab: React.FC<Props> = () => {
       <FilterExperienceList setStatus={setStatus} />
       {receipts ? (
         receipts.map((item) => (
-          <div key={item._id}>
+          <div className="mt-4" key={item._id}>
             <div className="flex justify-between border border-gray-300 rounded-lg ">
               <div className="mt-2 p-4 flex-grow">
                 <div className="flex items-center justify-between">
@@ -139,9 +137,8 @@ const ExperienceListTab: React.FC<Props> = () => {
                       <div className="mr-4">
                         <Tooltip title="Hủy và nhận hoàn tiền">
                           <Button
-                            className="bg-danger text-white overflow-hidden"
-                            style={{ width: "200px", height: "50px" }}
-                            variant="contained"
+                            className="border-black overflow-hidden"
+                            variant="outlined"
                             onClick={() =>
                               handleRefundExperience(
                                 item.checkOutSessionId as string,
@@ -150,17 +147,15 @@ const ExperienceListTab: React.FC<Props> = () => {
                             }
                           >
                             <div className="flex items-center">
-                              <CancelIcon />
-                              <Typography className="ml-2">Hủy bỏ</Typography>
+                              <Typography>Hủy bỏ</Typography>
                             </div>
                           </Button>
                         </Tooltip>
                       </div>
-                      <div className="ml-4">
+                      <div className="ml-2">
                         <Tooltip title="Hoàn thành và nhận điểm tích lũy">
                           <Button
-                            className="bg-success text-white overflow-hidden"
-                            style={{ width: "200px", height: "50px" }}
+                            className="bg-primary text-white overflow-hidden"
                             variant="contained"
                             onClick={() => {
                               handleCompleteExperience(
@@ -172,10 +167,7 @@ const ExperienceListTab: React.FC<Props> = () => {
                           >
                             {!isLoading ? (
                               <div className="flex items-center">
-                                <DoneIcon />
-                                <Typography className="ml-2">
-                                  Hoàn thành
-                                </Typography>
+                                <Typography>Hoàn thành</Typography>
                               </div>
                             ) : (
                               <MyLoadingIndicator />
@@ -188,9 +180,9 @@ const ExperienceListTab: React.FC<Props> = () => {
                     <>
                       <div className="mr-4">
                         <Button
-                          className="bg-primary whitespace-nowrap text-white overflow-hidden"
+                          className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
                           style={{ width: "200px", height: "50px" }}
-                          variant="contained"
+                          variant="outlined"
                           onClick={() => setOpenUserReviewModal(true)}
                         >
                           <span>Đánh giá người tổ chức</span>
@@ -198,9 +190,9 @@ const ExperienceListTab: React.FC<Props> = () => {
                       </div>
                       <div className="ml-4">
                         <Button
-                          className="bg-primary text-white overflow-hidden"
+                          className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
                           style={{ width: "200px", height: "50px" }}
-                          variant="contained"
+                          variant="outlined"
                           onClick={() => setOpenExperienceReviewModal(true)}
                         >
                           <span>Đánh giá trải nghiệm</span>

@@ -86,7 +86,7 @@ const UserOptions: React.FC = () => {
         </>
       ) : (
         <div className="flex items-center justify-center">
-          <div className="underline hover:no-underline mr-2">
+          <div className="border border-secondary p-1 rounded-md hover:bg-secondary hover:text-white mr-2">
             <Link to="/login" onClick={handleClose}>
               Đăng nhập{" "}
             </Link>
