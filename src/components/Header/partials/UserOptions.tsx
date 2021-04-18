@@ -2,6 +2,9 @@ import { Avatar, Button, IconButton, Menu, MenuItem } from "@material-ui/core";
 import BellIcon from "@material-ui/icons/NotificationsNone";
 import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
+import AccountIcon from "assets/images/icons/account.svg";
+import ExperienceIcon from "assets/images/icons/experience.svg";
+import ProfileIcon from "assets/images/icons/profile.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
@@ -63,7 +66,7 @@ const UserOptions: React.FC = () => {
             />
           </Button>
           <Menu
-            className="mt-14"
+            className="mt-10 rounded-lg"
             id="simple-menu"
             anchorEl={menuEl}
             keepMounted
@@ -71,16 +74,43 @@ const UserOptions: React.FC = () => {
             onClose={handleClose}
           >
             <Link to={`/user/profile/${userData ? userData._id : ""}`}>
-              <MenuItem>Trang cá nhân</MenuItem>
+              <MenuItem>
+                <div className="flex items-center">
+                  <img src={ProfileIcon} width={21} height={21} alt="profile" />
+                  <p className="ml-2">Trang cá nhân</p>
+                </div>
+              </MenuItem>
             </Link>
             <Link to={`/account-settings`}>
-              <MenuItem>Tài khoản</MenuItem>
+              <MenuItem>
+                <div className="flex items-center mt-2">
+                  <img src={AccountIcon} width={21} height={21} alt="account" />
+                  <p className="ml-2">Tài khoản</p>
+                </div>
+              </MenuItem>
             </Link>
             <Link to="/user/experience-hosting">
-              <MenuItem>Quản lí trải nghiệm</MenuItem>
+              <MenuItem>
+                <div className="flex items-center mt-2">
+                  <img
+                    src={ExperienceIcon}
+                    width={21}
+                    height={21}
+                    alt="experience manage"
+                  />
+                  <p className="ml-2">Quản lí trải nghiệm</p>
+                </div>
+              </MenuItem>
             </Link>
             <Link to="/login" onClick={loggingOut}>
-              <MenuItem>Đăng xuất</MenuItem>
+              <MenuItem
+                className="py-2 bg-gray-100"
+                style={{ marginBottom: -8, marginTop: 10 }}
+              >
+                <div className="text-center w-full">
+                  <p className="font-semibold">Đăng xuất</p>
+                </div>
+              </MenuItem>
             </Link>
           </Menu>
         </>
