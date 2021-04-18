@@ -1,11 +1,11 @@
 import { Button, Fade, makeStyles, Modal, Typography } from "@material-ui/core";
 import congratulation from "assets/animations/congratulation.json";
 import FlagIcon from "assets/images/icons/flag.svg";
-import TrophyIcon from "assets/images/icons/trophy.svg";
+import MedalIcon from "assets/images/icons/medal.svg";
 import LottieAnimation from "components/Shared/Lottie";
 import MyProgressBar from "components/Shared/MyProgressBar";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   isOpen: boolean;
@@ -47,14 +47,14 @@ const CheckpointModal: React.FC<Props> = ({
   const [open, setOpen] = useState(isOpen);
   const [openReward, setOpenReward] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       if (checkpointData.currentPoints === 100) {
         setOpen(false);
         setOpenReward(true);
       }
     }, 2000);
-  }, []);
+  }, [checkpointData.currentPoints]);
 
   const handleClose = () => {
     onClose();
@@ -107,7 +107,7 @@ const CheckpointModal: React.FC<Props> = ({
                   <Typography>{checkpointData.currentPoints} / 100</Typography>
                 </div>
                 <div className="ml-4">
-                  <img src={TrophyIcon} alt="trophy" height={80} width={64} />
+                  <img src={MedalIcon} alt="trophy" height={80} width={64} />
                 </div>
               </div>
             </div>
@@ -143,7 +143,7 @@ const CheckpointModal: React.FC<Props> = ({
             </div>
             <div className="max-w-lg text-center">
               <Fade in={true}>
-                <img src={TrophyIcon} alt="trophy" width={200} height={100} />
+                <img src={MedalIcon} alt="trophy" width={200} height={100} />
               </Fade>
             </div>
             <Button
