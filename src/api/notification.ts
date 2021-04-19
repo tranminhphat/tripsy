@@ -8,3 +8,7 @@ export const createNotification = (model: INotification) => {
 export const getNotifications = () => {
   return axios.get("/notifications");
 };
+
+export const markAllAsRead = () => {
+  return axios.put("/notifications/mark-all-as-read");
+};
