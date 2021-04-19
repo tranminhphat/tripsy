@@ -20,7 +20,7 @@ export const Header: React.FC<Props> = ({ withSearchBar, setFilterObject }) => {
             <SearchBar setFilterObject={setFilterObject} />
           ) : null}
         </div>
-        <div className="flex justify-end col-span-4">
+        <div className="flex justify-end col-span-2 lg:col-span-4">
           <UserOptions />
         </div>
       </div>

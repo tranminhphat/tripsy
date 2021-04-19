@@ -1,5 +1,11 @@
-import { Avatar, Button, IconButton, Menu, MenuItem } from "@material-ui/core";
-import BellIcon from "@material-ui/icons/NotificationsNone";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  makeStyles,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
 import AccountIcon from "assets/images/icons/account.svg";
@@ -8,15 +14,26 @@ import ProfileIcon from "assets/images/icons/profile.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
+import { useNotifications } from "hooks/queries/notifications";
 import { useCurrentUser } from "hooks/queries/users";
 import * as React from "react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import NotificationCenter from "./NotificationCenter";
+
+const useStyles = makeStyles({
+  paper: {
+    marginTop: 40,
+    left: "1118px !important",
+  },
+});
 
 const UserOptions: React.FC = () => {
   const [menuEl, setMenuEl] = useState(null);
+  const classes = useStyles();
   const { alert } = useContext(AlertContext);
   const { data: userData } = useCurrentUser();
+  const { data: notifications } = useNotifications();
   const { isAuth, refreshAuth } = useContext(AuthContext);
 
   const handleClick = (event) => {
@@ -41,12 +58,10 @@ const UserOptions: React.FC = () => {
       <IconButton className="text-black mr-2 border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 focus:outline-none rounded-full lg:hidden">
         <SearchIcon />
       </IconButton>
-      {isAuth ? (
+      {isAuth && notifications ? (
         <>
           <div>
-            <IconButton className="text-black mr-2 border border-solid hover:bg-transparent hover:shadow-lg border-gray-300 focus:outline-none rounded-full">
-              <BellIcon />
-            </IconButton>
+            <NotificationCenter data={notifications} />
           </div>
 
           <Button
@@ -66,7 +81,7 @@ const UserOptions: React.FC = () => {
             />
           </Button>
           <Menu
-            className="mt-10 rounded-lg"
+            classes={{ paper: classes.paper }}
             id="simple-menu"
             anchorEl={menuEl}
             keepMounted
