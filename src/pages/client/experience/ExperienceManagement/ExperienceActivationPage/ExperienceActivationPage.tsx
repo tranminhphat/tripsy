@@ -22,12 +22,13 @@ import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { useContext, useState } from "react";
 import { Calendar, DateObject } from "react-multi-date-picker";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useRouteMatch } from "react-router-dom";
 
 interface Props {}
 
 const ExperienceActivationPage: React.FC<Props> = () => {
   const { id } = useParams<{ id: string }>();
+  const { url } = useRouteMatch();
   const { alert } = useContext(AlertContext);
   const { data: experience } = useExperience(id);
   const { data: activities } = useActivitiesByExperienceId(experience?._id!);
@@ -111,7 +112,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
 
   return (
     <MainLayout withSearchBar={false}>
-      <div className="container mx-auto px-48 my-10">
+      <div className="container mx-auto my-10">
         <div className="flex justify-between container">
           <Typography className="text-3xl text-secondary font-bold">
             Lịch hoạt động
@@ -129,85 +130,80 @@ const ExperienceActivationPage: React.FC<Props> = () => {
             <div className="mt-8">
               {activities
                 ? activities.sort(compareFunction).map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="border border-gray-300 rounded-xl p-4 shadow-lg mt-4"
-                    >
-                      <div>
-                        <p className="text-lg">
-                          Mã hoạt động: <span>{item._id}</span>
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-lg ">
-                          Thời điểm diễn ra:{" "}
-                          <span>
-                            {toWeekDayString(item.date.dateObject.weekDay)},{" "}
-                            {item.date.dateObject.day}/
-                            {item.date.dateObject.month}/
-                            {item.date.dateObject.year}
-                          </span>
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-lg ">
-                          Số lượng khách tham gia :{" "}
-                          <span>
-                            {item.listOfGuestId.length}/{experience.groupSize}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="flex justify-between mt-4">
-                        <div
-                          className={`${
-                            !canActivityCancel(
-                              item.date.dateObject.unix,
-                              item.listOfGuestId
-                            )
-                              ? "cursor-not-allowed"
-                              : ""
-                          }`}
-                        >
-                          <Button
-                            variant="contained"
-                            size="large"
-                            onClick={() => handleCancelActivity(item)}
-                            className={` text-white ${
+                    <Link to={`${url}/${item._id}`}>
+                      <div
+                        style={{ width: 800 }}
+                        key={idx}
+                        className="border border-gray-300 rounded-md p-4 shadow-lg mt-4"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-lg font-semibold">
+                              {toWeekDayString(item.date.dateObject.weekDay)},{" "}
+                              ngày {item.date.dateObject.day}/
+                              {item.date.dateObject.month}/
+                              {item.date.dateObject.year}
+                            </p>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">
+                            {startTimeOptions[item.date.startTimeIdx - 1].text}{" "}
+                            - {startTimeOptions[item.date.endTimeIdx - 1].text}
+                          </p>
+                        </div>
+                        {/* <div className="flex justify-between mt-4">
+                          <div
+                            className={`${
                               !canActivityCancel(
                                 item.date.dateObject.unix,
                                 item.listOfGuestId
                               )
-                                ? " pointer-events-none bg-gray-400"
-                                : "bg-red-600"
+                                ? "cursor-not-allowed"
+                                : ""
                             }`}
                           >
-                            Hủy
-                          </Button>
-                        </div>
-                        <div
-                          className={`${
-                            !isActivityEnd(item.date.dateObject.unix)
-                              ? "cursor-not-allowed"
-                              : ""
-                          }`}
-                        >
-                          <Button
-                            variant="contained"
-                            size="large"
-                            className={`text-white ${
+                            <Button
+                              variant="contained"
+                              size="large"
+                              onClick={() => handleCancelActivity(item)}
+                              className={` text-white ${
+                                !canActivityCancel(
+                                  item.date.dateObject.unix,
+                                  item.listOfGuestId
+                                )
+                                  ? " pointer-events-none bg-gray-400"
+                                  : "bg-red-600"
+                              }`}
+                            >
+                              Hủy
+                            </Button>
+                          </div>
+                          <div
+                            className={`${
                               !isActivityEnd(item.date.dateObject.unix)
-                                ? "bg-gray-400"
-                                : "bg-primary"
+                                ? "cursor-not-allowed"
+                                : ""
                             }`}
-                            onClick={() =>
-                              handleCompleteActivity(item._id as string)
-                            }
                           >
-                            Hoàn thành
-                          </Button>
-                        </div>
+                            <Button
+                              variant="contained"
+                              size="large"
+                              className={`text-white ${
+                                !isActivityEnd(item.date.dateObject.unix)
+                                  ? "bg-gray-400"
+                                  : "bg-primary"
+                              }`}
+                              onClick={() =>
+                                handleCompleteActivity(item._id as string)
+                              }
+                            >
+                              Hoàn thành
+                            </Button>
+                          </div>
+                        </div> */}
                       </div>
-                    </div>
+                    </Link>
                   ))
                 : null}
             </div>
