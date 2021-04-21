@@ -9,38 +9,128 @@ import {
   TableRow,
   Typography,
 } from "@material-ui/core";
+import { getReceipts } from "api/receipt";
+import {
+  createRefund,
+  createTransfer,
+  getCheckoutSessionById,
+} from "api/stripe";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { startTimeOptions } from "constants/index";
+import AlertContext from "contexts/AlertContext";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
+import { useDeleteActivity } from "hooks/mutations/activities";
+import { useDeleteReceipt } from "hooks/mutations/receipts";
 import { useActivities } from "hooks/queries/activities";
+import IActivity from "interfaces/activity/activity.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { DateObject } from "react-multi-date-picker";
+import { useHistory, useParams } from "react-router-dom";
 
 interface Props {}
 
 const ActivityDetailPage: React.FC<Props> = () => {
   const { activityId } = useParams<{ activityId: string }>();
+  const history = useHistory();
   const { data: activity } = useActivities({ _id: activityId });
+  const deleteActivity = useDeleteActivity();
+  const deleteReceipt = useDeleteReceipt();
+  const { alert } = useContext(AlertContext);
+
+  const handleCancelActivity = async (activity: IActivity) => {
+    if (activity.listOfGuestId.length === 0) {
+      deleteActivity.mutate({ activityId: activity._id });
+    } else {
+      for (let i = 0; i < activity.listOfGuestId.length; i++) {
+        const { data: receipt } = await getReceipts({
+          activityId: activity._id,
+          guestId: activity.listOfGuestId[i],
+        });
+
+        const {
+          data: { session },
+        } = await getCheckoutSessionById(receipt[0].checkOutSessionId);
+        if (session.payment_intent) {
+          await createRefund(session.payment_intent);
+          deleteReceipt.mutate({ receiptId: receipt[0]._id });
+          deleteActivity.mutate({ activityId: activity._id });
+        }
+      }
+    }
+
+    alert("success", "Xóa hoạt động thành công");
+    history.goBack();
+  };
+
+  const handleCompleteActivity = async (activityId: string) => {
+    await createTransfer(activityId);
+    deleteActivity.mutate({ activityId });
+  };
+
+  const canActivityCancel = (unixTime: number, listOfGuest: string[]) => {
+    const today = new DateObject();
+    return unixTime - today.unix < 86400 * 14 || listOfGuest.length === 0;
+  };
+
+  const isActivityEnd = (unixTime: number) => {
+    const today = new DateObject();
+    return today.unix > unixTime;
+  };
 
   return (
     <MainLayout withSearchBar={false}>
       <div className="container mx-auto my-4">
-        <div className="flex items-center justify-between">
-          <Typography className="text-3xl text-secondary font-bold">
-            Chi tiết hoạt động
-          </Typography>
-          <Button
-            variant="outlined"
-            className="border border-danger text-danger font-semibold outline-none hover:bg-danger hover:text-white"
-          >
-            Hủy hoạt động này
-          </Button>
-        </div>
-        <div className="mt-4">
-          {activity ? (
-            <>
+        {activity ? (
+          <>
+            <div className="flex items-center justify-between">
+              <Typography className="text-3xl text-secondary font-bold">
+                Chi tiết hoạt động
+              </Typography>
+              {!(
+                isActivityEnd(activity[0]?.date.dateObject.unix) &&
+                activity[0]?.listOfGuestId.length !== 0
+              ) ? (
+                <div
+                  className={`${
+                    !canActivityCancel(
+                      activity[0]?.date.dateObject.unix,
+                      activity[0]?.listOfGuestId
+                    )
+                      ? "cursor-not-allowed"
+                      : ""
+                  }`}
+                >
+                  <Button
+                    onClick={() => handleCancelActivity(activity[0])}
+                    variant="outlined"
+                    className={`${
+                      !canActivityCancel(
+                        activity[0]?.date.dateObject.unix,
+                        activity[0]?.listOfGuestId
+                      )
+                        ? "text-white pointer-events-none bg-gray-400"
+                        : "border border-danger text-danger font-semibold outline-none hover:bg-danger hover:text-white"
+                    }`}
+                  >
+                    Hủy hoạt động này
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  onClick={() =>
+                    handleCompleteActivity(activity[0]._id as string)
+                  }
+                  variant="outlined"
+                  className="border border-primary text-primary font-semibold outline-none hover:bg-primary hover:text-white"
+                >
+                  Hoàn thành
+                </Button>
+              )}
+            </div>
+            <div className="mt-4">
               <div className="grid grid-col-1 lg:grid-cols-2 lg:gap-16">
                 <div className="lg:col-span-1">
                   <Typography className="text-xl font-semibold text-gray-500">
@@ -134,45 +224,51 @@ const ActivityDetailPage: React.FC<Props> = () => {
                   Khách tham gia
                 </Typography>
                 <hr className="my-2" />
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Họ và Tên</TableCell>
-                        <TableCell align="right">Tuổi</TableCell>
-                        <TableCell align="right">Giới tính</TableCell>
-                        <TableCell align="right">Địa chỉ email</TableCell>
-                        <TableCell align="right">Số điện thoại</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {activity[0].guestsInfo.map((info) => (
-                        <TableRow key={info._id}>
-                          <TableCell component="th" scope="row">
-                            {info.lastName} {info.firstName}
-                          </TableCell>
-                          <TableCell align="right">
-                            {new Date().getFullYear() -
-                              Number(info.dateOfBirth?.substr(0, 4))}
-                          </TableCell>
-                          <TableCell align="right">
-                            {info.gender === "male" ? "Nam" : "Nữ"}
-                          </TableCell>
-                          <TableCell align="right">{info.email}</TableCell>
-                          <TableCell align="right">
-                            {info.phoneNumber}
-                          </TableCell>
+                {activity[0].guestsInfo.length !== 0 ? (
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Họ và Tên</TableCell>
+                          <TableCell align="right">Tuổi</TableCell>
+                          <TableCell align="right">Giới tính</TableCell>
+                          <TableCell align="right">Địa chỉ email</TableCell>
+                          <TableCell align="right">Số điện thoại</TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                      </TableHead>
+                      <TableBody>
+                        {activity[0].guestsInfo.map((info) => (
+                          <TableRow key={info._id}>
+                            <TableCell component="th" scope="row">
+                              {info.lastName} {info.firstName}
+                            </TableCell>
+                            <TableCell align="right">
+                              {new Date().getFullYear() -
+                                Number(info.dateOfBirth?.substr(0, 4))}
+                            </TableCell>
+                            <TableCell align="right">
+                              {info.gender === "male" ? "Nam" : "Nữ"}
+                            </TableCell>
+                            <TableCell align="right">{info.email}</TableCell>
+                            <TableCell align="right">
+                              {info.phoneNumber}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                ) : (
+                  <div className="text-center mt-4">
+                    <Typography>Hoạt động chưa có khách tham gia</Typography>
+                  </div>
+                )}
               </div>
-            </>
-          ) : (
-            <MyLoadingIndicator />
-          )}
-        </div>
+            </div>
+          </>
+        ) : (
+          <MyLoadingIndicator />
+        )}
       </div>
     </MainLayout>
   );

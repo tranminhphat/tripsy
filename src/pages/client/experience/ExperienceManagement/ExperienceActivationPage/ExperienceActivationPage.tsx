@@ -9,22 +9,12 @@ import {
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import { AvatarGroup } from "@material-ui/lab";
-import { getReceipts } from "api/receipt";
-import {
-  createRefund,
-  createTransfer,
-  getCheckoutSessionById,
-} from "api/stripe";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import AlertContext from "contexts/AlertContext";
 import toWeekDayString from "helpers/toWeekDayString";
-import {
-  useCreateActivity,
-  useDeleteActivity,
-} from "hooks/mutations/activities";
-import { useDeleteReceipt } from "hooks/mutations/receipts";
+import { useCreateActivity } from "hooks/mutations/activities";
 import { useActivitiesByExperienceId } from "hooks/queries/activities";
 import { useExperience } from "hooks/queries/experiences";
 import IActivity from "interfaces/activity/activity.interface";
@@ -43,8 +33,6 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   const { data: experience } = useExperience(id);
   const { data: activities } = useActivitiesByExperienceId(experience?._id!);
   const createActivity = useCreateActivity();
-  const deleteActivity = useDeleteActivity();
-  const deleteReceipt = useDeleteReceipt();
   const [pickerValue, setPickerValue] = useState<any>();
   const [open, setOpen] = useState(false);
   const [startTimeOpen, setStartTimeOpen] = useState(false);
@@ -77,43 +65,6 @@ const ExperienceActivationPage: React.FC<Props> = () => {
         },
       }
     );
-  };
-
-  const handleCancelActivity = async (activity: IActivity) => {
-    if (activity.listOfGuestId.length === 0) {
-      deleteActivity.mutate({ activityId: activity._id });
-    } else {
-      for (let i = 0; i < activity.listOfGuestId.length; i++) {
-        const { data: receipt } = await getReceipts({
-          activityId: activity._id,
-          guestId: activity.listOfGuestId[i],
-        });
-
-        const {
-          data: { session },
-        } = await getCheckoutSessionById(receipt[0].checkOutSessionId);
-        if (session.payment_intent) {
-          await createRefund(session.payment_intent);
-          deleteReceipt.mutate({ receiptId: receipt[0]._id });
-          deleteActivity.mutate({ activityId: activity._id });
-        }
-      }
-    }
-  };
-
-  const handleCompleteActivity = async (activityId: string) => {
-    await createTransfer(activityId);
-    deleteActivity.mutate({ activityId });
-  };
-
-  const canActivityCancel = (unixTime: number, listOfGuest: string[]) => {
-    const today = new DateObject();
-    return unixTime - today.unix < 86400 * 14 || listOfGuest.length === 0;
-  };
-
-  const isActivityEnd = (unixTime: number) => {
-    const today = new DateObject();
-    return today.unix > unixTime;
   };
 
   const compareFunction = (a: IActivity, b: IActivity) => {
@@ -181,56 +132,6 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                             - {startTimeOptions[item.date.endTimeIdx - 1].text}
                           </p>
                         </div>
-                        {/* <div className="flex justify-between mt-4">
-                          <div
-                            className={`${
-                              !canActivityCancel(
-                                item.date.dateObject.unix,
-                                item.listOfGuestId
-                              )
-                                ? "cursor-not-allowed"
-                                : ""
-                            }`}
-                          >
-                            <Button
-                              variant="contained"
-                              size="large"
-                              onClick={() => handleCancelActivity(item)}
-                              className={` text-white ${
-                                !canActivityCancel(
-                                  item.date.dateObject.unix,
-                                  item.listOfGuestId
-                                )
-                                  ? " pointer-events-none bg-gray-400"
-                                  : "bg-red-600"
-                              }`}
-                            >
-                              Hủy
-                            </Button>
-                          </div>
-                          <div
-                            className={`${
-                              !isActivityEnd(item.date.dateObject.unix)
-                                ? "cursor-not-allowed"
-                                : ""
-                            }`}
-                          >
-                            <Button
-                              variant="contained"
-                              size="large"
-                              className={`text-white ${
-                                !isActivityEnd(item.date.dateObject.unix)
-                                  ? "bg-gray-400"
-                                  : "bg-primary"
-                              }`}
-                              onClick={() =>
-                                handleCompleteActivity(item._id as string)
-                              }
-                            >
-                              Hoàn thành
-                            </Button>
-                          </div>
-                        </div> */}
                       </div>
                     </Link>
                   ))
