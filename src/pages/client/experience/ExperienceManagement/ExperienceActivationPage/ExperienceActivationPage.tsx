@@ -1,4 +1,12 @@
-import { Button, MenuItem, Select, Typography } from "@material-ui/core";
+import {
+  Avatar,
+  Button,
+  MenuItem,
+  Select,
+  Typography,
+} from "@material-ui/core";
+import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
+import { AvatarGroup } from "@material-ui/lab";
 import { getReceipts } from "api/receipt";
 import {
   createRefund,
@@ -32,6 +40,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   const { alert } = useContext(AlertContext);
   const { data: experience } = useExperience(id);
   const { data: activities } = useActivitiesByExperienceId(experience?._id!);
+  console.log(activities);
   const createActivity = useCreateActivity();
   const deleteActivity = useDeleteActivity();
   const deleteReceipt = useDeleteReceipt();
@@ -144,6 +153,23 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                               {item.date.dateObject.month}/
                               {item.date.dateObject.year}
                             </p>
+                          </div>
+                          <div className="flex items-center">
+                            <div>
+                              <AvatarGroup max={4}>
+                                {item.guestsInfo.map((guest) => (
+                                  <Avatar
+                                    alt={guest.firstName}
+                                    src={guest.avatarUrl}
+                                  />
+                                ))}
+                              </AvatarGroup>
+                            </div>
+                            <div className="ml-8 text-md text-gray-500">
+                              <PlaylistAddCheckIcon className="mr-2" />
+                              {item.guestsInfo.length} /{" "}
+                              {item.experience?.groupSize!}
+                            </div>
                           </div>
                         </div>
                         <div>
