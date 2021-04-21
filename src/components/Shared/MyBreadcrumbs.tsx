@@ -16,17 +16,14 @@ const MyBreadcrumbs: React.FC<Props> = ({ linkArray }) => {
             <Link
               key={index}
               to={link.path}
-              className="capitalize text-secondary opacity-60 hover:opacity-100 transition ease-in-out duration-500"
+              className="text-secondary opacity-60 hover:opacity-100 transition ease-in-out duration-500"
             >
               {link.name}
             </Link>
           );
         } else {
           return (
-            <Typography
-              key={index}
-              className="capitalize text-secondary cursor-default"
-            >
+            <Typography key={index} className="text-secondary cursor-default">
               {link.name}
             </Typography>
           );

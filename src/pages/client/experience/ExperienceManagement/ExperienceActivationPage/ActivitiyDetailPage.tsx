@@ -15,6 +15,7 @@ import {
   createTransfer,
   getCheckoutSessionById,
 } from "api/stripe";
+import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { startTimeOptions } from "constants/index";
 import AlertContext from "contexts/AlertContext";
@@ -33,7 +34,7 @@ import { useHistory, useParams } from "react-router-dom";
 interface Props {}
 
 const ActivityDetailPage: React.FC<Props> = () => {
-  const { activityId } = useParams<{ activityId: string }>();
+  const { id, activityId } = useParams<{ id: string; activityId: string }>();
   const history = useHistory();
   const { data: activity } = useActivities({ _id: activityId });
   const deleteActivity = useDeleteActivity();
@@ -72,7 +73,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
 
   const canActivityCancel = (unixTime: number, listOfGuest: string[]) => {
     const today = new DateObject();
-    return unixTime - today.unix < 86400 * 14 || listOfGuest.length === 0;
+    return unixTime - today.unix > 86400 * 14 || listOfGuest.length === 0;
   };
 
   const isActivityEnd = (unixTime: number) => {
@@ -83,9 +84,25 @@ const ActivityDetailPage: React.FC<Props> = () => {
   return (
     <MainLayout withSearchBar={false}>
       <div className="container mx-auto my-4">
+        <MyBreadcrumbs
+          linkArray={[
+            {
+              path: "/user/experience-hosting",
+              name: "Trải nghiệm của tôi",
+            },
+            {
+              path: `/user/experience-hosting/${id}/activation`,
+              name: "Hoạt động",
+            },
+            {
+              path: `/user/experience-hosting/${id}/activation/${activityId}`,
+              name: "Chi tiết hoạt động",
+            },
+          ]}
+        />
         {activity ? (
           <>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-2">
               <Typography className="text-3xl text-secondary font-bold">
                 Chi tiết hoạt động
               </Typography>

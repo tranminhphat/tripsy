@@ -9,6 +9,7 @@ import {
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import { AvatarGroup } from "@material-ui/lab";
+import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
@@ -74,6 +75,18 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   return (
     <MainLayout withSearchBar={false}>
       <div className="container mx-auto my-4">
+        <MyBreadcrumbs
+          linkArray={[
+            {
+              path: "/user/experience-hosting",
+              name: "Trải nghiệm của tôi",
+            },
+            {
+              path: `/user/experience-hosting/${id}/activation`,
+              name: "Hoạt động",
+            },
+          ]}
+        />
         <div className="flex items-center container">
           <Typography className="text-3xl text-secondary font-bold">
             Lịch hoạt động
