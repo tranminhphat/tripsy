@@ -1,9 +1,9 @@
 import createFilterString from "helpers/createFilterString";
 import axios from "./configureAxios";
 
-export const getActivities = (filterObject) => {
+export const getActivities = (filterObject?: any, sortString?: any) => {
   const filterString = createFilterString(filterObject);
-  return axios.get(`activities?filter=${filterString}`);
+  return axios.get(`activities?filter=${filterString}&sort=${sortString}`);
 };
 
 export const getActivityById = (id: string) => {

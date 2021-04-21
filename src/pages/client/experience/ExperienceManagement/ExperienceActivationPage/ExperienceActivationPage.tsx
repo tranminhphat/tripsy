@@ -1,10 +1,12 @@
 import {
   Avatar,
   Button,
+  IconButton,
   MenuItem,
   Select,
   Typography,
 } from "@material-ui/core";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import { AvatarGroup } from "@material-ui/lab";
 import { getReceipts } from "api/receipt";
@@ -40,7 +42,6 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   const { alert } = useContext(AlertContext);
   const { data: experience } = useExperience(id);
   const { data: activities } = useActivitiesByExperienceId(experience?._id!);
-  console.log(activities);
   const createActivity = useCreateActivity();
   const deleteActivity = useDeleteActivity();
   const deleteReceipt = useDeleteReceipt();
@@ -121,22 +122,24 @@ const ExperienceActivationPage: React.FC<Props> = () => {
 
   return (
     <MainLayout withSearchBar={false}>
-      <div className="container mx-auto my-10">
-        <div className="flex justify-between container">
+      <div className="container mx-auto my-4">
+        <div className="flex items-center container">
           <Typography className="text-3xl text-secondary font-bold">
             Lịch hoạt động
           </Typography>
-          <Button
-            variant="outlined"
-            className="focus:outline-none text-primary border-primary hover:bg-primary hover:text-white"
+          <IconButton
+            className="focus:outline-none ml-2"
             onClick={() => setOpen(true)}
           >
-            Thêm lịch hoạt động
-          </Button>
+            <AddCircleOutlineIcon
+              style={{ width: 32, height: 32 }}
+              className="text-secondary"
+            />
+          </IconButton>
         </div>
         {experience ? (
           <div className="flex justify-between container">
-            <div className="mt-8">
+            <div className="mt-4">
               {activities
                 ? activities.sort(compareFunction).map((item, idx) => (
                     <Link to={`${url}/${item._id}`}>

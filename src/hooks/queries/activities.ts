@@ -2,8 +2,20 @@ import { getActivities, getActivityById } from "api/activity";
 import IActivity from "interfaces/activity/activity.interface";
 import { useQuery } from "react-query";
 
+export const useActivities = (filterObject?: any, sortString?: string) => {
+  return useQuery<IActivity[]>(
+    ["activities", filterObject, sortString],
+    async () => {
+      const {
+        data: { activities },
+      } = await getActivities(filterObject, sortString);
+      return activities;
+    }
+  );
+};
+
 export const useActivity = (activityId: string) => {
-  return useQuery(
+  return useQuery<IActivity>(
     ["activities", activityId],
     async () => {
       const {
