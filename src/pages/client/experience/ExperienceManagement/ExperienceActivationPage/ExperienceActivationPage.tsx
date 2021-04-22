@@ -102,53 +102,57 @@ const ExperienceActivationPage: React.FC<Props> = () => {
           </IconButton>
         </div>
         {experience ? (
-          <div className="flex justify-between container">
+          <div>
             <div className="mt-4">
-              {activities
-                ? activities.sort(compareFunction).map((item, idx) => (
-                    <Link to={`${url}/${item._id}`}>
-                      <div
-                        style={{ width: 800 }}
-                        key={idx}
-                        className="border border-gray-300 rounded-md p-4 shadow-lg mt-4"
-                      >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-lg font-semibold">
-                              {toWeekDayString(item.date.dateObject.weekDay)},{" "}
-                              ngày {item.date.dateObject.day}/
-                              {item.date.dateObject.month}/
-                              {item.date.dateObject.year}
-                            </p>
-                          </div>
-                          <div className="flex items-center">
-                            <div>
-                              <AvatarGroup max={4}>
-                                {item.guestsInfo.map((guest) => (
-                                  <Avatar
-                                    alt={guest.firstName}
-                                    src={guest.avatarUrl}
-                                  />
-                                ))}
-                              </AvatarGroup>
-                            </div>
-                            <div className="ml-8 text-md text-gray-500">
-                              <PlaylistAddCheckIcon className="mr-2" />
-                              {item.guestsInfo.length} /{" "}
-                              {item.experience?.groupSize!}
-                            </div>
-                          </div>
-                        </div>
+              {activities && activities.length !== 0 ? (
+                activities.sort(compareFunction).map((item, idx) => (
+                  <Link to={`${url}/${item._id}`}>
+                    <div
+                      style={{ width: 800 }}
+                      key={idx}
+                      className="border border-gray-300 rounded-md p-4 shadow-lg mt-4"
+                    >
+                      <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm text-gray-500">
-                            {startTimeOptions[item.date.startTimeIdx - 1].text}{" "}
-                            - {startTimeOptions[item.date.endTimeIdx - 1].text}
+                          <p className="text-lg font-semibold">
+                            {toWeekDayString(item.date.dateObject.weekDay)},{" "}
+                            ngày {item.date.dateObject.day}/
+                            {item.date.dateObject.month}/
+                            {item.date.dateObject.year}
                           </p>
                         </div>
+                        <div className="flex items-center">
+                          <div>
+                            <AvatarGroup max={4}>
+                              {item.guestsInfo.map((guest) => (
+                                <Avatar
+                                  alt={guest.firstName}
+                                  src={guest.avatarUrl}
+                                />
+                              ))}
+                            </AvatarGroup>
+                          </div>
+                          <div className="ml-8 text-md text-gray-500">
+                            <PlaylistAddCheckIcon className="mr-2" />
+                            {item.guestsInfo.length} /{" "}
+                            {item.experience?.groupSize!}
+                          </div>
+                        </div>
                       </div>
-                    </Link>
-                  ))
-                : null}
+                      <div>
+                        <p className="text-sm text-gray-500">
+                          {startTimeOptions[item.date.startTimeIdx - 1].text} -{" "}
+                          {startTimeOptions[item.date.endTimeIdx - 1].text}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <div className="w-full text-center">
+                  <Typography>Chưa có hoạt động nào được tổ chức</Typography>
+                </div>
+              )}
             </div>
             <MyModal size="xl" open={open} setOpen={setOpen}>
               {{

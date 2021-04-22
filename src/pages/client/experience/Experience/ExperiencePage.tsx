@@ -8,6 +8,7 @@ import LocationSection from "components/Experience/LocationSection";
 import PhotoGallerySection from "components/Experience/PhotoGallerySection";
 import ReviewSection from "components/Experience/ReviewSection";
 import TitleSection from "components/Experience/TitleSection";
+import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
@@ -41,8 +42,19 @@ const ExperiencePage: React.FC<Props> = () => {
     <MainLayout>
       {experience && user && userProfile ? (
         <div className="w-full h-full mx-auto max-w-screen-lg">
-          <div className="flex justify-between">
-            <div>Breadcrumb</div>
+          <div className="flex justify-between mt-4">
+            <MyBreadcrumbs
+              linkArray={[
+                {
+                  path: "/",
+                  name: "Trang chủ",
+                },
+                {
+                  path: `/experience/${id}`,
+                  name: `${experience.title}`,
+                },
+              ]}
+            />
             <div>
               <button
                 type="button"
@@ -68,7 +80,7 @@ const ExperiencePage: React.FC<Props> = () => {
               </button>
             </div>
           </div>
-          <div className="mt-8">
+          <div className="mt-4">
             <PhotoGallerySection photoGallery={experience.photoGallery!} />
           </div>
           <div className="my-8">
@@ -125,9 +137,16 @@ const ExperiencePage: React.FC<Props> = () => {
                     </div>
                     <div className="mt-4">
                       {experience.hostId === user._id ? (
-                        <p className="text-lg">
-                          Đây là hoạt động do bạn tổ chức
-                        </p>
+                        <>
+                          <p className="text-lg mb-2">
+                            Đây là hoạt động do bạn tổ chức
+                          </p>
+                          <Link
+                            to={`/user/experience-hosting/${id}/activation`}
+                          >
+                            <p className="underline">Đi đến hoạt động</p>
+                          </Link>
+                        </>
                       ) : (
                         <>
                           <p className="text-lg">Lịch hoạt động: </p>
