@@ -23,6 +23,19 @@ export const getCheckoutSessionById = (sessionId: string) => {
   return axios.get(`/stripe/checkout-session/${sessionId}`);
 };
 
+export const updateCheckoutSession = (
+  status: string,
+  sessionId: string,
+  activityId: string,
+  receiptId: string
+) => {
+  return axios.post(`/stripe/update-checkout/${sessionId}`, {
+    status,
+    activityId,
+    receiptId,
+  });
+};
+
 /* Refund */
 
 export const createRefund = (paymentIntentId: string) => {

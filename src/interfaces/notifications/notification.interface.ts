@@ -3,5 +3,6 @@ export default interface INotification {
   receiverId: string;
   title?: string;
   message: string;
-  new: boolean;
+  new?: boolean;
+  link: string;
 }

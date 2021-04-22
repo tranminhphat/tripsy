@@ -23,7 +23,7 @@ import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
 import { useDeleteActivity } from "hooks/mutations/activities";
 import { useDeleteReceipt } from "hooks/mutations/receipts";
-import { useActivities } from "hooks/queries/activities";
+import { useActivity } from "hooks/queries/activities";
 import IActivity from "interfaces/activity/activity.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
@@ -36,7 +36,8 @@ interface Props {}
 const ActivityDetailPage: React.FC<Props> = () => {
   const { id, activityId } = useParams<{ id: string; activityId: string }>();
   const history = useHistory();
-  const { data: activity } = useActivities({ _id: activityId });
+  const { data: activity } = useActivity(activityId);
+  console.log(activity);
   const deleteActivity = useDeleteActivity();
   const deleteReceipt = useDeleteReceipt();
   const { alert } = useContext(AlertContext);
@@ -107,26 +108,26 @@ const ActivityDetailPage: React.FC<Props> = () => {
                 Chi tiết hoạt động
               </Typography>
               {!(
-                isActivityEnd(activity[0]?.date.dateObject.unix) &&
-                activity[0]?.listOfGuestId.length !== 0
+                isActivityEnd(activity.date.dateObject.unix) &&
+                activity.listOfGuestId.length !== 0
               ) ? (
                 <div
                   className={`${
                     !canActivityCancel(
-                      activity[0]?.date.dateObject.unix,
-                      activity[0]?.listOfGuestId
+                      activity.date.dateObject.unix,
+                      activity.listOfGuestId
                     )
                       ? "cursor-not-allowed"
                       : ""
                   }`}
                 >
                   <Button
-                    onClick={() => handleCancelActivity(activity[0])}
+                    onClick={() => handleCancelActivity(activity)}
                     variant="outlined"
                     className={`${
                       !canActivityCancel(
-                        activity[0]?.date.dateObject.unix,
-                        activity[0]?.listOfGuestId
+                        activity.date.dateObject.unix,
+                        activity.listOfGuestId
                       )
                         ? "text-white pointer-events-none bg-gray-400"
                         : "border border-danger text-danger font-semibold outline-none hover:bg-danger hover:text-white"
@@ -137,9 +138,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
                 </div>
               ) : (
                 <Button
-                  onClick={() =>
-                    handleCompleteActivity(activity[0]._id as string)
-                  }
+                  onClick={() => handleCompleteActivity(activity._id as string)}
                   variant="outlined"
                   className="border border-primary text-primary font-semibold outline-none hover:bg-primary hover:text-white"
                 >
@@ -156,19 +155,19 @@ const ActivityDetailPage: React.FC<Props> = () => {
                   <hr className="my-2" />
                   <div className="flex items-center justify-between">
                     <Typography className="font-semibold">Tên:</Typography>
-                    <Typography>{activity[0]?.experience?.title}</Typography>
+                    <Typography>{activity.experience?.title}</Typography>
                   </div>
                   <div className="flex items-center justify-between">
                     <Typography className="font-semibold">Chủ đề:</Typography>
-                    <Typography>{activity[0]?.experience?.theme}</Typography>
+                    <Typography>{activity.experience?.theme}</Typography>
                   </div>
                   <div className="flex items-center justify-between">
                     <Typography className="font-semibold">Địa điểm:</Typography>
                     <Typography>
-                      {activity[0]?.experience?.address?.street},
-                      {activity[0]?.experience?.address?.ward},
-                      {activity[0]?.experience?.address?.district},
-                      {activity[0]?.experience?.address?.city}
+                      {activity.experience?.address?.street},
+                      {activity.experience?.address?.ward},
+                      {activity.experience?.address?.district},
+                      {activity.experience?.address?.city}
                     </Typography>
                   </div>
                   <div className="flex items-center justify-between">
@@ -176,15 +175,14 @@ const ActivityDetailPage: React.FC<Props> = () => {
                       Số lượng khách:
                     </Typography>
                     <Typography>
-                      {activity[0]?.experience?.groupSize} người
+                      {activity.experience?.groupSize} người
                     </Typography>
                   </div>
                   <div className="flex items-center justify-between">
                     <Typography className="font-semibold">Giá:</Typography>
                     <Typography>
                       {currencyFormatter(
-                        activity[0]?.experience?.pricing
-                          ?.individualPrice as number
+                        activity.experience?.pricing?.individualPrice as number
                       )}{" "}
                       / 1 người
                     </Typography>
@@ -201,10 +199,10 @@ const ActivityDetailPage: React.FC<Props> = () => {
                     </Typography>
                     <Typography>
                       {" "}
-                      {toWeekDayString(activity[0]?.date.dateObject.weekDay)},
-                      ngày {activity[0]?.date.dateObject.day}/
-                      {activity[0]?.date.dateObject.month}/
-                      {activity[0]?.date.dateObject.year}
+                      {toWeekDayString(activity.date.dateObject.weekDay)}, ngày{" "}
+                      {activity.date.dateObject.day}/
+                      {activity.date.dateObject.month}/
+                      {activity.date.dateObject.year}
                     </Typography>
                   </div>
                   <div className="flex items-center justify-between">
@@ -212,7 +210,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
                       Thời lượng:
                     </Typography>
                     <Typography>
-                      {activity[0].experience?.duration} tiếng
+                      {activity.experience?.duration} tiếng
                     </Typography>
                   </div>
                   <div className="flex items-center justify-between">
@@ -220,10 +218,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
                       Giờ bắt đầu:
                     </Typography>
                     <Typography>
-                      {
-                        startTimeOptions[activity[0]?.date.startTimeIdx - 1]
-                          .text
-                      }
+                      {startTimeOptions[activity.date.startTimeIdx - 1].text}
                     </Typography>
                   </div>
                   <div className="flex items-center justify-between">
@@ -231,7 +226,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
                       Giờ kết thúc:
                     </Typography>
                     <Typography>
-                      {startTimeOptions[activity[0]?.date.endTimeIdx - 1].text}
+                      {startTimeOptions[activity.date.endTimeIdx - 1].text}
                     </Typography>
                   </div>
                 </div>
@@ -241,7 +236,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
                   Khách tham gia
                 </Typography>
                 <hr className="my-2" />
-                {activity[0].guestsInfo.length !== 0 ? (
+                {activity.guestsInfo.length !== 0 ? (
                   <TableContainer component={Paper}>
                     <Table>
                       <TableHead>
@@ -254,7 +249,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {activity[0].guestsInfo.map((info) => (
+                        {activity.guestsInfo.map((info) => (
                           <TableRow key={info._id}>
                             <TableCell component="th" scope="row">
                               {info.lastName} {info.firstName}

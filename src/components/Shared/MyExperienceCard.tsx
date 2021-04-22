@@ -10,7 +10,6 @@ interface Props {
 
 const MyExperienceCard: React.FC<Props> = ({ experience }) => {
   const { data: reviews } = useCountReview(experience._id!);
-  console.log(reviews);
 
   return (
     <div className="flex justify-between border border-gray-300 rounded-lg">

@@ -4,6 +4,7 @@ import { useReadAllNotification } from "hooks/mutations/notifications";
 import INotification from "interfaces/notifications/notification.interface";
 import * as React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   paper: {
@@ -70,12 +71,14 @@ const NotificationCenter: React.FC<Props> = ({ data }) => {
         </div>
         <hr className="my-2" />
         {data.map((item) => (
-          <div
-            className={`p-2 rounded-sm mt-2 ${item.new ? "bg-gray-100" : ""}`}
-          >
-            <p>{item.message}</p>
-            <div>{item.new ? "chua doc" : "da doc"}</div>
-          </div>
+          <Link key={item._id} to={item.link}>
+            <div
+              className={`p-2 rounded-sm mt-2 ${item.new ? "bg-gray-100" : ""}`}
+            >
+              <p>{item.message}</p>
+              <div>{item.new ? "chua doc" : "da doc"}</div>
+            </div>
+          </Link>
         ))}
       </Menu>
     </>
