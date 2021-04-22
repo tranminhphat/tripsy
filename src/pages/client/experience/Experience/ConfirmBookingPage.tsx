@@ -93,7 +93,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
             <div className="flex justify-between">
               <p className="text-xl font-bold">Tên người hướng dẫn:</p>
               <p className="text-xl">
-                {host.firstName} {host.lastName}
+                {host.lastName} {host.firstName}
               </p>
             </div>
             <div className="flex justify-between">

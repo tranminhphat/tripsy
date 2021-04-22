@@ -107,7 +107,7 @@ const ExperienceListTab: React.FC<Props> = () => {
                       alt="User"
                     />
                     <Typography className="ml-2 text-lg">
-                      {item.host?.firstName} {item.host?.lastName}
+                      {item.host?.lastName} {item.host?.firstName}
                     </Typography>
                   </div>
                 </div>

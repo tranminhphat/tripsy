@@ -101,10 +101,10 @@ const ExperienceActivationPage: React.FC<Props> = () => {
             />
           </IconButton>
         </div>
-        {experience ? (
+        {experience && activities ? (
           <div>
             <div className="mt-4">
-              {activities && activities.length !== 0 ? (
+              {activities.length !== 0 ? (
                 activities.sort(compareFunction).map((item, idx) => (
                   <Link to={`${url}/${item._id}`}>
                     <div

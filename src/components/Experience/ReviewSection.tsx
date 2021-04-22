@@ -85,7 +85,7 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
                       />
                     </div>
                     <div className="font-bold">
-                      {item.user.firstName} {item.user.lastName}
+                      {item.user.lastName} {item.user.firstName}
                     </div>
                   </div>
                   <div className="mt-2">

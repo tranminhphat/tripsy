@@ -58,7 +58,7 @@ const InfoSettingPage: React.FC<Props> = () => {
               <div className="mt-2 mb-4">
                 {!openNameForm ? (
                   <p className="text-xl">
-                    {userData.firstName} {userData.lastName}
+                    {userData.lastName} {userData.firstName}
                   </p>
                 ) : (
                   <ChangeNameForm

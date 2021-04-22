@@ -18,7 +18,7 @@ const AccountPage: React.FC<Props> = () => {
             <h1 className="text-4xl font-bold">Tài khoản</h1>
             <p className="text-lg mt-2">
               <strong>
-                {userData.firstName} {userData.lastName},{" "}
+                {userData.lastName} {userData.firstName},{" "}
               </strong>
               <span>{userData.email} - </span>
               <Link
