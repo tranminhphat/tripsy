@@ -5,7 +5,7 @@ export const useCountReview = (objectId: string) => {
   return useQuery(
     ["countReviews", objectId],
     async () => {
-      const { data } = await countReviews(objectId);
+      const { data } = await countReviews({ objectId });
       return data;
     },
     {

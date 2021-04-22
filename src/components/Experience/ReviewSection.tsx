@@ -2,14 +2,16 @@ import Avatar from "@material-ui/core/Avatar";
 import { countReviews, getReviews } from "api/review";
 import BlackStarIcon from "assets/images/icons/blackstar.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
+import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
-import useInfiniteScroll from "hooks/useInfiniteScroll";
 import * as React from "react";
 import { useEffect, useState } from "react";
 
 interface Props {
   experienceId: string;
 }
+
+const PAGE_SIZE = 5;
 
 const ReviewSection: React.FC<Props> = ({ experienceId }) => {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -18,7 +20,7 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
     averageStars: number;
   }>();
   const [pageNumber, setPageNumber] = useState(2);
-  const [isFetching, setIsFetching] = useInfiniteScroll(loadMoreData);
+  const [isFetching, setIsFetching] = useState<boolean | null>(null);
 
   useEffect(() => {
     fetchInitialData();
@@ -32,16 +34,17 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
     }
     const {
       data: { items },
-    } = await getReviews({ objectId: experienceId }, "", 1, 1);
+    } = await getReviews({ objectId: experienceId }, "", 1, PAGE_SIZE);
     if (items) {
       setReviews([...reviews, ...items]);
     }
   };
 
-  async function loadMoreData() {
+  const loadMoreData = async () => {
+    setIsFetching(true);
     const {
       data: { items },
-    } = await getReviews({ objectId: experienceId }, "", pageNumber, 1);
+    } = await getReviews({ objectId: experienceId }, "", pageNumber, PAGE_SIZE);
     if (items.length !== 0) {
       setReviews([...reviews, ...items]);
       setPageNumber(pageNumber + 1);
@@ -49,7 +52,7 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
     } else {
       setIsFetching(null);
     }
-  }
+  };
 
   return (
     <div>
@@ -95,10 +98,19 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
               </li>
             ))}
           </ul>
-          <div>{isFetching ? <p>loading...</p> : null}</div>
+          <div>
+            {" "}
+            {isFetching === null ? null : !isFetching ? (
+              <button className="my-2" onClick={() => loadMoreData()}>
+                <p className="underline">Xem thêm </p>
+              </button>
+            ) : (
+              <p className="my-2">Đang tải...</p>
+            )}
+          </div>
         </>
       ) : (
-        <p>loading...</p>
+        <MyLoadingIndicator />
       )}
     </div>
   );
