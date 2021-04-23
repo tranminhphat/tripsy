@@ -6,6 +6,10 @@ export const getReceipts = (filterObject?: any, sortString?: string) => {
   return axios.get(`receipts?filter=${filterString}&sort=${sortString}`);
 };
 
+export const getReceiptById = (id: string) => {
+  return axios.get(`receipts/${id}`);
+};
+
 export const createReceipt = (model) => {
   return axios.post("receipts", { model });
 };

@@ -1,5 +1,7 @@
-import { updateListOfGuest } from "api/activity";
-import { updateCheckoutSession } from "api/stripe";
+import { createBookingSuccessNotificationModel } from "helpers/createNotificationModel";
+import { useUpdateGuestList } from "hooks/mutations/activities";
+import { useCreateNotification } from "hooks/mutations/notifications";
+import { useDeleteReceipt, useUpdateReceipt } from "hooks/mutations/receipts";
 import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import queryString from "query-string";
@@ -12,23 +14,34 @@ interface Props {}
 const BookingResponsePage: React.FC<Props> = () => {
   const location = useLocation();
   const values = queryString.parse(location.search);
-  const { status, session_id, receipt_id, activity_id } = values;
+  const { status, sessionId, receiptId, activityId } = values;
   const { data: user } = useCurrentUser();
+  const updateGuestList = useUpdateGuestList();
+  const updateReceipt = useUpdateReceipt();
+  const deleteReceipt = useDeleteReceipt();
+  const createNotification = useCreateNotification();
+
+  const handleBookingResponse = async () => {
+    if (status === "succeed") {
+      updateReceipt.mutate({
+        receiptId: receiptId as string,
+        values: { status: "paid", checkOutSessionId: sessionId },
+      });
+      updateGuestList.mutate({ activityId: activityId as string });
+      const notificationModel = await createBookingSuccessNotificationModel(
+        activityId as string
+      );
+      createNotification.mutate(notificationModel);
+    } else {
+      deleteReceipt.mutate({ receiptId: receiptId as string });
+      updateGuestList.mutate({ activityId: activityId as string });
+    }
+  };
 
   useEffect(() => {
-    updateBooking();
+    handleBookingResponse();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const updateBooking = async () => {
-    await updateCheckoutSession(
-      status as string,
-      session_id as string,
-      activity_id as string,
-      receipt_id as string
-    );
-    await updateListOfGuest(activity_id as string);
-  };
 
   return (
     <MainLayout>
@@ -39,7 +52,6 @@ const BookingResponsePage: React.FC<Props> = () => {
               Cảm ơn {user.firstName}, trải nghiệm của bạn đã được đăng ký thành
               công.
             </p>
-            <p className="text-lg">Mã biên lai của bạn là: {receipt_id}</p>
           </div>
         ) : null
       ) : (

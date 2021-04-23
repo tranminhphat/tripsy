@@ -1,7 +1,5 @@
 import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
-import { updateListOfGuest } from "api/activity";
 import { getExperienceById } from "api/experiences";
-import { deleteReceiptById } from "api/receipt";
 import { createRefund, getCheckoutSessionById } from "api/stripe";
 import ClockIcon from "assets/images/icons/clock.svg";
 import DestinationIcon from "assets/images/icons/destination.svg";
@@ -13,9 +11,12 @@ import ExperienceReviewModal from "components/Modals/ExperienceReviewModal";
 import UserReviewModal from "components/Modals/UserReviewModal";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { themes } from "constants/index";
+import { createCancelBookingNotificationModel } from "helpers/createNotificationModel";
 import currencyFormatter from "helpers/currencyFormatter";
+import { useUpdateGuestList } from "hooks/mutations/activities";
+import { useCreateNotification } from "hooks/mutations/notifications";
 import { useUpdateCheckpoint } from "hooks/mutations/profiles";
-import { useUpdateReceipt } from "hooks/mutations/receipts";
+import { useDeleteReceipt, useUpdateReceipt } from "hooks/mutations/receipts";
 import { useReceipts } from "hooks/queries/receipts";
 import { useCurrentUser } from "hooks/queries/users";
 import IReceipt from "interfaces/receipts/receipt.interface";
@@ -32,24 +33,37 @@ const ExperienceListTab: React.FC<Props> = () => {
   );
   const [status, setStatus] = useState<string>("paid");
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
   const [checkpointData, setCheckpointData] = useState<any>(null);
   const { data: currentUser } = useCurrentUser();
   const { data: receipts } = useReceipts({ guestId: currentUser?._id, status });
   const updateCheckpoint = useUpdateCheckpoint();
   const updateReceipt = useUpdateReceipt();
+  const deleteReceipt = useDeleteReceipt();
+  const updateGuestList = useUpdateGuestList();
+  const createNotification = useCreateNotification();
 
-  const handleRefundExperience = async (
+  const handleCancelExperience = async (
     checkOutSessionId: string,
     receipt: IReceipt
   ) => {
+    setIsCancelling(true);
     const {
       data: { session },
     } = await getCheckoutSessionById(checkOutSessionId);
     if (session.payment_intent) {
-      await deleteReceiptById(receipt._id!);
-      await updateListOfGuest(receipt.activityId);
       await createRefund(session.payment_intent);
+      deleteReceipt.mutate({ receiptId: receipt._id as string });
+      updateGuestList.mutate({ activityId: receipt.activity?._id as string });
+      const notificationModel = await createCancelBookingNotificationModel(
+        receipt.activityId as string
+      );
+      createNotification.mutate(notificationModel, {
+        onSuccess: () => {
+          setIsCancelling(false);
+        },
+      });
     }
   };
 
@@ -57,7 +71,7 @@ const ExperienceListTab: React.FC<Props> = () => {
     experienceId: string,
     receiptId: string
   ) => {
-    setIsLoading(true);
+    setIsCompleting(true);
     const {
       data: { experience },
     } = await getExperienceById(experienceId);
@@ -70,7 +84,7 @@ const ExperienceListTab: React.FC<Props> = () => {
         onSuccess: (data) => {
           setCheckpointData(data);
           updateReceipt.mutate({ receiptId, values: { status: "finish" } });
-          setIsLoading(false);
+          setIsCompleting(false);
         },
       }
     );
@@ -140,15 +154,21 @@ const ExperienceListTab: React.FC<Props> = () => {
                             className="border-black overflow-hidden"
                             variant="outlined"
                             onClick={() =>
-                              handleRefundExperience(
+                              handleCancelExperience(
                                 item.checkOutSessionId as string,
                                 item
                               )
                             }
                           >
-                            <div className="flex items-center">
-                              <Typography>Hủy bỏ</Typography>
-                            </div>
+                            {!isCancelling ? (
+                              <div className="flex items-center">
+                                <Typography>Hủy bỏ</Typography>
+                              </div>
+                            ) : (
+                              <div className="overflow-hidden">
+                                <MyLoadingIndicator />
+                              </div>
+                            )}
                           </Button>
                         </Tooltip>
                       </div>
@@ -165,12 +185,14 @@ const ExperienceListTab: React.FC<Props> = () => {
                               setOpenCheckpointModal(true);
                             }}
                           >
-                            {!isLoading ? (
+                            {!isCompleting ? (
                               <div className="flex items-center">
                                 <Typography>Hoàn thành</Typography>
                               </div>
                             ) : (
-                              <MyLoadingIndicator />
+                              <div className="overflow-hidden">
+                                <MyLoadingIndicator />
+                              </div>
                             )}
                           </Button>
                         </Tooltip>

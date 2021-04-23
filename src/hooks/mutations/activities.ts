@@ -1,4 +1,8 @@
-import { createActivity, deleteActivityById } from "api/activity";
+import {
+  createActivity,
+  deleteActivityById,
+  updateListOfGuest,
+} from "api/activity";
 import { useMutation, useQueryClient } from "react-query";
 
 export const useCreateActivity = () => {
@@ -25,6 +29,20 @@ export const useDeleteActivity = () => {
   return useMutation(
     async ({ activityId }: any) => {
       return await deleteActivityById(activityId);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("activities");
+      },
+    }
+  );
+};
+
+export const useUpdateGuestList = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ activityId }: any) => {
+      return await updateListOfGuest(activityId);
     },
     {
       onSuccess: () => {
