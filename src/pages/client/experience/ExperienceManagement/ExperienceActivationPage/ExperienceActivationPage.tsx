@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import InfoIcon from "@material-ui/icons/Info";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import { AvatarGroup } from "@material-ui/lab";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
@@ -102,7 +103,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
           </IconButton>
         </div>
         {experience && activities ? (
-          <div>
+          <div className="flex">
             <div className="mt-4">
               {activities.length !== 0 ? (
                 activities.sort(compareFunction).map((item, idx) => (
@@ -153,6 +154,16 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                   <Typography>Chưa có hoạt động nào được tổ chức</Typography>
                 </div>
               )}
+            </div>
+
+            <div className="mt-4 ml-auto max-w-xs">
+              <div className="border border-black rounded-lg py-4 px-8 text-center">
+                <InfoIcon style={{ width: "50px", height: "50px" }} />
+                <p className="mt-8">
+                  Bạn chỉ có thể hủy tham gia hoạt động trước thời điểm hoạt
+                  động diễn ra 2 tuần.
+                </p>
+              </div>
             </div>
             <MyModal size="xl" open={open} setOpen={setOpen}>
               {{

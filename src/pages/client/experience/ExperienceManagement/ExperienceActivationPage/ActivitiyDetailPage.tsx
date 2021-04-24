@@ -37,7 +37,6 @@ const ActivityDetailPage: React.FC<Props> = () => {
   const { id, activityId } = useParams<{ id: string; activityId: string }>();
   const history = useHistory();
   const { data: activity } = useActivity(activityId);
-  console.log(activity);
   const deleteActivity = useDeleteActivity();
   const deleteReceipt = useDeleteReceipt();
   const { alert } = useContext(AlertContext);

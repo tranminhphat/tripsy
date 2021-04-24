@@ -35,8 +35,8 @@ const FilterExperienceList: React.FC<Props> = ({ setStatus }) => {
           defaultValue={1}
           className="w-full"
         >
-          <MenuItem value={1}>Chưa diễn ra</MenuItem>
-          <MenuItem value={2}>Đã diễn ra</MenuItem>
+          <MenuItem value={1}>Chưa hoàn thành</MenuItem>
+          <MenuItem value={2}>Đã hoàn thành</MenuItem>
         </Select>
       </div>
     </div>
