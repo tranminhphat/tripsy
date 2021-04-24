@@ -1,3 +1,5 @@
+import CongratulationIcon from "assets/images/icons/congratulation.svg";
+import SadFace from "assets/images/icons/sad-face.svg";
 import { createBookingSuccessNotificationModel } from "helpers/createNotificationModel";
 import { useUpdateGuestList } from "hooks/mutations/activities";
 import { useCreateNotification } from "hooks/mutations/notifications";
@@ -7,7 +9,7 @@ import MainLayout from "layouts/MainLayout";
 import queryString from "query-string";
 import * as React from "react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface Props {}
 
@@ -47,16 +49,39 @@ const BookingResponsePage: React.FC<Props> = () => {
     <MainLayout>
       {status === "succeed" ? (
         user ? (
-          <div>
-            <p className="text-lg">
+          <div className="flex flex-col items-center justify-center">
+            <div className="mt-4">
+              <img
+                width={150}
+                height={150}
+                src={CongratulationIcon}
+                alt="congrat"
+              />
+            </div>
+            <p className="text-2xl font-semibold mt-8">
               Cảm ơn {user.firstName}, trải nghiệm của bạn đã được đăng ký thành
               công.
             </p>
+            <Link to="/user/experience-hosting">
+              <p className="text-lg underline mt-4">
+                Click vào đây để đi đến trang quản lý trải nghiệm
+              </p>
+            </Link>
           </div>
         ) : null
       ) : (
-        <div>
-          <p className="text-lg">Trải nghiệm đăng ký ko thành công.</p>
+        <div className="flex flex-col items-center justify-center">
+          <div className="mt-4">
+            <img width={150} height={150} src={SadFace} alt="failed" />
+          </div>
+          <p className="text-2xl font-semibold mt-8">
+            Rất tiếc, trải nghiệm đăng ký không thành công
+          </p>
+          <Link to="/">
+            <p className="text-lg underline mt-4">
+              Click vào đây để trở về trang chủ
+            </p>
+          </Link>
         </div>
       )}
     </MainLayout>
