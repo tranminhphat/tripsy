@@ -66,6 +66,7 @@ const ExperienceListTab: React.FC<Props> = () => {
       createNotification.mutate(notificationModel, {
         onSuccess: () => {
           setIsCancelling(false);
+          setOpenConfirmDeleteModal(false);
         },
       });
     }
@@ -193,15 +194,11 @@ const ExperienceListTab: React.FC<Props> = () => {
                                     setOpenConfirmDeleteModal(true)
                                   }
                                 >
-                                  {!isCancelling ? (
-                                    <div className="flex items-center">
-                                      <p className="text-semibold">
-                                        Hủy bỏ hoạt động này
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    <MyLoadingIndicator />
-                                  )}
+                                  <div className="flex items-center">
+                                    <p className="text-semibold">
+                                      Hủy bỏ hoạt động này
+                                    </p>
+                                  </div>
                                 </Button>
                               </Tooltip>
                             </div>
@@ -299,18 +296,24 @@ const ExperienceListTab: React.FC<Props> = () => {
                           >
                             <p className="text-lg underline">Hủy</p>
                           </button>
-                          <Button
-                            variant="contained"
-                            className="bg-danger mx-8 text-white"
-                            onClick={() =>
-                              handleCancelExperience(
-                                item.checkOutSessionId as string,
-                                item
-                              )
-                            }
-                          >
-                            Xóa
-                          </Button>
+                          <div className="h-12 w-16 mr-8">
+                            <Button
+                              variant="contained"
+                              className="w-full h-full overflow-hidden bg-danger mx-8 text-white"
+                              onClick={() =>
+                                handleCancelExperience(
+                                  item.checkOutSessionId as string,
+                                  item
+                                )
+                              }
+                            >
+                              {!isCancelling ? (
+                                <p>Xóa</p>
+                              ) : (
+                                <MyLoadingIndicator />
+                              )}
+                            </Button>
+                          </div>
                         </div>
                       ),
                     }}

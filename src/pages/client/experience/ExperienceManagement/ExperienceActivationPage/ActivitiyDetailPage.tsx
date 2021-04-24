@@ -42,8 +42,10 @@ const ActivityDetailPage: React.FC<Props> = () => {
   const deleteReceipt = useDeleteReceipt();
   const { alert } = useContext(AlertContext);
   const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
 
   const handleCancelActivity = async (activity: IActivity) => {
+    setIsCancelling(true);
     if (activity.listOfGuestId.length === 0) {
       deleteActivity.mutate({ activityId: activity._id });
     } else {
@@ -62,6 +64,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
           deleteActivity.mutate({ activityId: activity._id });
         }
       }
+      setIsCancelling(false);
     }
 
     alert("success", "Xóa hoạt động thành công");
@@ -295,13 +298,15 @@ const ActivityDetailPage: React.FC<Props> = () => {
                     <button onClick={() => setOpenConfirmDeleteModal(false)}>
                       <p className="text-lg underline">Hủy</p>
                     </button>
-                    <Button
-                      variant="contained"
-                      className="bg-danger mx-8 text-white"
-                      onClick={() => handleCancelActivity(activity)}
-                    >
-                      Xóa
-                    </Button>
+                    <div className="h-12 w-16 mr-8">
+                      <Button
+                        variant="contained"
+                        className="w-full h-full overflow-hidden bg-danger mx-8 text-white"
+                        onClick={() => handleCancelActivity(activity)}
+                      >
+                        {!isCancelling ? <p>Xóa</p> : <MyLoadingIndicator />}
+                      </Button>
+                    </div>
                   </div>
                 ),
               }}
