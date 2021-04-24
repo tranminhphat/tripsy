@@ -11,6 +11,7 @@ import CheckpointModal from "components/Modals/CheckpointModal";
 import ExperienceReviewModal from "components/Modals/ExperienceReviewModal";
 import UserReviewModal from "components/Modals/UserReviewModal";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import MyModal from "components/Shared/MyModal";
 import { themes } from "constants/index";
 import { createCancelBookingNotificationModel } from "helpers/createNotificationModel";
 import currencyFormatter from "helpers/currencyFormatter";
@@ -28,6 +29,7 @@ import { DateObject } from "react-multi-date-picker";
 interface Props {}
 
 const ExperienceListTab: React.FC<Props> = () => {
+  const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState(false);
   const [openCheckpointModal, setOpenCheckpointModal] = useState(false);
   const [openUserReviewModal, setOpenUserReviewModal] = useState(false);
   const [openExperienceReviewModal, setOpenExperienceReviewModal] = useState(
@@ -173,7 +175,7 @@ const ExperienceListTab: React.FC<Props> = () => {
                           >
                             <Tooltip title="Hủy và nhận hoàn tiền">
                               <Button
-                                className={`overflow-hidden w-full h-full ${
+                                className={`outline-none overflow-hidden w-full h-full ${
                                   !canActivityCancel(
                                     item.activity?.date.dateObject.unix!
                                   )
@@ -181,12 +183,7 @@ const ExperienceListTab: React.FC<Props> = () => {
                                     : "border-danger text-danger hover:bg-danger hover:text-white"
                                 }`}
                                 variant="outlined"
-                                onClick={() =>
-                                  handleCancelExperience(
-                                    item.checkOutSessionId as string,
-                                    item
-                                  )
-                                }
+                                onClick={() => setOpenConfirmDeleteModal(true)}
                               >
                                 {!isCancelling ? (
                                   <div className="flex items-center">
@@ -273,6 +270,41 @@ const ExperienceListTab: React.FC<Props> = () => {
                     alt="experience"
                   />
                 </div>
+
+                <MyModal
+                  size="xl"
+                  open={openConfirmDeleteModal}
+                  setOpen={setOpenConfirmDeleteModal}
+                >
+                  {{
+                    header: (
+                      <p className="text-semibold text-xl">
+                        Bạn có chắc chắc muốn xóa hoạt động này?
+                      </p>
+                    ),
+                    footer: (
+                      <div className="flex justify-end">
+                        <button
+                          onClick={() => setOpenConfirmDeleteModal(false)}
+                        >
+                          <p className="text-lg underline">Hủy</p>
+                        </button>
+                        <Button
+                          variant="contained"
+                          className="bg-danger mx-8 text-white"
+                          onClick={() =>
+                            handleCancelExperience(
+                              item.checkOutSessionId as string,
+                              item
+                            )
+                          }
+                        >
+                          Xóa
+                        </Button>
+                      </div>
+                    ),
+                  }}
+                </MyModal>
 
                 <UserReviewModal
                   open={openUserReviewModal}

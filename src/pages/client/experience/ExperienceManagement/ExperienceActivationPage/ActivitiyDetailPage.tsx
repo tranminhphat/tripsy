@@ -17,6 +17,7 @@ import {
 } from "api/stripe";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import MyModal from "components/Shared/MyModal";
 import { startTimeOptions } from "constants/index";
 import AlertContext from "contexts/AlertContext";
 import currencyFormatter from "helpers/currencyFormatter";
@@ -27,7 +28,7 @@ import { useActivity } from "hooks/queries/activities";
 import IActivity from "interfaces/activity/activity.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -40,6 +41,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
   const deleteActivity = useDeleteActivity();
   const deleteReceipt = useDeleteReceipt();
   const { alert } = useContext(AlertContext);
+  const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState(false);
 
   const handleCancelActivity = async (activity: IActivity) => {
     if (activity.listOfGuestId.length === 0) {
@@ -121,7 +123,7 @@ const ActivityDetailPage: React.FC<Props> = () => {
                   }`}
                 >
                   <Button
-                    onClick={() => handleCancelActivity(activity)}
+                    onClick={() => setOpenConfirmDeleteModal(true)}
                     variant="outlined"
                     className={`${
                       !canActivityCancel(
@@ -276,6 +278,34 @@ const ActivityDetailPage: React.FC<Props> = () => {
                 )}
               </div>
             </div>
+
+            <MyModal
+              size="xl"
+              open={openConfirmDeleteModal}
+              setOpen={setOpenConfirmDeleteModal}
+            >
+              {{
+                header: (
+                  <p className="text-semibold text-xl">
+                    Bạn có chắc chắc muốn xóa hoạt động này?
+                  </p>
+                ),
+                footer: (
+                  <div className="flex justify-end">
+                    <button onClick={() => setOpenConfirmDeleteModal(false)}>
+                      <p className="text-lg underline">Hủy</p>
+                    </button>
+                    <Button
+                      variant="contained"
+                      className="bg-danger mx-8 text-white"
+                      onClick={() => handleCancelActivity(activity)}
+                    >
+                      Xóa
+                    </Button>
+                  </div>
+                ),
+              }}
+            </MyModal>
           </>
         ) : (
           <MyLoadingIndicator />
