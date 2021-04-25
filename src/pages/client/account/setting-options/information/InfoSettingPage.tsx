@@ -23,7 +23,7 @@ const InfoSettingPage: React.FC<Props> = () => {
   const [opnePhoneNumberForm, setopenPhoneNumberForm] = useState(false);
 
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       <div className="container mx-auto px-40">
         <MyBreadcrumbs
           linkArray={[

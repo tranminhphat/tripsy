@@ -107,7 +107,7 @@ const UserOptions: React.FC = () => {
               </MenuItem>
             </Link>
             {userData?.isPayOutEnabled ? (
-              <Link to={`/account-settings`}>
+              <Link to={`/user/dashboard`}>
                 <MenuItem>
                   <div className="flex items-center mt-2">
                     <DashboardIcon style={{ width: 21, height: 21 }} />

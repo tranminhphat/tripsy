@@ -6,7 +6,7 @@ interface Props {}
 
 const ExperienceManagementPage: React.FC<Props> = () => {
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       <div className="mt-6">
         <HostingListTab />
       </div>

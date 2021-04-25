@@ -76,7 +76,7 @@ const ConfirmBookingPage: React.FC<Props> = () => {
   };
 
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       {experience && host && activity ? (
         <div className="container mx-auto px-40">
           <div className="flex items-center">

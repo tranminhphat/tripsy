@@ -10,7 +10,7 @@ interface Props {}
 const UpdateIDPage: React.FC<Props> = () => {
   const [idType, setIdType] = useState("");
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       <div className="container mx-auto px-40">
         <MyBreadcrumbs
           linkArray={[

@@ -74,7 +74,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   };
 
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       <div className="container mx-auto my-4">
         <MyBreadcrumbs
           linkArray={[

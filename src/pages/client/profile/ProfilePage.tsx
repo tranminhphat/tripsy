@@ -14,7 +14,7 @@ const ProfilePage: React.FC<Props> = () => {
   const { data: currentUser } = useCurrentUser();
 
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       {userData && currentUser ? (
         <div className="mt-8 max-w-6xl mx-auto grid grid-cols-1 md:gap-12 md:grid-cols-7">
           <div

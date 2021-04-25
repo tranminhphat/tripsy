@@ -107,7 +107,7 @@ const ActivityListTab: React.FC<Props> = () => {
   };
 
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       <div className="my-8 max-w-6xl mx-auto">
         <Typography className="text-3xl text-secondary font-bold">
           Hoạt động bạn tham gia

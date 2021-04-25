@@ -47,7 +47,7 @@ const LoginAndSecuritySettingPage: React.FC<Props> = () => {
       .oneOf([yup.ref("password"), null], "Mật khẩu mới không trùng khớp"),
   });
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       <div className="container mx-auto px-40">
         <MyBreadcrumbs
           linkArray={[

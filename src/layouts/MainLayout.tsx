@@ -6,7 +6,7 @@ interface Props {
   withSearchBar?: boolean;
 }
 
-const MainLayout: React.FC<Props> = ({ withSearchBar = true, children }) => {
+const MainLayout: React.FC<Props> = ({ withSearchBar = false, children }) => {
   return (
     <div className="h-full w-full">
       <Header withSearchBar={withSearchBar} />

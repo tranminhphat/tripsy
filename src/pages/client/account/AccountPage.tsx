@@ -11,7 +11,7 @@ const AccountPage: React.FC<Props> = () => {
   const { data: userData } = useCurrentUser();
 
   return (
-    <MainLayout withSearchBar={false}>
+    <MainLayout>
       {userData ? (
         <div className="container mx-auto px-28 mt-8">
           <div className="flex flex-col">
