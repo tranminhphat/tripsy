@@ -62,9 +62,9 @@ const BookingResponsePage: React.FC<Props> = () => {
               Cảm ơn {user.firstName}, trải nghiệm của bạn đã được đăng ký thành
               công.
             </p>
-            <Link to="/user/experience-hosting">
+            <Link to="/user/activities">
               <p className="text-lg underline mt-4">
-                Click vào đây để đi đến trang quản lý trải nghiệm
+                Click vào đây để đi đến trang quản lý hoạt động của bạn
               </p>
             </Link>
           </div>

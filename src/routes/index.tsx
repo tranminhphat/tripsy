@@ -4,6 +4,7 @@ import AccountPage from "pages/client/account/AccountPage";
 import InfoSettingPage from "pages/client/account/setting-options/information/InfoSettingPage";
 import UpdateIDPage from "pages/client/account/setting-options/information/UpdateIDPage";
 import LoginAndSecuritySettingPage from "pages/client/account/setting-options/login-and-security/LoginAndSecuritySettingPage";
+import ActivityListTab from "pages/client/activity/ActivityListTab";
 import ForgotPasswordPage from "pages/client/auth/ForgotPasswordPage";
 import LoginPage from "pages/client/auth/LoginPage";
 import RegisterPage from "pages/client/auth/RegisterPage";
@@ -80,6 +81,12 @@ const routes: Entry[] = [
     exact: true,
     path: "/experience/:id/confirm-booking/response",
     component: BookingResponsePage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/user/activities",
+    component: ActivityListTab,
     authRoute: true,
   },
   {

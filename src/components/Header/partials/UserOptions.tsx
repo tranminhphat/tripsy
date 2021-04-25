@@ -6,11 +6,13 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import GamepadIcon from "@material-ui/icons/Gamepad";
+import HomeIcon from "@material-ui/icons/Home";
+import LayerIcon from "@material-ui/icons/Layers";
 import SearchIcon from "@material-ui/icons/Search";
 import { logout } from "api/auth";
-import AccountIcon from "assets/images/icons/account.svg";
-import ExperienceIcon from "assets/images/icons/experience.svg";
-import ProfileIcon from "assets/images/icons/profile.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
@@ -91,7 +93,7 @@ const UserOptions: React.FC = () => {
             <Link to={`/user/profile/${userData ? userData._id : ""}`}>
               <MenuItem>
                 <div className="flex items-center">
-                  <img src={ProfileIcon} width={21} height={21} alt="profile" />
+                  <HomeIcon style={{ width: 21, height: 21 }} />
                   <p className="ml-2">Trang cá nhân</p>
                 </div>
               </MenuItem>
@@ -99,20 +101,33 @@ const UserOptions: React.FC = () => {
             <Link to={`/account-settings`}>
               <MenuItem>
                 <div className="flex items-center mt-2">
-                  <img src={AccountIcon} width={21} height={21} alt="account" />
+                  <AccountCircleIcon style={{ width: 21, height: 21 }} />
                   <p className="ml-2">Tài khoản</p>
+                </div>
+              </MenuItem>
+            </Link>
+            {userData?.isPayOutEnabled ? (
+              <Link to={`/account-settings`}>
+                <MenuItem>
+                  <div className="flex items-center mt-2">
+                    <DashboardIcon style={{ width: 21, height: 21 }} />
+                    <p className="ml-2">Bảng điều khiển</p>
+                  </div>
+                </MenuItem>
+              </Link>
+            ) : null}
+            <Link to="/user/activities">
+              <MenuItem>
+                <div className="flex items-center mt-2">
+                  <GamepadIcon style={{ width: 21, height: 21 }} />
+                  <p className="ml-2">Hoạt động</p>
                 </div>
               </MenuItem>
             </Link>
             <Link to="/user/experience-hosting">
               <MenuItem>
                 <div className="flex items-center mt-2">
-                  <img
-                    src={ExperienceIcon}
-                    width={21}
-                    height={21}
-                    alt="experience manage"
-                  />
+                  <LayerIcon style={{ width: 21, height: 21 }} />
                   <p className="ml-2">Quản lí trải nghiệm</p>
                 </div>
               </MenuItem>
