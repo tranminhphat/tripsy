@@ -1,5 +1,10 @@
 import axios from "./configureAxios";
 
+/* Balance */
+export const getBalanceByAccountId = (accountId: string) => {
+  return axios.get(`stripe/balance/${accountId}`);
+};
+
 /* Account */
 export const getAccountById = (accountId: string) => {
   return axios.get(`stripe/accounts/${accountId}`);
