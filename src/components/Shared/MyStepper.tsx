@@ -2,7 +2,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import Typography from "@material-ui/core/Typography";
-import CheckIcon from "assets/images/icons/check-mark.svg";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import React from "react";
 
 interface Props {
@@ -20,9 +20,7 @@ const MyStepper: React.FC<Props> = ({ activeStep, steps, getStepContent }) => {
             <Step key={step.label} completed={step.isCompleted}>
               {step.isCompleted ? (
                 <StepLabel
-                  icon={
-                    <img src={CheckIcon} width={24} height={24} alt="check" />
-                  }
+                  icon={<CheckCircleIcon style={{ width: 24, height: 24 }} />}
                 >
                   {step.label}
                 </StepLabel>

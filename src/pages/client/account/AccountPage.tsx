@@ -1,5 +1,6 @@
+import PersonalInfoSettings from "assets/images/icons/info-settings.svg";
+import PasswordSettings from "assets/images/icons/password-settings.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
-import { accountSettingOptions } from "constants/index";
 import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
@@ -30,28 +31,51 @@ const AccountPage: React.FC<Props> = () => {
             </p>
           </div>
           <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-3">
-            {accountSettingOptions.map((setting) => (
-              <div
-                key={setting.id}
-                className="shadow-xl border border-gray-200 rounded-xl"
+            <div className="shadow-xl border border-gray-200 rounded-xl">
+              <Link
+                className="w-full h-full"
+                to="/account-settings/personal-info"
               >
-                <Link className="w-full h-full" to={setting.url}>
-                  <div className="p-8 flex flex-col">
-                    <div>
-                      <img src={setting.icon} alt="settings" />
-                    </div>
-                    <div>
-                      <h3 className="mt-2 text-2xl font-bold text-secondary">
-                        {setting.title}
-                      </h3>
-                    </div>
-                    <div>
-                      <p className="mt-2 text-lg">{setting.description}</p>
-                    </div>
+                <div className="p-8 flex flex-col">
+                  <div>
+                    <img src={PersonalInfoSettings} alt="info settings" />
                   </div>
-                </Link>
-              </div>
-            ))}
+                  <div>
+                    <h3 className="mt-2 text-2xl font-bold text-secondary">
+                      Thông tin cá nhân
+                    </h3>
+                  </div>
+                  <div>
+                    <p className="mt-2 text-lg">
+                      Cung cấp thông tin cá nhân và cách chúng tôi có thể liên
+                      hệ với bạn
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+            <div className="shadow-xl border border-gray-200 rounded-xl">
+              <Link
+                className="w-full h-full"
+                to="/account-settings/login-and-security"
+              >
+                <div className="p-8 flex flex-col">
+                  <div>
+                    <img src={PasswordSettings} alt="login settings" />
+                  </div>
+                  <div>
+                    <h3 className="mt-2 text-2xl font-bold text-secondary">
+                      Đăng nhập và bảo mật
+                    </h3>
+                  </div>
+                  <div>
+                    <p className="mt-2 text-lg">
+                      Cập nhật mật khẩu và bảo mật tài khoản của bạn
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       ) : (

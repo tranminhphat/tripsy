@@ -1,6 +1,6 @@
 import Avatar from "@material-ui/core/Avatar";
+import GradeOutlinedIcon from "@material-ui/icons/GradeOutlined";
 import { countReviews, getReviews } from "api/review";
-import StarIcon from "assets/images/icons/star.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
@@ -60,7 +60,7 @@ const ReviewSection: React.FC<Props> = ({ userId }) => {
         <>
           <div className="flex items-center">
             <span className="mr-2 text-xl font-bold">
-              <img src={StarIcon} alt="average stars" width={24} height={24} />
+              <GradeOutlinedIcon style={{ width: 36, height: 36 }} />
             </span>
             <span className="text-xl font-bold">
               {count.averageStars} ({count.totalItems} đánh giá)

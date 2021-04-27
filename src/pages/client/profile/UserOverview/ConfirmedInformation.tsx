@@ -1,5 +1,5 @@
 import { Typography } from "@material-ui/core";
-import CheckGuardIcon from "assets/images/icons/checkguard.svg";
+import VerifiedUserOutlinedIcon from "@material-ui/icons/VerifiedUserOutlined";
 import { IUser } from "interfaces/users/user.interface";
 import React from "react";
 
@@ -13,38 +13,30 @@ const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
       {userData.isEmailVerified ? (
         <li className="mt-3" key="email">
           <Typography>
-            <span>
-              <img
-                className="inline"
-                src={CheckGuardIcon}
-                alt="email verified"
-              />
-            </span>{" "}
-            Địa chỉ email
+            <span className="mr-2">
+              <VerifiedUserOutlinedIcon style={{ width: 36, height: 36 }} />
+            </span>
+            <span>Địa chỉ email</span>
           </Typography>
         </li>
       ) : null}
       {userData.phoneNumber ? (
         <li className="mt-3" key="phoneNumber">
           <Typography>
-            <span>
-              <img
-                className="inline"
-                src={CheckGuardIcon}
-                alt="phone verified"
-              />
-            </span>{" "}
-            Số điện thoại
+            <span className="mr-2">
+              <VerifiedUserOutlinedIcon style={{ width: 36, height: 36 }} />
+            </span>
+            <span>Số điện thoại</span>
           </Typography>
         </li>
       ) : null}
       {userData.isIdVerified ? (
         <li className="mt-3" key="id">
           <Typography>
-            <span>
-              <img className="inline" src={CheckGuardIcon} alt="id verified" />
-            </span>{" "}
-            Giấy tờ tùy thân
+            <span className="mr-2">
+              <VerifiedUserOutlinedIcon style={{ width: 36, height: 36 }} />
+            </span>
+            <span>Giấy tờ tùy thân</span>
           </Typography>
         </li>
       ) : null}

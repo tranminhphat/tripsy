@@ -1,6 +1,3 @@
-import PersonalInfoSettings from "assets/images/icons/info-settings.svg";
-import PasswordSettings from "assets/images/icons/password-settings.svg";
-
 export const themes = [
   { id: "6040f1eff1be2a20fc64352f", name: "Động vật" },
   {
@@ -132,28 +129,4 @@ export const bookingDateOptions: number[] = [
   12,
   13,
   14,
-];
-
-export const accountSettingOptions: {
-  id: number;
-  icon: any;
-  title: string;
-  description: string;
-  url: string;
-}[] = [
-  {
-    id: 1,
-    icon: PersonalInfoSettings,
-    title: "Thông tin cá nhân",
-    description:
-      "Cung cấp thông tin cá nhân và cách chúng tôi có thể liên hệ với bạn",
-    url: "/account-settings/personal-info",
-  },
-  {
-    id: 2,
-    icon: PasswordSettings,
-    title: "Đăng nhập và bảo mật",
-    description: "Cập nhật mật khẩu và bảo mật tài khoản của bạn",
-    url: "/account-settings/login-and-security",
-  },
 ];

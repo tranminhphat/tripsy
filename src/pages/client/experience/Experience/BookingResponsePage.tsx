@@ -1,5 +1,5 @@
+import BookingFailIcon from "assets/images/icons/booking-fail.svg";
 import CongratulationIcon from "assets/images/icons/congratulation.svg";
-import SadFace from "assets/images/icons/sad-face.svg";
 import { createBookingSuccessNotificationModel } from "helpers/createNotificationModel";
 import { useUpdateGuestList } from "hooks/mutations/activities";
 import { useCreateNotification } from "hooks/mutations/notifications";
@@ -52,8 +52,8 @@ const BookingResponsePage: React.FC<Props> = () => {
           <div className="flex flex-col items-center justify-center">
             <div className="mt-4">
               <img
-                width={150}
-                height={150}
+                width={350}
+                height={350}
                 src={CongratulationIcon}
                 alt="congrat"
               />
@@ -72,7 +72,7 @@ const BookingResponsePage: React.FC<Props> = () => {
       ) : (
         <div className="flex flex-col items-center justify-center">
           <div className="mt-4">
-            <img width={150} height={150} src={SadFace} alt="failed" />
+            <img width={350} height={350} src={BookingFailIcon} alt="fail" />
           </div>
           <p className="text-2xl font-semibold mt-8">
             Rất tiếc, trải nghiệm đăng ký không thành công

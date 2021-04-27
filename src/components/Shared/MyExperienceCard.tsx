@@ -1,4 +1,4 @@
-import StarIcon from "assets/images/icons/blackstar.svg";
+import StarIcon from "@material-ui/icons/Star";
 import currencyFormatter from "helpers/currencyFormatter";
 import { useCountReview } from "hooks/queries/reviews";
 import IExperience from "interfaces/experiences/experience.interface";
@@ -22,7 +22,7 @@ const MyExperienceCard: React.FC<Props> = ({ experience }) => {
             </p>
             <div className="flex items-center">
               <span className="mr-2">
-                <img width={24} height={24} src={StarIcon} alt="reviews" />
+                <StarIcon style={{ width: 30, height: 30 }} />
               </span>
               <p className="mt-1">
                 {reviews.averageStars} ({reviews.totalItems})

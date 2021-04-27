@@ -1,6 +1,6 @@
 import Avatar from "@material-ui/core/Avatar";
+import StarIcon from "@material-ui/icons/Star";
 import { countReviews, getReviews } from "api/review";
-import BlackStarIcon from "assets/images/icons/blackstar.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
@@ -60,12 +60,7 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
         <>
           <div className="flex items-center">
             <span className="mr-2 text-xl font-bold">
-              <img
-                src={BlackStarIcon}
-                alt="average stars"
-                width={24}
-                height={24}
-              />
+              <StarIcon style={{ width: 30, height: 30 }} />
             </span>
             <span className="text-xl font-bold">
               {count.averageStars} ({count.totalItems} đánh giá)

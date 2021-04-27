@@ -1,6 +1,6 @@
 import { Button, IconButton, Typography } from "@material-ui/core";
-import PlusIcon from "assets/images/icons/plus.svg";
-import SubtractIcon from "assets/images/icons/subtract.svg";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 import MyModal from "components/Shared/MyModal";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -65,7 +65,7 @@ const FilterGroupSize: React.FC<Props> = ({
                       value === 0 ? "pointer-events-none" : ""
                     }`}
                   >
-                    <img src={SubtractIcon} height={16} width={16} alt="add" />
+                    <RemoveIcon className="text-white" />
                   </IconButton>
                 </div>
                 <div className="ml-4">
@@ -78,7 +78,7 @@ const FilterGroupSize: React.FC<Props> = ({
                       value === 10 ? "pointer-events-none" : ""
                     }`}
                   >
-                    <img src={PlusIcon} height={16} width={16} alt="add" />
+                    <AddIcon />
                   </IconButton>
                 </div>
               </div>

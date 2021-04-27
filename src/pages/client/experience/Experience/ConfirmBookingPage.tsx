@@ -1,8 +1,8 @@
 import { Button } from "@material-ui/core";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { loadStripe } from "@stripe/stripe-js";
 import { createReceipt } from "api/receipt";
 import { createCheckoutSession } from "api/stripe";
-import LeftArrow from "assets/images/icons/left-arrow.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { startTimeOptions } from "constants/index";
 import currencyFormatter from "helpers/currencyFormatter";
@@ -80,8 +80,11 @@ const ConfirmBookingPage: React.FC<Props> = () => {
       {experience && host && activity ? (
         <div className="container mx-auto px-40">
           <div className="flex items-center">
-            <button className="mr-8" onClick={() => history.goBack()}>
-              <img src={LeftArrow} width={20} height={20} alt="left arrow" />
+            <button
+              className="outline-none mr-8"
+              onClick={() => history.goBack()}
+            >
+              <ArrowBackIosIcon />
             </button>
             <h1 className="text-4xl font-bold">Xác nhận thanh toán</h1>
           </div>

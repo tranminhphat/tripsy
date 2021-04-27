@@ -1,7 +1,7 @@
 import { Avatar, Button, Tooltip, Typography } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import GradeOutlinedIcon from "@material-ui/icons/GradeOutlined";
 import { changeAvatar } from "api/users";
-import StarIcon from "assets/images/icons/star.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import { useProfile } from "hooks/queries/profiles";
 import { useCountReview } from "hooks/queries/reviews";
@@ -96,8 +96,8 @@ const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
       <div className="self-start w-full my-4">
         {profile && reviewObject ? (
           <div className="flex items-center">
-            <span className="mr-3">
-              <img src={StarIcon} alt="id verified" />
+            <span className="mr-2">
+              <GradeOutlinedIcon style={{ width: 36, height: 36 }} />
             </span>
             <Typography className="font-bold">
               {reviewObject.totalItems} đánh giá

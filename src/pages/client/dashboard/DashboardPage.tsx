@@ -30,7 +30,6 @@ const DashboardPage: React.FC<Props> = () => {
     "experience.hostId": user?._id,
   });
   const { data: balance } = useBalance(user?.payoutAccountId!);
-  console.log(balance);
   return (
     <MainLayout>
       {user && experiences && activities && balance ? (

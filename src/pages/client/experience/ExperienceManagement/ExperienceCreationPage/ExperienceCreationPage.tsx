@@ -1,9 +1,9 @@
 import { Slide } from "@material-ui/core";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import { updateExperienceById } from "api/experiences";
-import CheckIcon from "assets/images/icons/check-mark.svg";
 import AlertContext from "contexts/AlertContext";
 import IExperience from "interfaces/experiences/experience.interface";
 import React, { createContext, useContext, useState } from "react";
@@ -138,7 +138,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Ý tưởng</span>
               {currentProgressIndex > 1 || currentProgressIndex === -1 ? (
                 <span>
-                  <img src={CheckIcon} alt="check" />
+                  <CheckCircleIcon />
                 </span>
               ) : null}
             </div>
@@ -167,7 +167,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Giới thiệu</span>
               {currentProgressIndex > 2 || currentProgressIndex === -1 ? (
                 <span>
-                  <img src={CheckIcon} alt="check" />
+                  <CheckCircleIcon />
                 </span>
               ) : null}
             </div>
@@ -196,7 +196,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Thiết lập</span>
               {currentProgressIndex > 3 || currentProgressIndex === -1 ? (
                 <span>
-                  <img src={CheckIcon} alt="check" />
+                  <CheckCircleIcon />
                 </span>
               ) : null}
             </div>
@@ -225,7 +225,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               <span>Xác thực</span>
               {currentProgressIndex > 4 || currentProgressIndex === -1 ? (
                 <span>
-                  <img src={CheckIcon} alt="check" />
+                  <CheckCircleIcon />
                 </span>
               ) : null}
             </div>

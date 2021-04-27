@@ -1,7 +1,7 @@
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import { resendEmailVerification } from "api/auth";
-import EmailVerificationImage from "assets/images/icons/email-verification.png";
+import MailSentIcon from "assets/images/icons/mail.svg";
 import * as React from "react";
 
 interface VerificationProps {
@@ -23,7 +23,12 @@ const EmailVerificationModal: React.FC<VerificationProps> = ({
     <Modal open={open}>
       <div className="absolute w-max h-96 inset-0 m-auto bg-white outline-none pb-4">
         <div className="flex justify-center bg-primary pt-10 rounded-b-full">
-          <img src={EmailVerificationImage} alt="Email verification" />
+          <img
+            src={MailSentIcon}
+            width={72}
+            height={72}
+            alt="Email verification"
+          />
         </div>
         <div className="flex flex-col justity-center items-center">
           <h2 className="text-2xl font-semibold my-4">
