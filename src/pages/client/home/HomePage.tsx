@@ -29,7 +29,7 @@ const intersectionExperiences = (a, b) => {
 
 const HomePage: React.FC = () => {
   const [filterObject, setFilterObject] = useState({});
-  const [sortString, setSortString] = useState("");
+  const [sortString, setSortString] = useState("-review.averageStars");
   const [dayOfYear, setDayOfYear] = useState<number>();
 
   const { data: experiencesByField } = useExperiences(filterObject, sortString);

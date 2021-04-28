@@ -1,10 +1,12 @@
 import { Button } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
-import { createExperienceReview } from "api/review";
+import { countReviews, createExperienceReview } from "api/review";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
 import AlertContext from "contexts/AlertContext";
 import { Field, Form, Formik } from "formik";
+import { useUpdateExperience } from "hooks/mutations/experiences";
+import { useExperience } from "hooks/queries/experiences";
 import * as React from "react";
 import { useContext, useState } from "react";
 
@@ -19,6 +21,8 @@ const ExperienceReviewModal: React.FC<Props> = ({
   setOpen,
   objectId,
 }) => {
+  const { data: experience } = useExperience(objectId);
+  const updateExperience = useUpdateExperience();
   const [numOfStars, setNumOfStars] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { alert } = useContext(AlertContext);
@@ -34,10 +38,26 @@ const ExperienceReviewModal: React.FC<Props> = ({
         numOfStars,
         content
       );
-      if (review) {
-        setOpen(false);
-        alert("success", "Đánh giá thành công");
-      }
+      const { data: reviews } = await countReviews({ objectId });
+      updateExperience.mutate(
+        {
+          experienceId: objectId,
+          updatedValues: {
+            review: {
+              totalItem: reviews.totalItems,
+              averageStars: Number(reviews.averageStars),
+            },
+          },
+        },
+        {
+          onSettled: () => {
+            if (review) {
+              setOpen(false);
+              alert("success", "Đánh giá thành công");
+            }
+          },
+        }
+      );
     } catch (err) {
       console.error(err);
       setOpen(false);

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SortMetadata: React.FC<Props> = ({ setSortString }) => {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(3);
 
   const handleOnChange = (e) => {
     setValue(e.target.value);
@@ -18,6 +18,9 @@ const SortMetadata: React.FC<Props> = ({ setSortString }) => {
         break;
       case 2:
         setSortString("+createdAt");
+        break;
+      case 3:
+        setSortString("-review.averageStars");
         break;
     }
   };
@@ -32,11 +35,12 @@ const SortMetadata: React.FC<Props> = ({ setSortString }) => {
         <Select
           value={value}
           onChange={handleOnChange}
-          defaultValue={1}
+          defaultValue={3}
           className="w-full"
         >
           <MenuItem value={1}>Ngày thêm (mới nhất)</MenuItem>
           <MenuItem value={2}>Ngày thêm (cũ nhất)</MenuItem>
+          <MenuItem value={3}>Đánh giá</MenuItem>
         </Select>
       </div>
     </div>
