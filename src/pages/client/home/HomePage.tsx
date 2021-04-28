@@ -8,6 +8,8 @@ import {
   useExperiences,
   useExperiencesByDate,
 } from "hooks/queries/experiences";
+import { useProfile } from "hooks/queries/profiles";
+import { useCurrentUser } from "hooks/queries/users";
 import * as React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -38,16 +40,19 @@ const HomePage: React.FC = () => {
     experiencesByField
   );
 
+  const { data: user } = useCurrentUser();
+  const { data: userProfile } = useProfile(user?.profileId);
+
   return (
     <div className="h-full w-full">
       <Header withSearchBar={true} setFilterObject={setFilterObject} />
       <div
-        className="container mx-auto h-full flex items-center grid grid-cols-4 lg:grid-cols-12"
+        className="container mx-auto mb-16 h-full flex items-center grid grid-cols-4 lg:grid-cols-12"
         style={{ marginTop: "108px" }}
       >
-        <div className="col-span-8">
-          <div>
-            <div className="my-4">
+        <div className="col-span-12">
+          <div className="mt-4 flex justify-between">
+            <div>
               <FilterMetadata
                 filterObject={filterObject}
                 setFilterObject={setFilterObject}
@@ -55,16 +60,21 @@ const HomePage: React.FC = () => {
                 dayOfYear={dayOfYear}
               />
             </div>
-            <div className="my-4">
+            <div>
               <SortMetadata setSortString={setSortString} />
             </div>
           </div>
-          {experiences ? (
-            <div className="grid grid-cols-8 gap-4">
+          {experiences && userProfile ? (
+            <div className="grid grid-cols-12">
               {experiences.map((item) => (
-                <div className="col-span-4 mt-4" key={item._id}>
+                <div className="col-span-12" key={item._id}>
                   <Link to={`/experience/${item._id}`}>
-                    <MyExperienceCard experience={item} />
+                    <MyExperienceCard
+                      isSaved={
+                        userProfile.savedExperiences?.includes(item._id)!
+                      }
+                      experience={item}
+                    />
                   </Link>
                 </div>
               ))}

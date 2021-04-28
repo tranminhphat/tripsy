@@ -12,7 +12,7 @@ export const Header: React.FC<Props> = ({ withSearchBar, setFilterObject }) => {
   return (
     <header className="h-20 w-full bg-white fixed top-0 left-0 z-50 shadow-md">
       <div className="container mx-auto h-full flex items-center grid grid-cols-4 lg:grid-cols-12">
-        <div className="flex justify-start col-span-2">
+        <div className="flex justify-start col-span-2 lg:col-span-3">
           <BrandLogo />
         </div>
         <div className="hidden lg:flex flex-col ml-6 justify-center h-full lg:col-span-6">
@@ -20,7 +20,7 @@ export const Header: React.FC<Props> = ({ withSearchBar, setFilterObject }) => {
             <SearchBar setFilterObject={setFilterObject} />
           ) : null}
         </div>
-        <div className="flex justify-end col-span-2 lg:col-span-4">
+        <div className="flex justify-end col-span-2 lg:col-span-3">
           <UserOptions />
         </div>
       </div>
