@@ -11,6 +11,7 @@ import {
 import AssignmentTwoToneIcon from "@material-ui/icons/AssignmentTwoTone";
 import MonetizationOnTwoToneIcon from "@material-ui/icons/MonetizationOnTwoTone";
 import WorkTwoToneIcon from "@material-ui/icons/WorkTwoTone";
+import NoDataIcon from "assets/images/icons/no-data.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import toWeekDayString from "helpers/toWeekDayString";
 import { useActivities } from "hooks/queries/activities";
@@ -135,7 +136,21 @@ const DashboardPage: React.FC<Props> = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                ) : null}
+                ) : (
+                  <div className="mt-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <img
+                        src={NoDataIcon}
+                        width={150}
+                        height={150}
+                        alt="no data"
+                      />
+                      <p className="mt-8 text-xl text-gray-500">
+                        Không có dữ liệu
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="mt-4 lg:col-span-4 lg:mt-0">

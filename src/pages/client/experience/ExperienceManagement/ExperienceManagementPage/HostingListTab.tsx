@@ -6,6 +6,7 @@ import {
 } from "api/stripe";
 import BankIcon from "assets/images/icons/bank.svg";
 import FlyIcon from "assets/images/icons/fly.svg";
+import NoDataIcon from "assets/images/icons/no-data.svg";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyTruncateText from "components/Shared/MyTruncateText";
 import AlertContext from "contexts/AlertContext";
@@ -271,7 +272,19 @@ const HostingListTab: React.FC<Props> = () => {
                     );
                   })
                 ) : (
-                  <div>Bạn chưa tổ chức trải nghiệm nào </div>
+                  <div className="mt-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <img
+                        src={NoDataIcon}
+                        width={150}
+                        height={150}
+                        alt="no data"
+                      />
+                      <p className="mt-8 text-xl text-gray-500">
+                        Không có dữ liệu
+                      </p>
+                    </div>
+                  </div>
                 )}
               </div>
             )}

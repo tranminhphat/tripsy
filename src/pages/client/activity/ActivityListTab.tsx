@@ -5,6 +5,7 @@ import { createRefund, getCheckoutSessionById } from "api/stripe";
 import ClockIcon from "assets/images/icons/clock.svg";
 import DestinationIcon from "assets/images/icons/destination.svg";
 import HostIcon from "assets/images/icons/host.svg";
+import NoDataIcon from "assets/images/icons/no-data.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import FilterExperienceList from "components/Experience/FilterExperienceList";
 import CheckpointModal from "components/Modals/CheckpointModal";
@@ -116,243 +117,259 @@ const ActivityListTab: React.FC<Props> = () => {
           <div className="flex mt-4">
             <div className="w-full max-w-2xl">
               <FilterExperienceList setStatus={setStatus} />
-              {receipts.map((item) => (
-                <>
-                  <div className="mt-8" key={item._id}>
-                    <div className="flex justify-between border border-gray-300 rounded-lg ">
-                      <div className="mt-2 p-4 flex-grow">
-                        <div className="flex items-center justify-between">
-                          <h1 className="text-2xl font-bold">
-                            {item.experience?.title}
-                          </h1>
-                          <Typography className="underline">
-                            {currencyFormatter(
-                              item.experience?.pricing?.individualPrice!
-                            )}
-                          </Typography>
-                        </div>
-                        <div className="flex items-center mt-4">
-                          <img
-                            src={HostIcon}
-                            alt="host"
-                            width={32}
-                            height={32}
-                          />
-                          <div className="ml-6 flex items-center">
-                            <Avatar
-                              src={
-                                item.host?.avatarUrl
-                                  ? item.host?.avatarUrl
-                                  : SkeletonUserAvatar
-                              }
-                              style={{ width: "32px", height: "32px" }}
-                              alt="User"
-                            />
-                            <Typography className="ml-2 text-lg">
-                              {item.host?.lastName} {item.host?.firstName}
+              {receipts.length !== 0 ? (
+                receipts.map((item) => (
+                  <>
+                    <div className="mt-8" key={item._id}>
+                      <div className="flex justify-between border border-gray-300 rounded-lg ">
+                        <div className="mt-2 p-4 flex-grow">
+                          <div className="flex items-center justify-between">
+                            <h1 className="text-2xl font-bold">
+                              {item.experience?.title}
+                            </h1>
+                            <Typography className="underline">
+                              {currencyFormatter(
+                                item.experience?.pricing?.individualPrice!
+                              )}
                             </Typography>
                           </div>
-                        </div>
-                        <div className="flex items-center mt-2">
-                          <img
-                            src={DestinationIcon}
-                            alt="destination"
-                            width={32}
-                            height={32}
-                          />
-                          <Typography className="ml-6 text-lg">
-                            {item.experience?.address?.district},{" "}
-                            {item.experience?.address?.city}
-                          </Typography>
-                        </div>
-                        <div className="flex items-center mt-2">
-                          <img
-                            src={ClockIcon}
-                            alt="date"
-                            width={32}
-                            height={32}
-                          />
-                          <Typography className="ml-6 text-lg">
-                            {item.activity?.date.dateObject.day}/
-                            {item.activity?.date.dateObject.month}/
-                            {item.activity?.date.dateObject.year}
-                          </Typography>
-                        </div>
-                        <div className="flex items-center justify-between mt-4">
-                          {item.status !== "finish" ? (
-                            <>
-                              <div
-                                className={`mt-2 h-12 ${
-                                  !canActivityCancel(
-                                    item.activity?.date.dateObject.unix!
-                                  )
-                                    ? "cursor-not-allowed"
-                                    : ""
-                                }`}
-                              >
-                                <Tooltip title="Hủy và nhận hoàn tiền">
-                                  <Button
-                                    className={`outline-none overflow-hidden w-full h-full ${
-                                      !canActivityCancel(
-                                        item.activity?.date.dateObject.unix!
-                                      )
-                                        ? "pointer-events-none bg-gray-300 text-gray-500"
-                                        : "border-danger text-danger hover:bg-danger hover:text-white"
-                                    }`}
-                                    variant="outlined"
-                                    onClick={() =>
-                                      setOpenConfirmDeleteModal(true)
-                                    }
-                                  >
-                                    <div className="flex items-center">
-                                      <p className="text-semibold">
-                                        Hủy bỏ hoạt động này
-                                      </p>
-                                    </div>
-                                  </Button>
-                                </Tooltip>
-                              </div>
-                              <div
-                                className={`mx-auto mt-2 h-12 ${
-                                  !isActivityFinish(
-                                    item.activity?.date.dateObject.unix!
-                                  )
-                                    ? "cursor-not-allowed"
-                                    : ""
-                                }`}
-                              >
-                                <Tooltip title="Hoàn thành và nhận điểm tích lũy">
-                                  <Button
-                                    className={`w-full h-full  overflow-hidden ${
-                                      !isActivityFinish(
-                                        item.activity?.date.dateObject.unix!
-                                      )
-                                        ? "pointer-events-none bg-gray-300 border-gray-300 text-gray-500"
-                                        : "border-primary text-primary hover:bg-primary hover:text-white"
-                                    }`}
-                                    variant="outlined"
-                                    onClick={() => {
-                                      handleCompleteExperience(
-                                        item.experienceId,
-                                        item._id!
-                                      );
-                                      setOpenCheckpointModal(true);
-                                    }}
-                                  >
-                                    {!isCompleting ? (
-                                      <div className="flex items-center">
-                                        <p className="text-semibold">
-                                          Nhận điểm tích lũy
-                                        </p>
-                                      </div>
-                                    ) : (
-                                      <MyLoadingIndicator />
-                                    )}
-                                  </Button>
-                                </Tooltip>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <div className="mr-4">
-                                <Button
-                                  className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
-                                  style={{ width: "200px", height: "50px" }}
-                                  variant="outlined"
-                                  onClick={() => setOpenUserReviewModal(true)}
-                                >
-                                  <span>Đánh giá người tổ chức</span>
-                                </Button>
-                              </div>
-                              <div className="ml-4">
-                                <Button
-                                  className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
-                                  style={{ width: "200px", height: "50px" }}
-                                  variant="outlined"
-                                  onClick={() =>
-                                    setOpenExperienceReviewModal(true)
-                                  }
-                                >
-                                  <span>Đánh giá trải nghiệm</span>
-                                </Button>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <img
-                        className="rounded-lg"
-                        width={180}
-                        src={item.experience?.photoGallery![0].url}
-                        alt="experience"
-                      />
-                    </div>
-
-                    <MyModal
-                      size="xl"
-                      open={openConfirmDeleteModal}
-                      setOpen={setOpenConfirmDeleteModal}
-                    >
-                      {{
-                        header: (
-                          <p className="text-semibold text-xl">
-                            Bạn có chắc chắc muốn xóa hoạt động này?
-                          </p>
-                        ),
-                        footer: (
-                          <div className="flex justify-end">
-                            <button
-                              onClick={() => setOpenConfirmDeleteModal(false)}
-                            >
-                              <p className="text-lg underline">Hủy</p>
-                            </button>
-                            <div className="h-12 w-16 mr-8">
-                              <Button
-                                variant="contained"
-                                className="w-full h-full overflow-hidden bg-danger mx-8 text-white"
-                                onClick={() =>
-                                  handleCancelExperience(
-                                    item.checkOutSessionId as string,
-                                    item
-                                  )
+                          <div className="flex items-center mt-4">
+                            <img
+                              src={HostIcon}
+                              alt="host"
+                              width={32}
+                              height={32}
+                            />
+                            <div className="ml-6 flex items-center">
+                              <Avatar
+                                src={
+                                  item.host?.avatarUrl
+                                    ? item.host?.avatarUrl
+                                    : SkeletonUserAvatar
                                 }
-                              >
-                                {!isCancelling ? (
-                                  <p>Xóa</p>
-                                ) : (
-                                  <MyLoadingIndicator />
-                                )}
-                              </Button>
+                                style={{ width: "32px", height: "32px" }}
+                                alt="User"
+                              />
+                              <Typography className="ml-2 text-lg">
+                                {item.host?.lastName} {item.host?.firstName}
+                              </Typography>
                             </div>
                           </div>
-                        ),
-                      }}
-                    </MyModal>
+                          <div className="flex items-center mt-2">
+                            <img
+                              src={DestinationIcon}
+                              alt="destination"
+                              width={32}
+                              height={32}
+                            />
+                            <Typography className="ml-6 text-lg">
+                              {item.experience?.address?.district},{" "}
+                              {item.experience?.address?.city}
+                            </Typography>
+                          </div>
+                          <div className="flex items-center mt-2">
+                            <img
+                              src={ClockIcon}
+                              alt="date"
+                              width={32}
+                              height={32}
+                            />
+                            <Typography className="ml-6 text-lg">
+                              {item.activity?.date.dateObject.day}/
+                              {item.activity?.date.dateObject.month}/
+                              {item.activity?.date.dateObject.year}
+                            </Typography>
+                          </div>
+                          <div className="flex items-center justify-between mt-4">
+                            {item.status !== "finish" ? (
+                              <>
+                                <div
+                                  className={`mt-2 h-12 ${
+                                    !canActivityCancel(
+                                      item.activity?.date.dateObject.unix!
+                                    )
+                                      ? "cursor-not-allowed"
+                                      : ""
+                                  }`}
+                                >
+                                  <Tooltip title="Hủy và nhận hoàn tiền">
+                                    <Button
+                                      className={`outline-none overflow-hidden w-full h-full ${
+                                        !canActivityCancel(
+                                          item.activity?.date.dateObject.unix!
+                                        )
+                                          ? "pointer-events-none bg-gray-300 text-gray-500"
+                                          : "border-danger text-danger hover:bg-danger hover:text-white"
+                                      }`}
+                                      variant="outlined"
+                                      onClick={() =>
+                                        setOpenConfirmDeleteModal(true)
+                                      }
+                                    >
+                                      <div className="flex items-center">
+                                        <p className="text-semibold">
+                                          Hủy bỏ hoạt động này
+                                        </p>
+                                      </div>
+                                    </Button>
+                                  </Tooltip>
+                                </div>
+                                <div
+                                  className={`mx-auto mt-2 h-12 ${
+                                    !isActivityFinish(
+                                      item.activity?.date.dateObject.unix!
+                                    )
+                                      ? "cursor-not-allowed"
+                                      : ""
+                                  }`}
+                                >
+                                  <Tooltip title="Hoàn thành và nhận điểm tích lũy">
+                                    <Button
+                                      className={`w-full h-full  overflow-hidden ${
+                                        !isActivityFinish(
+                                          item.activity?.date.dateObject.unix!
+                                        )
+                                          ? "pointer-events-none bg-gray-300 border-gray-300 text-gray-500"
+                                          : "border-primary text-primary hover:bg-primary hover:text-white"
+                                      }`}
+                                      variant="outlined"
+                                      onClick={() => {
+                                        handleCompleteExperience(
+                                          item.experienceId,
+                                          item._id!
+                                        );
+                                        setOpenCheckpointModal(true);
+                                      }}
+                                    >
+                                      {!isCompleting ? (
+                                        <div className="flex items-center">
+                                          <p className="text-semibold">
+                                            Nhận điểm tích lũy
+                                          </p>
+                                        </div>
+                                      ) : (
+                                        <MyLoadingIndicator />
+                                      )}
+                                    </Button>
+                                  </Tooltip>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="mr-4">
+                                  <Button
+                                    className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
+                                    style={{ width: "200px", height: "50px" }}
+                                    variant="outlined"
+                                    onClick={() => setOpenUserReviewModal(true)}
+                                  >
+                                    <span>Đánh giá người tổ chức</span>
+                                  </Button>
+                                </div>
+                                <div className="ml-4">
+                                  <Button
+                                    className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
+                                    style={{ width: "200px", height: "50px" }}
+                                    variant="outlined"
+                                    onClick={() =>
+                                      setOpenExperienceReviewModal(true)
+                                    }
+                                  >
+                                    <span>Đánh giá trải nghiệm</span>
+                                  </Button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <img
+                          className="rounded-lg"
+                          width={180}
+                          src={item.experience?.photoGallery![0].url}
+                          alt="experience"
+                        />
+                      </div>
 
-                    <UserReviewModal
-                      open={openUserReviewModal}
-                      setOpen={setOpenUserReviewModal}
-                      objectId={item.hostId}
-                    />
-
-                    <ExperienceReviewModal
-                      open={openExperienceReviewModal}
-                      setOpen={setOpenExperienceReviewModal}
-                      objectId={item.experienceId}
-                    />
-
-                    {checkpointData ? (
-                      <CheckpointModal
-                        isOpen={openCheckpointModal}
-                        onClose={() => {
-                          setCheckpointData(null);
+                      <MyModal
+                        size="xl"
+                        open={openConfirmDeleteModal}
+                        setOpen={setOpenConfirmDeleteModal}
+                      >
+                        {{
+                          header: (
+                            <p className="text-semibold text-xl">
+                              Bạn có chắc chắc muốn xóa hoạt động này?
+                            </p>
+                          ),
+                          footer: (
+                            <div className="flex justify-end">
+                              <button
+                                onClick={() => setOpenConfirmDeleteModal(false)}
+                              >
+                                <p className="text-lg underline">Hủy</p>
+                              </button>
+                              <div className="h-12 w-16 mr-8">
+                                <Button
+                                  variant="contained"
+                                  className="w-full h-full overflow-hidden bg-danger mx-8 text-white"
+                                  onClick={() =>
+                                    handleCancelExperience(
+                                      item.checkOutSessionId as string,
+                                      item
+                                    )
+                                  }
+                                >
+                                  {!isCancelling ? (
+                                    <p>Xóa</p>
+                                  ) : (
+                                    <MyLoadingIndicator />
+                                  )}
+                                </Button>
+                              </div>
+                            </div>
+                          ),
                         }}
-                        checkpointData={checkpointData}
+                      </MyModal>
+
+                      <UserReviewModal
+                        open={openUserReviewModal}
+                        setOpen={setOpenUserReviewModal}
+                        objectId={item.hostId}
                       />
-                    ) : null}
+
+                      <ExperienceReviewModal
+                        open={openExperienceReviewModal}
+                        setOpen={setOpenExperienceReviewModal}
+                        objectId={item.experienceId}
+                      />
+
+                      {checkpointData ? (
+                        <CheckpointModal
+                          isOpen={openCheckpointModal}
+                          onClose={() => {
+                            setCheckpointData(null);
+                          }}
+                          checkpointData={checkpointData}
+                        />
+                      ) : null}
+                    </div>
+                  </>
+                ))
+              ) : (
+                <div className="mt-8">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <img
+                      src={NoDataIcon}
+                      width={150}
+                      height={150}
+                      alt="no data"
+                    />
+                    <p className="mt-8 text-xl text-gray-500">
+                      Không có dữ liệu
+                    </p>
                   </div>
-                </>
-              ))}
+                </div>
+              )}
             </div>
             <div className="mt-16 ml-auto max-w-xs">
               <div className="border border-black rounded-lg py-4 px-8 text-center">
