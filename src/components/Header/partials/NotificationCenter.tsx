@@ -76,7 +76,6 @@ const NotificationCenter: React.FC<Props> = ({ data }) => {
               className={`p-2 rounded-sm mt-2 ${item.new ? "bg-gray-100" : ""}`}
             >
               <p>{item.message}</p>
-              <div>{item.new ? "chua doc" : "da doc"}</div>
             </div>
           </Link>
         ))}
