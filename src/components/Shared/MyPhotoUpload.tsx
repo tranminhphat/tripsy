@@ -33,6 +33,7 @@ const MyPhotoUpload: React.FC<Props> = ({ url, photo, handleUpload }) => {
   const checkImageValid = async (photoInput: Blob) => {
     if (width < 720 || height < 1000) {
       setIsModalOpen(true);
+      setIsLoading(false);
     } else {
       const reader = new FileReader();
       reader.readAsDataURL(photoInput);

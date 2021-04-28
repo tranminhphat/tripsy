@@ -9,7 +9,7 @@ interface Props {
   stepProps: any;
 }
 
-const TITLE_MAX_LENGTH = 40;
+const TITLE_MAX_LENGTH = 60;
 const TITLE_MIN_LENGTH = 5;
 
 const Title: React.FC<Props> = ({ stepProps }) => {
