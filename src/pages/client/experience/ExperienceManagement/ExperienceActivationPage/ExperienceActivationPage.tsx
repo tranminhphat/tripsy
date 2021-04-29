@@ -10,6 +10,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import InfoIcon from "@material-ui/icons/Info";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import { AvatarGroup } from "@material-ui/lab";
+import NoDataIcon from "assets/images/icons/no-data.svg";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
@@ -33,7 +34,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
   const { url } = useRouteMatch();
   const { alert } = useContext(AlertContext);
   const { data: experience } = useExperience(id);
-  const { data: activities } = useActivitiesByExperienceId(experience?._id!);
+  const { data: activities } = useActivitiesByExperienceId(experience?._id!, 0);
   const createActivity = useCreateActivity();
   const [pickerValue, setPickerValue] = useState<any>();
   const [open, setOpen] = useState(false);
@@ -104,7 +105,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
         </div>
         {experience && activities ? (
           <div className="flex">
-            <div className="mt-4">
+            <div className="mt-4 flex-grow">
               {activities.length !== 0 ? (
                 activities.sort(compareFunction).map((item, idx) => (
                   <Link to={`${url}/${item._id}`}>
@@ -150,13 +151,23 @@ const ExperienceActivationPage: React.FC<Props> = () => {
                   </Link>
                 ))
               ) : (
-                <div className="w-full text-center">
-                  <Typography>Chưa có hoạt động nào được tổ chức</Typography>
+                <div className="mt-8 mx-auto">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <img
+                      src={NoDataIcon}
+                      width={150}
+                      height={150}
+                      alt="no data"
+                    />
+                    <p className="mt-8 text-xl text-gray-500">
+                      Chưa có hoạt động nào được tổ chức
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
 
-            <div className="mt-4 ml-auto max-w-xs">
+            <div className="mt-4 max-w-xs">
               <div className="border border-black rounded-lg py-4 px-8 text-center">
                 <InfoIcon style={{ width: "50px", height: "50px" }} />
                 <p className="mt-8">

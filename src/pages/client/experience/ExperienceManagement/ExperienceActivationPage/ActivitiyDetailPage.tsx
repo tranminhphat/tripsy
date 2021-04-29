@@ -22,7 +22,10 @@ import { startTimeOptions } from "constants/index";
 import AlertContext from "contexts/AlertContext";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
-import { useDeleteActivity } from "hooks/mutations/activities";
+import {
+  useDeleteActivity,
+  useUpdateActivity,
+} from "hooks/mutations/activities";
 import { useDeleteReceipt } from "hooks/mutations/receipts";
 import { useActivity } from "hooks/queries/activities";
 import IActivity from "interfaces/activity/activity.interface";
@@ -38,11 +41,13 @@ const ActivityDetailPage: React.FC<Props> = () => {
   const { id, activityId } = useParams<{ id: string; activityId: string }>();
   const history = useHistory();
   const { data: activity } = useActivity(activityId);
+  const updateActivity = useUpdateActivity();
   const deleteActivity = useDeleteActivity();
   const deleteReceipt = useDeleteReceipt();
   const { alert } = useContext(AlertContext);
   const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
 
   const handleCancelActivity = async (activity: IActivity) => {
     setIsCancelling(true);
@@ -64,16 +69,25 @@ const ActivityDetailPage: React.FC<Props> = () => {
           deleteActivity.mutate({ activityId: activity._id });
         }
       }
-      setIsCancelling(false);
     }
 
+    setIsCancelling(false);
     alert("success", "Xóa hoạt động thành công");
-    history.goBack();
+    history.push(`/user/experience-hosting/${id}/activation`);
   };
 
   const handleCompleteActivity = async (activityId: string) => {
+    setIsCompleting(true);
     await createTransfer(activityId);
-    deleteActivity.mutate({ activityId });
+    updateActivity.mutate(
+      { activityId, updatedValues: { status: "1" } },
+      {
+        onSettled: () => {
+          setIsCompleting(false);
+          history.push(`/user/experience-hosting/${id}/activation`);
+        },
+      }
+    );
   };
 
   const canActivityCancel = (unixTime: number, listOfGuest: string[]) => {
@@ -141,13 +155,17 @@ const ActivityDetailPage: React.FC<Props> = () => {
                   </Button>
                 </div>
               ) : (
-                <Button
-                  onClick={() => handleCompleteActivity(activity._id as string)}
-                  variant="outlined"
-                  className="border border-primary text-primary font-semibold outline-none hover:bg-primary hover:text-white"
-                >
-                  Hoàn thành
-                </Button>
+                <div style={{ height: 48, width: 128 }}>
+                  <Button
+                    onClick={() =>
+                      handleCompleteActivity(activity._id as string)
+                    }
+                    variant="outlined"
+                    className="w-full h-full overflow-hidden border border-primary text-primary font-semibold outline-none hover:bg-primary hover:text-white"
+                  >
+                    {!isCompleting ? "Hoàn thành" : <MyLoadingIndicator />}
+                  </Button>
+                </div>
               )}
             </div>
             <div className="mt-4">

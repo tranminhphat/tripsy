@@ -30,13 +30,16 @@ export const useActivity = (activityId: string) => {
   );
 };
 
-export const useActivitiesByExperienceId = (experienceId: string) => {
+export const useActivitiesByExperienceId = (
+  experienceId: string,
+  status?: number
+) => {
   return useQuery<IActivity[]>(
     ["activities", experienceId],
     async () => {
       const {
         data: { activities },
-      } = await getActivities({ experienceId });
+      } = await getActivities({ experienceId, status });
       return activities;
     },
     { enabled: !!experienceId }
