@@ -29,6 +29,7 @@ const DashboardPage: React.FC<Props> = () => {
   const { data: experiences } = useExperiences({ hostId: user?._id });
   const { data: activities } = useActivities({
     "experience.hostId": user?._id,
+    status: "0",
   });
   const { data: balance } = useBalance(user?.payoutAccountId!);
   return (

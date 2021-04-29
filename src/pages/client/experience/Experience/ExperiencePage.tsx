@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core";
 import LoveIcon from "assets/images/icons/love.svg";
 import LovedIcon from "assets/images/icons/loved.svg";
+import NoDataIcon from "assets/images/icons/no-data.svg";
 import DescriptionSection from "components/Experience/DescriptionSection";
 import HostSection from "components/Experience/HostSection";
 import InformSection from "components/Experience/InformSection";
@@ -29,7 +30,7 @@ const ExperiencePage: React.FC<Props> = () => {
   const { url } = useRouteMatch();
   const savedExperience = useSaveExperiences();
   const { data: experience } = useExperience(id);
-  const { data: activities } = useActivitiesByExperienceId(id);
+  const { data: activities } = useActivitiesByExperienceId(id, 0);
   const { data: user } = useCurrentUser();
   const { data: userProfile } = useProfile(user?.profileId);
   const isExperienceSaved = userProfile?.savedExperiences?.includes(id);
@@ -149,39 +150,52 @@ const ExperiencePage: React.FC<Props> = () => {
                         </>
                       ) : (
                         <>
-                          <p className="text-lg">Lịch hoạt động: </p>
-                          {activities
-                            ? activities
-                                .sort(compareFunction)
-                                .map((item, idx) => (
-                                  <div
-                                    key={idx}
-                                    className="mt-2 flex items-center justify-between"
+                          {activities && activities.length !== 0 ? (
+                            activities
+                              .sort(compareFunction)
+                              .map((item, idx) => (
+                                <div
+                                  key={idx}
+                                  className="mt-2 flex items-center justify-between"
+                                >
+                                  <p>
+                                    {toWeekDayString(
+                                      item.date.dateObject.weekDay
+                                    )}
+                                    , {item.date.dateObject.day}/
+                                    {item.date.dateObject.month}/
+                                    {item.date.dateObject.year}
+                                  </p>
+                                  <Link
+                                    to={{
+                                      pathname: `${url}/confirm-booking`,
+                                      search: `?activityId=${item._id}`,
+                                    }}
                                   >
-                                    <p>
-                                      {toWeekDayString(
-                                        item.date.dateObject.weekDay
-                                      )}
-                                      , {item.date.dateObject.day}/
-                                      {item.date.dateObject.month}/
-                                      {item.date.dateObject.year}
-                                    </p>
-                                    <Link
-                                      to={{
-                                        pathname: `${url}/confirm-booking`,
-                                        search: `?activityId=${item._id}`,
-                                      }}
+                                    <Button
+                                      className="bg-primary text-white"
+                                      variant="contained"
                                     >
-                                      <Button
-                                        className="bg-primary text-white"
-                                        variant="contained"
-                                      >
-                                        Đặt chổ
-                                      </Button>
-                                    </Link>
-                                  </div>
-                                ))
-                            : null}
+                                      Đặt chổ
+                                    </Button>
+                                  </Link>
+                                </div>
+                              ))
+                          ) : (
+                            <div className="mt-8">
+                              <div className="flex flex-col items-center justify-center text-center">
+                                <img
+                                  src={NoDataIcon}
+                                  width={150}
+                                  height={150}
+                                  alt="no data"
+                                />
+                                <p className="mt-2 text-xl text-gray-500">
+                                  Không có dữ liệu
+                                </p>
+                              </div>
+                            </div>
+                          )}
                         </>
                       )}
                     </div>

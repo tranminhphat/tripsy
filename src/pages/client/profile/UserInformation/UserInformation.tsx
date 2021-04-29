@@ -147,17 +147,18 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
               <div className="flex mt-4">
                 {experiences.map((item) => (
                   <Link key={item._id!} to={`/experience/${item._id}`}>
-                    <div className="flex flex-col items-center justify-center mx-2 max-w-sm">
+                    <div style={{ maxWidth: 150 }} className="mx-2">
                       <div>
                         <img
+                          style={{ width: 150, height: 200 }}
                           className="rounded-md"
-                          width={150}
-                          height={200}
                           src={item.photoGallery![0].url}
                           alt="experience"
                         />
                       </div>
-                      <div className="mt-2">{item.title}</div>
+                      <div className="mt-2 break-words text-center">
+                        {item.title}
+                      </div>
                     </div>
                   </Link>
                 ))}
@@ -168,6 +169,40 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
             </div>
           </>
         ) : null}
+
+        <div className="mt-4">
+          {profile && profile.savedExperiencesList?.length !== 0 ? (
+            <>
+              <div>
+                <Typography className="text-xl font-bold">
+                  Trải nghiệm yêu thích của {userData.firstName}
+                </Typography>
+                <div className="flex mt-4">
+                  {profile.savedExperiencesList?.map((item) => (
+                    <Link key={item._id!} to={`/experience/${item._id}`}>
+                      <div style={{ maxWidth: 150 }} className="mx-2">
+                        <div>
+                          <img
+                            style={{ width: 150, height: 200 }}
+                            className="rounded-md"
+                            src={item.photoGallery![0].url}
+                            alt="experience"
+                          />
+                        </div>
+                        <div className="mt-2 break-words text-center">
+                          {item.title}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-4">
+                <hr />
+              </div>
+            </>
+          ) : null}
+        </div>
       </div>
       <div className="mt-4">
         <ReviewSection userId={userData._id!} />
