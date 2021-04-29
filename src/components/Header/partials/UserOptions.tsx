@@ -9,6 +9,7 @@ import {
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import GamepadIcon from "@material-ui/icons/Gamepad";
+import HistoryIcon from "@material-ui/icons/History";
 import HomeIcon from "@material-ui/icons/Home";
 import LayerIcon from "@material-ui/icons/Layers";
 import SearchIcon from "@material-ui/icons/Search";
@@ -116,6 +117,14 @@ const UserOptions: React.FC = () => {
                 </MenuItem>
               </Link>
             ) : null}
+            <Link to="/user/experience-hosting">
+              <MenuItem>
+                <div className="flex items-center mt-2">
+                  <LayerIcon style={{ width: 21, height: 21 }} />
+                  <p className="ml-2">Quản lí trải nghiệm</p>
+                </div>
+              </MenuItem>
+            </Link>
             <Link to="/user/activities">
               <MenuItem>
                 <div className="flex items-center mt-2">
@@ -124,11 +133,11 @@ const UserOptions: React.FC = () => {
                 </div>
               </MenuItem>
             </Link>
-            <Link to="/user/experience-hosting">
+            <Link to="/user/history">
               <MenuItem>
                 <div className="flex items-center mt-2">
-                  <LayerIcon style={{ width: 21, height: 21 }} />
-                  <p className="ml-2">Quản lí trải nghiệm</p>
+                  <HistoryIcon style={{ width: 21, height: 21 }} />
+                  <p className="ml-2">Lịch sử</p>
                 </div>
               </MenuItem>
             </Link>

@@ -7,10 +7,7 @@ import DestinationIcon from "assets/images/icons/destination.svg";
 import HostIcon from "assets/images/icons/host.svg";
 import NoDataIcon from "assets/images/icons/no-data.svg";
 import SkeletonUserAvatar from "assets/images/icons/user.svg";
-import FilterExperienceList from "components/Experience/FilterExperienceList";
 import CheckpointModal from "components/Modals/CheckpointModal";
-import ExperienceReviewModal from "components/Modals/ExperienceReviewModal";
-import UserReviewModal from "components/Modals/UserReviewModal";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
 import { themes } from "constants/index";
@@ -33,17 +30,14 @@ interface Props {}
 const ActivityListTab: React.FC<Props> = () => {
   const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState(false);
   const [openCheckpointModal, setOpenCheckpointModal] = useState(false);
-  const [openUserReviewModal, setOpenUserReviewModal] = useState(false);
-  const [openExperienceReviewModal, setOpenExperienceReviewModal] = useState(
-    false
-  );
-  const [status, setStatus] = useState<string>("paid");
-
   const [isCompleting, setIsCompleting] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [checkpointData, setCheckpointData] = useState<any>(null);
   const { data: currentUser } = useCurrentUser();
-  const { data: receipts } = useReceipts({ guestId: currentUser?._id, status });
+  const { data: receipts } = useReceipts({
+    guestId: currentUser?._id,
+    status: "paid",
+  });
   const updateCheckpoint = useUpdateCheckpoint();
   const updateReceipt = useUpdateReceipt();
   const deleteReceipt = useDeleteReceipt();
@@ -116,7 +110,6 @@ const ActivityListTab: React.FC<Props> = () => {
         {receipts ? (
           <div className="flex mt-4">
             <div className="w-full max-w-2xl">
-              <FilterExperienceList setStatus={setStatus} />
               {receipts.length !== 0 ? (
                 receipts.map((item) => (
                   <>
@@ -181,105 +174,76 @@ const ActivityListTab: React.FC<Props> = () => {
                             </Typography>
                           </div>
                           <div className="flex items-center justify-between mt-4">
-                            {item.status !== "finish" ? (
-                              <>
-                                <div
-                                  className={`mt-2 h-12 ${
+                            <div
+                              className={`mt-2 h-12 ${
+                                !canActivityCancel(
+                                  item.activity?.date.dateObject.unix!
+                                )
+                                  ? "cursor-not-allowed"
+                                  : ""
+                              }`}
+                            >
+                              <Tooltip title="Hủy và nhận hoàn tiền">
+                                <Button
+                                  className={`outline-none overflow-hidden w-full h-full ${
                                     !canActivityCancel(
                                       item.activity?.date.dateObject.unix!
                                     )
-                                      ? "cursor-not-allowed"
-                                      : ""
+                                      ? "pointer-events-none bg-gray-300 text-gray-500"
+                                      : "border-danger text-danger hover:bg-danger hover:text-white"
                                   }`}
+                                  variant="outlined"
+                                  onClick={() =>
+                                    setOpenConfirmDeleteModal(true)
+                                  }
                                 >
-                                  <Tooltip title="Hủy và nhận hoàn tiền">
-                                    <Button
-                                      className={`outline-none overflow-hidden w-full h-full ${
-                                        !canActivityCancel(
-                                          item.activity?.date.dateObject.unix!
-                                        )
-                                          ? "pointer-events-none bg-gray-300 text-gray-500"
-                                          : "border-danger text-danger hover:bg-danger hover:text-white"
-                                      }`}
-                                      variant="outlined"
-                                      onClick={() =>
-                                        setOpenConfirmDeleteModal(true)
-                                      }
-                                    >
-                                      <div className="flex items-center">
-                                        <p className="text-semibold">
-                                          Hủy bỏ hoạt động này
-                                        </p>
-                                      </div>
-                                    </Button>
-                                  </Tooltip>
-                                </div>
-                                <div
-                                  className={`mx-auto mt-2 h-12 ${
+                                  <div className="flex items-center">
+                                    <p className="text-semibold">
+                                      Hủy bỏ hoạt động này
+                                    </p>
+                                  </div>
+                                </Button>
+                              </Tooltip>
+                            </div>
+                            <div
+                              className={`mx-auto mt-2 h-12 ${
+                                !isActivityFinish(
+                                  item.activity?.date.dateObject.unix!
+                                )
+                                  ? "cursor-not-allowed"
+                                  : ""
+                              }`}
+                            >
+                              <Tooltip title="Hoàn thành và nhận điểm tích lũy">
+                                <Button
+                                  className={`w-full h-full  overflow-hidden ${
                                     !isActivityFinish(
                                       item.activity?.date.dateObject.unix!
                                     )
-                                      ? "cursor-not-allowed"
-                                      : ""
+                                      ? "pointer-events-none bg-gray-300 border-gray-300 text-gray-500"
+                                      : "border-primary text-primary hover:bg-primary hover:text-white"
                                   }`}
+                                  variant="outlined"
+                                  onClick={() => {
+                                    handleCompleteExperience(
+                                      item.experienceId,
+                                      item._id!
+                                    );
+                                    setOpenCheckpointModal(true);
+                                  }}
                                 >
-                                  <Tooltip title="Hoàn thành và nhận điểm tích lũy">
-                                    <Button
-                                      className={`w-full h-full  overflow-hidden ${
-                                        !isActivityFinish(
-                                          item.activity?.date.dateObject.unix!
-                                        )
-                                          ? "pointer-events-none bg-gray-300 border-gray-300 text-gray-500"
-                                          : "border-primary text-primary hover:bg-primary hover:text-white"
-                                      }`}
-                                      variant="outlined"
-                                      onClick={() => {
-                                        handleCompleteExperience(
-                                          item.experienceId,
-                                          item._id!
-                                        );
-                                        setOpenCheckpointModal(true);
-                                      }}
-                                    >
-                                      {!isCompleting ? (
-                                        <div className="flex items-center">
-                                          <p className="text-semibold">
-                                            Nhận điểm tích lũy
-                                          </p>
-                                        </div>
-                                      ) : (
-                                        <MyLoadingIndicator />
-                                      )}
-                                    </Button>
-                                  </Tooltip>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <div className="mr-4">
-                                  <Button
-                                    className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
-                                    style={{ width: "200px", height: "50px" }}
-                                    variant="outlined"
-                                    onClick={() => setOpenUserReviewModal(true)}
-                                  >
-                                    <span>Đánh giá người tổ chức</span>
-                                  </Button>
-                                </div>
-                                <div className="ml-4">
-                                  <Button
-                                    className="border-black hover:bg-black hover:text-white whitespace-nowrap overflow-hidden"
-                                    style={{ width: "200px", height: "50px" }}
-                                    variant="outlined"
-                                    onClick={() =>
-                                      setOpenExperienceReviewModal(true)
-                                    }
-                                  >
-                                    <span>Đánh giá trải nghiệm</span>
-                                  </Button>
-                                </div>
-                              </>
-                            )}
+                                  {!isCompleting ? (
+                                    <div className="flex items-center">
+                                      <p className="text-semibold">
+                                        Nhận điểm tích lũy
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    <MyLoadingIndicator />
+                                  )}
+                                </Button>
+                              </Tooltip>
+                            </div>
                           </div>
                         </div>
                         <img
@@ -330,19 +294,6 @@ const ActivityListTab: React.FC<Props> = () => {
                           ),
                         }}
                       </MyModal>
-
-                      <UserReviewModal
-                        open={openUserReviewModal}
-                        setOpen={setOpenUserReviewModal}
-                        objectId={item.hostId}
-                      />
-
-                      <ExperienceReviewModal
-                        open={openExperienceReviewModal}
-                        setOpen={setOpenExperienceReviewModal}
-                        objectId={item.experienceId}
-                      />
-
                       {checkpointData ? (
                         <CheckpointModal
                           isOpen={openCheckpointModal}
@@ -371,8 +322,8 @@ const ActivityListTab: React.FC<Props> = () => {
                 </div>
               )}
             </div>
-            <div className="mt-16 ml-auto max-w-xs">
-              <div className="border border-black rounded-lg py-4 px-8 text-center">
+            <div className="mt-8 ml-auto max-w-xs">
+              <div className="border border-black rounded-lg py-8 px-8 text-center">
                 <InfoIcon style={{ width: "50px", height: "50px" }} />
                 <p className="mt-8">
                   Bạn chỉ có thể hủy tham gia hoạt động trước thời điểm hoạt

@@ -17,6 +17,7 @@ import ActivityDetailPage from "pages/client/experience/ExperienceManagement/Exp
 import ExperienceActivationPage from "pages/client/experience/ExperienceManagement/ExperienceActivationPage/ExperienceActivationPage";
 import ExperienceCreationPage from "pages/client/experience/ExperienceManagement/ExperienceCreationPage/ExperienceCreationPage";
 import ExperienceManagementPage from "pages/client/experience/ExperienceManagement/ExperienceManagementPage/ExperienceManagementPage";
+import HistoryPage from "pages/client/history/HistoryPage";
 import HomePage from "pages/client/home/HomePage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import * as React from "react";
@@ -117,6 +118,12 @@ const routes: Entry[] = [
     exact: true,
     path: "/user/dashboard",
     component: DashboardPage,
+    authRoute: true,
+  },
+  {
+    exact: true,
+    path: "/user/history",
+    component: HistoryPage,
     authRoute: true,
   },
   {
