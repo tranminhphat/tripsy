@@ -11,7 +11,7 @@ interface Props {
   experienceId: string;
 }
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 3;
 
 const ReviewSection: React.FC<Props> = ({ experienceId }) => {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -20,7 +20,7 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
     averageStars: number;
   }>();
   const [pageNumber, setPageNumber] = useState(2);
-  const [isFetching, setIsFetching] = useState<boolean | null>(null);
+  const [isFetching, setIsFetching] = useState<boolean | null>(false);
 
   useEffect(() => {
     fetchInitialData();
@@ -94,7 +94,6 @@ const ReviewSection: React.FC<Props> = ({ experienceId }) => {
             ))}
           </ul>
           <div>
-            {" "}
             {isFetching === null ? null : !isFetching ? (
               <button className="my-2" onClick={() => loadMoreData()}>
                 <p className="underline">Xem thêm </p>
