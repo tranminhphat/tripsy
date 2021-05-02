@@ -85,8 +85,8 @@ const ExperiencePage: React.FC<Props> = () => {
             <PhotoGallerySection photoGallery={experience.photoGallery!} />
           </div>
           <div className="my-8">
-            <div className="px-4 flex justify-between">
-              <div className="relative w-7/12 mx-0">
+            <div className="flex justify-between">
+              <div className="mr-10 max-w-xl">
                 <div className="mt-8">
                   <TitleSection title={experience.title!} />
                 </div>
@@ -108,23 +108,9 @@ const ExperiencePage: React.FC<Props> = () => {
                 <div className="mt-8">
                   <HostSection userId={experience.hostId!} />
                 </div>
-                <div className="mt-8">
-                  <hr />
-                </div>
-                <div className="mt-8">
-                  <LocationSection
-                    coordinates={experience.location!.coordinates}
-                  />
-                </div>
-                <div className="mt-8">
-                  <hr />
-                </div>
-                <div className="mt-8">
-                  <ReviewSection experienceId={experience._id!} />
-                </div>
               </div>
-              <div className="relative w-1/3 ml-1/12">
-                <div className="sticky mt-8 top-24 z-10 inline-block w-full">
+              <div className="flex-grow ml-10">
+                <div className="mt-8 top-24 z-10 inline-block w-full">
                   <div className="border border-gray-300 rounded-lg shadow-lg p-4">
                     <div>
                       <p>
@@ -202,6 +188,23 @@ const ExperiencePage: React.FC<Props> = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="my-8">
+            <div className="mt-8">
+              <hr />
+            </div>
+            <div className="mt-8">
+              <LocationSection
+                detail={experience.address?.detail!}
+                coordinates={experience.location!.coordinates}
+              />
+            </div>
+            <div className="mt-8">
+              <hr />
+            </div>
+            <div className="mt-8">
+              <ReviewSection experienceId={experience._id!} />
             </div>
           </div>
         </div>

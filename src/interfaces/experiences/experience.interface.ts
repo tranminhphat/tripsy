@@ -7,7 +7,13 @@ export default interface IExperience {
   location?: { city: string; coordinates: [number, number] };
   language?: string;
   description?: string;
-  address?: { city: string; district: string; ward: string; street: string };
+  address?: {
+    city: string;
+    district: string;
+    ward: string;
+    street: string;
+    detail: string;
+  };
   hostProvisions?: { id: number; itemName: string }[];
   guestBrings?: { id: number; itemName: string };
   title?: string;
