@@ -15,7 +15,6 @@ const TITLE_MIN_LENGTH = 5;
 const Title: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { creationObject } = useContext(ExperienceCreationContext);
-  console.log(creationObject);
   const { id } = useParams<{ id: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState(
@@ -74,12 +73,18 @@ const Title: React.FC<Props> = ({ stepProps }) => {
               onChange={handleTitleChange}
             />
             <div className="mt-2">
-              {title.length > 40 ? (
+              {title.length > TITLE_MAX_LENGTH ? (
                 <p className="text-red-600 font-bold">
-                  Độ dài của tiêu đề phải ít hơn 40 ký tự
+                  Độ dài của tiêu đề phải ít hơn {TITLE_MAX_LENGTH} ký tự
                 </p>
               ) : null}
-              <p className={title.length > 40 ? "text-red-600 font-bold" : ""}>
+              <p
+                className={
+                  title.length > TITLE_MAX_LENGTH
+                    ? "text-red-600 font-bold"
+                    : ""
+                }
+              >
                 {title.length}/{TITLE_MAX_LENGTH}
               </p>
             </div>

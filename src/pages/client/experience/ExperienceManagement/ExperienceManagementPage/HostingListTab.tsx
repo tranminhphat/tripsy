@@ -40,7 +40,7 @@ const HostingListTab: React.FC<Props> = () => {
   useEffect(() => {
     fetchPayOutInformation(userData!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userData]);
 
   const fetchPayOutInformation = async (user: IUser) => {
     if (!user.isPayOutEnabled) {
