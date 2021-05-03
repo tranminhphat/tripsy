@@ -7793,6 +7793,11 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
+lodash@4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
 "lodash@>=3.5 <5", lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.5:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
@@ -10176,6 +10181,13 @@ react-multi-date-picker@^2.2.7:
   dependencies:
     react-date-object "^1.2.6"
     react-element-popper "^1.0.7"
+
+react-overflow-wrapper@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-overflow-wrapper/-/react-overflow-wrapper-0.4.3.tgz#542e3b50ba50a4eebeab9b75abdc24478c024d78"
+  integrity sha512-/iNeW17vauTFcaCPusFi7q95ChqHLsRvvVJFnNAcBdwo62MghJiZXG/pMJ9J3VlrLsYKTWrgFwr6vU6Q0OL/8g==
+  dependencies:
+    lodash "4.17.15"
 
 react-query@^3.13.8:
   version "3.13.8"

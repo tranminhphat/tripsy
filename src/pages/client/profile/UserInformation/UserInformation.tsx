@@ -11,6 +11,7 @@ import { useProfile } from "hooks/queries/profiles";
 import { IUser } from "interfaces/users/user.interface";
 import * as React from "react";
 import { useContext, useState } from "react";
+import OverflowWrapper from "react-overflow-wrapper";
 import { Link } from "react-router-dom";
 interface Props {
   userData: IUser;
@@ -144,10 +145,17 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
               <Typography className="text-xl font-bold">
                 Trải nghiệm của {userData.firstName}
               </Typography>
-              <div className="flex mt-4">
-                {experiences.map((item) => (
-                  <Link key={item._id!} to={`/experience/${item._id}`}>
-                    <div style={{ maxWidth: 150 }} className="mx-2">
+              <OverflowWrapper
+                iconColor="#000"
+                iconSize={48}
+                iconStyle={{
+                  left: { marginTop: "100px" },
+                  right: { marginTop: "100px" },
+                }}
+              >
+                <div className="flex mt-4">
+                  {experiences.map((item) => (
+                    <Link key={item._id!} to={`/experience/${item._id}`}>
                       <div>
                         <img
                           style={{ width: 150, height: 200 }}
@@ -156,13 +164,15 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                           alt="experience"
                         />
                       </div>
-                      <div className="mt-2 break-words text-center">
-                        {item.title}
+                      <div style={{ maxWidth: 150 }} className="mx-2">
+                        <div className="mt-2 text-center">
+                          <p className="truncate">{item.title}</p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                    </Link>
+                  ))}
+                </div>
+              </OverflowWrapper>
             </div>
             <div className="mt-4">
               <hr />
@@ -177,26 +187,36 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                 <Typography className="text-xl font-bold">
                   Trải nghiệm yêu thích của {userData.firstName}
                 </Typography>
-                <div className="flex mt-4">
-                  {profile.savedExperiencesList?.map((item) => (
-                    <Link key={item._id!} to={`/experience/${item._id}`}>
-                      <div style={{ maxWidth: 150 }} className="mx-2">
-                        <div>
-                          <img
-                            style={{ width: 150, height: 200 }}
-                            className="rounded-md"
-                            src={item.photoGallery![0].url}
-                            alt="experience"
-                          />
+                <OverflowWrapper
+                  iconColor="#000"
+                  iconSize={48}
+                  iconStyle={{
+                    left: { marginTop: "100px" },
+                    right: { marginTop: "100px" },
+                  }}
+                >
+                  <div className="flex mt-4">
+                    {profile.savedExperiencesList?.map((item) => (
+                      <Link key={item._id!} to={`/experience/${item._id}`}>
+                        <div style={{ maxWidth: 150 }} className="mx-2">
+                          <div>
+                            <img
+                              style={{ width: 150, height: 200 }}
+                              className="rounded-md"
+                              src={item.photoGallery![0].url}
+                              alt="experience"
+                            />
+                          </div>
+                          <div className="mt-2 truncate text-center">
+                            {item.title}
+                          </div>
                         </div>
-                        <div className="mt-2 break-words text-center">
-                          {item.title}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+                      </Link>
+                    ))}
+                  </div>
+                </OverflowWrapper>
               </div>
+
               <div className="mt-4">
                 <hr />
               </div>

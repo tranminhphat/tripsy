@@ -32,6 +32,7 @@ const HostSection: React.FC<Props> = ({ userId }) => {
 
   useEffect(() => {
     fetchHostData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

@@ -8,6 +8,7 @@ import InformSection from "components/Experience/InformSection";
 import LocationSection from "components/Experience/LocationSection";
 import PhotoGallerySection from "components/Experience/PhotoGallerySection";
 import ReviewSection from "components/Experience/ReviewSection";
+import SimilarExpSection from "components/Experience/SimilarExpSection";
 import TitleSection from "components/Experience/TitleSection";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
@@ -15,7 +16,10 @@ import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
 import { useSaveExperiences } from "hooks/mutations/profiles";
 import { useActivitiesByExperienceId } from "hooks/queries/activities";
-import { useExperience } from "hooks/queries/experiences";
+import {
+  useExperience,
+  useSimilarExperiences,
+} from "hooks/queries/experiences";
 import { useProfile } from "hooks/queries/profiles";
 import { useCurrentUser } from "hooks/queries/users";
 import IActivity from "interfaces/activity/activity.interface";
@@ -33,6 +37,7 @@ const ExperiencePage: React.FC<Props> = () => {
   const { data: activities } = useActivitiesByExperienceId(id, 0);
   const { data: user } = useCurrentUser();
   const { data: userProfile } = useProfile(user?.profileId);
+  const { data: expList } = useSimilarExperiences(id);
   const isExperienceSaved = userProfile?.savedExperiences?.includes(id);
 
   const compareFunction = (a: IActivity, b: IActivity) => {
@@ -41,7 +46,7 @@ const ExperiencePage: React.FC<Props> = () => {
 
   return (
     <MainLayout>
-      {experience && user && userProfile ? (
+      {experience && user && userProfile && expList ? (
         <div className="w-full h-full mx-auto max-w-screen-lg">
           <div className="flex justify-between mt-4">
             <MyBreadcrumbs
@@ -205,6 +210,12 @@ const ExperiencePage: React.FC<Props> = () => {
             </div>
             <div className="mt-8">
               <ReviewSection experienceId={experience._id!} />
+            </div>
+            <div className="mt-8">
+              <hr />
+            </div>
+            <div className="mt-8">
+              <SimilarExpSection expList={expList!} />
             </div>
           </div>
         </div>

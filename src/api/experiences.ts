@@ -48,3 +48,7 @@ export const updatePhotoGallery = (
 export const deleteExperienceById = (id: string) => {
   return axios.delete(`experiences/${id}`);
 };
+
+export const getSimilarExperiences = (id: string) => {
+  return axios.get(`experiences/similar/${id}`);
+};

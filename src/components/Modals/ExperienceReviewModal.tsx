@@ -6,7 +6,6 @@ import MyModal from "components/Shared/MyModal";
 import AlertContext from "contexts/AlertContext";
 import { Field, Form, Formik } from "formik";
 import { useUpdateExperience } from "hooks/mutations/experiences";
-import { useExperience } from "hooks/queries/experiences";
 import * as React from "react";
 import { useContext, useState } from "react";
 
@@ -21,7 +20,6 @@ const ExperienceReviewModal: React.FC<Props> = ({
   setOpen,
   objectId,
 }) => {
-  const { data: experience } = useExperience(objectId);
   const updateExperience = useUpdateExperience();
   const [numOfStars, setNumOfStars] = useState(0);
   const [isLoading, setIsLoading] = useState(false);

@@ -2,6 +2,7 @@ import {
   getExperienceById,
   getExperiences,
   getExperiencesByDate,
+  getSimilarExperiences,
 } from "api/experiences";
 import IExperience from "interfaces/experiences/experience.interface";
 import { useQuery } from "react-query";
@@ -42,5 +43,21 @@ export const useExperiencesByDate = (dayOfYear: number | undefined) => {
       return data;
     },
     { enabled: !!dayOfYear }
+  );
+};
+
+export const useSimilarExperiences = (experienceId: string) => {
+  return useQuery<string[]>(
+    ["similarExperiences", experienceId],
+    async () => {
+      const {
+        data: { similarDocuments },
+      } = await getSimilarExperiences(experienceId);
+
+      return similarDocuments;
+    },
+    {
+      enabled: !!experienceId,
+    }
   );
 };
