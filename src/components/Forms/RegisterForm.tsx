@@ -68,9 +68,6 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
         <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-secondary">
           Đăng ký
         </h1>
-        <p>
-          và bắt đầu những <em className="font-bold">trải nghiệm</em>
-        </p>
       </div>
       <div className=" mt-4 w-80 h-px border border-solid border-secondary" />
       <Formik
@@ -94,7 +91,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
         }}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
+        {() => (
           <Form className="mt-6 w-full grid grid-cols-1 justify-items-center md:grid-cols-2 md:grid-gap-2">
             <div className="mt-4 w-7/12 ">
               <MyTextField label="Tên" name="firstName" className="w-full" />

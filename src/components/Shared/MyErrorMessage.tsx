@@ -6,7 +6,7 @@ interface Props {}
 const MyErrorMessage: React.FC<Props> = ({ children }) => {
   if (children) {
     return (
-      <div className="flex items-center justify-center uppercase w-full rounded-xl bg-red-500 p-4 text-md text-white font-bold">
+      <div className="flex items-center justify-center uppercase w-full rounded-md border border-danger p-4 text-md text-danger font-bold">
         <WarningIcon />
         <p className="ml-2">{children}</p>
       </div>

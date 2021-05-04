@@ -39,35 +39,36 @@ const HostingListTab: React.FC<Props> = () => {
 
   useEffect(() => {
     fetchPayOutInformation(userData!);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   const fetchPayOutInformation = async (user: IUser) => {
-    if (!user.isPayOutEnabled) {
-      if (!user.payoutAccountId) {
-        const { data: payoutAccountId } = await createPayOutAccount();
-        updateUser.mutate({
-          userId: user._id,
-          values: { payoutAccountId: payoutAccountId },
-        });
-        setPayoutId(payoutAccountId);
-      } else {
-        setPayoutId(user.payoutAccountId);
-        const {
-          data: { account },
-        } = await getAccountById(user.payoutAccountId);
-        if (account.charges_enabled) {
+    if (user) {
+      if (!user.isPayOutEnabled) {
+        if (!user.payoutAccountId) {
+          const { data: payoutAccountId } = await createPayOutAccount();
           updateUser.mutate({
             userId: user._id,
-            values: {
-              isPayOutEnabled: true,
-            },
+            values: { payoutAccountId: payoutAccountId },
           });
-          setIsPayOutEnabled(true);
+          setPayoutId(payoutAccountId);
+        } else {
+          setPayoutId(user.payoutAccountId);
+          const {
+            data: { account },
+          } = await getAccountById(user.payoutAccountId);
+          if (account.charges_enabled) {
+            updateUser.mutate({
+              userId: user._id,
+              values: {
+                isPayOutEnabled: true,
+              },
+            });
+            setIsPayOutEnabled(true);
+          }
         }
+      } else {
+        setIsPayOutEnabled(true);
       }
-    } else {
-      setIsPayOutEnabled(true);
     }
   };
 

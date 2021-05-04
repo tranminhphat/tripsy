@@ -84,7 +84,7 @@ const ActivityListTab: React.FC<Props> = () => {
       {
         onSuccess: (data) => {
           setCheckpointData(data);
-          updateReceipt.mutate({ receiptId, values: { status: "finish" } });
+          updateReceipt.mutate({ receiptId, values: { status: "finished" } });
           setIsCompleting(false);
         },
       }

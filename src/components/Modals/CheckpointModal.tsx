@@ -137,8 +137,11 @@ const CheckpointModal: React.FC<Props> = ({
           </div>
           <div className="flex flex-col justity-center items-center">
             <div className="mx-auto">
-              <Typography className="text-2xl font-semibold my-4">
-                Bạn đã nhận được cúp tại chủ đề {checkpointData.theme}
+              <Typography className="text-2xl font-semibold m-4 text-center text-gray-700">
+                Bạn đã nhận được danh hiệu tại chủ đề
+              </Typography>
+              <Typography className="text-2xl font-semibold m-4 text-center">
+                {checkpointData.theme}
               </Typography>
             </div>
             <div className="max-w-lg text-center">

@@ -31,9 +31,6 @@ const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
         <h1 className="text-4xl font-semibold leading-normal mt-0 mb-2 text-secondary">
           Đăng nhập
         </h1>
-        <p>
-          và bắt đầu những <em className="font-bold">trải nghiệm</em>
-        </p>
       </div>
       <div className="mt-4 w-80 h-px border border-solid border-secondary" />
       <Formik

@@ -155,15 +155,22 @@ const ActivityDetailPage: React.FC<Props> = () => {
                   </Button>
                 </div>
               ) : (
-                <div style={{ height: 48, width: 128 }}>
+                <div style={{ height: 48, width: 180 }}>
                   <Button
                     onClick={() =>
                       handleCompleteActivity(activity._id as string)
                     }
                     variant="outlined"
                     className="w-full h-full overflow-hidden border border-primary text-primary font-semibold outline-none hover:bg-primary hover:text-white"
+                    disabled={activity.status === "1"}
                   >
-                    {!isCompleting ? "Hoàn thành" : <MyLoadingIndicator />}
+                    {activity.status === "1" ? (
+                      "đã hoàn thành"
+                    ) : !isCompleting ? (
+                      "Hoàn thành"
+                    ) : (
+                      <MyLoadingIndicator />
+                    )}
                   </Button>
                 </div>
               )}

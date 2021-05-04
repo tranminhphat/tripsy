@@ -66,9 +66,9 @@ const ReviewSection: React.FC<Props> = ({ userId }) => {
               {count.averageStars} ({count.totalItems} đánh giá)
             </span>
           </div>
-          <ul className="mt-4">
+          <div className="mt-4 grid lg:grid-cols-2">
             {reviews.map((item) => (
-              <li key={item._id}>
+              <div className="lg:col-span-1" key={item._id}>
                 <div className="mt-4">
                   <div className="flex items-center">
                     <div className="mr-2">
@@ -90,13 +90,15 @@ const ReviewSection: React.FC<Props> = ({ userId }) => {
                     <MyTruncateText text={item.content} />
                   </div>
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
-          <div>
-            {isFetching === null ? null : !isFetching ? (
+          </div>
+          <div className="text-center">
+            {isFetching === null ? (
+              <p className="my-2 text-gray-500">Đã hiển thị tất cả đánh giá</p>
+            ) : !isFetching ? (
               <button className="my-2" onClick={() => loadMoreData()}>
-                <p className="underline">Xem thêm </p>
+                <p className="underline">Xem thêm đánh giá</p>
               </button>
             ) : (
               <p className="my-2">Đang tải...</p>

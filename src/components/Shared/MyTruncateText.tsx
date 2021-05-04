@@ -11,8 +11,8 @@ const MyTruncateText: React.FC<Props> = ({ text }) => {
       charLimit={200}
       readMoreText="Xem thêm"
       readLessText="Ẩn"
-      readMoreClassName="underline hover:no-underline cursor-pointer"
-      readLessClassName="underline hover:no-underline cursor-pointer"
+      readMoreClassName="underline hover:no-underline cursor-pointer font-semibold"
+      readLessClassName="underline hover:no-underline cursor-pointer font-semibold"
     >
       {text}
     </ReactReadMoreReadLess>

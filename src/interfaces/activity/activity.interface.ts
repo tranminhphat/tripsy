@@ -8,4 +8,5 @@ export default interface IActivity {
   listOfGuestId: string[];
   guestsInfo: IUser[];
   date: IDate;
+  status: "0" | "1";
 }

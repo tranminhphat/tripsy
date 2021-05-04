@@ -27,10 +27,13 @@ interface Props {}
 const DashboardPage: React.FC<Props> = () => {
   const { data: user } = useCurrentUser();
   const { data: experiences } = useExperiences({ hostId: user?._id });
-  const { data: activities } = useActivities({
-    "experience.hostId": user?._id,
-    status: "0",
-  });
+  const { data: activities } = useActivities(
+    {
+      "experience.hostId": user?._id,
+      status: "0",
+    },
+    "+date.dateObject.unix"
+  );
   const { data: balance } = useBalance(user?.payoutAccountId!);
   return (
     <MainLayout>
@@ -119,7 +122,7 @@ const DashboardPage: React.FC<Props> = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {activities.map((activity) => (
+                        {activities.slice(0, 5).map((activity) => (
                           <TableRow key={activity._id}>
                             <TableCell component="th" scope="row">
                               {activity.experience?.title}
@@ -162,33 +165,53 @@ const DashboardPage: React.FC<Props> = () => {
                   </Typography>
                 </div>
                 <div className="flex items-center justify-between">
-                  <div>
-                    <img
-                      className="rounded-md"
-                      height={180}
-                      width={150}
-                      src={activities[0].experience?.photoGallery![0].url}
-                      alt="upcoming experience"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-between text-center">
-                    <Typography className="font-semibold text-2xl">
-                      {activities[0].experience?.title}
-                    </Typography>
-                    <Typography className="text-lg text-gray-500">
-                      {toWeekDayString(activities[0].date.dateObject.weekDay)},{" "}
-                      {activities[0].date.dateObject.day}/
-                      {activities[0].date.dateObject.month}/
-                      {activities[0].date.dateObject.year}
-                    </Typography>
-                    <Link
-                      to={`/user/experience-hosting/${activities[0].experienceId}/activation/${activities[0]._id}`}
-                    >
-                      <Typography className="underline mt-4">
-                        Đi đến hoạt động
-                      </Typography>
-                    </Link>
-                  </div>
+                  {activities[0] ? (
+                    <>
+                      <div>
+                        <img
+                          className="rounded-md"
+                          height={180}
+                          width={150}
+                          src={activities[0].experience?.photoGallery![0].url}
+                          alt="upcoming experience"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-between text-center">
+                        <Typography className="font-semibold text-2xl">
+                          {activities[0].experience?.title}
+                        </Typography>
+                        <Typography className="text-lg text-gray-500">
+                          {toWeekDayString(
+                            activities[0].date.dateObject.weekDay
+                          )}
+                          , {activities[0].date.dateObject.day}/
+                          {activities[0].date.dateObject.month}/
+                          {activities[0].date.dateObject.year}
+                        </Typography>
+                        <Link
+                          to={`/user/experience-hosting/${activities[0].experienceId}/activation/${activities[0]._id}`}
+                        >
+                          <Typography className="underline mt-4">
+                            Đi đến hoạt động
+                          </Typography>
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="mx-auto">
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <img
+                          src={NoDataIcon}
+                          width={150}
+                          height={150}
+                          alt="no data"
+                        />
+                        <p className="mt-8 text-xl text-gray-500">
+                          Không có dữ liệu
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
