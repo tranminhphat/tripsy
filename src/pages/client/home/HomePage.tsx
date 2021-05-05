@@ -64,14 +64,14 @@ const HomePage: React.FC = () => {
               <SortMetadata setSortString={setSortString} />
             </div>
           </div>
-          {experiences && userProfile ? (
+          {experiences ? (
             <div className="grid grid-cols-12">
               {experiences.map((item) => (
                 <div className="col-span-12" key={item._id}>
                   <Link to={`/experience/${item._id}`}>
                     <MyExperienceCard
                       isSaved={
-                        userProfile.savedExperiences?.includes(item._id)!
+                        userProfile?.savedExperiences?.includes(item._id)!
                       }
                       experience={item}
                     />

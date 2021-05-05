@@ -1,3 +1,5 @@
+import { IconButton } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
@@ -13,19 +15,14 @@ interface ProvisionListItem {
   itemName: string;
 }
 
-const defaultProvisionList: ProvisionListItem[] = [
-  { id: 1, itemName: "" },
-  { id: 2, itemName: "" },
-];
+const defaultProvisionList: ProvisionListItem[] = [{ id: 0, itemName: "" }];
 
 const HostProvision: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
   const { creationObject } = useContext(ExperienceCreationContext);
   const [provisionList, setProvisionList] = useState<ProvisionListItem[]>(
-    creationObject.hostProvisions
-      ? creationObject.hostProvisions
-      : defaultProvisionList
+    defaultProvisionList
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,39 +33,43 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
   }, [id]);
 
   React.useEffect(() => {
-    const filterProvisionList = provisionList.filter(
-      (item) => item.itemName !== ""
-    );
+    const filterProvisionList = provisionList
+      .filter((item) => item.itemName !== "")
+      .map((item, index) => ({ id: index, itemName: item.itemName }));
     setStepValue({ hostProvisions: filterProvisionList });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provisionList]);
 
   const fetchProvisionList = async (id: string) => {
-    const {
-      data: {
-        experience: { hostProvisions },
-      },
-    } = await getExperienceById(id);
-    if (hostProvisions.length !== 0) {
-      setProvisionList(hostProvisions);
+    if (creationObject.hostProvisions) {
+      setProvisionList(creationObject.hostProvisions);
     } else {
-      setProvisionList(defaultProvisionList);
+      const {
+        data: {
+          experience: { hostProvisions },
+        },
+      } = await getExperienceById(id);
+      if (hostProvisions.length !== 0) {
+        setProvisionList(hostProvisions);
+        console.log(hostProvisions);
+      } else {
+        setProvisionList(defaultProvisionList);
+      }
     }
-
     setIsLoading(false);
   };
 
   const handleAddItemToProvisionList = () => {
     setProvisionList((prevList) => [
       ...prevList,
-      { id: prevList.length + 1, itemName: "" },
+      { id: prevList.length, itemName: "" },
     ]);
   };
 
   const handleOnInputChange = (e: any) => {
     setProvisionList((prevList) =>
       prevList.map((item, index) => {
-        if (Number(e.target.id) - 1 === index) {
+        if (Number(e.target.id) === index) {
           return { ...item, itemName: e.target.value };
         } else {
           return item;
@@ -103,12 +104,14 @@ const HostProvision: React.FC<Props> = ({ stepProps }) => {
               </div>
             ))}
           </div>
-          <button
-            className="text-lg font-bold underline mt-2 focus:outline-none"
-            onClick={() => handleAddItemToProvisionList()}
-          >
-            + Thêm đồ cung cấp
-          </button>
+          <div className="w-full flex justify-center">
+            <IconButton
+              onClick={() => handleAddItemToProvisionList()}
+              className="bg-black text-white my-4"
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
         </>
       ) : (
         <div className="flex-grow justify-center items-center">

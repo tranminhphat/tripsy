@@ -62,7 +62,6 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
     currentStep: number;
   }>();
   const { currentProgress, currentStep } = location.state;
-  console.log(currentProgress, currentStep);
 
   /* Store the array of steps in state */
   const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));

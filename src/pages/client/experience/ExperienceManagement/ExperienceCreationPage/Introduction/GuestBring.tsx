@@ -1,3 +1,5 @@
+import { IconButton } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import { getExperienceById } from "api/experiences";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import * as React from "react";
@@ -13,19 +15,14 @@ interface GuestBringListItem {
   itemName: string;
 }
 
-const defaultGuestBringList: GuestBringListItem[] = [
-  { id: 1, itemName: "" },
-  { id: 2, itemName: "" },
-];
+const defaultGuestBringList: GuestBringListItem[] = [{ id: 0, itemName: "" }];
 
 const GuestBring: React.FC<Props> = ({ stepProps }) => {
   const { setIsValid, setStepValue } = stepProps;
   const { id } = useParams<{ id: string }>();
   const { creationObject } = useContext(ExperienceCreationContext);
   const [bringList, setBringList] = useState<GuestBringListItem[]>(
-    creationObject.guestBrings
-      ? creationObject.guestBrings
-      : defaultGuestBringList
+    defaultGuestBringList
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,37 +33,45 @@ const GuestBring: React.FC<Props> = ({ stepProps }) => {
   }, [id]);
 
   React.useEffect(() => {
-    const filterBringList = bringList.filter((item) => item.itemName !== "");
+    const filterBringList = bringList
+      .filter((item) => item.itemName !== "")
+      .map((item, index) => ({
+        id: index,
+        itemName: item.itemName,
+      }));
     setStepValue({ guestBrings: filterBringList });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bringList]);
 
   const fetchBringList = async (id: string) => {
-    const {
-      data: {
-        experience: { guestBrings },
-      },
-    } = await getExperienceById(id);
-    if (guestBrings.length !== 0) {
-      setBringList(guestBrings);
+    if (creationObject.guestBrings) {
+      setBringList(creationObject.guestBrings);
     } else {
-      setBringList(defaultGuestBringList);
+      const {
+        data: {
+          experience: { guestBrings },
+        },
+      } = await getExperienceById(id);
+      if (guestBrings.length !== 0) {
+        setBringList(guestBrings);
+      } else {
+        setBringList(defaultGuestBringList);
+      }
     }
-
     setIsLoading(false);
   };
 
   const handleAddItemToBringList = () => {
     setBringList((prevList) => [
       ...prevList,
-      { id: prevList.length + 1, itemName: "" },
+      { id: prevList.length, itemName: "" },
     ]);
   };
 
   const handleOnInputChange = (e: any) => {
     setBringList((prevList) =>
       prevList.map((item, index) => {
-        if (Number(e.target.id) - 1 === index) {
+        if (Number(e.target.id) === index) {
           return { ...item, itemName: e.target.value };
         } else {
           return item;
@@ -87,7 +92,7 @@ const GuestBring: React.FC<Props> = ({ stepProps }) => {
           </p>
           <div>
             {bringList.map((item) => (
-              <div key={item.id}>
+              <div className="flex" key={item.id}>
                 <input
                   id={JSON.stringify(item.id)}
                   value={item.itemName}
@@ -99,12 +104,14 @@ const GuestBring: React.FC<Props> = ({ stepProps }) => {
               </div>
             ))}
           </div>
-          <button
-            className="text-lg font-bold underline mt-2 focus:outline-none"
-            onClick={() => handleAddItemToBringList()}
-          >
-            + Thêm đồ cung cấp
-          </button>
+          <div className="w-full flex justify-center">
+            <IconButton
+              onClick={() => handleAddItemToBringList()}
+              className="bg-black text-white my-4"
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
         </>
       ) : (
         <div className="flex-grow justify-center items-center">
