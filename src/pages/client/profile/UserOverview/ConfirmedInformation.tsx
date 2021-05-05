@@ -30,16 +30,6 @@ const ConfirmedInformation: React.FC<Props> = ({ userData }) => {
           </Typography>
         </li>
       ) : null}
-      {userData.isIdVerified ? (
-        <li className="mt-3" key="id">
-          <Typography>
-            <span className="mr-2">
-              <VerifiedUserOutlinedIcon style={{ width: 36, height: 36 }} />
-            </span>
-            <span>Giấy tờ tùy thân</span>
-          </Typography>
-        </li>
-      ) : null}
     </ul>
   );
 };

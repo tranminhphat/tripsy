@@ -133,7 +133,7 @@ const HostingListTab: React.FC<Props> = () => {
                     const [
                       currentProgress,
                       currentStep,
-                    ] = calculateCurrentProgress(item, userData.isIdVerified!);
+                    ] = calculateCurrentProgress(item);
                     return (
                       <div
                         key={idx}

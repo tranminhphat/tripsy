@@ -79,24 +79,24 @@ const Setting: React.FC<Props> = ({ handleDone }) => {
     /* Update the experience state in context */
     updateCreationObject(stepValue);
     /* Update the active step */
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    /* Update the steps (isCompleted property) */
-    const newSteps = steps.map((step, index) => {
-      if (index === activeStep - 1) {
-        return { ...step, isCompleted: true };
-      } else {
-        return { ...step };
-      }
-    });
-    setSteps(newSteps);
-
     /* Check if we've done the progress yet */
     if (activeStep === steps.length) {
       handleDone(3);
-    }
+    } else {
+      /* Update the steps (isCompleted property) */
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      const newSteps = steps.map((step, index) => {
+        if (index === activeStep - 1) {
+          return { ...step, isCompleted: true };
+        } else {
+          return { ...step };
+        }
+      });
+      setSteps(newSteps);
 
-    /* Disabled the "Next" button in the next step */
-    setIsValid(false);
+      /* Disabled the "Next" button in the next step */
+      setIsValid(false);
+    }
   };
 
   /* Handle click on the "Back" button */
