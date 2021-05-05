@@ -86,10 +86,12 @@ const DashboardPage: React.FC<Props> = () => {
                 <div className="flex justify-between">
                   <div className="flex flex-col">
                     <Typography className="self-center text-4xl font-semibold text-secondary">
-                      {new Intl.NumberFormat("en-US", {
+                      {new Intl.NumberFormat("vn-VN", {
                         style: "currency",
-                        currency: "USD",
-                      }).format((balance.available[0].amount as number) / 100)}
+                        currency: "VND",
+                      }).format(
+                        ((balance.available[0].amount as number) / 100) * 23000
+                      )}
                     </Typography>
                     <Typography className="text-2xl text-gray-500">
                       Thu nhập
