@@ -13,6 +13,14 @@ const SearchBar: React.FC<Props> = ({ setFilterObject }) => {
     setValue(e.target.value);
   };
 
+  const handleOnSearch = () => {
+    if (value !== "") {
+      setFilterObject({ title: value });
+    } else {
+      setFilterObject({ title: null });
+    }
+  };
+
   return (
     <div className="flex items-center h-3/4 border border-solid border-gray-300 bg-gray-50 rounded-xl">
       <div className="ml-4 flex justify-between w-full">
@@ -24,7 +32,7 @@ const SearchBar: React.FC<Props> = ({ setFilterObject }) => {
           placeholder="Tìm kiếm theo tên trải nghiệm"
         />
         <div className="mr-2">
-          <IconButton onClick={() => setFilterObject({ title: value })}>
+          <IconButton onClick={handleOnSearch}>
             <SearchIcon />
           </IconButton>
         </div>
