@@ -47,7 +47,7 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
     setBase64EncodedImage,
   ] = useState<FileReaderResultType>("");
 
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
 
   const handleSetImage = (image: FileReaderResultType) => {
@@ -71,12 +71,12 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
           password: "",
           gender: "",
           dateOfBirth: "",
-          phoneNumber: "",
           address: "",
         }}
         onSubmit={(values) => {
           onSubmit({
             ...values,
+            phoneNumber: phoneNumber!,
             avatarBase64: base64EncodedImage,
             introduction: "",
           });
@@ -146,7 +146,11 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
               >
                 Số điện thoại
               </label>
-              <div className="border border-gray-300 rounded-md p-2">
+              <div
+                className={`border border-gray-300 rounded-md p-2 ${
+                  phoneNumberError !== "" ? "border-danger" : ""
+                }`}
+              >
                 <PhoneInput
                   international
                   defaultCountry="VN"
@@ -157,12 +161,14 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
                     phoneNumber
                       ? isPossiblePhoneNumber(phoneNumber)
                         ? setPhoneNumberError("")
-                        : setPhoneNumberError("Invalid phone number")
-                      : setPhoneNumberError("Phone number required")
+                        : setPhoneNumberError("Số điện thoại không hợp lệ ")
+                      : setPhoneNumberError(
+                          "Số điện thoại là thông tin bắt buộc"
+                        )
                   }
                 />
-                <div>{phoneNumberError}</div>
               </div>
+              <div className="text-sm text-danger mt-2">{phoneNumberError}</div>
             </div>
             <div className="mt-4 w-7/12 md:col-span-2">
               <label className="text-xs mb-4 uppercase text-gray-400">
