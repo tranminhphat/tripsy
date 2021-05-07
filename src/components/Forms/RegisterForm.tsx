@@ -6,6 +6,8 @@ import { Form, Formik } from "formik";
 import IRegisterForm from "interfaces/forms/register-form.interface";
 import * as React from "react";
 import { useState } from "react";
+import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { FileReaderResultType } from "types";
 import * as yup from "yup";
 import { MyFileInput } from "../Shared/MyFileInput";
@@ -17,8 +19,6 @@ interface Props {
   onSubmit: (values: IRegisterForm) => void;
 }
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
 const validationSchema = yup.object({
   firstName: yup.string().required("Tên là thông tin bắt buộc"),
   lastName: yup.string().required("Họ là thông tin bắt buộc"),
@@ -26,29 +26,18 @@ const validationSchema = yup.object({
     .string()
     .required("Email là thông tin bắt buộc")
     .email("Email không hợp lệ"),
-
   username: yup
     .string()
     .required("Username là thông tin bắt buộc")
     .min(6, "Username phải có tối thiểu 6 ký tự")
     .strict()
     .lowercase("Username không được có ký tự viết hoa"),
-
   password: yup
     .string()
     .required("Password là thông tin bắt buộc")
     .min(6, "Password phải có tối thiểu 6 ký tự"),
-
   gender: yup.string().required("Giới tính là thông tin bắt buộc"),
-
   dateOfBirth: yup.date().required("Ngày sinh là thông tin bắt buộc"),
-
-  phoneNumber: yup
-    .string()
-    .matches(phoneRegExp, "Số điện thoại không hợp lệ.")
-    .min(10, "Số điện thoại bao gồm 10 ký tự")
-    .max(10, "Số điện thoại bao gồm 10 ký tự"),
-
   address: yup.string(),
 });
 
@@ -57,6 +46,9 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
     base64EncodedImage,
     setBase64EncodedImage,
   ] = useState<FileReaderResultType>("");
+
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [phoneNumberError, setPhoneNumberError] = useState("");
 
   const handleSetImage = (image: FileReaderResultType) => {
     setBase64EncodedImage(image);
@@ -145,15 +137,32 @@ const RegisterForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
               />
             </div>
             <div className="mt-4 w-7/12">
-              <MyTextField
-                label="Số điện thoại"
-                type="tel"
-                name="phoneNumber"
-                className="w-full"
-              />
-            </div>
-            <div className="mt-4 w-7/12">
               <MyTextField label="Địa chỉ" name="address" className="w-full" />
+            </div>
+            <div className="ml-16 mt-4">
+              <label
+                htmlFor="phoneNumber"
+                className="text-xs mb-4 uppercase text-gray-400"
+              >
+                Số điện thoại
+              </label>
+              <div className="border border-gray-300 rounded-md p-2">
+                <PhoneInput
+                  international
+                  defaultCountry="VN"
+                  placeholder="Enter phone number"
+                  value={phoneNumber}
+                  onChange={setPhoneNumber}
+                  onBlur={() =>
+                    phoneNumber
+                      ? isPossiblePhoneNumber(phoneNumber)
+                        ? setPhoneNumberError("")
+                        : setPhoneNumberError("Invalid phone number")
+                      : setPhoneNumberError("Phone number required")
+                  }
+                />
+                <div>{phoneNumberError}</div>
+              </div>
             </div>
             <div className="mt-4 w-7/12 md:col-span-2">
               <label className="text-xs mb-4 uppercase text-gray-400">
