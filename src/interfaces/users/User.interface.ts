@@ -13,5 +13,6 @@ export interface IUser {
   profileId?: string;
   payoutAccountId?: string;
   isEmailVerified?: boolean;
+  isPhoneVerified?: boolean;
   isPayOutEnabled?: boolean;
 }

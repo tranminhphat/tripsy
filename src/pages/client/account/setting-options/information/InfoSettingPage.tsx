@@ -1,5 +1,8 @@
+import { Button, Tooltip, Typography } from "@material-ui/core";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import MyModal from "components/Shared/MyModal";
 import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
@@ -19,6 +22,9 @@ const InfoSettingPage: React.FC<Props> = () => {
   const [openAddressForm, setOpenAddressFrom] = useState(false);
   const [openBirthDateForm, setOpenBirthDateForm] = useState(false);
   const [opnePhoneNumberForm, setopenPhoneNumberForm] = useState(false);
+  const [openVerifyPhoneNumberModal, setOpenVerifyPhoneNumberModal] = useState(
+    false
+  );
 
   return (
     <MainLayout>
@@ -129,7 +135,17 @@ const InfoSettingPage: React.FC<Props> = () => {
               </div>
               <div className="flex justify-between mt-4">
                 <h3 className="text-lg font-bold text-secondary">
-                  Số điện thoại
+                  Số điện thoại{" "}
+                  {!userData.isPhoneVerified ? (
+                    <Tooltip
+                      className="ml-2"
+                      title="Số điện thoại chưa được xác thực"
+                    >
+                      <ErrorOutlineIcon className="text-danger text-md" />
+                    </Tooltip>
+                  ) : (
+                    ""
+                  )}
                 </h3>
                 <button
                   onClick={() => setopenPhoneNumberForm(!opnePhoneNumberForm)}
@@ -141,7 +157,19 @@ const InfoSettingPage: React.FC<Props> = () => {
               </div>
               <div className="mt-2 mb-4">
                 {!opnePhoneNumberForm ? (
-                  <p className="text-xl">{userData.phoneNumber}</p>
+                  <div className="flex items-center">
+                    <p className="text-xl">{userData.phoneNumber}</p>
+                    <button
+                      onClick={() => setOpenVerifyPhoneNumberModal(true)}
+                      className="ml-4"
+                    >
+                      <p className="text-sm text-gray-500 underline hover:no-underline">
+                        {!userData.isPhoneVerified
+                          ? "Xác thực số điện thoại này"
+                          : ""}
+                      </p>
+                    </button>
+                  </div>
                 ) : (
                   <ChangePhoneNumberForm
                     userId={userData._id as string}
@@ -175,6 +203,46 @@ const InfoSettingPage: React.FC<Props> = () => {
               <div>
                 <hr />
               </div>
+              <MyModal
+                size="lg"
+                open={openVerifyPhoneNumberModal}
+                setOpen={setOpenVerifyPhoneNumberModal}
+              >
+                {{
+                  header: (
+                    <Typography className="text-xl font-bold">
+                      Xác thực số điện thoại
+                    </Typography>
+                  ),
+                  content: (
+                    <div className="flex items-center mt-4 px-4">
+                      <div>
+                        <Typography className="text-lg">
+                          Chúng tôi đã gửi vào số điện thoại{" "}
+                          <b>{userData.phoneNumber}</b> một mã xác thực
+                        </Typography>
+                        <div className="mt-4 flex justify-between items-center">
+                          <Typography className="text-lg">
+                            Vui lòng nhập mã vào đây:
+                          </Typography>
+                          <input
+                            className="ml-2 p-2 border border-gray-300"
+                            type="text"
+                          />
+                        </div>
+                        <div className="mt-4 flex justify-end">
+                          <Button
+                            variant="contained"
+                            className="bg-secondary text-white"
+                          >
+                            Xác thực
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                }}
+              </MyModal>
             </div>
           </>
         ) : (

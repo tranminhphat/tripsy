@@ -1,41 +1,52 @@
 import Button from "@material-ui/core/Button";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
-import MyTextField from "components/Shared/MyTextField";
 import { Form, Formik } from "formik";
 import { useUpdateUser } from "hooks/mutations/users";
 import * as React from "react";
-import * as yup from "yup";
+import { useState } from "react";
+import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 
 interface Props {
   userId: string;
   initialValues: { phoneNumber: string };
 }
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-const validationSchema = yup.object({
-  phoneNumber: yup
-    .string()
-    .matches(phoneRegExp, "Số điện thoại không hợp lệ.")
-    .min(10, "Số điện thoại bao gồm 10 ký tự")
-    .max(10, "Số điện thoại bao gồm 10 ký tự"),
-});
-
 const ChangeNameForm: React.FC<Props> = ({ userId, initialValues }) => {
   const userMutation = useUpdateUser();
+  const [phoneNumber, setPhoneNumber] = useState(initialValues.phoneNumber);
+  const [phoneNumberError, setPhoneNumberError] = useState("");
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values) => {
-        userMutation.mutate({ userId, values });
+      onSubmit={() => {
+        userMutation.mutate({ userId, values: { phoneNumber } });
       }}
-      validationSchema={validationSchema}
     >
       {() => (
         <Form>
           <div className="w-full">
-            <MyTextField type="tel" name="phoneNumber" className="w-full" />
+            <div
+              className={`border border-gray-300 rounded-md p-2 ${
+                phoneNumberError !== "" ? "border-danger" : ""
+              }`}
+            >
+              <PhoneInput
+                international
+                defaultCountry="VN"
+                placeholder="Enter phone number"
+                value={phoneNumber}
+                onChange={setPhoneNumber}
+                onBlur={() =>
+                  phoneNumber
+                    ? isPossiblePhoneNumber(phoneNumber)
+                      ? setPhoneNumberError("")
+                      : setPhoneNumberError("Số điện thoại không hợp lệ ")
+                    : setPhoneNumberError("Số điện thoại là thông tin bắt buộc")
+                }
+              />
+            </div>
+            <div className="text-sm text-danger mt-2">{phoneNumberError}</div>
           </div>
           <div className="mt-4">
             <Button
