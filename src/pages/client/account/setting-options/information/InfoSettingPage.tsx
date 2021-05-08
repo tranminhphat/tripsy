@@ -267,6 +267,8 @@ const InfoSettingPage: React.FC<Props> = () => {
                                   setVerifyToken("");
                                   setOpenVerifyPhoneNumberModal(false);
                                   alert("success", "Xác thực thành công");
+                                } else {
+                                  alert("error", "Mã xác thực không hợp lệ");
                                 }
                               } catch (err) {
                                 alert("error", "Mã xác thực không hợp lệ");
