@@ -1,12 +1,15 @@
 import { Button, Tooltip, Typography } from "@material-ui/core";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import { createPhoneVerification, sendVerifyToken } from "api/vonage";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyModal from "components/Shared/MyModal";
+import AlertContext from "contexts/AlertContext";
+import { useUpdateUser } from "hooks/mutations/users";
 import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ChangeAddressForm from "./ChangeAddressForm";
 import ChangeBirthDateForm from "./ChangeBirthDateForm";
 import ChangeGenderForm from "./ChangeGenderForm";
@@ -17,6 +20,10 @@ interface Props {}
 
 const InfoSettingPage: React.FC<Props> = () => {
   const { data: userData } = useCurrentUser();
+  const updateUser = useUpdateUser();
+  const { alert } = useContext(AlertContext);
+  const [verifyId, setVerifyId] = useState("");
+  const [verifyToken, setVerifyToken] = useState("");
   const [openNameForm, setOpenNameForm] = useState(false);
   const [openGenderForm, setOpenGenderForm] = useState(false);
   const [openAddressForm, setOpenAddressFrom] = useState(false);
@@ -160,7 +167,15 @@ const InfoSettingPage: React.FC<Props> = () => {
                   <div className="flex items-center">
                     <p className="text-xl">{userData.phoneNumber}</p>
                     <button
-                      onClick={() => setOpenVerifyPhoneNumberModal(true)}
+                      onClick={async () => {
+                        const {
+                          data: { id },
+                        } = await createPhoneVerification(
+                          userData.phoneNumber!
+                        );
+                        setVerifyId(id);
+                        setOpenVerifyPhoneNumberModal(true);
+                      }}
                       className="ml-4"
                     >
                       <p className="text-sm text-gray-500 underline hover:no-underline">
@@ -228,12 +243,35 @@ const InfoSettingPage: React.FC<Props> = () => {
                           <input
                             className="ml-2 p-2 border border-gray-300"
                             type="text"
+                            value={verifyToken}
+                            onChange={(e) => setVerifyToken(e.target.value)}
                           />
                         </div>
                         <div className="mt-4 flex justify-end">
                           <Button
                             variant="contained"
                             className="bg-secondary text-white"
+                            onClick={async () => {
+                              try {
+                                const {
+                                  data: { response },
+                                } = await sendVerifyToken(
+                                  verifyId,
+                                  verifyToken
+                                );
+                                if (response.status === "0") {
+                                  updateUser.mutate({
+                                    userId: userData._id,
+                                    values: { isPhoneVerified: true },
+                                  });
+                                  setVerifyToken("");
+                                  setOpenVerifyPhoneNumberModal(false);
+                                  alert("success", "Xác thực thành công");
+                                }
+                              } catch (err) {
+                                alert("error", "Mã xác thực không hợp lệ");
+                              }
+                            }}
                           >
                             Xác thực
                           </Button>
