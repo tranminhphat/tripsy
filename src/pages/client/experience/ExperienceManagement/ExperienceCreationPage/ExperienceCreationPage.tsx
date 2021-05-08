@@ -19,6 +19,7 @@ import {
 import Idea from "./Idea/Idea";
 import Introduction from "./Introduction/Introduction";
 import Setting from "./Setting/Setting";
+import Verification from "./Verification/Verification";
 
 interface Props {}
 
@@ -82,7 +83,7 @@ const ExperienceCreationPage: React.FC<Props> = () => {
    *
    */
   const handleDone = async (index: number) => {
-    if (index === 3) {
+    if (index === 4) {
       return handleSaveProgress();
     }
     if (currentProgressIndex !== -1) {
@@ -201,6 +202,35 @@ const ExperienceCreationPage: React.FC<Props> = () => {
             </div>
           </li>
         </Link>
+        <Link
+          to={{
+            pathname: `${url}/progress4`,
+            state: {
+              currentProgress:
+                currentProgress > 4 || currentProgress === -1
+                  ? 3
+                  : currentProgress,
+              currentStep:
+                currentProgress > 4 || currentProgress === -1 ? 1 : currentStep,
+            },
+          }}
+        >
+          <li className="mt-2" onClick={() => handleListItemClick(4)}>
+            <div
+              className={`
+                    p-2 rounded-lg flex justify-between ${
+                      selectedIndex === 4 ? "border border-black" : ""
+                    }`}
+            >
+              <span>Xác thực</span>
+              {currentProgressIndex > 4 || currentProgressIndex === -1 ? (
+                <span>
+                  <CheckCircleIcon />
+                </span>
+              ) : null}
+            </div>
+          </li>
+        </Link>
       </ul>
     </div>
   );
@@ -256,6 +286,11 @@ const ExperienceCreationPage: React.FC<Props> = () => {
               exact
               path={`${path}/progress3/`}
               render={() => <Setting handleDone={handleDone} />}
+            />
+            <Route
+              exact
+              path={`${path}/progress4/`}
+              render={() => <Verification handleDone={handleDone} />}
             />
           </Switch>
         </main>

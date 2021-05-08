@@ -39,6 +39,7 @@ const HostingListTab: React.FC<Props> = () => {
 
   useEffect(() => {
     fetchPayOutInformation(userData!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   const fetchPayOutInformation = async (user: IUser) => {
@@ -133,7 +134,10 @@ const HostingListTab: React.FC<Props> = () => {
                     const [
                       currentProgress,
                       currentStep,
-                    ] = calculateCurrentProgress(item);
+                    ] = calculateCurrentProgress(
+                      item,
+                      userData.isPhoneVerified
+                    );
                     return (
                       <div
                         key={idx}
@@ -228,11 +232,15 @@ const HostingListTab: React.FC<Props> = () => {
                                       </h1>
                                     </div>
                                     <div className="mt-2">
-                                      <p>
-                                        {item.description
-                                          ? item.description
-                                          : "Hãy thêm một số thông tin để hoàn thành thiết lập."}
-                                      </p>
+                                      <>
+                                        {item.description ? (
+                                          <MyTruncateText
+                                            text={item.description!}
+                                          />
+                                        ) : (
+                                          "Hãy thêm một số thông tin để hoàn thành thiết lập."
+                                        )}
+                                      </>
                                     </div>
                                   </div>
                                   <div></div>

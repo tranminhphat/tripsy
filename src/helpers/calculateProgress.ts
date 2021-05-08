@@ -1,6 +1,9 @@
 import IExperience from "interfaces/experiences/experience.interface";
 
-export const calculateCurrentProgress = (experienceDocument: IExperience) => {
+export const calculateCurrentProgress = (
+  experienceDocument: IExperience,
+  isPhoneVerified
+) => {
   const {
     theme,
     location,
@@ -54,6 +57,9 @@ export const calculateCurrentProgress = (experienceDocument: IExperience) => {
   }
   if (!bookingDate) {
     return [3, 4];
+  }
+  if (!isPhoneVerified) {
+    return [4, 1];
   }
   return [-1, 1];
 };

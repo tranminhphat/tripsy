@@ -17,6 +17,7 @@ export type UserFieldType =
   | "profileId"
   | "payoutAccountId"
   | "isEmailVerified"
+  | "isPhoneVerified"
   | "isPayOutEnabled";
 
 export type ExperienceFieldType = "_id" | "theme" | "title" | "language";

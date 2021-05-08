@@ -28,7 +28,7 @@ const InfoSettingPage: React.FC<Props> = () => {
   const [openGenderForm, setOpenGenderForm] = useState(false);
   const [openAddressForm, setOpenAddressFrom] = useState(false);
   const [openBirthDateForm, setOpenBirthDateForm] = useState(false);
-  const [opnePhoneNumberForm, setopenPhoneNumberForm] = useState(false);
+  const [openPhoneNumberForm, setOpenPhoneNumberForm] = useState(false);
   const [openVerifyPhoneNumberModal, setOpenVerifyPhoneNumberModal] = useState(
     false
   );
@@ -155,15 +155,15 @@ const InfoSettingPage: React.FC<Props> = () => {
                   )}
                 </h3>
                 <button
-                  onClick={() => setopenPhoneNumberForm(!opnePhoneNumberForm)}
+                  onClick={() => setOpenPhoneNumberForm(!openPhoneNumberForm)}
                 >
                   <p className="font-bold text-primary hover:underline">
-                    {opnePhoneNumberForm ? "Hủy" : "Chỉnh sửa"}
+                    {openPhoneNumberForm ? "Hủy" : "Chỉnh sửa"}
                   </p>
                 </button>
               </div>
               <div className="mt-2 mb-4">
-                {!opnePhoneNumberForm ? (
+                {!openPhoneNumberForm ? (
                   <div className="flex items-center">
                     <p className="text-xl">{userData.phoneNumber}</p>
                     <button
