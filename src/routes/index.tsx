@@ -1,5 +1,5 @@
-import AuthContext from "contexts/AuthContext";
 import NotFoundPage from "pages/404/404Page";
+import AdminHomePage from "pages/admin/HomePage";
 import AccountPage from "pages/client/account/AccountPage";
 import InfoSettingPage from "pages/client/account/setting-options/information/InfoSettingPage";
 import LoginAndSecuritySettingPage from "pages/client/account/setting-options/login-and-security/LoginAndSecuritySettingPage";
@@ -20,8 +20,8 @@ import HistoryPage from "pages/client/history/HistoryPage";
 import HomePage from "pages/client/home/HomePage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import * as React from "react";
-import { useContext } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import AuthRoute from "./AuthRoute";
 
 interface Entry {
   exact?: boolean;
@@ -120,27 +120,15 @@ const routes: Entry[] = [
     authRoute: true,
   },
   {
+    exact: true,
+    path: "/admin",
+    component: AdminHomePage,
+  },
+  {
     path: "*",
     component: NotFoundPage,
   },
 ];
-
-const AuthRoute = ({ component: Component, ...rest }) => {
-  const { isAuth } = useContext(AuthContext);
-
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuth ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={{ pathname: "/login" }} />
-        )
-      }
-    />
-  );
-};
 
 const AppRouter: React.FC = () => {
   return (

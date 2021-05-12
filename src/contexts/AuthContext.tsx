@@ -6,6 +6,7 @@ const AuthContext = createContext<any>(null);
 
 const AuthProvider: React.FC<{}> = ({ children }) => {
   const [isAuth, setIsAuth] = useState(Cookies.get("jwt") !== undefined);
+
   return (
     <AuthContext.Provider
       value={{

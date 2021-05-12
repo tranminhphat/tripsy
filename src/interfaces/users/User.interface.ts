@@ -9,7 +9,7 @@ export interface IUser {
   dateOfBirth?: string;
   address?: string;
   avatarUrl?: string;
-  roldId?: string;
+  roleId?: string;
   profileId?: string;
   payoutAccountId?: string;
   isEmailVerified?: boolean;
