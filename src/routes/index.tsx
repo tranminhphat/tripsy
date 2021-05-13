@@ -28,6 +28,7 @@ interface Entry {
   path: string;
   component?: React.FC<any>;
   authRoute?: boolean;
+  adminRoute?: boolean;
 }
 
 const routes: Entry[] = [
@@ -123,6 +124,8 @@ const routes: Entry[] = [
     exact: true,
     path: "/admin",
     component: AdminHomePage,
+    authRoute: true,
+    adminRoute: true,
   },
   {
     path: "*",
@@ -139,7 +142,8 @@ const AppRouter: React.FC = () => {
         } else {
           return (
             <AuthRoute
-              component={HomePage}
+              component={route.component}
+              adminRoute={route.adminRoute}
               key={route.path}
               exact={route.exact}
               {...route}
