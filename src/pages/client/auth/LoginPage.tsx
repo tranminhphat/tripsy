@@ -29,7 +29,7 @@ const LoginPage: React.FC<Props> = ({ history }) => {
             refreshAuth();
             alert("success", "Đăng nhập thành công");
             if (userData.data.roleId.includes("603275723be1c62dc86527b8")) {
-              history.push("/admin");
+              history.push("/admin/dashboard", { tabName: "Bảng điều khiển" });
             } else {
               history.push("/");
             }
