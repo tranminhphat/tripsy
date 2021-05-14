@@ -2,6 +2,10 @@ import createLookUpString from "helpers/createLookUpString";
 import { UserFieldType } from "types";
 import axios from "./configureAxios";
 
+export const getUsers = () => {
+  return axios.get(`/users`);
+};
+
 export const getCurrentUser = (fieldsArray?: UserFieldType[]) => {
   if (fieldsArray) {
     const fieldString = createLookUpString(fieldsArray);

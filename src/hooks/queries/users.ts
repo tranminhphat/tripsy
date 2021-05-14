@@ -1,7 +1,16 @@
-import { getCurrentUser, getUserById } from "api/users";
+import { getCurrentUser, getUserById, getUsers } from "api/users";
 import { IUser } from "interfaces/users/user.interface";
 import { useQuery } from "react-query";
 import { UserFieldType } from "types";
+
+export const useUsers = () => {
+  return useQuery<IUser[]>(["users"], async () => {
+    const {
+      data: { users },
+    } = await getUsers();
+    return users;
+  });
+};
 
 export const useUser = (userId: string) => {
   return useQuery<IUser>(
