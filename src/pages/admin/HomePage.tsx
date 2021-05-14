@@ -112,9 +112,9 @@ const HomePage = (props: Props) => {
               </Typography>
             </Toolbar>
             <div className="ml-auto mr-8 flex">
-              <Typography>Chào, {currentUser.firstName}</Typography>
+              <Typography>Hi, {currentUser.firstName}</Typography>
               <Link className="ml-4" to="/login" onClick={loggingOut}>
-                <Typography className="underline">Đăng xuất</Typography>
+                <Typography className="underline">Log out</Typography>
               </Link>
             </div>
           </AppBar>

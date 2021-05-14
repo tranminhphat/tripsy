@@ -7,17 +7,17 @@ import { Link } from "react-router-dom";
 
 const listTabs = [
   {
-    tabName: "Bảng điều khiển",
+    tabName: "Dashboard",
     path: "/admin/dashboard",
     icon: <DashboardIcon />,
   },
   {
-    tabName: "Người dùng",
+    tabName: "User Management",
     path: "/admin/user",
     icon: <GroupIcon />,
   },
   {
-    tabName: "Phân quyền",
+    tabName: "Role Management",
     path: "/admin/role",
     icon: <AssignmentIndIcon />,
   },
