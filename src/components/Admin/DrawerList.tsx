@@ -29,12 +29,9 @@ interface Props {
 
 const DrawerList: React.FC<Props> = ({ tabName }) => {
   return (
-    <List>
+    <List className="p-0">
       {listTabs.map((item, index) => (
-        <div
-          key={index}
-          className={`${item.tabName === tabName ? "bg-gray-200" : ""}`}
-        >
+        <div key={index}>
           <Link
             to={{
               pathname: item.path,
@@ -42,8 +39,19 @@ const DrawerList: React.FC<Props> = ({ tabName }) => {
             }}
           >
             <ListItem button>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.tabName} />
+              <ListItemIcon
+                className={`${
+                  item.tabName === tabName ? "text-primary" : "text-white"
+                }`}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                className={`${
+                  item.tabName === tabName ? "text-primary" : "text-white"
+                }`}
+                primary={item.tabName}
+              />
             </ListItem>
           </Link>
         </div>

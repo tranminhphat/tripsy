@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
+      backgroundColor: "#233044",
     },
     content: {
       flexGrow: 1,
@@ -151,8 +152,6 @@ const HomePage = (props: Props) => {
                 open
               >
                 <div className={classes.toolbar} />
-                <Divider />
-
                 <DrawerList tabName={tabName} />
               </Drawer>
             </Hidden>
