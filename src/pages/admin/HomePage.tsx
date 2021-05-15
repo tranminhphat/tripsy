@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import { logout } from "api/auth";
 import DrawerList from "components/Admin/DrawerList";
+import MyAlert from "components/Shared/MyAlert";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
@@ -178,6 +179,7 @@ const HomePage = (props: Props) => {
           <MyLoadingIndicator width={300} height={300} />
         </div>
       )}
+      <MyAlert />
     </div>
   );
 };
