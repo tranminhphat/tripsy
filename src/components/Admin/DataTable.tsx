@@ -8,8 +8,8 @@ interface Props {
 
 const DataTable: React.FC<Props> = ({ columns, rows }) => {
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+    <div style={{ height: 500, width: "100%" }}>
+      <DataGrid rows={rows} columns={columns} pageSize={10} />
     </div>
   );
 };
