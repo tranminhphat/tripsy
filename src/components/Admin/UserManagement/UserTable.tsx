@@ -1,10 +1,10 @@
 import { IconButton, Tooltip } from "@material-ui/core";
-import { GridColDef } from "@material-ui/data-grid";
-import ClearIcon from "@material-ui/icons/Clear";
+import { GridColDef, GridValueGetterParams } from "@material-ui/data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import { useUsers } from "hooks/queries/users";
 import * as React from "react";
 import DataTable from "../DataTable";
+import DeleteUserModal from "./DeleteUserModal";
 
 interface Props {}
 
@@ -39,18 +39,17 @@ const UserTable: React.FC<Props> = () => {
       field: "options",
       headerName: "Options",
       width: 130,
-      renderCell: () => (
+      valueGetter: (params: GridValueGetterParams) => {
+        return params.getValue("id");
+      },
+      renderCell: (params) => (
         <div className="flex items-center">
           <IconButton>
             <Tooltip title="Edit user">
               <EditIcon />
             </Tooltip>
           </IconButton>
-          <IconButton>
-            <Tooltip title="Delete user">
-              <ClearIcon />
-            </Tooltip>
-          </IconButton>
+          <DeleteUserModal userId={params.value as string} />
         </div>
       ),
     },

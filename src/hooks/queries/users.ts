@@ -14,7 +14,7 @@ export const useUsers = () => {
 
 export const useUser = (userId: string) => {
   return useQuery<IUser>(
-    ["user", userId],
+    ["users", userId],
     async () => {
       const { data: user } = await getUserById(userId);
       return user;

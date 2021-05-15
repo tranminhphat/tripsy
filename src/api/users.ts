@@ -42,3 +42,7 @@ export const changeAvatar = (base64String: string) => {
 export const verifyIdentity = (idCard: { front: string; back: string }) => {
   return axios.put(`users/verify-id`, { idCard });
 };
+
+export const deleteUserById = (id: string) => {
+  return axios.delete(`users/${id}`);
+};
