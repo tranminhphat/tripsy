@@ -1,10 +1,9 @@
-import { IconButton, Tooltip } from "@material-ui/core";
 import { GridColDef, GridValueGetterParams } from "@material-ui/data-grid";
-import EditIcon from "@material-ui/icons/Edit";
 import { useUsers } from "hooks/queries/users";
 import * as React from "react";
 import DataTable from "../DataTable";
 import DeleteUserModal from "./DeleteUserModal";
+import EditUserModal from "./EditUserModal";
 
 interface Props {}
 
@@ -22,17 +21,14 @@ const UserTable: React.FC<Props> = () => {
     {
       field: "role",
       headerName: "Role",
-      width: 100,
+      width: 150,
       valueFormatter: ({ value }) => {
         const castValue = value as string[];
-        return castValue.reduce((prev, curr, curIndex) => {
-          const roleName =
-            curr === "603275723be1c62dc86527b8" ? "Admin" : "User";
-          if (curIndex !== castValue.length - 1) {
-            return roleName + ",";
-          }
-          return roleName;
-        }, "");
+        return castValue
+          .map((roleId) =>
+            roleId === "603275723be1c62dc86527b8" ? "Admin" : "User"
+          )
+          .join(", ");
       },
     },
     {
@@ -44,11 +40,7 @@ const UserTable: React.FC<Props> = () => {
       },
       renderCell: (params) => (
         <div className="flex items-center">
-          <IconButton>
-            <Tooltip title="Edit user">
-              <EditIcon />
-            </Tooltip>
-          </IconButton>
+          <EditUserModal userId={params.value as string} />
           <DeleteUserModal userId={params.value as string} />
         </div>
       ),
