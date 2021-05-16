@@ -55,15 +55,19 @@ const DeleteUserModal: React.FC<Props> = ({ userId }) => {
         </Tooltip>
       </IconButton>
       <Modal open={open} onClose={handleClose}>
-        <div className="mx-96 my-20 bg-white border border-gray-200 shadow-2xl rounded-2xl p-8">
+        <div className="mx-96 my-48 bg-white border border-gray-200 shadow-2xl rounded-2xl p-8">
           <div>
             <Typography className="text-xl font-bold">
               Do you want to delete this user?
             </Typography>
           </div>
           <div className="mt-4 flex justify-end">
-            <div className="w-20 h-12">
-              <Button onClick={handleClose} className="mr-2" variant="outlined">
+            <div className="w-20 h-12 mr-2">
+              <Button
+                onClick={handleClose}
+                className="w-full h-full overflow-hidden"
+                variant="outlined"
+              >
                 Cancel
               </Button>
             </div>
