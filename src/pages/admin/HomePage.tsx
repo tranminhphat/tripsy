@@ -22,6 +22,7 @@ import AuthContext from "contexts/AuthContext";
 import { useCurrentUser } from "hooks/queries/users";
 import React, { useContext } from "react";
 import { Link, Route, Switch, useLocation } from "react-router-dom";
+import RoleManagement from "./RoleManagement";
 import UserManagement from "./UserManagement";
 
 const drawerWidth = 240;
@@ -168,7 +169,7 @@ const HomePage = (props: Props) => {
                   <UserManagement />
                 </Route>
                 <Route exact path="/admin/role">
-                  Phan quyen
+                  <RoleManagement />
                 </Route>
               </Switch>
             </div>
