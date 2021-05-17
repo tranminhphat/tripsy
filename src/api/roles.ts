@@ -4,6 +4,10 @@ export const getRoles = () => {
   return axios.get("/roles");
 };
 
+export const getRoleById = (id: string) => {
+  return axios.get(`/roles/${id}`);
+};
+
 export const createRole = (model) => {
   return axios.post("/roles", { model });
 };
