@@ -1,4 +1,10 @@
-import { Button, Checkbox, ListItemText, MenuItem } from "@material-ui/core";
+import {
+  Button,
+  Checkbox,
+  ListItemText,
+  MenuItem,
+  Typography,
+} from "@material-ui/core";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyRadioButton from "components/Shared/MyRadioButton";
 import MySelect from "components/Shared/MySelect";
@@ -49,7 +55,13 @@ const EditUserForm: React.FC<Props> = ({ userId, isLoading, onSubmit }) => {
   const [phoneNumberError, setPhoneNumberError] = useState("");
 
   return (
-    <div className="mx-72 my-10 bg-white border border-gray-200 shadow-2xl rounded-2xl">
+    <div className="mx-72 my-4 bg-white border border-gray-200 shadow-2xl rounded-2xl">
+      <div className="mx-20">
+        <div className="py-4">
+          <Typography className="text-2xl font-bold">Edit user</Typography>
+        </div>
+        <hr />
+      </div>
       {user && roles ? (
         <Formik
           initialValues={{

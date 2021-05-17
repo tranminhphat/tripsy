@@ -1,4 +1,10 @@
-import { Button, Checkbox, ListItemText, MenuItem } from "@material-ui/core";
+import {
+  Button,
+  Checkbox,
+  ListItemText,
+  MenuItem,
+  Typography,
+} from "@material-ui/core";
 import MyErrorMessage from "components/Shared/MyErrorMessage";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import MyRadioButton from "components/Shared/MyRadioButton";
@@ -52,7 +58,13 @@ const InsertUserForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
   const { data: roles } = useRoles();
 
   return (
-    <div className="mx-72 my-10 bg-white border border-gray-200 shadow-2xl rounded-2xl">
+    <div className="mx-72 my-4 bg-white border border-gray-200 shadow-2xl rounded-2xl">
+      <div className="mx-20">
+        <div className="py-4">
+          <Typography className="text-2xl font-bold">Add user</Typography>
+        </div>
+        <hr />
+      </div>
       <Formik
         initialValues={{
           firstName: "",
@@ -75,7 +87,7 @@ const InsertUserForm: React.FC<Props> = ({ error, isLoading, onSubmit }) => {
       >
         {({ values }) => (
           <Form className="mt-6 w-full grid grid-cols-1 justify-items-center md:grid-cols-2 md:grid-gap-2">
-            <div className="mt-4 w-7/12 ">
+            <div className="mt-4 w-7/12">
               <MyTextField
                 label="First name"
                 name="firstName"
