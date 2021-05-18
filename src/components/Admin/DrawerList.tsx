@@ -38,17 +38,17 @@ const DrawerList: React.FC<Props> = ({ tabName }) => {
               state: { tabName: item.tabName },
             }}
           >
-            <ListItem button>
+            <ListItem button selected={item.tabName === tabName}>
               <ListItemIcon
                 className={`${
-                  item.tabName === tabName ? "text-primary" : "text-white"
+                  item.tabName === tabName ? "text-white" : "text-gray-400"
                 }`}
               >
                 {item.icon}
               </ListItemIcon>
               <ListItemText
                 className={`${
-                  item.tabName === tabName ? "text-primary" : "text-white"
+                  item.tabName === tabName ? "text-white" : "text-gray-400"
                 }`}
                 primary={item.tabName}
               />

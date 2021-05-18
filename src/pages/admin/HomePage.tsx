@@ -1,4 +1,4 @@
-import { Hidden } from "@material-ui/core";
+import { Avatar, Hidden, Tooltip } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -12,8 +12,10 @@ import {
 } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
 import { logout } from "api/auth";
+import SkeletonUserAvatar from "assets/images/icons/user.svg";
 import DrawerList from "components/Admin/DrawerList";
 import MyAlert from "components/Shared/MyAlert";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
@@ -21,7 +23,8 @@ import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
 import { useCurrentUser } from "hooks/queries/users";
 import React, { useContext } from "react";
-import { Link, Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
+import DashBoard from "./DashBoard";
 import RoleManagement from "./RoleManagement";
 import UserManagement from "./UserManagement";
 
@@ -39,9 +42,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     appBar: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
       backgroundColor: "#233044",
       [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -57,11 +57,12 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: "#233044",
+      backgroundColor: "#566579",
     },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
+      backgroundColor: "#ecf2f6",
     },
   })
 );
@@ -114,12 +115,6 @@ const HomePage = (props: Props) => {
                 {tabName}
               </Typography>
             </Toolbar>
-            <div className="ml-auto mr-8 flex">
-              <Typography>Hi, {currentUser.firstName}</Typography>
-              <Link className="ml-4" to="/login" onClick={loggingOut}>
-                <Typography className="underline">Log out</Typography>
-              </Link>
-            </div>
           </AppBar>
           <nav className={classes.drawer} aria-label="mailbox folders">
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -153,7 +148,28 @@ const HomePage = (props: Props) => {
                 variant="permanent"
                 open
               >
-                <div className={classes.toolbar} />
+                <div className="my-8 flex flex-col justify-center items-center">
+                  <Avatar
+                    src={
+                      currentUser && currentUser.avatarUrl
+                        ? currentUser.avatarUrl
+                        : SkeletonUserAvatar
+                    }
+                    style={{ width: "96px", height: "96px" }}
+                    alt="User not logged in"
+                  />
+                  <div className="flex items-center ">
+                    <Typography className="text-xl text-gray-300 mr-2">
+                      Hi, {currentUser.firstName}
+                    </Typography>
+                    <IconButton onClick={loggingOut}>
+                      <Tooltip title="Log out">
+                        <ExitToAppIcon className="text-gray-300" />
+                      </Tooltip>
+                    </IconButton>
+                  </div>
+                </div>
+                <Divider />
                 <DrawerList tabName={tabName} />
               </Drawer>
             </Hidden>
@@ -163,7 +179,7 @@ const HomePage = (props: Props) => {
             <div>
               <Switch>
                 <Route exact path="/admin/dashboard">
-                  Bang dieu khien
+                  <DashBoard />
                 </Route>
                 <Route exact path="/admin/user">
                   <UserManagement />
