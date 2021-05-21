@@ -35,7 +35,6 @@ const DrawerList: React.FC<Props> = ({ tabName }) => {
           <Link
             to={{
               pathname: item.path,
-              state: { tabName: item.tabName },
             }}
           >
             <ListItem button selected={item.tabName === tabName}>

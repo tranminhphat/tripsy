@@ -23,7 +23,7 @@ import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
 import { useCurrentUser } from "hooks/queries/users";
 import React, { useContext } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import DashBoard from "./DashBoard";
 import RoleManagement from "./RoleManagement";
 import UserManagement from "./UserManagement";
@@ -89,9 +89,13 @@ const HomePage = (props: Props) => {
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  const {
-    state: { tabName },
-  } = useLocation<{ tabName: string }>();
+  const { url } = useRouteMatch();
+  const tabName =
+    url === "/admin/user"
+      ? "User Management"
+      : url === "/admin/role"
+      ? "Role Management"
+      : "Dashboard";
   const { data: currentUser } = useCurrentUser();
   const { alert } = useContext(AlertContext);
   const { refreshAuth } = useContext(AuthContext);
