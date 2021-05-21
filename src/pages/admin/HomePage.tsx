@@ -23,7 +23,7 @@ import AlertContext from "contexts/AlertContext";
 import AuthContext from "contexts/AuthContext";
 import { useCurrentUser } from "hooks/queries/users";
 import React, { useContext } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import DashBoard from "./DashBoard";
 import RoleManagement from "./RoleManagement";
 import UserManagement from "./UserManagement";
@@ -190,6 +190,9 @@ const HomePage = (props: Props) => {
                 </Route>
                 <Route exact path="/admin/role">
                   <RoleManagement />
+                </Route>
+                <Route path="*">
+                  <Redirect to="/admin/dashboard" />
                 </Route>
               </Switch>
             </div>

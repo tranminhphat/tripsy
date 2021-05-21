@@ -122,6 +122,13 @@ const routes: Entry[] = [
   },
   {
     exact: true,
+    path: "/admin",
+    component: AdminHomePage,
+    authRoute: true,
+    adminRoute: true,
+  },
+  {
+    exact: true,
     path: "/admin/:subRoute",
     component: AdminHomePage,
     authRoute: true,
