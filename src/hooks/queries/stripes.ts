@@ -1,4 +1,4 @@
-import { getBalanceByAccountId } from "api/stripe";
+import { getBalanceByAccountId, getTransactions } from "api/stripe";
 import { useQuery } from "react-query";
 
 export const useBalance = (accountId: string) => {
@@ -14,4 +14,13 @@ export const useBalance = (accountId: string) => {
       enabled: !!accountId,
     }
   );
+};
+
+export const useTransactions = (limit?: number) => {
+  return useQuery(["transactions"], async () => {
+    const {
+      data: { transactions },
+    } = await getTransactions(limit);
+    return transactions;
+  });
 };

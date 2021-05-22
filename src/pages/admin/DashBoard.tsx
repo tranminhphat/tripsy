@@ -3,6 +3,7 @@ import LocalActivityOutlinedIcon from "@material-ui/icons/LocalActivityOutlined"
 import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
 import PieChartOutlinedIcon from "@material-ui/icons/PieChartOutlined";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
+import TransactionTab from "components/Admin/DashBoard/TransactionTab";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { useActivities } from "hooks/queries/activities";
 import { useExperiences } from "hooks/queries/experiences";
@@ -26,7 +27,7 @@ const DashBoard: React.FC<Props> = () => {
                 <div>
                   <div>
                     <Typography
-                      className="text-2xl font-bold mb-1"
+                      className="text-3xl font-bold mb-1"
                       style={{ color: "#e62265" }}
                     >
                       {experiences.length}
@@ -38,7 +39,7 @@ const DashBoard: React.FC<Props> = () => {
                 </div>
                 <div>
                   <WorkOutlineIcon
-                    style={{ width: 50, height: 50, color: "#e62265" }}
+                    style={{ width: 60, height: 60, color: "#e62265" }}
                   />
                 </div>
               </div>
@@ -48,7 +49,7 @@ const DashBoard: React.FC<Props> = () => {
                 <div>
                   <div>
                     <Typography
-                      className="text-2xl font-bold mb-1"
+                      className="text-3xl font-bold mb-1"
                       style={{ color: "#229e8f" }}
                     >
                       {users.length}
@@ -60,7 +61,7 @@ const DashBoard: React.FC<Props> = () => {
                 </div>
                 <div>
                   <PermIdentityOutlinedIcon
-                    style={{ width: 50, height: 50, color: "#229e8f" }}
+                    style={{ width: 60, height: 60, color: "#229e8f" }}
                   />
                 </div>
               </div>
@@ -70,7 +71,7 @@ const DashBoard: React.FC<Props> = () => {
                 <div>
                   <div>
                     <Typography
-                      className="text-2xl font-bold mb-1"
+                      className="text-3xl font-bold mb-1"
                       style={{ color: "#ff5720" }}
                     >
                       {activities.length}
@@ -82,7 +83,7 @@ const DashBoard: React.FC<Props> = () => {
                 </div>
                 <div>
                   <LocalActivityOutlinedIcon
-                    style={{ width: 50, height: 50, color: "#ff5720" }}
+                    style={{ width: 60, height: 60, color: "#ff5720" }}
                   />
                 </div>
               </div>
@@ -92,7 +93,7 @@ const DashBoard: React.FC<Props> = () => {
                 <div>
                   <div>
                     <Typography
-                      className="text-2xl font-bold mb-1"
+                      className="text-3xl font-bold mb-1"
                       style={{ color: "#14b8d2" }}
                     >
                       64,78%
@@ -104,10 +105,13 @@ const DashBoard: React.FC<Props> = () => {
                 </div>
                 <div>
                   <PieChartOutlinedIcon
-                    style={{ width: 50, height: 50, color: "#14b8d2" }}
+                    style={{ width: 60, height: 60, color: "#14b8d2" }}
                   />
                 </div>
               </div>
+            </div>
+            <div className="mt-4 lg:col-span-6">
+              <TransactionTab />
             </div>
           </div>
         </>

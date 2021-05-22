@@ -43,3 +43,8 @@ export const getRefundById = (refundId: string) => {
 export const createTransfer = (activityId: string) => {
   return axios.post(`stripe/transfers/${activityId}`);
 };
+
+/* Transactions */
+export const getTransactions = (limit?: number) => {
+  return axios.get(`stripe/transactions?limit=${limit}`);
+};
