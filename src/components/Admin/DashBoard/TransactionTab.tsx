@@ -7,7 +7,6 @@ interface Props {}
 
 const TransactionTab: React.FC<Props> = () => {
   const { data: transactions } = useTransactions();
-
   return (
     <div
       className="bg-white p-4 rounded-sm overflow-scroll"
@@ -32,21 +31,26 @@ const TransactionTab: React.FC<Props> = () => {
       </div>
       <div>
         {transactions.map((transaction, index) => (
-          <div
-            className={`grid grid-cols-10 gap-2 p-2 ${
-              index % 2 !== 0 ? "bg-blue-100" : ""
-            }`}
+          <a
+            href={`https://dashboard.stripe.com/test/payments/${transaction.id}`}
+            target="blank"
           >
-            <div className="col-span-6 my-2">
-              <Typography>{transaction.id}</Typography>
+            <div
+              className={`grid grid-cols-10 gap-2 p-2 ${
+                index % 2 !== 0 ? "bg-blue-100" : ""
+              }`}
+            >
+              <div className="col-span-6 my-2">
+                <Typography>{transaction.id}</Typography>
+              </div>
+              <div className="col-span-1 my-2">
+                <Typography>{currencyFormatter(transaction.amount)}</Typography>
+              </div>
+              <div className="col-span-3 my-2 justify-self-end">
+                <Typography>{transaction.status}</Typography>
+              </div>
             </div>
-            <div className="col-span-1 my-2">
-              <Typography>{currencyFormatter(transaction.amount)}</Typography>
-            </div>
-            <div className="col-span-3 my-2 justify-self-end">
-              <Typography>{transaction.status}</Typography>
-            </div>
-          </div>
+          </a>
         ))}
       </div>
     </div>
