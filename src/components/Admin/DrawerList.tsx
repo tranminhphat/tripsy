@@ -1,4 +1,5 @@
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import AspectRatioIcon from "@material-ui/icons/AspectRatio";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import GroupIcon from "@material-ui/icons/Group";
@@ -20,6 +21,11 @@ const listTabs = [
     tabName: "Role Management",
     path: "/admin/role",
     icon: <AssignmentIndIcon />,
+  },
+  {
+    tabName: "Theme Management",
+    path: "/admin/theme",
+    icon: <AspectRatioIcon />,
   },
 ];
 

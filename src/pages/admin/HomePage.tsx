@@ -26,6 +26,7 @@ import React, { useContext } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import DashBoard from "./DashBoard";
 import RoleManagement from "./RoleManagement";
+import ThemeManagement from "./ThemeManagement";
 import UserManagement from "./UserManagement";
 
 const drawerWidth = 240;
@@ -95,6 +96,8 @@ const HomePage = (props: Props) => {
       ? "User Management"
       : url === "/admin/role"
       ? "Role Management"
+      : url === "/admin/theme"
+      ? "Theme Management"
       : "Dashboard";
   const { data: currentUser } = useCurrentUser();
   const { alert } = useContext(AlertContext);
@@ -190,6 +193,9 @@ const HomePage = (props: Props) => {
                 </Route>
                 <Route exact path="/admin/role">
                   <RoleManagement />
+                </Route>
+                <Route exact path="/admin/theme">
+                  <ThemeManagement />
                 </Route>
                 <Route path="*">
                   <Redirect to="/admin/dashboard" />

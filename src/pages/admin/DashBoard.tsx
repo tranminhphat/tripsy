@@ -4,6 +4,7 @@ import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
 import PieChartOutlinedIcon from "@material-ui/icons/PieChartOutlined";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import ActivitiesLineChart from "components/Admin/DashBoard/ActivitiesLineChart";
+import ProfitLineChart from "components/Admin/DashBoard/ProfitLineChart";
 import TransactionTab from "components/Admin/DashBoard/TransactionTab";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { useActivities } from "hooks/queries/activities";
@@ -116,6 +117,9 @@ const DashBoard: React.FC<Props> = () => {
             </div>
             <div className="mt-4 lg:col-span-6">
               <ActivitiesLineChart />
+            </div>
+            <div className="mt-4 col-span-12">
+              <ProfitLineChart />
             </div>
           </div>
         </>
