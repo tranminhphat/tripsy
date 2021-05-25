@@ -4,6 +4,7 @@ import SortMetadata from "components/Home/SortMetadata";
 import MyAlert from "components/Shared/MyAlert";
 import MyExperienceCard from "components/Shared/MyExperienceCard";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import { useRecommendByUserId } from "hooks/queries/akin";
 import {
   useExperiences,
   useExperiencesByDate,
@@ -42,6 +43,8 @@ const HomePage: React.FC = () => {
 
   const { data: user } = useCurrentUser();
   const { data: userProfile } = useProfile(user?.profileId);
+  const { data: akin } = useRecommendByUserId(user?._id as string);
+  console.log(akin);
 
   return (
     <div className="h-full w-full">
