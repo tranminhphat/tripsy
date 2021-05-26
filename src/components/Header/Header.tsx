@@ -11,7 +11,7 @@ interface Props {
 export const Header: React.FC<Props> = ({ withSearchBar, setFilterObject }) => {
   return (
     <header className="h-20 w-full bg-white fixed top-0 left-0 z-50 shadow-md">
-      <div className="container mx-auto h-full flex items-center grid grid-cols-4 lg:grid-cols-12">
+      <div className="container mx-auto px-4 h-full flex items-center grid grid-cols-4 lg:grid-cols-12">
         <div className="flex justify-start col-span-2 lg:col-span-3">
           <BrandLogo />
         </div>

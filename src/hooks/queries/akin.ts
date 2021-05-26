@@ -5,8 +5,10 @@ export const useRecommendByUserId = (id: string) => {
   return useQuery(
     ["akin", id],
     async () => {
-      const { data } = await getRecommendByUserId(id);
-      return data;
+      const {
+        data: { recommendations },
+      } = await getRecommendByUserId(id);
+      return recommendations;
     },
     { enabled: !!id }
   );

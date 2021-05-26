@@ -43,8 +43,7 @@ const HomePage: React.FC = () => {
 
   const { data: user } = useCurrentUser();
   const { data: userProfile } = useProfile(user?.profileId);
-  const { data: akin } = useRecommendByUserId(user?._id as string);
-  console.log(akin);
+  const { data: recommendations } = useRecommendByUserId(user?._id as string);
 
   return (
     <div className="h-full w-full">

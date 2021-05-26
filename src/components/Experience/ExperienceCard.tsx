@@ -14,13 +14,13 @@ const ExperienceCard: React.FC<Props> = ({ experienceId }) => {
         <Link to={`/experience/${experienceId}`}>
           <img
             style={{ width: 200, height: 300 }}
-            className="rounded-md"
+            className="rounded-md border border-gray-500"
             src={experience.photoGallery![0]?.url}
             alt="description"
           />
           <div style={{ maxWidth: 200 }}>
             <div className="mt-2 text-center">
-              <p className="truncate">{experience.title}</p>
+              <p>{experience.title}</p>
             </div>
           </div>
         </Link>

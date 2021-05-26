@@ -12,22 +12,22 @@ const SimilarExpSection: React.FC<Props> = ({ expList }) => {
       <div className="mb-4">
         <h1 className="text-2xl font-bold">Các trải nghiệm tương tự</h1>
       </div>
-      <div className="flex h-full w-full mt-4">
-        <OverflowWrapper
-          iconColor="#000"
-          iconSize={48}
-          iconStyle={{
-            left: { marginTop: "100px" },
-            right: { marginTop: "100px" },
-          }}
-        >
+      <OverflowWrapper
+        iconColor="#000"
+        iconSize={48}
+        iconStyle={{
+          left: { marginTop: "100px" },
+          right: { marginTop: "100px" },
+        }}
+      >
+        <div className="flex mt-4">
           {expList.map((item) => (
-            <div className="mr-6" key={item}>
+            <div className="mx-4 whitespace-normal" key={item}>
               <ExperienceCard experienceId={item} />
             </div>
           ))}
-        </OverflowWrapper>
-      </div>
+        </div>
+      </OverflowWrapper>
     </>
   );
 };

@@ -165,8 +165,8 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                         />
                       </div>
                       <div style={{ maxWidth: 150 }} className="mx-2">
-                        <div className="mt-2 text-center">
-                          <p className="truncate">{item.title}</p>
+                        <div className="whitespace-normal mt-2 text-center">
+                          <p>{item.title}</p>
                         </div>
                       </div>
                     </Link>
@@ -207,7 +207,7 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                               alt="experience"
                             />
                           </div>
-                          <div className="mt-2 truncate text-center">
+                          <div className="mt-2 whitespace-normal text-center">
                             {item.title}
                           </div>
                         </div>
