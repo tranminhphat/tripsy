@@ -1,9 +1,11 @@
 import { Typography } from "@material-ui/core";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExperienceCard from "components/Experience/ExperienceCard";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { useExperiences } from "hooks/queries/experiences";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 interface Props {}
 
@@ -33,6 +35,16 @@ const IntroductionPage: React.FC<Props> = () => {
                   <ExperienceCard experienceId={item._id!} />
                 </div>
               ))}
+            </div>
+            <div className="mt-2">
+              <Link to="/experiences">
+                <Typography className="font-bold underline">
+                  Hiển thị tất cả trải nghiệm
+                  <span>
+                    <ChevronRightIcon />
+                  </span>
+                </Typography>
+              </Link>
             </div>
           </div>
         </>

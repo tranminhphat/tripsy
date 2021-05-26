@@ -17,6 +17,7 @@ import ExperienceActivationPage from "pages/client/experience/ExperienceManageme
 import ExperienceCreationPage from "pages/client/experience/ExperienceManagement/ExperienceCreationPage/ExperienceCreationPage";
 import ExperienceManagementPage from "pages/client/experience/ExperienceManagement/ExperienceManagementPage/ExperienceManagementPage";
 import HistoryPage from "pages/client/history/HistoryPage";
+import HomePage from "pages/client/home/HomePage";
 import IntroductionPage from "pages/client/home/IntroductionPage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import * as React from "react";
@@ -33,6 +34,7 @@ interface Entry {
 
 const routes: Entry[] = [
   { exact: true, path: "/", component: IntroductionPage },
+  { exact: true, path: "/experiences", component: HomePage },
   { exact: true, path: "/login", component: LoginPage },
   { exact: true, path: "/register", component: RegisterPage },
   { exact: true, path: "/forgot-password", component: ForgotPasswordPage },
