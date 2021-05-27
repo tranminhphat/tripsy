@@ -20,7 +20,9 @@ const ExperienceCard: React.FC<Props> = ({ experienceId }) => {
           />
           <div style={{ maxWidth: 200 }}>
             <div className="mt-2 text-center">
-              <p>{experience.title}</p>
+              <p className="text-sm text-gray-700 font-bold">
+                {experience.title}
+              </p>
             </div>
           </div>
         </Link>
