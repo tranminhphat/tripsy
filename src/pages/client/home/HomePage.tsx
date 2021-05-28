@@ -13,7 +13,7 @@ import { useProfile } from "hooks/queries/profiles";
 import { useCurrentUser } from "hooks/queries/users";
 import * as React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const intersectionExperiences = (a, b) => {
   if (a) {
@@ -29,11 +29,17 @@ const intersectionExperiences = (a, b) => {
 };
 
 const HomePage: React.FC = () => {
-  const [filterObject, setFilterObject] = useState({});
+  const location = useLocation();
+  const [filterObject, setFilterObject] = useState(
+    location.state ? location.state : {}
+  );
   const [sortString, setSortString] = useState("-review.averageStars");
   const [dayOfYear, setDayOfYear] = useState<number>();
 
+  console.log(filterObject);
   const { data: experiencesByField } = useExperiences(filterObject, sortString);
+  console.log(experiencesByField);
+
   const { data: experiencesByDate } = useExperiencesByDate(dayOfYear);
 
   const experiences = intersectionExperiences(
