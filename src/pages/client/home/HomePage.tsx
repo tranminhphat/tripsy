@@ -38,7 +38,6 @@ const HomePage: React.FC = () => {
 
   console.log(filterObject);
   const { data: experiencesByField } = useExperiences(filterObject, sortString);
-  console.log(experiencesByField);
 
   const { data: experiencesByDate } = useExperiencesByDate(dayOfYear);
 

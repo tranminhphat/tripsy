@@ -1,7 +1,13 @@
 import { Typography } from "@material-ui/core";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import CanThoCityPic from "assets/images/backgrounds/CanThoCity.jpg";
+import DaLatCityPic from "assets/images/backgrounds/DaLatCity.jpg";
+import DaNangCityPic from "assets/images/backgrounds/DaNangCity.jpg";
 import FoodPic from "assets/images/backgrounds/food.jpg";
+import HaNoiCityPic from "assets/images/backgrounds/HaNoiCity.jpg";
+import HoChiMinhCityPic from "assets/images/backgrounds/HoChiMinhCity.jpg";
 import NaturePic from "assets/images/backgrounds/nature.jpg";
+import NhaTrangCityPic from "assets/images/backgrounds/NhaTrangCity.jpg";
 import SportPic from "assets/images/backgrounds/sport.jpg";
 import ExperienceCard from "components/Experience/ExperienceCard";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
@@ -125,6 +131,135 @@ const IntroductionPage: React.FC<Props> = () => {
                 </div>
               </Link>
             </div>
+          </div>
+          <div className="mt-8">
+            <Typography className="text-2xl text-secondary font-bold">
+              Trải nghiệm tại các thành phố
+              <div className="mt-4">
+                <div className="flex justify-between">
+                  <div>
+                    <Link
+                      to={{
+                        pathname: "/experiences",
+                        state: { location: "Thành phố Hồ Chí Minh" },
+                      }}
+                    >
+                      <div className="rounded-md shadow-2xl">
+                        <img
+                          style={{ width: 180, height: 180 }}
+                          className="rounded-t-md"
+                          src={HoChiMinhCityPic}
+                          alt="Ho Chi Minh city"
+                        />
+                        <Typography className="text-sm text-gray-500 py-4 pl-2">
+                          Hồ Chí Minh
+                        </Typography>
+                      </div>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to={{
+                        pathname: "/experiences",
+                        state: { location: "Thành phố Hà Nội" },
+                      }}
+                    >
+                      <div className="rounded-md shadow-2xl">
+                        <img
+                          style={{ width: 180, height: 180 }}
+                          className="rounded-t-md"
+                          src={HaNoiCityPic}
+                          alt="Ha Noi city"
+                        />
+                        <Typography className="text-sm text-gray-500 py-4 pl-2">
+                          Hà Nội
+                        </Typography>
+                      </div>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to={{
+                        pathname: "/experiences",
+                        state: { location: "Thành phố Đà Nẵng" },
+                      }}
+                    >
+                      <div className="rounded-md shadow-2xl">
+                        <img
+                          style={{ width: 180, height: 180 }}
+                          className="rounded-t-md"
+                          src={DaNangCityPic}
+                          alt="Da Nang city"
+                        />
+                        <Typography className="text-sm text-gray-500 py-4 pl-2">
+                          Đà Nẵng
+                        </Typography>
+                      </div>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to={{
+                        pathname: "/experiences",
+                        state: { location: "Tỉnh Lâm Đồng" },
+                      }}
+                    >
+                      <div className="rounded-md shadow-2xl">
+                        <img
+                          style={{ width: 180, height: 180 }}
+                          className="rounded-t-md"
+                          src={DaLatCityPic}
+                          alt="Da Lat city"
+                        />
+                        <Typography className="text-sm text-gray-500 py-4 pl-2">
+                          Đà Lạt
+                        </Typography>
+                      </div>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to={{
+                        pathname: "/experiences",
+                        state: { location: "Tỉnh Khánh Hòa" },
+                      }}
+                    >
+                      <div className="rounded-md shadow-2xl">
+                        <img
+                          style={{ width: 180, height: 180 }}
+                          className="rounded-t-md"
+                          src={NhaTrangCityPic}
+                          alt="Nha Trang city"
+                        />
+                        <Typography className="text-sm text-gray-500 py-4 pl-2">
+                          Nha Trang
+                        </Typography>
+                      </div>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to={{
+                        pathname: "/experiences",
+                        state: { location: "Thành phố Cần Thơ" },
+                      }}
+                    >
+                      <div className="rounded-md shadow-2xl">
+                        <img
+                          style={{ width: 180, height: 180 }}
+                          className="rounded-t-md"
+                          src={CanThoCityPic}
+                          alt="Can Tho city"
+                        />
+                        <Typography className="text-sm text-gray-500 py-4 pl-2">
+                          Cần Thơ
+                        </Typography>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </Typography>
           </div>
         </>
       ) : (
