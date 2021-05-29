@@ -11,7 +11,9 @@ import NhaTrangCityPic from "assets/images/backgrounds/NhaTrangCity.jpg";
 import SportPic from "assets/images/backgrounds/sport.jpg";
 import ExperienceCard from "components/Experience/ExperienceCard";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import { useRecommendByUserId } from "hooks/queries/akin";
 import { useExperiences } from "hooks/queries/experiences";
+import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
 import { Link } from "react-router-dom";
@@ -20,9 +22,12 @@ interface Props {}
 
 const IntroductionPage: React.FC<Props> = () => {
   const { data: experiences } = useExperiences();
+  const { data: user } = useCurrentUser();
+  const { data: recommendations } = useRecommendByUserId(user?._id as string);
+  console.log(recommendations);
   return (
     <MainLayout>
-      {experiences ? (
+      {experiences && recommendations ? (
         <>
           <div className="flex justify-between items-center my-4">
             <Typography className="text-4xl text-secondary font-bold w-1/2 leading-normal">
@@ -260,6 +265,30 @@ const IntroductionPage: React.FC<Props> = () => {
                 </div>
               </div>
             </Typography>
+            <div className="mt-8">
+              <Typography className="text-2xl text-secondary font-bold">
+                Có thể bạn sẽ thích
+              </Typography>
+              <Typography>
+                Các hoạt động trải nghiệm độc đáo, được hướng dẫn bởi những
+                người có nhiều kinh nghiệm.
+              </Typography>
+              <div className="mt-4 flex justify-between">
+                {recommendations.slice(0, 5).map((item) => (
+                  <div>
+                    <ExperienceCard experienceId={item.item!} />
+                  </div>
+                ))}
+              </div>
+              <Typography className="font-bold underline">
+                <Link to="/experiences">
+                  Hiển thị tất cả trải nghiệm
+                  <span>
+                    <ChevronRightIcon />
+                  </span>
+                </Link>
+              </Typography>
+            </div>
           </div>
         </>
       ) : (

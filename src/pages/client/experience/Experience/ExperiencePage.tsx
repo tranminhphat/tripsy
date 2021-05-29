@@ -12,8 +12,10 @@ import SimilarExpSection from "components/Experience/SimilarExpSection";
 import TitleSection from "components/Experience/TitleSection";
 import MyBreadcrumbs from "components/Shared/MyBreadcrumbs";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
+import AlertContext from "contexts/AlertContext";
 import currencyFormatter from "helpers/currencyFormatter";
 import toWeekDayString from "helpers/toWeekDayString";
+import { useAddActivityLog, useRemoveActivityLog } from "hooks/mutations/akin";
 import { useSaveExperiences } from "hooks/mutations/profiles";
 import { useActivitiesByExperienceId } from "hooks/queries/activities";
 import {
@@ -25,6 +27,7 @@ import { useCurrentUser } from "hooks/queries/users";
 import IActivity from "interfaces/activity/activity.interface";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
+import { useContext } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
 
 interface Props {}
@@ -38,10 +41,39 @@ const ExperiencePage: React.FC<Props> = () => {
   const { data: user } = useCurrentUser();
   const { data: userProfile } = useProfile(user?.profileId);
   const { data: expList } = useSimilarExperiences(id);
+  const { alert } = useContext(AlertContext);
+  const addActivityLog = useAddActivityLog();
+  const removeActivityLog = useRemoveActivityLog();
   const isExperienceSaved = userProfile?.savedExperiences?.includes(id);
 
   const compareFunction = (a: IActivity, b: IActivity) => {
     return a.date.dateObject.unix - b.date.dateObject.unix;
+  };
+
+  const handleSaveExperience = () => {
+    savedExperience.mutate(
+      {
+        profileId: userProfile?._id!,
+        experienceId: experience?._id!,
+      },
+      {
+        onSuccess: () => {
+          if (!isExperienceSaved) {
+            addActivityLog.mutate({
+              userId: userProfile?._id!,
+              experienceId: experience?._id,
+            });
+            alert("success", "Lưu trải nghiệm thành công");
+          } else {
+            removeActivityLog.mutate({
+              userId: userProfile?._id!,
+              experienceId: experience?._id,
+            });
+            alert("success", "Xóa trải nghiệm thành công");
+          }
+        },
+      }
+    );
   };
 
   return (
@@ -62,15 +94,7 @@ const ExperiencePage: React.FC<Props> = () => {
               ]}
             />
             <div>
-              <button
-                type="button"
-                onClick={() => {
-                  savedExperience.mutate({
-                    profileId: userProfile._id!,
-                    experienceId: experience._id!,
-                  });
-                }}
-              >
+              <button type="button" onClick={handleSaveExperience}>
                 <div className="flex items-center">
                   <img
                     className="mr-1"
