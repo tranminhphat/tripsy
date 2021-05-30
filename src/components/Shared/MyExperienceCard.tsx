@@ -2,21 +2,22 @@ import StarIcon from "@material-ui/icons/Star";
 import LoveIcon from "assets/images/icons/love.svg";
 import LovedIcon from "assets/images/icons/loved.svg";
 import currencyFormatter from "helpers/currencyFormatter";
+import { useExperience } from "hooks/queries/experiences";
 import { useCountReview } from "hooks/queries/reviews";
-import IExperience from "interfaces/experiences/experience.interface";
 import * as React from "react";
 
 interface Props {
-  experience: IExperience;
+  experienceId: string;
   isSaved: boolean;
 }
 
-const MyExperienceCard: React.FC<Props> = ({ experience, isSaved }) => {
-  const { data: reviews } = useCountReview(experience._id!);
+const MyExperienceCard: React.FC<Props> = ({ experienceId, isSaved }) => {
+  const { data: experience } = useExperience(experienceId);
+  const { data: reviews } = useCountReview(experienceId);
 
   return (
     <>
-      {reviews ? (
+      {experience && reviews ? (
         <div>
           <hr className="my-6" />
           <div className="flex">

@@ -35,7 +35,6 @@ const HomePage: React.FC = () => {
   const [sortString, setSortString] = useState("-review.averageStars");
   const [dayOfYear, setDayOfYear] = useState<number>();
 
-  console.log(filterObject);
   const { data: experiencesByField } = useExperiences(filterObject, sortString);
 
   const { data: experiencesByDate } = useExperiencesByDate(dayOfYear);
@@ -78,7 +77,7 @@ const HomePage: React.FC = () => {
                       isSaved={
                         userProfile?.savedExperiences?.includes(item._id)!
                       }
-                      experience={item}
+                      experienceId={item._id}
                     />
                   </Link>
                 </div>

@@ -19,6 +19,7 @@ import ExperienceManagementPage from "pages/client/experience/ExperienceManageme
 import HistoryPage from "pages/client/history/HistoryPage";
 import HomePage from "pages/client/home/HomePage";
 import IntroductionPage from "pages/client/home/IntroductionPage";
+import RecommendationPage from "pages/client/home/RecommendationPage";
 import ProfilePage from "pages/client/profile/ProfilePage";
 import * as React from "react";
 import { Route, Switch } from "react-router-dom";
@@ -34,6 +35,7 @@ interface Entry {
 
 const routes: Entry[] = [
   { exact: true, path: "/", component: IntroductionPage },
+  { exact: true, path: "/recommendations", component: RecommendationPage },
   { exact: true, path: "/experiences", component: HomePage },
   { exact: true, path: "/login", component: LoginPage },
   { exact: true, path: "/register", component: RegisterPage },

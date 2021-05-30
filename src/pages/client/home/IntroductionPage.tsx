@@ -24,10 +24,9 @@ const IntroductionPage: React.FC<Props> = () => {
   const { data: experiences } = useExperiences();
   const { data: user } = useCurrentUser();
   const { data: recommendations } = useRecommendByUserId(user?._id as string);
-  console.log(recommendations);
   return (
     <MainLayout>
-      {experiences && recommendations ? (
+      {experiences ? (
         <>
           <div className="flex justify-between items-center my-4">
             <Typography className="text-4xl text-secondary font-bold w-1/2 leading-normal">
@@ -266,28 +265,32 @@ const IntroductionPage: React.FC<Props> = () => {
               </div>
             </Typography>
             <div className="mt-8">
-              <Typography className="text-2xl text-secondary font-bold">
-                Có thể bạn sẽ thích
-              </Typography>
-              <Typography>
-                Các hoạt động trải nghiệm độc đáo, được hướng dẫn bởi những
-                người có nhiều kinh nghiệm.
-              </Typography>
-              <div className="mt-4 flex justify-between">
-                {recommendations.slice(0, 5).map((item) => (
-                  <div>
-                    <ExperienceCard experienceId={item.item!} />
+              {recommendations ? (
+                <>
+                  <Typography className="text-2xl text-secondary font-bold">
+                    Có thể bạn sẽ thích
+                  </Typography>
+                  <Typography>
+                    Các hoạt động trải nghiệm độc đáo, được hướng dẫn bởi những
+                    người có nhiều kinh nghiệm.
+                  </Typography>
+                  <div className="mt-4 flex justify-between">
+                    {recommendations.slice(0, 5).map((item) => (
+                      <div>
+                        <ExperienceCard experienceId={item.item!} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <Typography className="font-bold underline">
-                <Link to="/experiences">
-                  Hiển thị tất cả trải nghiệm
-                  <span>
-                    <ChevronRightIcon />
-                  </span>
-                </Link>
-              </Typography>
+                  <Typography className="font-bold underline">
+                    <Link to="/recommendations">
+                      Hiển thị tất cả đề xuất
+                      <span>
+                        <ChevronRightIcon />
+                      </span>
+                    </Link>
+                  </Typography>
+                </>
+              ) : null}
             </div>
           </div>
         </>
