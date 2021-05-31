@@ -22,7 +22,11 @@ const SimilarExpSection: React.FC<Props> = ({ expList }) => {
       >
         <div className="flex mt-4">
           {expList.map((item) => (
-            <div className="mx-4 whitespace-normal" key={item}>
+            <div
+              style={{ width: 200 }}
+              className="mx-4 whitespace-normal"
+              key={item}
+            >
               <ExperienceCard experienceId={item} />
             </div>
           ))}

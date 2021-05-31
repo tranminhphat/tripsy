@@ -17,7 +17,7 @@ const ExperienceCard: React.FC<Props> = ({ experienceId }) => {
         <Link to={`/experience/${experienceId}`}>
           <img
             style={{ width: 200, height: 300 }}
-            className="rounded-md border border-gray-500"
+            className="rounded-md border border-gray-300"
             src={experience.photoGallery![0]?.url}
             alt="description"
           />

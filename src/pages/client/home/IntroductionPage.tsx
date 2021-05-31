@@ -13,9 +13,11 @@ import ExperienceCard from "components/Experience/ExperienceCard";
 import MyLoadingIndicator from "components/Shared/MyLoadingIndicator";
 import { useRecommendByUserId } from "hooks/queries/akin";
 import { useExperiences } from "hooks/queries/experiences";
+import { useThemes } from "hooks/queries/themes";
 import { useCurrentUser } from "hooks/queries/users";
 import MainLayout from "layouts/MainLayout";
 import * as React from "react";
+import OverflowWrapper from "react-overflow-wrapper";
 import { Link } from "react-router-dom";
 
 interface Props {}
@@ -24,6 +26,7 @@ const IntroductionPage: React.FC<Props> = () => {
   const { data: experiences } = useExperiences();
   const { data: user } = useCurrentUser();
   const { data: recommendations } = useRecommendByUserId(user?._id as string);
+  const { data: themes } = useThemes();
   return (
     <MainLayout>
       {experiences ? (
@@ -291,6 +294,109 @@ const IntroductionPage: React.FC<Props> = () => {
                   </Typography>
                 </>
               ) : null}
+            </div>
+            <div className="mt-8">
+              {themes ? (
+                <>
+                  <Typography className="text-2xl text-secondary font-bold">
+                    Trải nghiệm theo từng sở thích
+                  </Typography>
+                  <div className="mt-4 py-4">
+                    <OverflowWrapper
+                      iconColor="#000000"
+                      iconSize={48}
+                      iconStyle={{
+                        left: { marginTop: "40px" },
+                        right: { marginTop: "40px" },
+                      }}
+                    >
+                      <div className="p-4 flex justify-between">
+                        {themes.map((item) => (
+                          <Link
+                            key={item._id}
+                            to={{
+                              pathname: "/experiences",
+                              state: { theme: item.value },
+                            }}
+                          >
+                            <div className="mx-4 p-8 shadow-md rounded-md flex justify-center items-center">
+                              <Typography className="mx-auto font-bold text-xl">
+                                {item.value}
+                              </Typography>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </OverflowWrapper>
+                  </div>
+                </>
+              ) : null}
+            </div>
+            <div className="my-8 px-8" style={{ backgroundColor: "#F7F7F7" }}>
+              <div style={{ padding: "64px 0" }}>
+                <div className="flex items-center">
+                  <div className="mr-16" style={{ paddingTop: "12px" }}>
+                    <Typography className="text-2xl font-bold text-secondary">
+                      Tripsy mang đến những trải nghiệm chất lượng cao
+                    </Typography>
+                  </div>
+                  <ul className="flex justify-between">
+                    <li>
+                      <img
+                        className="w-12 h-12"
+                        alt=""
+                        src="https://a0.muscache.com/pictures/55ede8e9-21cc-4302-918a-1343f70e04f0.jpg"
+                      />
+                      <div>
+                        <section>
+                          <h1 className="font-bold text-secondary my-2">
+                            Chuyên gia địa phương
+                          </h1>
+                        </section>
+                      </div>
+                      <p>
+                        Được hướng dẫn bởi những người địa phương có đam mê với
+                        trải nghiệm.
+                      </p>
+                    </li>
+                    <li>
+                      <img
+                        className="w-12 h-12"
+                        alt=""
+                        src="https://a0.muscache.com/pictures/6ca44422-9ab4-42d0-94a1-73fff922164e.jpg"
+                      />
+                      <div>
+                        <section>
+                          <h1 className="font-bold text-secondary my-2">
+                            Quy mô nhỏ
+                          </h1>
+                        </section>
+                      </div>
+                      <p>
+                        Với số lượng người tham gia có giới hạn, bạn sẽ không sợ
+                        bị lạc lỏng.
+                      </p>
+                    </li>
+                    <li>
+                      <img
+                        className="w-12 h-12"
+                        alt=""
+                        src="https://a0.muscache.com/pictures/4a9dfa0e-7aa9-4ef8-891d-d8ecf229700c.jpg"
+                      />
+                      <div>
+                        <section>
+                          <h1 className="font-bold text-secondary my-2">
+                            Chất lượng cao
+                          </h1>
+                        </section>
+                      </div>
+                      <p>
+                        Mỗi trải nghiệm đều được xem xét và tổ chức chặt chẽ.
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </>

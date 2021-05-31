@@ -156,7 +156,7 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                 <div className="flex mt-4">
                   {experiences.map((item) => (
                     <Link key={item._id!} to={`/experience/${item._id}`}>
-                      <div>
+                      <div style={{ width: 150 }} className="mx-2">
                         <img
                           style={{ width: 150, height: 200 }}
                           className="rounded-md"
@@ -164,7 +164,7 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                           alt="experience"
                         />
                       </div>
-                      <div style={{ maxWidth: 150 }} className="mx-2">
+                      <div>
                         <div className="whitespace-normal mt-2 text-center">
                           <p>{item.title}</p>
                         </div>
@@ -198,7 +198,7 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
                   <div className="flex mt-4">
                     {profile.savedExperiencesList?.map((item) => (
                       <Link key={item._id!} to={`/experience/${item._id}`}>
-                        <div style={{ maxWidth: 150 }} className="mx-2">
+                        <div style={{ width: 150 }} className="mx-2">
                           <div>
                             <img
                               style={{ width: 150, height: 200 }}
