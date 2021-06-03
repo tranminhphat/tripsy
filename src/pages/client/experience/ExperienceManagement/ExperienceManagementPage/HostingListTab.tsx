@@ -1,8 +1,8 @@
 import { Button, Typography } from "@material-ui/core";
 import {
-  createOnBoardingLink,
-  createPayOutAccount,
-  getAccountById,
+	createOnBoardingLink,
+	createPayOutAccount,
+	getAccountById
 } from "api/stripe";
 import BankIcon from "assets/images/icons/bank.svg";
 import FlyIcon from "assets/images/icons/fly.svg";
@@ -12,8 +12,8 @@ import MyTruncateText from "components/Shared/MyTruncateText";
 import AlertContext from "contexts/AlertContext";
 import { calculateCurrentProgress } from "helpers/calculateProgress";
 import {
-  useCreateExperience,
-  useDeleteExperience,
+	useCreateExperience,
+	useDeleteExperience
 } from "hooks/mutations/experiences";
 import { useUpdateUser } from "hooks/mutations/users";
 import { useExperiences } from "hooks/queries/experiences";
@@ -27,7 +27,7 @@ interface Props {}
 
 const HostingListTab: React.FC<Props> = () => {
   const { data: userData } = useCurrentUser();
-  const { data: experiences } = useExperiences({ hostId: userData?._id });
+  const { data: experiences } = useExperiences({ hostId: userData?._id }, "-createdAt");
   const updateUser = useUpdateUser();
   const createExperience = useCreateExperience();
   const deleteExperience = useDeleteExperience();
