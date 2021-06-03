@@ -32,7 +32,7 @@ const DashboardPage: React.FC<Props> = () => {
 			"experience.hostId": user?._id,
 			status: "0",
 		},
-		"+date.dateObject.unix"
+		"-date.dateObject.unix"
 	);
 	const { data: balance } = useBalance(user?.payoutAccountId!);
 	return (
