@@ -63,13 +63,13 @@ const ExperiencePage: React.FC<Props> = () => {
 							userId: userProfile?._id!,
 							experienceId: experience?._id,
 						});
-						alert("success", "Lưu trải nghiệm thành công");
+						alert("success", "Đã thêm vào danh sách yêu thích");
 					} else {
 						removeActivityLog.mutate({
 							userId: userProfile?._id!,
 							experienceId: experience?._id,
 						});
-						alert("success", "Xóa trải nghiệm thành công");
+						alert("success", "Đã xóa khỏi danh sách yêu thích ");
 					}
 				},
 			}

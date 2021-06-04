@@ -12,7 +12,7 @@ import { useProfile } from "hooks/queries/profiles";
 import { useCurrentUser } from "hooks/queries/users";
 import * as React from "react";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const intersectionExperiences = (a, b) => {
 	if (a) {
@@ -72,14 +72,7 @@ const HomePage: React.FC = () => {
 						<div className="grid grid-cols-12">
 							{experiences.map((item) => (
 								<div className="col-span-12" key={item._id}>
-									<Link to={`/experience/${item._id}`}>
-										<MyExperienceCard
-											isSaved={
-												userProfile?.savedExperiences?.includes(item._id)!
-											}
-											experienceId={item._id}
-										/>
-									</Link>
+									<MyExperienceCard experienceId={item._id} />
 								</div>
 							))}
 						</div>
