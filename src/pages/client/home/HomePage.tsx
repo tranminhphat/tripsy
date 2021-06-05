@@ -8,7 +8,6 @@ import {
 	useExperiences,
 	useExperiencesByDate,
 } from "hooks/queries/experiences";
-import { useProfile } from "hooks/queries/profiles";
 import { useCurrentUser } from "hooks/queries/users";
 import * as React from "react";
 import { useState } from "react";
@@ -45,7 +44,6 @@ const HomePage: React.FC = () => {
 	);
 
 	const { data: user } = useCurrentUser();
-	const { data: userProfile } = useProfile(user?.profileId);
 
 	return (
 		<div className="h-full w-full">
