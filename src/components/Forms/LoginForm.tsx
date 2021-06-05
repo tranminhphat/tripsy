@@ -27,7 +27,7 @@ const validationSchema = yup.object({
 
 const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {
 	return (
-		<div className="my-12 px-8 flex items-center bg-white border border-gray-200 shadow-2xl rounded-2xl">
+		<div className="px-8 flex items-center">
 			<div className="mr-8">
 				<img src={LoginImage} alt="login illustation" />
 			</div>
