@@ -1,3 +1,4 @@
+import NoDataIcon from "assets/images/icons/no-data.svg";
 import { Header } from "components/Header/Header";
 import FilterMetadata from "components/Home/FilterMetadata";
 import SortMetadata from "components/Home/SortMetadata";
@@ -68,11 +69,27 @@ const HomePage: React.FC = () => {
 					</div>
 					{experiences ? (
 						<div className="grid grid-cols-12">
-							{experiences.map((item) => (
-								<div className="col-span-12" key={item._id}>
-									<MyExperienceCard experienceId={item._id} />
+							{experiences.length === 0 ? (
+								<div className="col-span-12 mt-12 mx-auto">
+									<div className="text-center">
+										<img
+											src={NoDataIcon}
+											width={200}
+											height={150}
+											alt="no data"
+										/>
+										<p className="mt-8 text-xl text-gray-500">
+											Không có dữ liệu
+										</p>
+									</div>
 								</div>
-							))}
+							) : (
+								experiences.map((item) => (
+									<div className="col-span-12" key={item._id}>
+										<MyExperienceCard experienceId={item._id} />
+									</div>
+								))
+							)}
 						</div>
 					) : (
 						<div className="flex-grow justify-center items-center">
