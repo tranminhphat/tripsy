@@ -127,15 +127,25 @@ const DashboardPage: React.FC<Props> = () => {
 												{activities.slice(0, 5).map((activity) => (
 													<TableRow key={activity._id}>
 														<TableCell component="th" scope="row">
-															{activity.experience?.title}
+															<Link
+																to={`/user/experience-hosting/${activity.experience?._id}/activation/${activity._id}`}
+															>
+																<Typography className="underline">
+																	{activity.experience?.title}
+																</Typography>
+															</Link>
 														</TableCell>
 														<TableCell align="right">
-															{activity.date.dateObject.day}/
-															{activity.date.dateObject.month}/
-															{activity.date.dateObject.year}
+															<Typography>
+																{activity.date.dateObject.day}/
+																{activity.date.dateObject.month}/
+																{activity.date.dateObject.year}
+															</Typography>
 														</TableCell>
 														<TableCell align="right">
-															{activity.listOfGuestId.length}
+															<Typography>
+																{activity.listOfGuestId.length}
+															</Typography>
 														</TableCell>
 													</TableRow>
 												))}

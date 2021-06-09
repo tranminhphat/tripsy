@@ -113,7 +113,6 @@ const CheckpointModal: React.FC<Props> = ({
 						<Button
 							onClick={() => {
 								handleClose();
-
 								setOpen(false);
 							}}
 							className="outline-none w-32 h-12 mt-8 outline:none bg-primary text-white"

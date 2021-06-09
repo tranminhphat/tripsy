@@ -29,6 +29,7 @@ import GenericButton from "./GenericButton";
 interface Props {}
 
 const ActivityListTab: React.FC<Props> = () => {
+	const [receiptId, setReceiptId] = useState("");
 	const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState(false);
 	const [openCheckpointModal, setOpenCheckpointModal] = useState(false);
 	const [isCancelling, setIsCancelling] = useState(false);
@@ -68,10 +69,7 @@ const ActivityListTab: React.FC<Props> = () => {
 		}
 	};
 
-	const handleCompleteExperience = async (
-		experienceId: string,
-		receiptId: string
-	) => {
+	const handleCompleteExperience = async (experienceId: string) => {
 		const {
 			data: { experience },
 		} = await getExperienceById(experienceId);
@@ -185,10 +183,8 @@ const ActivityListTab: React.FC<Props> = () => {
 															title="Nhận điểm tích lũy"
 															tooltip="Hoàn thành và nhận điểm tích lũy"
 															onClick={() => {
-																handleCompleteExperience(
-																	item.experienceId,
-																	item._id as string
-																);
+																handleCompleteExperience(item.experienceId);
+																setReceiptId(item._id as string);
 																setOpenCheckpointModal(true);
 															}}
 															isAllowed={isActivityFinish(
@@ -250,10 +246,11 @@ const ActivityListTab: React.FC<Props> = () => {
 													isOpen={openCheckpointModal}
 													onClose={() => {
 														updateReceipt.mutate({
-															receiptId: item._id,
+															receiptId,
 															values: { status: "finished" },
 														});
 														setCheckpointData(null);
+														setReceiptId("");
 													}}
 													checkpointData={checkpointData}
 												/>

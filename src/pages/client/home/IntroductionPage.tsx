@@ -284,7 +284,7 @@ const IntroductionPage: React.FC<Props> = React.memo(() => {
 											</div>
 										))}
 									</div>
-									<Typography className="font-bold underline">
+									<Typography className="font-bold underline mt-4">
 										<Link to="/recommendations">
 											Hiển thị tất cả đề xuất
 											<span>

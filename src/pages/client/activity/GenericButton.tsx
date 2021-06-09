@@ -18,9 +18,11 @@ const GenericButton: React.FC<Props> = ({
 }) => {
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handleOnClick = () => {
+	const handleOnClick = async () => {
 		setIsLoading(true);
-		onClick();
+		console.log("load");
+		await onClick();
+		console.log("unload");
 		setIsLoading(false);
 	};
 
