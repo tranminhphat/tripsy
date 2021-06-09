@@ -198,10 +198,10 @@ const ExperiencePage: React.FC<Props> = () => {
 															))
 													) : (
 														<div className="mt-8">
-															<div className="flex flex-col items-center justify-center text-center">
+															<div className="text-center flex flex-col items-center justify-center text-center">
 																<img
 																	src={NoDataIcon}
-																	width={150}
+																	width={200}
 																	height={150}
 																	alt="no data"
 																/>

@@ -1,13 +1,13 @@
 import {
-  IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tooltip,
+	IconButton,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Tooltip
 } from "@material-ui/core";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
@@ -108,7 +108,7 @@ const ActivityHistoryTab: React.FC<Props> = () => {
         ) : (
           <div className="mt-8">
             <div className="flex flex-col items-center justify-center text-center">
-              <img src={NoDataIcon} width={150} height={150} alt="no data" />
+              <img src={NoDataIcon} width={200} height={150} alt="no data" />
               <p className="mt-8 text-xl text-gray-500">Không có dữ liệu</p>
             </div>
           </div>

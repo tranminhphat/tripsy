@@ -157,7 +157,7 @@ const DashboardPage: React.FC<Props> = () => {
 										<div className="flex flex-col items-center justify-center text-center">
 											<img
 												src={NoDataIcon}
-												width={150}
+												width={200}
 												height={150}
 												alt="no data"
 											/>
