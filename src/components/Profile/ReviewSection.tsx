@@ -17,12 +17,12 @@ const PAGE_SIZE = 5;
 
 const ReviewSection: React.FC<Props> = ({ userId }) => {
 	const [reviews, setReviews] = useState<any[]>([]);
+	const [pageNumber, setPageNumber] = useState(2);
 	const [count, setCount] =
 		useState<{
 			totalItems: number;
 			averageStars: number;
 		}>();
-	const [pageNumber, setPageNumber] = useState(2);
 	const [isFetching, setIsFetching] = useState<boolean | null>(false);
 
 	useEffect(() => {

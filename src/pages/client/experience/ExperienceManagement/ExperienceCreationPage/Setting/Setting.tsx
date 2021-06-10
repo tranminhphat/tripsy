@@ -54,7 +54,6 @@ const getStepContent = (step: number) => {
 
 const Setting: React.FC<Props> = ({ handleDone }) => {
 	const { updateCreationObject } = useContext(ExperienceCreationContext);
-
 	/* Get the current step that user been doing from route */
 	const location =
 		useLocation<{

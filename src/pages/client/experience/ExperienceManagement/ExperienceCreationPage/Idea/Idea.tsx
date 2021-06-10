@@ -101,7 +101,6 @@ const Idea: React.FC<Props> = ({ handleDone }) => {
 		}
 	};
 
-	/* Handle click on the "Back" button */
 	const handleBack = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};

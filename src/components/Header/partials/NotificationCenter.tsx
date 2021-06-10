@@ -30,7 +30,6 @@ const NotificationCenter: React.FC<Props> = ({ data }) => {
 	const [menuEl, setMenuEl] = useState(null);
 	const markAllAsRead = useReadAllNotification();
 	const classes = useStyles();
-	console.log(data);
 
 	const handleClick = (event) => {
 		setMenuEl(event.currentTarget);

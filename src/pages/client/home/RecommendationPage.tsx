@@ -8,7 +8,7 @@ import * as React from "react";
 
 const RecommendationPage: React.FC = () => {
 	const { data: user } = useCurrentUser();
-	const { data: recommendations } = useRecommendByUserId(user?._id as string);
+	const { data: recommendations } = useRecommendByUserId(user?._id!);
 
 	return (
 		<MainLayout>

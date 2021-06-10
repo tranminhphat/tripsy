@@ -5,11 +5,11 @@ export const createBookingSuccessNotificationModel = async (
 	activityId: string
 ) => {
 	const {
-		data: { user },
-	} = await getCurrentUser();
-	const {
 		data: { activity },
 	} = await getActivityById(activityId);
+	const {
+		data: { user },
+	} = await getCurrentUser();
 
 	return {
 		receiverId: activity.experience.hostId,

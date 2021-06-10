@@ -108,7 +108,6 @@ const UserInformation: React.FC<Props> = ({ userData, isCurrentUser }) => {
 					</div>
 				)}
 			</div>
-
 			<div className="mt-4">
 				<hr />
 			</div>

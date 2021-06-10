@@ -7,18 +7,6 @@ import {
 import IExperience from "interfaces/experiences/experience.interface";
 import { useQuery } from "react-query";
 
-export const useExperiences = (filterObject?: any, sortString?: string) => {
-	return useQuery<IExperience[]>(
-		["experiences", filterObject, sortString],
-		async () => {
-			const {
-				data: { experiences },
-			} = await getExperiences(filterObject, sortString);
-			return experiences;
-		}
-	);
-};
-
 export const useExperience = (experienceId: string) => {
 	return useQuery<IExperience>(
 		["experiences", experienceId],
@@ -31,6 +19,18 @@ export const useExperience = (experienceId: string) => {
 		},
 		{
 			enabled: !!experienceId,
+		}
+	);
+};
+
+export const useExperiences = (filterObject?: any, sortString?: string) => {
+	return useQuery<IExperience[]>(
+		["experiences", filterObject, sortString],
+		async () => {
+			const {
+				data: { experiences },
+			} = await getExperiences(filterObject, sortString);
+			return experiences;
 		}
 	);
 };

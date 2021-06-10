@@ -20,9 +20,7 @@ const GenericButton: React.FC<Props> = ({
 
 	const handleOnClick = async () => {
 		setIsLoading(true);
-		console.log("load");
 		await onClick();
-		console.log("unload");
 		setIsLoading(false);
 	};
 

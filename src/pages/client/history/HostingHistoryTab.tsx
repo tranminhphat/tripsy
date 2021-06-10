@@ -71,7 +71,7 @@ const HostingHistoryTab: React.FC<Props> = () => {
 				) : (
 					<div className="mt-8">
 						<div className="flex flex-col items-center justify-center text-center">
-							<img src={NoDataIcon} width={200} height={150} alt="no data" />
+							<img src={NoDataIcon} width={200} height={150} alt="No data" />
 							<p className="mt-8 text-xl text-gray-500">Không có dữ liệu</p>
 						</div>
 					</div>

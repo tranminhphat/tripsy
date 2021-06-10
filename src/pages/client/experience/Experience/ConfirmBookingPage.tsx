@@ -28,8 +28,8 @@ const ConfirmBookingPage: React.FC<Props> = () => {
 	const { activityId } = queryString.parse(location.search);
 	const { data: experience } = useExperience(id);
 	const { data: activity } = useActivity(activityId as string);
-	const { data: currentUser } = useCurrentUser();
 	const { data: host } = useUser(experience?.hostId!);
+	const { data: currentUser } = useCurrentUser();
 
 	const handleClick = async () => {
 		const stripe = await stripePromise;

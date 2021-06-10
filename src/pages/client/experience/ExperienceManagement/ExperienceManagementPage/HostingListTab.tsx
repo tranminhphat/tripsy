@@ -285,7 +285,7 @@ const HostingListTab: React.FC<Props> = () => {
 												src={NoDataIcon}
 												width={200}
 												height={150}
-												alt="no data"
+												alt="No data"
 											/>
 											<p className="mt-8 text-xl text-gray-500">
 												Không có dữ liệu

@@ -21,8 +21,8 @@ const validationSchema = yup.object({
 
 	password: yup
 		.string()
-		.required("Password là thông tin bắt buộc")
-		.min(6, "Password phải có tối thiểu 6 ký tự"),
+		.required("Mật khẩu là thông tin bắt buộc")
+		.min(6, "Mật khẩu phải có tối thiểu 6 ký tự"),
 });
 
 const LoginForm: React.FC<Props> = ({ error, onSubmit }) => {

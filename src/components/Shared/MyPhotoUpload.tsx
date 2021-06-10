@@ -18,9 +18,9 @@ const MyPhotoUpload: React.FC<Props> = ({ url, photo, handleUpload }) => {
 	const [previewSource, setPreviewSource] = useState<FileReaderResultType>(
 		url ? url : null
 	);
-	const photoInputEl = useRef<HTMLInputElement>(null);
 	const [width, setWidth] = useState(0);
 	const [height, setHeight] = useState(0);
+	const photoInputEl = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {

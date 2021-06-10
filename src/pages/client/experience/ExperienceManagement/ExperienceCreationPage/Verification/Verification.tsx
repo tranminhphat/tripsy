@@ -14,6 +14,7 @@ const Verification: React.FC<Props> = ({ handleDone }) => {
 	const handleNext = () => {
 		return handleDone(4);
 	};
+
 	return (
 		<div className="min-h-screen flex flex-col">
 			{currentUser ? (

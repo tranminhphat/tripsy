@@ -35,8 +35,8 @@ const validationSchema = yup.object({
 		.lowercase("Username không được có ký tự viết hoa"),
 	password: yup
 		.string()
-		.required("Password là thông tin bắt buộc")
-		.min(6, "Password phải có tối thiểu 6 ký tự"),
+		.required("Mật khẩu là thông tin bắt buộc")
+		.min(6, "Mật khẩu phải có tối thiểu 6 ký tự"),
 	gender: yup.string().required("Giới tính là thông tin bắt buộc"),
 	dateOfBirth: yup.date().required("Ngày sinh là thông tin bắt buộc"),
 	address: yup.string(),

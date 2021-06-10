@@ -18,10 +18,10 @@ interface Props {
 }
 
 const UserOverview: React.FC<Props> = ({ userData, isCurrentUser }) => {
-	const { data: profile } = useProfile(userData.profileId);
-	const { data: reviewObject } = useCountReview(userData._id!);
 	const [fileInputState] = useState("");
 	const [fileReader, setFileReader] = useState<FileReaderResultType>();
+	const { data: profile } = useProfile(userData.profileId);
+	const { data: reviewObject } = useCountReview(userData._id!);
 
 	const handleFileInputChange = (e) => {
 		const file = e.target.files[0];

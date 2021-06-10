@@ -13,8 +13,8 @@ import { RouteComponentProps } from "react-router-dom";
 interface Props extends RouteComponentProps {}
 
 const LoginPage: React.FC<Props> = ({ history }) => {
-	const { alert } = useContext(AlertContext);
 	const { refreshAuth } = useContext(AuthContext);
+	const { alert } = useContext(AlertContext);
 	const [errorMessage, setErrorMessage] = useErrorHandler();
 
 	const handleSubmit = async (values: ILoginForm) => {

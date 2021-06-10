@@ -157,7 +157,7 @@ const ExperienceActivationPage: React.FC<Props> = () => {
 											src={NoDataIcon}
 											width={200}
 											height={150}
-											alt="no data"
+											alt="No data"
 										/>
 										<p className="mt-8 text-xl text-gray-500">
 											Chưa có hoạt động nào được tổ chức

@@ -72,12 +72,12 @@ interface Props {
 }
 
 const Introduction: React.FC<Props> = ({ handleDone }) => {
-	const { updateCreationObject } = useContext(ExperienceCreationContext);
 	const location =
 		useLocation<{
 			currentProgress: number;
 			currentStep: number;
 		}>();
+	const { updateCreationObject } = useContext(ExperienceCreationContext);
 	const { currentProgress, currentStep } = location.state;
 	const [steps, setSteps] = useState(getSteps(currentProgress, currentStep));
 	const [activeStep, setActiveStep] = useState(currentStep);

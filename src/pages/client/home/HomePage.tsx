@@ -9,7 +9,6 @@ import {
 	useExperiences,
 	useExperiencesByDate,
 } from "hooks/queries/experiences";
-import { useCurrentUser } from "hooks/queries/users";
 import * as React from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -43,8 +42,6 @@ const HomePage: React.FC = () => {
 		experiencesByDate,
 		experiencesByField
 	);
-
-	const { data: user } = useCurrentUser();
 
 	return (
 		<div className="h-full w-full">

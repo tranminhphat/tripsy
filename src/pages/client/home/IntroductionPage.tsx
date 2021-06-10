@@ -23,10 +23,10 @@ import { Link } from "react-router-dom";
 interface Props {}
 
 const IntroductionPage: React.FC<Props> = React.memo(() => {
-	const { data: experiences } = useExperiences({}, "-review.averageStars");
-	const { data: user } = useCurrentUser();
-	const { data: recommendations } = useRecommendByUserId(user?._id as string);
 	const { data: themes } = useThemes();
+	const { data: user } = useCurrentUser();
+	const { data: experiences } = useExperiences({}, "-review.averageStars");
+	const { data: recommendations } = useRecommendByUserId(user?._id as string);
 	return (
 		<MainLayout>
 			{experiences ? (

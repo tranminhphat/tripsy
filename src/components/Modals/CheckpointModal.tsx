@@ -106,7 +106,12 @@ const CheckpointModal: React.FC<Props> = ({
 									<Typography>{checkpointData.currentPoints} / 100</Typography>
 								</div>
 								<div className="ml-4">
-									<img src={MedalIcon} alt="trophy" height={80} width={64} />
+									<img
+										src={MedalIcon}
+										alt="trophy icon"
+										height={80}
+										width={64}
+									/>
 								</div>
 							</div>
 						</div>
